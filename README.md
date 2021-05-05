@@ -4,9 +4,15 @@ A slim, fast and easy to learn framework for creating 2D games scripted in Lua. 
 
 ## Strengths
 
-Xentu has a powerful, event driven, scripting design, which you won't find with other Lua powered game engines. This makes code written for Xentu very easy to understand, and helps the design of game code flow more naturally. Xentu also skips imposing an entity style system, so that you are not forced to use something that you may not ever fully utilise properly.
-
-The initial goal of Xentu was to make an engine to power 2D RPG's and Visual Novel's on as many devices as possible. For the most part this is still the goal, however the engine is perfectly capable of powering many other types of 2D games too!
+- Just edit your Lua file, and play! No compile necessary.
+- Assets load into special registers, making the engine run super fast.
+- Coding with Lua is easier thanks the bundled custom event system.
+- No need for SDL. Xentu provides an clever, highly configurable graphics system.
+- Audio handled by the awesome cross-platform MiniAudio library.
+- A custom built narrative system (with support for Twine & Arrow).
+- Native support for tile map's from Tiled (tmx).
+- Native support for sprite map's from Aseprite (json).
+- Plays on more systems than any 2D engine, including all modern games consoles.
 
 ## Dependencies
 
