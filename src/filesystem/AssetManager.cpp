@@ -54,7 +54,7 @@ namespace xen
 
 
 
-	int AssetManager::__load_texture(std::string nickname, std::string filename_relative)
+	int AssetManager::__load_texture(std::string nickname, std::string filename_relative, unsigned int format, unsigned int wrap)
 	{
 		std::string filename = localize_path(filename_relative);
 
@@ -63,27 +63,46 @@ namespace xen
 			return -1;
 		}
 
+		int gl_format = GL_RGBA;
+		switch (format) {
+			case 1:
+				gl_format = GL_RED;
+				break;
+		}
+
+		int gl_wrap = GL_REPEAT;
+		switch (wrap) {
+			case 1:
+				gl_wrap = GL_CLAMP_TO_EDGE;
+				break;
+			case 2:
+				gl_wrap = GL_CLAMP_TO_BORDER;
+				break;
+		}
+
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
 		unsigned int texture;
 		stbi_set_flip_vertically_on_load(1);
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		// set the texture wrapping/filtering options (on the currently bound texture object)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_wrap);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_wrap);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		// load and generate the texture
 		int width, height, nrChannels;
-		unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
+		unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
 		if (data)
 		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			glTexImage2D(GL_TEXTURE_2D, 0, gl_format, width, height, 0, gl_format, GL_UNSIGNED_BYTE, data);
 			glGenerateMipmap(GL_TEXTURE_2D);
-			std::cout << "Loaded texture [" << nickname << "] from: " << filename << std::endl;
+			std::cout << "Loaded texture [" << nickname << "] wh: " << width << "x" << height << ", channels: " << nrChannels << ", from: " << filename << std::endl;
 		}
 		else
 		{
-			std::cout << "Failed to load texture" << std::endl;
+			std::cout << "Failed to load texture " << filename_relative << std::endl;
 			return -1;
 		}
 		stbi_image_free(data);
@@ -94,12 +113,13 @@ namespace xen
 	}
 
 
-
 	int AssetManager::load_texture(lua_State* L)
 	{
-		std::string filename = lua_tostring(L, -1);
-		std::string nickname = lua_tostring(L, -2);
-		this->__load_texture(nickname, filename);
+		unsigned int wrap = lua_tointeger(L, -1);
+		unsigned int format = lua_tointeger(L, -2);
+		std::string filename = lua_tostring(L, -3);
+		std::string nickname = lua_tostring(L, -4);
+		this->__load_texture(nickname, filename, format, wrap);
 		return 0;
 	}
 

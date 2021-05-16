@@ -24,8 +24,10 @@ namespace xen {
 		/// </summary>
 		/// <param name="nickname">The unique nickname to give the texture.</param>
 		/// <param name="filename">The full file path of the image to load.</param>
+		/// <param name="mode">The colour mode to use 0=RGB, 1=RED</param>
+		/// <param name="wrap">The wrap mode to use on the texture 0=REPEAT, 1=CLAMP_TO_EDGE</param>
 		/// <returns>An integer representing success or error code.</returns>
-		int __load_texture(std::string nickname, std::string filename);
+		int __load_texture(std::string nickname, std::string filename, unsigned int format, unsigned int wrap);
 		int load_texture(lua_State* L);
 
 		/// <summary>

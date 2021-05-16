@@ -25,11 +25,19 @@ print("Hello from Lua world!")
 game.on("initialized", function()
     local assets = game.assets
 
-    assets.load_texture("texture1", "../data/Images/511-256x256.jpg")
+    -- load a texture and an accompanying sprite map description.
+    assets.load_texture("texture1", "../data/Images/511-256x256.png", 0, 0)
     assets.load_sprite_map("texture1", "../data/Images/511-256x256.json")
+    
+    -- load a texture and an accompanying sprite map description for a font.
+    assets.load_texture("arial_20", "../data/Fonts/arial_20.png", 0, 2)
+    assets.load_sprite_map("arial_20", "../data/Fonts/arial_20.json")
+
+    -- load some audio.
     assets.load_audio("piano_c", "../data/Audio/Piano_Hit.mp3")
     assets.load_audio("piano_a", "../data/Audio/Piano_Hit2.mp3")
 
+    -- say hello.
     game.log("Hello From Lua!")
 end)
 
@@ -43,11 +51,11 @@ game.on("update", function()
     sprite.pos.x = sprite.pos.x + sprite.speed.x
 
     if sprite.pos.x == 50 or sprite.pos.x == 250 or sprite.pos.x == 450 or sprite.pos.x == 650 then
-        game.audio.play("piano_c")
+        --game.audio.play("piano_c")
     end
 
     if sprite.pos.x == 150 or sprite.pos.x == 350 or sprite.pos.x == 550 then
-       game.audio.play("piano_a")
+       --game.audio.play("piano_a")
     end
 
     handle_input()
@@ -65,6 +73,10 @@ game.on("draw", function()
     renderer.set_rotation(sprite.rotation)
     renderer.set_scale(sprite.scale.x, sprite.scale.y)
     renderer.draw_sprite("texture1", "top_left", sprite.pos.x + 25, sprite.pos.y + 25, 100, 100)
+
+    renderer.set_origin(0, 0)
+    renderer.draw_sprite("arial_20", "106", 100, 100, 256, 256)
+
     renderer.present()
 end)
 
