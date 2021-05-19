@@ -75,7 +75,10 @@ game.on("draw", function()
     renderer.draw_sprite("texture1", "top_left", sprite.pos.x + 25, sprite.pos.y + 25, 100, 100)
 
     renderer.set_origin(0, 0)
-    renderer.draw_sprite("arial_20", "43", 100, 100, 256, 256)
+    --renderer.draw_sprite("arial_20", "43", 100, 100, 256, 256)
+
+    -- font_texture, text, x, y, max_width
+    renderer.draw_text("arial_20", "this is an awesome test.", 100, 200, 500);
 
     renderer.present()
 end)
