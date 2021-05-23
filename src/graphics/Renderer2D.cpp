@@ -154,7 +154,7 @@ namespace xen
 		std::string text = lua_tostring(L, -4);
 		float left = lua_tonumber(L, -3);
 		float top = lua_tonumber(L, -2);
-		float max_width = lua_tonumber(L, -1);
+		//float max_width = lua_tonumber(L, -1);
 
 		XentuGame* game = XentuGame::get_instance(L);
 		SpriteMap* sprite_map = game->assets->get_sprite_map(texture_name);
@@ -273,9 +273,9 @@ namespace xen
 		std::sort(m_batches.begin(), m_batches.end(), [&](const Batch* a_batch, const Batch* b_batch)
 			{
 				if (a_batch->m_layer == b_batch->m_layer)
-					return a_batch->m_texture < a_batch->m_texture;
+					return a_batch->m_texture < b_batch->m_texture;
 
-				return a_batch->m_layer < a_batch->m_layer;
+				return false; //a_batch->m_layer < a_batch->m_layer;
 			});
 	}
 
