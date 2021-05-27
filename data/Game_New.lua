@@ -12,7 +12,7 @@ game.on("init", function()
 	spritemap = assets.load_spritemap("images/texture1.json", texture1)
 
     -- create a sprite (x,y,z,key).
-	sprite = sprite(0, 0, 50, 50, "full")
+	sprite = Sprite(0, 0, 50, 50, "full")
 	sprite.x_speed = 1
 		
 	-- create a font.
