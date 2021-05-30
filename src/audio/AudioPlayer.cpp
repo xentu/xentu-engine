@@ -91,8 +91,8 @@ namespace xen
 
     int AudioPlayer::play(lua_State* L)
     {
-        std::string nickname = lua_tostring(L, -1);
-        xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(nickname);
+        int id = lua_tointeger(L, -1);
+        xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
         __play(sound);
         return 1;
     }

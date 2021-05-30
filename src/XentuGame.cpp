@@ -47,6 +47,7 @@ namespace xen
         this->initialized = false;
         this->m_closing = false;
         this->config = xen::Configuration::parse_file(base_path + "../data/Config.toml");
+        this->viewport = new Viewport(this->config->m_viewport_width, this->config->m_viewport_height);
     }
 
 
@@ -57,6 +58,7 @@ namespace xen
         delete renderer;
         delete audio;
         delete input;
+        delete viewport;
 
         /* cleanup shader */
         glDeleteProgram(shader);
@@ -198,8 +200,8 @@ namespace xen
         //glfwSetKeyCallback(window, xentuKeyCallback);
 
         /* Load our shaders from files. */
-        std::string vertexShader = xen::Helper::read_text_file(assets->base_path + "../data/Shaders/VertexShader.shader");
-        std::string fragmentShader = xen::Helper::read_text_file(assets->base_path + "../data/Shaders/FragmentShader.shader");
+        std::string vertexShader = xen::Helper::read_text_file(assets->base_path + "../data/shaders/VertexShader.shader");
+        std::string fragmentShader = xen::Helper::read_text_file(assets->base_path + "../data/shaders/FragmentShader.shader");
 
         shader = create_shader(vertexShader, fragmentShader);
         glUseProgram(shader);
@@ -282,8 +284,8 @@ namespace xen
 
 
 
-    void XentuGame::__use_texture(std::string nickname) {
-        const Texture* texture = assets->get_texture(nickname);
+    void XentuGame::__use_texture(int texture_id) {
+        const Texture* texture = assets->get_texture(texture_id);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture->gl_texture_id);
     }
@@ -292,8 +294,8 @@ namespace xen
 
     int XentuGame::use_texture(lua_State* L)
     {
-        std::string nickname = lua_tostring(L, -1);
-        __use_texture(nickname);
+        int texture_id = lua_tointeger(L, -1);
+        __use_texture(texture_id);
         return 1;
     }
 
@@ -346,6 +348,13 @@ namespace xen
     }
 
 
+    int XentuGame::get_viewport(lua_State* L)
+    {
+        Luna<xen::Viewport>().push(L, this->viewport);
+        return 1;
+    }
+
+
 
     void XentuGame::poll_input()
     {
@@ -385,6 +394,7 @@ namespace xen
         {"sprites", &XentuGame::get_renderer, nullptr }, /* deprecated: use renderer instead */
         {"renderer", &XentuGame::get_renderer, nullptr },
         {"input", &XentuGame::get_input, nullptr },
+        {"viewport", &XentuGame::get_viewport, nullptr },
         {0,0}
     };
 

@@ -24,7 +24,7 @@ find_package(GLEW)
 set(XEN_SRC_FILES
 	src/Application.cpp
 	src/Helper.hpp
-	src/LuaEnums.hpp
+	src/StartupLua.hpp
 	src/XentuGame.cpp
 	src/XentuGame.cpp
 	src/audio/AudioPlayer.cpp
@@ -57,6 +57,8 @@ set(XEN_SRC_FILES
 	src/graphics/Vector2.hpp
 	src/graphics/Vertex.cpp
 	src/graphics/Vertex.hpp
+	src/graphics/Viewport.hpp
+	src/graphics/Viewport.cpp
 	src/input/InputManager.cpp
 	src/input/InputManager.hpp
 )

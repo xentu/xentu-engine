@@ -113,7 +113,8 @@ namespace xen
 
 	int Renderer2D::draw_sprite(lua_State* L)
 	{
-		std::string	texture_name = lua_tostring(L, -6);
+		int	texture_id = lua_tointeger(L, -6);
+		int	spritemap_id = lua_tointeger(L, -6);
 		std::string sprite_name = lua_tostring(L, -5);
 		float left = lua_tonumber(L, -4);
 		float top = lua_tonumber(L, -3);
@@ -130,10 +131,9 @@ namespace xen
 
 		m_sprite.m_width = width;
 		m_sprite.m_height = height;
-		m_sprite.m_texture = game->assets->get_texture(texture_name);
+		m_sprite.m_texture = game->assets->get_texture(texture_id);
 
-		
-		SpriteMap* sprite_map = game->assets->get_sprite_map(texture_name);
+		SpriteMap* sprite_map = game->assets->get_spritemap(spritemap_id);
 		if (sprite_map != NULL) {
 			Rect* r = sprite_map->get_region(sprite_name);
 			m_sprite.m_rect = *r;
@@ -150,14 +150,15 @@ namespace xen
 
 	int Renderer2D::draw_text(lua_State* L)
 	{
-		std::string	texture_name = lua_tostring(L, -5);
+		int texture_id = lua_tointeger(L, -5);
+		int spritemap_id = lua_tointeger(L, -5);
 		std::string text = lua_tostring(L, -4);
 		float left = lua_tonumber(L, -3);
 		float top = lua_tonumber(L, -2);
 		//float max_width = lua_tonumber(L, -1);
 
 		XentuGame* game = XentuGame::get_instance(L);
-		SpriteMap* sprite_map = game->assets->get_sprite_map(texture_name);
+		SpriteMap* sprite_map = game->assets->get_spritemap(spritemap_id);
 
 		m_sprite.ResetTransform();
 		m_sprite.set_position(left, top);
@@ -167,7 +168,7 @@ namespace xen
 
 		m_sprite.m_width = 10;
 		m_sprite.m_height = 22;
-		m_sprite.m_texture = game->assets->get_texture(texture_name);
+		m_sprite.m_texture = game->assets->get_texture(texture_id);
 
 		
 		int x_offset = 0;

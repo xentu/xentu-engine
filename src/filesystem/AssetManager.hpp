@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 #include "../graphics/Texture.hpp"
 #include "../graphics/SpriteMap.hpp"
@@ -22,12 +23,12 @@ namespace xen {
 		/// Load a texture given a nickname and a filename. If the texture is already loaded, return the current one.
 		/// Formats supported include JPEG, PNG, TGA, BMP and GIF.
 		/// </summary>
-		/// <param name="nickname">The unique nickname to give the texture.</param>
+		/// <param name="id">The unique nickname to give the texture.</param>
 		/// <param name="filename">The full file path of the image to load.</param>
 		/// <param name="mode">The colour mode to use 0=RGB, 1=RED</param>
 		/// <param name="wrap">The wrap mode to use on the texture 0=REPEAT, 1=CLAMP_TO_EDGE</param>
-		/// <returns>An integer representing success or error code.</returns>
-		int __load_texture(std::string nickname, std::string filename, unsigned int format, unsigned int wrap);
+		/// <returns>An integer representing the generated reference.</returns>
+		int __load_texture(std::string filename, unsigned int format, unsigned int wrap);
 		int load_texture(lua_State* L);
 
 		/// <summary>
@@ -38,8 +39,8 @@ namespace xen {
 		/// <param name="nickname">The name of the texture to associate with.</param>
 		/// <param name="filename">The full file path of the sprite map to load.</param>
 		/// <returns>An integer representing success or error code.</returns>
-		int __load_sprite_map(std::string nickname, std::string filename);
-		int load_sprite_map(lua_State* L);
+		int __load_spritemap(std::string filename);
+		int load_spritemap(lua_State* L);
 
 		/// <summary>
 		/// Load audio clip giving a nickname and a filename. If the audio is already loaded, return the current one.
@@ -48,7 +49,7 @@ namespace xen {
 		/// <param name="nickname">The unique nickname to give the audio clip.</param>
 		/// <param name="filename">The full file path of the audio clip to load.</param>
 		/// <returns></returns>
-		int __load_audio(std::string nickname, std::string filename);
+		int __load_audio(std::string filename);
 		int load_audio(lua_State* L);
 
 
@@ -57,7 +58,7 @@ namespace xen {
 		/// </summary>
 		/// <param name="nickname">The unique nickname given to the asset.</param>
 		/// <returns>A pointer to a Texture instance.</returns>
-		const Texture* get_texture(std::string nickname);
+		const Texture* get_texture(int id);
 
 
 		/// <summary>
@@ -65,7 +66,7 @@ namespace xen {
 		/// </summary>
 		/// <param name="nickname">The unique nickname given to the asset.</param>
 		/// <returns>A pointer to a SpriteMap instance.</returns>
-		SpriteMap* get_sprite_map(std::string nickname);
+		SpriteMap* get_spritemap(int id);
 
 
 		/// <summary>
@@ -73,7 +74,7 @@ namespace xen {
 		/// </summary>
 		/// <param name="nickname">The unique nickname given to the asset.</param>
 		/// <returns>A pointer to a Sound instance.</returns>
-		Sound* get_audio(std::string nickname);
+		Sound* get_audio(int id);
 
 
 		/// <summary>
@@ -105,9 +106,17 @@ namespace xen {
 		/// <summary>
 		/// The dictionary of loaded texture instrances.
 		/// </summary>
-		std::map<std::string, Texture*> textures;
-		std::map<std::string, SpriteMap*> sprite_maps;
-		std::map<std::string, Sound*> sounds;
+		std::map<int, Texture*> textures;
+		std::map<int, SpriteMap*> spritemaps;
+		std::map<int, Sound*> sounds;
+
+
+		/// <summary>
+		/// The new reference arrays.
+		/// </summmary>
+		int textures_iter;
+		int spritemaps_iter;
+		int sounds_iter; 
 	};
 }
 

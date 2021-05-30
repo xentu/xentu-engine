@@ -11,7 +11,7 @@
 
 #include <luna/luna.hpp>
 #include "XentuGame.hpp"
-#include "LuaEnums.hpp"
+#include "StartupLua.hpp"
 
 extern "C" {
 #include "lua53/lua.h"
@@ -43,10 +43,11 @@ int main(void)
     Luna<xen::Renderer2D>::Register(L, false);
     Luna<xen::AudioPlayer>::Register(L, false);
     Luna<xen::InputManager>::Register(L, false);
+    Luna<xen::Viewport>::Register(L, false);
 
     /* core lua ran before anything else inc standard libraries. */
     luaL_openlibs(L);
-    luaL_dostring(L, m_xen_lua_enums);
+    luaL_dostring(L, m_xen_startup_lua);
 
     /* load and our Game.lua script */
     std::string base_path = xen::XentuGame::get_current_directory();
@@ -68,8 +69,10 @@ int main(void)
         /* initialize the game. */
         if (result = game->initialize(L) == 0)
         {
+            luaL_dostring(L, m_xen_startup_lua_before_init);
+
             /* test the event system */
-            game->trigger(L, "initialized");
+            game->trigger(L, "init");
 
             /* Loop until the user closes the window */
             while (game->is_running())

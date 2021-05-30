@@ -20,6 +20,9 @@ namespace xen
 	AssetManager::AssetManager(lua_State* L)
 	{
 		default_texture = new Texture;
+		textures_iter = 0;
+		spritemaps_iter = 0;
+		sounds_iter = 0;
 	}
 
 
@@ -35,12 +38,12 @@ namespace xen
 
 		this->textures.empty();
 
-		for (auto const& asset : sprite_maps)
+		for (auto const& asset : spritemaps)
 		{
 			delete asset.second;
 		}
 
-		this->sprite_maps.empty();
+		this->spritemaps.empty();
 		
 		for (auto const& asset : sounds)
 		{
@@ -54,14 +57,9 @@ namespace xen
 
 
 
-	int AssetManager::__load_texture(std::string nickname, std::string filename_relative, unsigned int format, unsigned int wrap)
+	int AssetManager::__load_texture(std::string filename_relative, unsigned int format, unsigned int wrap)
 	{
 		std::string filename = localize_path(filename_relative);
-
-		if (textures.count(nickname))
-		{
-			return -1;
-		}
 
 		int gl_format = GL_RGBA;
 		switch (format) {
@@ -98,7 +96,6 @@ namespace xen
 		{
 			glTexImage2D(GL_TEXTURE_2D, 0, gl_format, width, height, 0, gl_format, GL_UNSIGNED_BYTE, data);
 			glGenerateMipmap(GL_TEXTURE_2D);
-			std::cout << "Loaded texture [" << nickname << "] wh: " << width << "x" << height << ", channels: " << nrChannels << ", from: " << filename << std::endl;
 		}
 		else
 		{
@@ -108,9 +105,12 @@ namespace xen
 		stbi_image_free(data);
 
 		Texture* created = new Texture(texture, width, height, nrChannels);
-		textures.insert(std::make_pair(nickname, created));
-		return 0;
+		textures_iter++;
+		std::cout << "Loaded texture [#" << textures_iter << "] wh: " << width << "x" << height << ", channels: " << nrChannels << ", from: " << filename << std::endl;
+		textures.insert(std::make_pair(textures_iter, created));
+		return textures_iter;
 	}
+
 
 
 	int AssetManager::load_texture(lua_State* L)
@@ -118,56 +118,49 @@ namespace xen
 		unsigned int wrap = lua_tointeger(L, -1);
 		unsigned int format = lua_tointeger(L, -2);
 		std::string filename = lua_tostring(L, -3);
-		std::string nickname = lua_tostring(L, -4);
-		this->__load_texture(nickname, filename, format, wrap);
-		return 0;
+		int id = this->__load_texture(filename, format, wrap);
+		lua_pushinteger(L, id);
+		return 1;
 	}
 
 
 
-	int AssetManager::__load_sprite_map(std::string nickname, std::string filename_relative)
+	int AssetManager::__load_spritemap(std::string filename_relative)
 	{
 		std::string filename = localize_path(filename_relative);
 
-		if (sprite_maps.count(nickname))
-		{
-			return -1;
-		}
+		spritemaps_iter++;
 
 		/* try to read the specified file. */
 		SpriteMap* created = SpriteMap::parse_file(filename_relative);
-		sprite_maps.insert(std::make_pair(nickname, created));
+		spritemaps.insert(std::make_pair(spritemaps_iter, created));
 
-		return 0;
+		return spritemaps_iter;
 	}
 
 
 
-	int AssetManager::load_sprite_map(lua_State* L)
+	int AssetManager::load_spritemap(lua_State* L)
 	{
 		std::string filename = lua_tostring(L, -1);
-		std::string nickname = lua_tostring(L, -2);
-		this->__load_sprite_map(nickname, filename);
-		return 0;
+		int id = this->__load_spritemap(filename);
+		lua_pushinteger(L, id);
+		return 1;
 	}
 
 
 
-	int AssetManager::__load_audio(std::string nickname, std::string filename_relative)
+	int AssetManager::__load_audio(std::string filename_relative)
 	{
 		std::string filename = localize_path(filename_relative);
 
-		if (sounds.count(nickname))
-		{
-			Sound* found = sounds[nickname];
-			return -1;
-		}
+		sounds_iter++;
 
-		std::cout << "Loaded audio [" << nickname << "] from: " << filename << std::endl;
+		std::cout << "Loaded audio [#" << sounds_iter << "] from: " << filename << std::endl;
 
 		Sound* created = new Sound(filename);
-		sounds.insert(std::make_pair(nickname, created));
-		return 0;
+		sounds.insert(std::make_pair(sounds_iter, created));
+		return sounds_iter;
 	}
 
 
@@ -175,18 +168,18 @@ namespace xen
 	int AssetManager::load_audio(lua_State* L)
 	{
 		std::string filename = lua_tostring(L, -1);
-		std::string nickname = lua_tostring(L, -2);
-		this->__load_audio(nickname, filename);
-		return 1;
+		int id = this->__load_audio(filename);
+		lua_pushinteger(L, id);
+		return 0;
 	}
 
 
 
-	const Texture* AssetManager::get_texture(std::string nickname)
+	const Texture* AssetManager::get_texture(int id)
 	{
-		if (textures.count(nickname))
+		if (textures.count(id))
 		{
-			Texture* found = textures[nickname];
+			Texture* found = textures[id];
 			return found;
 		}
 		return default_texture;
@@ -194,11 +187,11 @@ namespace xen
 
 
 
-	SpriteMap* AssetManager::get_sprite_map(std::string nickname)
+	SpriteMap* AssetManager::get_spritemap(int id)
 	{
-		if (sprite_maps.count(nickname))
+		if (spritemaps.count(id))
 		{
-			SpriteMap* found = sprite_maps[nickname];
+			SpriteMap* found = spritemaps[id];
 			return found;
 		}
 		return nullptr;
@@ -206,11 +199,11 @@ namespace xen
 
 
 
-	Sound* AssetManager::get_audio(std::string nickname)
+	Sound* AssetManager::get_audio(int id)
 	{
-		if (sounds.count(nickname))
+		if (sounds.count(id))
 		{
-			Sound* found = sounds[nickname];
+			Sound* found = sounds[id];
 			return found;
 		}
 		return nullptr;
@@ -247,7 +240,7 @@ namespace xen
 	const Luna<AssetManager>::FunctionType AssetManager::methods[] = {
 		method(AssetManager, say_yo),
 		method(AssetManager, load_texture),
-		method(AssetManager, load_sprite_map),
+		method(AssetManager, load_spritemap),
 		method(AssetManager, load_audio),
 		{0,0}
 	};

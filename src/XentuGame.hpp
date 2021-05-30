@@ -10,6 +10,7 @@
 #include "filesystem/Configuration.hpp"
 #include "graphics/Renderer2D.hpp"
 #include "graphics/Quad.hpp"
+#include "graphics/Viewport.hpp"
 #include "input/InputManager.hpp"
 
 namespace xen {
@@ -67,7 +68,7 @@ namespace xen {
         /// Assign a primary texture for use by the loaded shader.
         /// </summary>
         /// <param name="texture">The texture to assign.</param>
-        void __use_texture(std::string nickname);
+        void __use_texture(int texture_id);
         int use_texture(lua_State* L);
 
         /// <summary>
@@ -101,6 +102,11 @@ namespace xen {
         /// Helper function to allow lua to retrieve the input property.
         /// </summary>
         int get_input(lua_State* L);
+
+        /// <summary>
+        /// Helper function to allow lua to retrieve the viewport property.
+        /// </summary>
+        int get_viewport(lua_State* L);
 
         /// <summary>
         /// Called when this instance should poll the game window for input.
@@ -140,6 +146,7 @@ namespace xen {
         Sprite sprite;
         Quad quad;
         InputManager* input;
+        Viewport* viewport;
 
         /* random num variable. */
         int num;
