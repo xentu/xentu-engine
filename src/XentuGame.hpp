@@ -118,6 +118,9 @@ namespace xen {
         /// </summary>
         int exit(lua_State* L);
 
+        /// Call this to show a debug report of what is in the lua stack.
+        int debug_stack(lua_State* L);
+
         /// <summary>
         /// Get the current path of the executing binary.
         /// </summary>

@@ -110,8 +110,40 @@ namespace xen
 	}
 
 
-
 	int Renderer2D::draw_sprite(lua_State* L)
+	{
+		// make sure the table is on the stack.
+		lua_pushnil(L);
+		// iterate the values to populate an xlua_sprite struct.
+		xlua_sprite s = parse_lua_sprite(L);
+		XentuGame* game = XentuGame::get_instance(L);
+
+		m_sprite.ResetTransform();
+		m_sprite.set_position(s.x, s.y);
+		m_sprite.set_origin(m_origin_x, m_origin_y);
+		m_sprite.set_rotation(m_rotation);
+		m_sprite.set_scale(m_scale_x, m_scale_y);
+
+		m_sprite.m_width = s.width;
+		m_sprite.m_height = s.height;
+		m_sprite.m_texture = game->assets->get_texture(s.texture);
+
+		SpriteMap* sprite_map = game->assets->get_spritemap(s.spritemap);
+		if (sprite_map != NULL) {
+			Rect* r = sprite_map->get_region(s.region);
+			m_sprite.m_rect = *r;
+		}
+
+		if (m_sprite.m_texture == NULL)
+			return 0;
+
+		find_batch(m_sprite)->draw(m_sprite);
+
+		return 1;
+	}
+
+
+	/* int Renderer2D::draw_sprite(lua_State* L)
 	{
 		int	texture_id = lua_tointeger(L, -6);
 		int	spritemap_id = lua_tointeger(L, -6);
@@ -145,7 +177,7 @@ namespace xen
 		find_batch(m_sprite)->draw(m_sprite);
 
 		return 1;
-	}
+	} */
 
 
 	int Renderer2D::draw_text(lua_State* L)
@@ -282,6 +314,50 @@ namespace xen
 
 
 
+	int Renderer2D::debug_sprite(lua_State* L)
+	{
+		printf("--- Sprite Debug ---\n");
+		int count = lua_gettop(L);
+		if (count == 1) {
+			int type = lua_type(L, 1);  
+			if (type == LUA_TTABLE) {
+				lua_pushnil(L);
+				xlua_sprite s = parse_lua_sprite(L);
+				std::cout << "sprite: (" << s.x << "," << s.y << "," << s.width << "," << s.height << ") [" << s.region << "]" << std::endl;
+				printf("success: everything looks normal!\n");
+			}
+			else {
+				printf("error: first item on stack is not a table.\n");
+			}
+		}
+		else {
+			printf("error: no sprite detected.\n");
+		}
+		printf("--- Sprite Debug ---\n");
+		return 0;
+	}
+
+
+	xlua_sprite Renderer2D::parse_lua_sprite(lua_State* L)
+	{
+		xlua_sprite s;
+		while(lua_next(L, -2)) {
+			std::string key = lua_tostring(L, -2);
+			if (key == "x")         s.x = lua_tointeger(L, -1);
+			if (key == "y")         s.y = lua_tointeger(L, -1);
+			if (key == "width")     s.width = lua_tointeger(L, -1);
+			if (key == "height")    s.height = lua_tointeger(L, -1);
+			if (key == "region")    s.region = lua_tostring(L, -1);
+			if (key == "texture")   s.texture = lua_tointeger(L, -1);
+			if (key == "spritemap") s.spritemap = lua_tointeger(L, -1);
+			lua_pop(L, 1);
+		}
+		lua_pop(L, 1);
+		return s;
+	}
+
+
+
 	const char Renderer2D::className[] = "Renderer2D";
 
 
@@ -300,6 +376,7 @@ namespace xen
 		method(Renderer2D, set_rotation),
 		method(Renderer2D, set_origin),
 		method(Renderer2D, set_scale),
+		method(Renderer2D, debug_sprite),
 		{0,0}
 	};
 }

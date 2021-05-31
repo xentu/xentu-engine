@@ -13,6 +13,18 @@
 
 namespace xen
 {
+	/** A type used to describe info sent from lua */
+	struct xlua_sprite {
+		int texture;
+		int x;
+		int y;
+		int width;
+		int height;
+		int spritemap;
+		std::string region;
+	};
+
+	
 	/// <summary>
 	/// The main rendering engine for Xentu, provides methods for rendering graphics
 	/// similar to a SpriteBatch in other engines.
@@ -79,6 +91,11 @@ namespace xen
 		/// </summary>
 		void order();
 
+		/// <summary>
+		/// Called by lua to ensure a sprite object is formatted correctly.
+		/// </summary>
+		int debug_sprite(lua_State* L);
+
 		//Class Constants
 		static const char className[];
 
@@ -90,6 +107,7 @@ namespace xen
 
 	private:
 		Batch* find_batch(const Sprite& sprite);
+		xlua_sprite parse_lua_sprite(lua_State* L);
 
 		bool m_initialized;
 		std::vector<Batch*> m_batches;

@@ -48,6 +48,12 @@ int main(void)
     /* core lua ran before anything else inc standard libraries. */
     luaL_openlibs(L);
     luaL_dostring(L, m_xen_startup_lua);
+    auto ret = luaL_dostring(L, m_xen_startup_lua_classes);
+    if (ret != LUA_OK) {
+      printf("Error: %s\n", lua_tostring(L, -1));
+      lua_pop(L, 1); // pop error message
+      return false;
+    }
 
     /* load and our Game.lua script */
     std::string base_path = xen::XentuGame::get_current_directory();

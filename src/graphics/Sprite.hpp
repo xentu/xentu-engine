@@ -1,6 +1,7 @@
 #ifndef XEN_SPRITE_HPP
 #define XEN_SPRITE_HPP
 
+#include <string>
 #include "Color.hpp"
 #include "Rect.hpp"
 #include "Texture.hpp"

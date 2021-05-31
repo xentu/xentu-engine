@@ -7,12 +7,62 @@ const char* m_xen_startup_lua = " \
     XentuGame = nil \
 ";
 
+const char* m_xen_startup_lua_classes = " \
+   function class(base, init) \
+      local c = {} \
+      if not init and type(base) == 'function' then \
+         init = base \
+         base = nil \
+      elseif type(base) == 'table' then \
+         for i,v in pairs(base) do \
+            c[i] = v \
+         end \
+         c._base = base \
+      end \
+      c.__index = c \
+      local mt = {} \
+      mt.__call = function(class_tbl, ...) \
+      local obj = {} \
+      setmetatable(obj,c) \
+      if init then \
+         init(obj,...) \
+      else \
+         if base and base.init then \
+         base.init(obj, ...) \
+         end \
+      end \
+      return obj \
+      end \
+      c.init = init \
+      c.is_a = function(self, klass) \
+         local m = getmetatable(self) \
+         while m do  \
+            if m == klass then return true end \
+            m = m._base \
+         end \
+         return false \
+      end \
+      setmetatable(c, mt) \
+      return c \
+   end \
+   \
+   \
+   Sprite = class(function(inst, texture, x, y, width, height) \
+      inst.texture = texture \
+      inst.x = x \
+      inst.y = y \
+      inst.width = width \
+      inst.height = height \
+      inst.spritemap = 0 \
+      inst.region = 'full' \
+   end) \
+";
 
-//  -- viewport = game.viewport\
+
 //  -- keyboard = game.input.keyboard\
 //  -- mouse = game.input.mouse\
 //  -- audio = game.audio\
-//  -- renderer = game.renderer\
+
 
 const char* m_xen_startup_lua_before_init = "\
     print('loading globals') \
@@ -20,6 +70,13 @@ const char* m_xen_startup_lua_before_init = "\
     viewport = game.viewport \
     renderer = game.renderer \
     print('loaded globals') \
+    \
+    TX_RGBA = 0 \
+    TX_RED = 1 \
+    \
+    TX_REPEAT = 0 \
+    TX_CLAMP_TO_EDGE = 1 \
+    TX_CLAMP_TO_BORDER = 2 \
     \
     KB_SPACE              = 32 \
     KB_APOSTROPHE         = 39 \
