@@ -166,21 +166,28 @@ namespace xen
 		m_sprite.m_texture = game->assets->get_texture(texture_id);
 
 		
-		int x_offset = 0;
+		int x_offset = 0, y_offset = 0;
 		if (sprite_map != NULL) {
-
 			for(std::string::size_type i = 0; i < text.size(); ++i) {
 				std::string cs = std::to_string(text[i]);
-				Rect* r = sprite_map->get_region(cs);
+				Rect* rect = sprite_map->get_region(cs);
 
-				if (r)
+				if (rect)
 				{
-					m_sprite.m_rect = *r;
+					m_sprite.m_width = m_sprite.m_texture->width * rect->width;
+					m_sprite.m_height = m_sprite.m_texture->height * rect->height;
+					m_sprite.m_rect = *rect;
 					find_batch(m_sprite)->draw(m_sprite);
 				}
 				
-				x_offset += 15;
-				m_sprite.set_position(left + x_offset, top);
+				x_offset += m_sprite.m_width + 1; // 2px is a placeholder
+
+				if (x_offset > max_width && text[i] == 32) {
+					x_offset = 0;
+					y_offset += m_sprite.m_height * 1.25; // borrow height from last char on line for now.
+				}
+
+				m_sprite.set_position(left + x_offset, top + y_offset);
 			}
 		}
 		
