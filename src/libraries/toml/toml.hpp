@@ -1366,7 +1366,7 @@ namespace toml {
         case TIME_TYPE: {
             time_t tt = std::chrono::system_clock::to_time_t(*time_);
             std::tm t;
-            gmtime_r(&tt, &t);
+            //gmtime_r(&tt, &t);
             char buf[256];
             snprintf(buf, sizeof(buf), "%04d-%02d-%02dT%02d:%02d:%02dZ", t.tm_year + 1900, t.tm_mon + 1, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec);
             (*os) << buf;

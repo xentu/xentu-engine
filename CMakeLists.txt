@@ -12,6 +12,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 set(GLEW_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/thirdparty/GLEW")
 set(GLEW_LIBRARY "${CMAKE_SOURCE_DIR}/lib/GLEW")
 
+# help glfw3 out a little too.
+set(GLFW3_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/thirdparty/GLFW")
+set(GLFW3_LIBRARY "${CMAKE_SOURCE_DIR}/lib/GLFW3")
+
 
 # find packages
 find_package(OpenGL)
