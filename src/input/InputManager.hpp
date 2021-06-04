@@ -1,7 +1,7 @@
 #ifndef XEN_INPUT_MANAGER_HPP
 #define XEN_INPUT_MANAGER_HPP
 
-#include <GLFW/glfw3.h>
+#include <GLFW3/glfw3.h>
 #include <map>
 #include <luna/luna.hpp>
 

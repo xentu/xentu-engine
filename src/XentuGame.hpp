@@ -1,7 +1,7 @@
 #ifndef XEN_GAME
 #define XEN_GAME
 
-#include <GLFW/glfw3.h>
+#include <GLFW3/glfw3.h>
 #include <unordered_map>
 #include <luna/luna.hpp>
 

@@ -8,20 +8,12 @@ project(XentuEngine)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 
-# help glew out a little.
-set(GLEW_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/thirdparty/GLEW")
-set(GLEW_LIBRARY "${CMAKE_SOURCE_DIR}/lib/GLEW")
-
-# help glfw3 out a little too.
-set(GLFW3_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/thirdparty/GLFW")
-set(GLFW3_LIBRARY "${CMAKE_SOURCE_DIR}/lib/GLFW3")
-
-
 # find packages
 find_package(OpenGL)
 find_package(GLM)
-find_package(GLFW3)
-find_package(GLEW)
+find_package(glew)
+find_package(glfw3 REQUIRED)
+find_package(lua)
 
 
 # source files
@@ -80,9 +72,9 @@ include_directories(
 set(XEN_LIBS
 	mingw32
 	"${OPENGL_LIBRARIES}"
-	"${CMAKE_SOURCE_DIR}/lib/GLEW/glew32.lib"
-	"${CMAKE_SOURCE_DIR}/lib/GLFW3/libglfw3dll.a"
-	"${CMAKE_SOURCE_DIR}/lib/lua535/liblua53.a"
+	"${GLEW_LIBRARY}"
+	"${GLFW3_LIBRARY}"
+	"${LUA_LIBRARY}"
 )
 
 
@@ -97,6 +89,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${XEN_LIBS})
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
+
 
 # set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 # set(CMAKE_CXX_FLAGS_DEBUG "-g")

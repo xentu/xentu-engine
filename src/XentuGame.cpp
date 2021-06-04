@@ -3,7 +3,7 @@
 #define GLFW_INCLUDE_NONE
 
 #include <GLEW/GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <GLFW3/glfw3.h>
 #include <Windows.h>
 #include <iostream>
 #include <string>

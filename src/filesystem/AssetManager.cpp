@@ -3,7 +3,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include <GLEW/GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <GLFW3/glfw3.h>
 #include <iostream>
 
 #include <luna/luna.hpp>
