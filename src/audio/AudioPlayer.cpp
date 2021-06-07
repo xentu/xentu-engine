@@ -7,8 +7,8 @@
 #include <thread>
 #include <chrono>
 
-#include "AudioPlayer.hpp"
-#include "../XentuGame.hpp"
+#include "AudioPlayer.h"
+#include "../XentuGame.h"
 
 #define SAMPLE_FORMAT   ma_format_s16
 #define CHANNEL_COUNT   2

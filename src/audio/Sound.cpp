@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "Sound.hpp"
+#include "Sound.h"
 
 namespace xen
 {

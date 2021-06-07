@@ -1,8 +1,8 @@
 #ifndef XEN_TRANSFORMABLE_HPP
 #define XEN_TRANSFORMABLE_HPP
 
-#include "Transform.hpp"
-#include "Vector2.hpp"
+#include "Transform.h"
+#include "Vector2.h"
 
 namespace xen
 {

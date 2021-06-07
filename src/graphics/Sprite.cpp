@@ -1,7 +1,7 @@
 #ifndef XEN_SPRITE_CPP
 #define XEN_SPRITE_CPP
 
-#include "Sprite.hpp"
+#include "Sprite.h"
 
 namespace xen
 {

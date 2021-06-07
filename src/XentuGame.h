@@ -5,13 +5,13 @@
 #include <unordered_map>
 #include <luna/luna.hpp>
 
-#include "audio/AudioPlayer.hpp"
-#include "filesystem/AssetManager.hpp"
-#include "filesystem/Configuration.hpp"
-#include "graphics/Renderer2D.hpp"
-#include "graphics/Quad.hpp"
-#include "graphics/Viewport.hpp"
-#include "input/InputManager.hpp"
+#include "audio/AudioPlayer.h"
+#include "filesystem/AssetManager.h"
+#include "filesystem/Configuration.h"
+#include "graphics/Renderer2D.h"
+#include "graphics/Quad.h"
+#include "graphics/Viewport.h"
+#include "input/InputManager.h"
 
 namespace xen {
 

@@ -8,7 +8,7 @@
 #include <fstream>
 
 #include <toml/toml.hpp>
-#include "Configuration.hpp"
+#include "Configuration.h"
 
 namespace xen
 {

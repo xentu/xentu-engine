@@ -10,8 +10,8 @@
 #include <thread>
 
 #include <luna/luna.hpp>
-#include "XentuGame.hpp"
-#include "StartupLua.hpp"
+#include "XentuGame.h"
+#include "StartupLua.h"
 
 extern "C" {
 #include "lua53/lua.h"

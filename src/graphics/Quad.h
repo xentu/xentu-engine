@@ -1,11 +1,11 @@
 #ifndef XEN_QUAD_HPP
 #define XEN_QUAD_HPP
 
-#include "Color.hpp"
-#include "Rect.hpp"
-#include "Texture.hpp"
-#include "Transformable.hpp"
-#include "Vertex.hpp"
+#include "Color.h"
+#include "Rect.h"
+#include "Texture.h"
+#include "Transformable.h"
+#include "Vertex.h"
 
 namespace xen
 {

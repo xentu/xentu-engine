@@ -56,6 +56,14 @@ const char* m_xen_startup_lua_classes = " \
       inst.spritemap = 0 \
       inst.region = 'full' \
    end) \
+   \
+   \
+   Font = class(function(inst, texture, spritemap) \
+      inst.texture = texture \
+      inst.spritemap = spritemap \
+      inst.letter_spacing = 1 \
+      inst.line_height = 20 \
+   end) \
 ";
 
 

@@ -16,7 +16,10 @@ game.on("init", function()
 		
 	-- create a font.
 	texture2 = assets.load_texture("../data/fonts/arial_20.png", TX_RGBA, TX_CLAMP_TO_BORDER)
-	font = assets.load_spritemap("../data/fonts/arial_20.json")
+	spritemap2 = assets.load_spritemap("../data/fonts/arial_20.json")
+	font = Font(texture2, spritemap2)
+	font.letter_spacing = 1
+	font.line_height = 20
 	
     -- say hello.
     game.log("Hello from Lua world!")
@@ -38,6 +41,10 @@ end)
 game.on("draw", function()
     renderer.begin()
     renderer.draw_sprite(sprite)
-    renderer.draw_text(texture2, font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet tortor eget pulvinar eleifend. Maecenas dapibus mauris sed felis laoreet pellentesque. Nam eget diam a lacus semper placerat luctus mattis arcu. Cras ac iaculis quam. Maecenas arcu ligula, congue eget ligula nec, pellentesque bibendum lacus. Cras iaculis lectus ipsum, euismod posuere sem rutrum sed.", 100, 200, viewport.width - 200)
+
+    renderer.draw_text(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet tortor eget pulvinar eleifend. Maecenas dapibus mauris " ..
+	                         "sed felis laoreet pellentesque. Nam eget diam a lacus semper placerat luctus mattis arcu. Cras ac iaculis quam. Maecenas arcu " ..
+							 "ligula, congue eget ligula nec, pellentesque bibendum lacus. Cras iaculis lectus ipsum, euismod posuere sem rutrum sed.",
+    						 100, 200, viewport.width - 200)
     renderer.present()
 end)

@@ -4,7 +4,7 @@
 #include <GLEW/GL/glew.h>
 #include <iostream>
 
-#include "Quad.hpp"
+#include "Quad.h"
 
 namespace xen
 {

@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include "Rect.hpp"
+#include "Rect.h"
 
 namespace xen
 {

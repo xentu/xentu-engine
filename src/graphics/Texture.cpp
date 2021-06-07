@@ -4,7 +4,7 @@
 #include <GLEW/GL/glew.h>
 #include <iostream>
 
-#include "Texture.hpp"
+#include "Texture.h"
 
 namespace xen
 {

@@ -1,7 +1,7 @@
 #ifndef XEN_COLOR_CPP
 #define XEN_COLOR_CPP
 
-#include "Vertex.hpp"
+#include "Vertex.h"
 
 namespace xen
 {

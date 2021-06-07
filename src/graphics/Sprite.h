@@ -2,10 +2,10 @@
 #define XEN_SPRITE_HPP
 
 #include <string>
-#include "Color.hpp"
-#include "Rect.hpp"
-#include "Texture.hpp"
-#include "Transformable.hpp"
+#include "Color.h"
+#include "Rect.h"
+#include "Texture.h"
+#include "Transformable.h"
 
 namespace xen
 {

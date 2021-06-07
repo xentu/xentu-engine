@@ -5,9 +5,9 @@
 #include <map>
 #include <vector>
 
-#include "../graphics/Texture.hpp"
-#include "../graphics/SpriteMap.hpp"
-#include "../audio/Sound.hpp"
+#include "../graphics/Texture.h"
+#include "../graphics/SpriteMap.h"
+#include "../audio/Sound.h"
 
 namespace xen {
 	class AssetManager

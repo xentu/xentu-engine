@@ -8,7 +8,7 @@
 
 #include <luna/luna.hpp>
 #include <stb_image/stb_image.hpp>
-#include "AssetManager.hpp"
+#include "AssetManager.h"
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
 #define method(class, name) {#name, &class::name}

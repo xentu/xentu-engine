@@ -6,7 +6,7 @@
 #include <fstream>
 
 #include <json/json.hpp>
-#include "SpriteMap.hpp"
+#include "SpriteMap.h"
 
 namespace xen
 {

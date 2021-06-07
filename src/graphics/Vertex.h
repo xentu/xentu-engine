@@ -1,8 +1,8 @@
 #ifndef XEN_VERTEX_HPP
 #define XEN_VERTEX_HPP
 
-#include "Color.hpp"
-#include "Vector2.hpp"
+#include "Color.h"
+#include "Vector2.h"
 
 namespace xen
 {

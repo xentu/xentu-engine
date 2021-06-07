@@ -1,7 +1,7 @@
 #ifndef XEN_RECT_CPP
 #define XEN_RECT_CPP
 
-#include "Rect.hpp"
+#include "Rect.h"
 
 namespace xen
 {

@@ -6,8 +6,8 @@
 #include <random>
 #include <vector>
 
-#include "Sprite.hpp"
-#include "Vertex.hpp"
+#include "Sprite.h"
+#include "Vertex.h"
 
 namespace xen
 {

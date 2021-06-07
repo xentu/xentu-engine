@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <cmath>
 
-#include "Vector2.hpp"
+#include "Vector2.h"
 
 namespace xen
 {

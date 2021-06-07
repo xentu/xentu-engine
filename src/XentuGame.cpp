@@ -11,8 +11,8 @@
 #include <luna/luna.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "XentuGame.hpp"
-#include "Helper.hpp"
+#include "XentuGame.h"
+#include "Helper.h"
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
 #define method(class, name) {#name, &class::name}
@@ -384,16 +384,16 @@ namespace xen
 			int t = lua_type(L, i);  
 			switch (t) {  
 				case LUA_TSTRING:  /* strings */  
-					printf("> string: '%s'\n", lua_tostring(L, i));  
+					printf("> #%i string: '%s'\n", i, lua_tostring(L, i));  
 					break;  
 				case LUA_TBOOLEAN:  /* booleans */  
-					printf("> boolean %s\n",lua_toboolean(L, i) ? "true" : "false");  
+					printf("> #%i boolean %s\n", i, lua_toboolean(L, i) ? "true" : "false");  
 					break;  
 				case LUA_TNUMBER:  /* numbers */  
-					printf("> number: %g\n", lua_tonumber(L, i));  
+					printf("> #%i number: %g\n",  i, lua_tonumber(L, i));  
 					break;  
 				default:  /* other values */  
-					printf("> %s\n", lua_typename(L, t));  
+					printf("> #%i is: %s\n",  i, lua_typename(L, t));  
 					break;
 			}
 		}

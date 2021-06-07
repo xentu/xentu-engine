@@ -1,7 +1,7 @@
 #ifndef XEN_COLOR_CPP
 #define XEN_COLOR_CPP
 
-#include "Color.hpp"
+#include "Color.h"
 
 namespace xen
 {

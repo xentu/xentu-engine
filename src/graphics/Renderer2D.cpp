@@ -3,8 +3,8 @@
 
 #include <GLEW/GL/glew.h>
 
-#include "Renderer2D.hpp"
-#include "../XentuGame.hpp"
+#include "Renderer2D.h"
+#include "../XentuGame.h"
 
 // Specify a macro for storing information about a class and method name, 
 // this needs to go above any class that will be exposed to lua
@@ -114,8 +114,8 @@ namespace xen
 	{
 		// make sure the table is on the stack.
 		lua_pushnil(L);
-		// iterate the values to populate an xlua_sprite struct.
-		xlua_sprite s = parse_lua_sprite(L);
+		// iterate the values to populate an LuaSprite struct.
+		LuaSprite s = parse_lua_sprite(L);
 		XentuGame* game = XentuGame::get_instance(L);
 
 		m_sprite.ResetTransform();
@@ -145,15 +145,25 @@ namespace xen
 
 	int Renderer2D::draw_text(lua_State* L)
 	{
-		int texture_id = lua_tointeger(L, -6);
-		int spritemap_id = lua_tointeger(L, -5);
+		// read the other variables first.
 		std::string text = lua_tostring(L, -4);
 		float left = lua_tonumber(L, -3);
 		float top = lua_tonumber(L, -2);
 		float max_width = lua_tonumber(L, -1);
 
 		XentuGame* game = XentuGame::get_instance(L);
-		SpriteMap* sprite_map = game->assets->get_spritemap(spritemap_id);
+
+		// remove the 4 arguments (text, left, top, max_w) from the stack so we can read the font object.
+		lua_pop(L, 1);
+		lua_pop(L, 1);
+		lua_pop(L, 1);
+		lua_pop(L, 1);
+
+		// push nil to get the table data to parse.
+		lua_pushnil(L);
+		LuaFont f = parse_lua_font(L);
+
+		SpriteMap* sprite_map = game->assets->get_spritemap(f.spritemap_id);
 
 		m_sprite.ResetTransform();
 		m_sprite.set_position(left, top);
@@ -163,7 +173,7 @@ namespace xen
 
 		m_sprite.m_width = 10;
 		m_sprite.m_height = 22;
-		m_sprite.m_texture = game->assets->get_texture(texture_id);
+		m_sprite.m_texture = game->assets->get_texture(f.texture_id);
 
 		
 		int x_offset = 0, y_offset = 0;
@@ -292,7 +302,7 @@ namespace xen
 			int type = lua_type(L, 1);  
 			if (type == LUA_TTABLE) {
 				lua_pushnil(L);
-				xlua_sprite s = parse_lua_sprite(L);
+				LuaSprite s = parse_lua_sprite(L);
 				std::cout << "sprite: (" << s.x << "," << s.y << "," << s.width << "," << s.height << ") [" << s.region << "]" << std::endl;
 				printf("success: everything looks normal!\n");
 			}
@@ -308,9 +318,9 @@ namespace xen
 	}
 
 
-	xlua_sprite Renderer2D::parse_lua_sprite(lua_State* L)
+	LuaSprite Renderer2D::parse_lua_sprite(lua_State* L)
 	{
-		xlua_sprite s;
+		LuaSprite s;
 		while(lua_next(L, -2)) {
 			std::string key = lua_tostring(L, -2);
 			if (key == "x")         s.x = lua_tointeger(L, -1);
@@ -324,6 +334,21 @@ namespace xen
 		}
 		lua_pop(L, 1);
 		return s;
+	}
+
+
+	LuaFont Renderer2D::parse_lua_font(lua_State* L)
+	{
+		LuaFont f;
+		while(lua_next(L, -2)) {
+			std::string key = lua_tostring(L, -2);
+			if (key == "texture") 	f.texture_id = lua_tointeger(L, -1);
+			if (key == "spritemap") f.spritemap_id = lua_tointeger(L, -1);
+			if (key == "line_height") f.line_height = lua_tointeger(L, -1);
+			if (key == "letter_spacing") f.line_height = lua_tointeger(L, -1);
+			lua_pop(L, 1);
+		}
+		return f;
 	}
 
 

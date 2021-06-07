@@ -3,7 +3,7 @@
 
 
 #include <luna/luna.hpp>
-#include "Viewport.hpp"
+#include "Viewport.h"
 
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua

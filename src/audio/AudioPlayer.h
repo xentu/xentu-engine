@@ -5,7 +5,7 @@
 
 #include <miniaudio/miniaudio.h>
 #include <luna/luna.hpp>
-#include "Sound.hpp"
+#include "Sound.h"
 
 namespace xen
 {
