@@ -19,44 +19,44 @@ find_package(lua)
 # source files
 set(XEN_SRC_FILES
 	src/Application.cpp
-	src/Helper.hpp
-	src/StartupLua.hpp
+	src/Helper.h
+	src/StartupLua.h
 	src/XentuGame.cpp
 	src/XentuGame.cpp
 	src/audio/AudioPlayer.cpp
-	src/audio/AudioPlayer.hpp
+	src/audio/AudioPlayer.h
 	src/audio/Sound.cpp
-	src/audio/Sound.hpp
+	src/audio/Sound.h
 	src/filesystem/AssetManager.cpp
-	src/filesystem/AssetManager.hpp
+	src/filesystem/AssetManager.h
 	src/filesystem/Configuration.cpp
-	src/filesystem/Configuration.hpp
-	src/graphics/Batch.hpp
+	src/filesystem/Configuration.h
+	src/graphics/Batch.h
 	src/graphics/Color.cpp
-	src/graphics/Color.hpp
+	src/graphics/Color.h
 	src/graphics/Quad.cpp
-	src/graphics/Quad.hpp
+	src/graphics/Quad.h
 	src/graphics/Rect.cpp
-	src/graphics/Rect.hpp
+	src/graphics/Rect.h
 	src/graphics/Renderer2D.cpp
-	src/graphics/Renderer2D.hpp
+	src/graphics/Renderer2D.h
 	src/graphics/Sprite.cpp
-	src/graphics/Sprite.hpp
+	src/graphics/Sprite.h
 	src/graphics/SpriteMap.cpp
-	src/graphics/SpriteMap.hpp
+	src/graphics/SpriteMap.h
 	src/graphics/Texture.cpp
-	src/graphics/Texture.hpp
+	src/graphics/Texture.h
 	src/graphics/Transform.cpp
-	src/graphics/Transform.hpp
+	src/graphics/Transform.h
 	src/graphics/Transformable.cpp
-	src/graphics/Transformable.hpp
-	src/graphics/Vector2.hpp
+	src/graphics/Transformable.h
+	src/graphics/Vector2.h
 	src/graphics/Vertex.cpp
-	src/graphics/Vertex.hpp
-	src/graphics/Viewport.hpp
+	src/graphics/Vertex.h
+	src/graphics/Viewport.h
 	src/graphics/Viewport.cpp
 	src/input/InputManager.cpp
-	src/input/InputManager.hpp
+	src/input/InputManager.h
 )
 
 

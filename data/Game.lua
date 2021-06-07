@@ -19,7 +19,7 @@ game.on("init", function()
 	spritemap2 = assets.load_spritemap("../data/fonts/arial_20.json")
 	font = Font(texture2, spritemap2)
 	font.letter_spacing = 1
-	font.line_height = 20
+	font.line_height = 24
 	
     -- say hello.
     game.log("Hello from Lua world!")

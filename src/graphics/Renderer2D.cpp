@@ -174,7 +174,6 @@ namespace xen
 		m_sprite.m_width = 10;
 		m_sprite.m_height = 22;
 		m_sprite.m_texture = game->assets->get_texture(f.texture_id);
-
 		
 		int x_offset = 0, y_offset = 0;
 		if (sprite_map != NULL) {
@@ -190,11 +189,11 @@ namespace xen
 					find_batch(m_sprite)->draw(m_sprite);
 				}
 				
-				x_offset += m_sprite.m_width + 1; // 2px is a placeholder
+				x_offset += m_sprite.m_width + f.letter_spacing; // 2px is a placeholder
 
 				if (x_offset > max_width && text[i] == 32) {
 					x_offset = 0;
-					y_offset += m_sprite.m_height * 1.25; // borrow height from last char on line for now.
+					y_offset += f.line_height;
 				}
 
 				m_sprite.set_position(left + x_offset, top + y_offset);
@@ -345,7 +344,7 @@ namespace xen
 			if (key == "texture") 	f.texture_id = lua_tointeger(L, -1);
 			if (key == "spritemap") f.spritemap_id = lua_tointeger(L, -1);
 			if (key == "line_height") f.line_height = lua_tointeger(L, -1);
-			if (key == "letter_spacing") f.line_height = lua_tointeger(L, -1);
+			if (key == "letter_spacing") f.letter_spacing = lua_tointeger(L, -1);
 			lua_pop(L, 1);
 		}
 		return f;
