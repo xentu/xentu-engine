@@ -25,7 +25,8 @@ FIND_PATH(GLFW3_INCLUDE_DIR "GLFW3/glfw3.h" PATHS ${_glfw3_HEADER_SEARCH_DIRS} )
 message("-- GLFW3_INCLUDE_DIR = ${GLFW3_INCLUDE_DIR}")
 
 # Search for the library
-FIND_LIBRARY(GLFW3_LIBRARY libglfw3dll PATHS ${_glfw3_LIB_SEARCH_DIRS} )
+FIND_LIBRARY(GLFW3_LIBRARY "libglfw3dll.a" PATHS ${_glfw3_LIB_SEARCH_DIRS} )
+message("-- GLFW3_LIBRARY = ${GLFW3_LIBRARY}")
 
 # Finish up
 INCLUDE(FindPackageHandleStandardArgs)

@@ -12,8 +12,24 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 find_package(OpenGL)
 find_package(GLM)
 find_package(glew)
-find_package(glfw3 REQUIRED)
+find_package(glfw3)
 find_package(lua)
+
+
+# set compiler specific flags
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+	 # using Clang
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+	# using GCC
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/gcc")
+	set(RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/gcc")
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
+  	# using Intel C++
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+	# using MSVCC
+	set(GLFW3_LIBRARY "${CMAKE_SOURCE_DIR}/lib/GLFW3/libglfw3dll.a")
+	set(LUA_LIBRARY "${CMAKE_SOURCE_DIR}/lib/lua535/lua53.lib")
+endif()
 
 
 # source files
@@ -70,7 +86,6 @@ include_directories(
 
 # compile list of libs (that will be linked to the exe)
 set(XEN_LIBS
-	mingw32
 	"${OPENGL_LIBRARIES}"
 	"${GLEW_LIBRARY}"
 	"${GLFW3_LIBRARY}"

@@ -6,7 +6,6 @@
 
 # Cmake file inspired by: https://github.com/daw42/glslcookbook
 
-
 set( _lua_LIB_SEARCH_DIRS
 "/usr/lib"
 "/usr/local/lib"
@@ -18,4 +17,4 @@ message("-- LUA_LIBRARY = ${LUA_LIBRARY}")
 
 # Finish up
 INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(lua DEFAULT_MSG LUA_LIBRARY "")
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(lua DEFAULT_MSG LUA_LIBRARY)
