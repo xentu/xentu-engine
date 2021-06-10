@@ -25,6 +25,9 @@ namespace xen {
 		XentuGame(lua_State* L);
 		~XentuGame(void);
 
+		/// Called after the constructor, but before initialize() by c++
+		bool __pre_init();
+
 		/// <summary>
 		/// Gets the single instance available of this class during the application lifetime.
 		/// </summary>
@@ -121,10 +124,9 @@ namespace xen {
 		/// Call this to show a debug report of what is in the lua stack.
 		int debug_stack(lua_State* L);
 
-		/// <summary>
-		/// Get the current path of the executing binary.
-		/// </summary>
-		static std::string get_current_directory();
+
+		/// Get the located base path for this game.
+		std::string __get_base_path();
 
 
 		//Class Constants
@@ -142,6 +144,9 @@ namespace xen {
 	private:
 		/* Here will be the instance stored. */
 		static XentuGame* instance;
+
+		/* the base path of the game */
+		std::string base_path;
 
 		GLFWwindow* window;
 		Renderer2D* renderer;

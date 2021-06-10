@@ -4,7 +4,6 @@
 
 #include <GLEW/GL/glew.h>
 #include <GLFW3/glfw3.h>
-#include <Windows.h>
 #include <iostream>
 #include <string>
 
@@ -30,10 +29,9 @@ namespace xen
 
 	XentuGame::XentuGame(lua_State* L)
 	{
-		std::string base_path = XentuGame::get_current_directory();
-
 		// not a true instance, so make sure to let the static variable know we've been created.
 		instance = this;
+		this->base_path = xen::Helper::get_current_directory();
 
 		// consider removing state argument.
 		std::cout << "Created instance of XentuGame." << std::endl;
@@ -41,16 +39,57 @@ namespace xen
 		this->shader = -1;
 		this->window = 0;
 		this->assets = new AssetManager(L);
-		this->assets->base_path = base_path;
 		this->renderer = new Renderer2D(L);
 		this->audio = new AudioPlayer(L);
 		this->input = new InputManager(L);
 		this->initialized = false;
 		this->m_closing = false;
-		this->config = xen::Configuration::parse_file(base_path + "../../../data/Config.toml");
-		this->viewport = new Viewport(this->config->m_viewport_width, this->config->m_viewport_height);
+		this->config = new xen::Configuration();
+		this->viewport = new Viewport(320, 240);
 	}
 
+
+	bool XentuGame::__pre_init() {
+		/* find Game.lua */
+		if (!xen::Helper::file_exists(base_path + "/Game.lua")) {
+			/* store a copy of the base path */
+			std::string data_path = base_path;
+
+			/* Possible locations for Game.lua */
+			std::string possible_paths[5] = {
+				"/data",
+				"/../data",
+				"/../../data",
+				"/../../../data"
+			};
+
+			bool found = false;
+
+			for (int i = 0; i < 5; i++) {
+				data_path = base_path + possible_paths[i];
+				std::cout << "Trying: " << possible_paths[i] + "/Game.lua" << std::endl;
+				if (xen::Helper::file_exists(data_path + "/Game.lua")) {
+					base_path = data_path;
+					found = true;
+				}
+			}
+
+			if (found == false) {
+				std::cout << "Failed to locate Game.lua, Xentu will now exit." << std::endl;
+				return false;
+			}
+		}
+
+		/* log the game folder path */
+		std::string game_path = base_path + "/Game.lua";
+		std::cout << "Located game at: " << game_path << std::endl;
+
+		delete this->config; // get rid of old ref.
+		this->assets->base_path = base_path;
+		this->config = xen::Configuration::parse_file(base_path + "/Config.toml");
+		this->viewport = new Viewport(this->config->m_viewport_width, this->config->m_viewport_height);
+		return true;
+	}
 
 
 	XentuGame::~XentuGame() {
@@ -175,7 +214,6 @@ namespace xen
 		/* Create a windowed mode window and its OpenGL context */
 		//window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
 		window = glfwCreateWindow(config->m_screen_width, config->m_screen_height, config->m_game_title.c_str(), NULL, NULL);
-		std::cout << "Detected: " << config->m_screen_width << std::endl;
 		if (!window)
 		{
 			glfwTerminate();
@@ -200,8 +238,8 @@ namespace xen
 		//glfwSetKeyCallback(window, xentuKeyCallback);
 
 		/* Load our shaders from files. */
-		std::string vertexShader = xen::Helper::read_text_file(assets->base_path + "../../../data/shaders/VertexShader.shader");
-		std::string fragmentShader = xen::Helper::read_text_file(assets->base_path + "../../../data/shaders/FragmentShader.shader");
+		std::string vertexShader = xen::Helper::read_text_file(assets->base_path + "/shaders/VertexShader.shader");
+		std::string fragmentShader = xen::Helper::read_text_file(assets->base_path + "/shaders/FragmentShader.shader");
 
 		shader = create_shader(vertexShader, fragmentShader);
 		glUseProgram(shader);
@@ -404,15 +442,9 @@ namespace xen
 	}
 
 
-
-	std::string XentuGame::get_current_directory()
-	{
-		char buffer[MAX_PATH];
-		GetModuleFileNameA(NULL, buffer, MAX_PATH);
-		std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-		return std::string(buffer).substr(0, pos) + "/";
+	std::string XentuGame::__get_base_path() {
+		return this->base_path;
 	}
-
 
 
 	const char xen::XentuGame::className[] = "XentuGame";

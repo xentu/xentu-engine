@@ -12,6 +12,7 @@
 #include <luna/luna.hpp>
 #include "XentuGame.h"
 #include "StartupLua.h"
+#include "Helper.h"
 
 extern "C" {
 #include "lua53/lua.h"
@@ -55,9 +56,10 @@ int main(void)
 		return false;
 	}
 
-	/* load and our Game.lua script */
-	std::string base_path = xen::XentuGame::get_current_directory();
-	std::string game_path = base_path + "../../../data/Game.lua";
+	/* grab a pointer to the game singleton instance */
+	xen::XentuGame* game = xen::XentuGame::get_instance(L);
+	game->__pre_init();
+	std::string game_path = game->__get_base_path() + "/Game.lua";
 
 	/* audio test */
 	//xen::AudioPlayer* audio = new xen::AudioPlayer();
@@ -66,9 +68,6 @@ int main(void)
 
 	if (luaL_dofile(L, game_path.c_str()) == LUA_OK)
 	{
-		/* grab a pointer to the game singleton instance */
-		xen::XentuGame* game = xen::XentuGame::get_instance(L);
-
 		unsigned int ms = 1000.0f / game->config->m_update_frequency;
 		std::chrono::milliseconds timestep(ms);
 

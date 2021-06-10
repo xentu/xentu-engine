@@ -1,5 +1,7 @@
 #pragma once
 
+#include <sys/stat.h>
+#include <Windows.h>
 #include <fstream>
 #include <sstream>
 
@@ -13,6 +15,20 @@ namespace xen
 			std::ifstream inFile{ filePath };
 			std::string file_contents{ std::istreambuf_iterator<char>(inFile), std::istreambuf_iterator<char>() };
 			return file_contents;
+		}
+
+		static bool file_exists(const std::string& filePath) {
+			struct stat buffer;   
+			return (stat (filePath.c_str(), &buffer) == 0); 
+		}
+
+		static std::string get_current_directory()
+		{
+			// TODO: Currently requires Windows.h, try to find an alternative.
+			char buffer[MAX_PATH];
+			GetModuleFileNameA(NULL, buffer, MAX_PATH);
+			std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+			return std::string(buffer).substr(0, pos);
 		}
 	};
 }

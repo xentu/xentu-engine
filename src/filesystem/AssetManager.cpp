@@ -128,11 +128,10 @@ namespace xen
 	int AssetManager::__load_spritemap(std::string filename_relative)
 	{
 		std::string filename = localize_path(filename_relative);
-
 		spritemaps_iter++;
 
 		/* try to read the specified file. */
-		SpriteMap* created = SpriteMap::parse_file(filename_relative);
+		SpriteMap* created = SpriteMap::parse_file(filename);
 		spritemaps.insert(std::make_pair(spritemaps_iter, created));
 
 		return spritemaps_iter;
