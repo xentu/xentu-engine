@@ -153,12 +153,29 @@ namespace xen
 	{
 		std::string filename = localize_path(filename_relative);
 
-		sounds_iter++;
+		try 
+		{
+			sounds_iter++;
+			Sound* created = new Sound(filename);
+			sounds.insert(std::make_pair(sounds_iter, created));
+			std::cout << "Loaded audio [#" << sounds_iter << "] from: " << filename << std::endl;
+		}
+		catch (int err)
+		{
+			switch (err) {
+				case MA_ACCESS_DENIED:
+					std::cout << "Access denied when loading audio from: " << filename << std::endl;
+					break;
+				case MA_DOES_NOT_EXIST:
+					std::cout << "Audio file does not exist: " << filename << std::endl;
+					break;
+				default:
+					std::cout << "Could not load audio from: " << filename << std::endl;
+					break;
+			}
+			throw;
+		}
 
-		std::cout << "Loaded audio [#" << sounds_iter << "] from: " << filename << std::endl;
-
-		Sound* created = new Sound(filename);
-		sounds.insert(std::make_pair(sounds_iter, created));
 		return sounds_iter;
 	}
 
@@ -168,7 +185,11 @@ namespace xen
 	{
 		std::string filename = lua_tostring(L, -1);
 		int id = this->__load_audio(filename);
-		lua_pushinteger(L, id);
+		if (id >= 0) {
+			std::cout << "Audio bank" << id << std::endl;
+			lua_pushinteger(L, id);
+			return 1;
+		}
 		return 0;
 	}
 

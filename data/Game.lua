@@ -20,6 +20,10 @@ game.on("init", function()
 	font = Font(texture2, spritemap2)
 	font.letter_spacing = 1
 	font.line_height = 24
+
+	-- load some audio.
+    piano_c = assets.load_audio("/audio/Piano_Hit2.mp3")
+    piano_a = assets.load_audio("/audio/Piano_Hit.mp3")
 	
     -- say hello.
     game.log("Hello from Lua world!")
@@ -28,11 +32,13 @@ end)
 
 -- the update event.
 game.on("update", function()
+	if sprite.x == 0 then game.audio.play(piano_c) end
+	if sprite.x == viewport.width - sprite.width then game.audio.play(piano_a) end
+
 	if sprite.x_speed > 0 and sprite.x + 1 > viewport.width - sprite.width then sprite.x_speed = -1 end
 	if sprite.x_speed < 0 and sprite.x - 1 < 0 then sprite.x_speed = 1 end
 	sprite.x = sprite.x + (sprite.x_speed * 2)
-	-- if s1.x = 0 then audio.play(piano_c) end
-	-- if s1.x = viewport.width then audio.play(piano_a) end
+	
     -- if keyboard.clicked(KB_ESCAPE) or mouse.button_down(MB_LEFT) then game.exit() end
 end)
 

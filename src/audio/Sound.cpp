@@ -13,7 +13,7 @@ namespace xen
 		ma_result result;
 		result = ma_decoder_init_file(filename.c_str(), NULL, &decoder);
 		if (result != MA_SUCCESS) {
-			throw "Could not load " + filename;
+			throw result;
 		}
 	}
 
