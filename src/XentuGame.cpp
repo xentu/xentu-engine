@@ -357,7 +357,7 @@ namespace xen
 
 	int XentuGame::get_audio(lua_State* L)
 	{
-		Luna<xen::AudioPlayer>().push(L, this->audio);
+		Luna<AudioPlayer>().push(L, this->audio);
 		return 1;
 	}
 

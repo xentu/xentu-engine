@@ -186,7 +186,6 @@ namespace xen
 		std::string filename = lua_tostring(L, -1);
 		int id = this->__load_audio(filename);
 		if (id >= 0) {
-			std::cout << "Audio bank" << id << std::endl;
 			lua_pushinteger(L, id);
 			return 1;
 		}

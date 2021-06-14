@@ -24,6 +24,10 @@ game.on("init", function()
 	-- load some audio.
     piano_c = assets.load_audio("/audio/Piano_Hit2.mp3")
     piano_a = assets.load_audio("/audio/Piano_Hit.mp3")
+	stage5_loop = assets.load_audio("/audio/8bit_Stage5_Loop.mp3");
+
+	audio.play(stage5_loop)
+	audio.set_volume(stage5_loop, 0)
 	
     -- say hello.
     game.log("Hello from Lua world!")
@@ -32,13 +36,13 @@ end)
 
 -- the update event.
 game.on("update", function()
-	if sprite.x == 0 then game.audio.play(piano_c) end
-	if sprite.x == viewport.width - sprite.width then game.audio.play(piano_a) end
-
 	if sprite.x_speed > 0 and sprite.x + 1 > viewport.width - sprite.width then sprite.x_speed = -1 end
 	if sprite.x_speed < 0 and sprite.x - 1 < 0 then sprite.x_speed = 1 end
 	sprite.x = sprite.x + (sprite.x_speed * 2)
 	
+	-- test to show setting realtime volume
+	if sprite.x % 50 == 0 then audio.set_volume(stage5_loop, sprite.x / viewport.width) end
+
     -- if keyboard.clicked(KB_ESCAPE) or mouse.button_down(MB_LEFT) then game.exit() end
 end)
 

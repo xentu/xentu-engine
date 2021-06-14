@@ -73,6 +73,7 @@ const char* m_xen_startup_lua_classes = " \
 
 
 const char* m_xen_startup_lua_before_init = "\
+	audio = game.audio \
 	assets = game.assets \
 	viewport = game.viewport \
 	renderer = game.renderer \

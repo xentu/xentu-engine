@@ -7,6 +7,11 @@
 #include <luna/luna.hpp>
 #include "Sound.h"
 
+#define SAMPLE_FORMAT   ma_format_s16
+#define CHANNEL_COUNT   2
+#define SAMPLE_RATE     44100
+#define MIXER_ROWS      8
+
 namespace xen
 {
 	/// <summary>
@@ -17,37 +22,21 @@ namespace xen
 	/// </summary>
 	class AudioPlayer
 	{
-	private:
-		//AudioPlayerState* m_state;
-		ma_device m_device;
-		ma_device_config m_config;
-		bool m_alive; // weather the class initialized ok.
-		bool m_playing; // weather the device started ok.
-
-		/// <summary>
-		/// Callback used to test the audio playback using miniaudio.
-		/// </summary>
-		static void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount);
-		static ma_uint16 read_and_mix_pcm_frames_f16(ma_decoder* pDecoder, ma_int16* pOutputF16, ma_uint16 frameCount);
 	public:
 		AudioPlayer(lua_State* L);
 		~AudioPlayer();
 
-		/// <summary>
-		/// Play a sound!
-		/// </summary>
+		/// <summary>Get weather a sound is playing.</summary>
+		int is_playing(lua_State* L);
+
+		/// <summary>Play a sound!</summary>
 		int play(lua_State* L);
 
-		/// <summary>
-		/// Play a sound!
-		/// </summary>
-		/// <param name="sound">The sound instance to play.</param>
-		int __play(Sound* sound);
+		/// <summary>Set the volume off a playing sound</summary>
+		int set_volume(lua_State* L);
 
-		/// <summary>
-		/// Get weather this audio player is alive (device started successfully and can play).
-		/// </summary>
-		bool alive();
+		/// <summary>Stop playing a sound.</summary>
+		int stop(lua_State* L);
 
 		//Class Constants
 		static const char className[];
@@ -58,7 +47,24 @@ namespace xen
 		// List of class methods to make available in Lua
 		static const Luna<AudioPlayer>::FunctionType methods[];
 
-	
+
+	private:
+		ma_device m_device;
+		ma_device_config m_config;
+		bool m_alive; // weather the class initialized ok.
+		bool m_playing; // weather the device started ok.
+
+
+		/// <summary>Get weather a sound is currently playing..</summary>
+		bool _is_playing(xen::Sound* sound);
+
+
+		/// <summary>Spawn a playback instance of a sound, does not cancel previous playback, for that use _stop()</summary>
+		int _play(xen::Sound* sound);
+
+		
+		/// <summary>Stop playback for all instances of a specific sound.</summary>
+		int _stop(xen::Sound* sound);
 	};
 }
 
