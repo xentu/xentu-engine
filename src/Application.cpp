@@ -10,8 +10,8 @@
 #include <thread>
 
 #include <luna/luna.hpp>
-#include "XentuGame.h"
 #include "StartupLua.h"
+#include "XentuGame.h"
 #include "Helper.h"
 
 extern "C" {
@@ -48,8 +48,8 @@ int main(void)
 
 	/* core lua ran before anything else inc standard libraries. */
 	luaL_openlibs(L);
-	luaL_dostring(L, m_xen_startup_lua);
-	auto ret = luaL_dostring(L, m_xen_startup_lua_classes);
+	luaL_dostring(L, m_xen_startup_lua.c_str());
+	auto ret = luaL_dostring(L, m_xen_startup_lua_classes.c_str());
 	if (ret != LUA_OK) {
 		printf("Error: %s\n", lua_tostring(L, -1));
 		lua_pop(L, 1); // pop error message
@@ -74,7 +74,7 @@ int main(void)
 		/* initialize the game. */
 		if (result = game->initialize(L) == 0)
 		{
-			luaL_dostring(L, m_xen_startup_lua_before_init);
+			luaL_dostring(L, m_xen_startup_lua_before_init.c_str());
 
 			/* test the event system */
 			game->trigger(L, "init");

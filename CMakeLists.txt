@@ -32,11 +32,16 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 endif()
 
 
+# Define the incbin executable
+add_executable(incbin
+	src/libraries/incbin/incbin.c
+)
+
+
 # source files
 set(XEN_SRC_FILES
 	src/Application.cpp
 	src/Helper.h
-	src/StartupLua.h
 	src/XentuGame.cpp
 	src/XentuGame.cpp
 	src/audio/AudioPlayer.cpp
