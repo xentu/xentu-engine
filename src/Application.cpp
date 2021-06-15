@@ -58,8 +58,8 @@ int main(void)
 
 	/* grab a pointer to the game singleton instance */
 	xen::XentuGame* game = xen::XentuGame::get_instance(L);
-	game->__pre_init();
-	std::string game_path = game->__get_base_path() + "/Game.lua";
+	game->pre_init();
+	std::string game_path = game->get_base_path() + "/Game.lua";
 
 	/* audio test */
 	//xen::AudioPlayer* audio = new xen::AudioPlayer();

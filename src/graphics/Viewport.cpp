@@ -7,7 +7,7 @@
 
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
-#define method(class, name) {#name, &class::name}
+#define method(class, name, realname) {#name, &class::realname}
 
 
 namespace xen
@@ -32,14 +32,14 @@ namespace xen
 	}
 
 
-	int Viewport::get_width(lua_State* L)
+	int Viewport::lua_get_width(lua_State* L)
 	{
 		lua_pushinteger(L, this->width);
 		return 1;
 	}
 
 
-	int Viewport::get_height(lua_State* L)
+	int Viewport::lua_get_height(lua_State* L)
 	{
 		lua_pushinteger(L, this->height);
 		return 1;
@@ -50,8 +50,8 @@ namespace xen
 
 
 	const Luna<Viewport>::PropertyType xen::Viewport::properties[] = {
-		{"width", &Viewport::get_width, nullptr },
-		{"height", &Viewport::get_height, nullptr },
+		{"width", &Viewport::lua_get_width, nullptr },
+		{"height", &Viewport::lua_get_height, nullptr },
 		{0,0}
 	};
 

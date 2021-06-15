@@ -33,37 +33,37 @@ namespace xen
 		/// <summary>
 		/// Begins the sequence for rendering sprites.
 		/// </summary>
-		int begin(lua_State* L);
+		int lua_begin(lua_State* L);
 
 		/// <summary>
 		/// Call this to flush the buffer and draw the loaded sprites.
 		/// </summary>
-		int present(lua_State* L);
+		int lua_present(lua_State* L);
 
 		/// <summary>
 		/// Draw a sprite from Lua.
 		/// </summary>
-		int draw_sprite(lua_State* L);
+		int lua_draw_sprite(lua_State* L);
 
 		/// <summary>
 		/// Draw sone text from Lua
 		/// </summary>
-		int draw_text(lua_State* L);
+		int lua_draw_text(lua_State* L);
 
 		/// <summary>
 		/// 
 		/// </summary>
-		int set_rotation(lua_State* L);
+		int lua_set_rotation(lua_State* L);
 
 		/// <summary>
 		/// 
 		/// </summary>
-		int set_origin(lua_State* L);
+		int lua_set_origin(lua_State* L);
 
 		/// <summary>
 		/// 
 		/// </summary>
-		int set_scale(lua_State* L);
+		int lua_set_scale(lua_State* L);
 
 		/// <summary>
 		/// Clear the sprite batch buffer.
@@ -84,7 +84,7 @@ namespace xen
 		/// <summary>
 		/// Called by lua to ensure a sprite object is formatted correctly.
 		/// </summary>
-		int debug_sprite(lua_State* L);
+		int lua_debug_sprite(lua_State* L);
 
 		//Class Constants
 		static const char className[];

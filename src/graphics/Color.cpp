@@ -16,14 +16,12 @@ namespace xen
 	const Color Color::transparent(0, 0, 0, 0);
 
 
-
 	Color::Color() :
 		r(0),
 		g(0),
 		b(0),
 		a(255)
 	{ }
-
 
 
 	Color::Color(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha) :
@@ -34,7 +32,6 @@ namespace xen
 	{ }
 
 
-
 	Color::Color(signed int color) :
 		r((color & 0xff000000) >> 24),
 		g((color & 0x00ff0000) >> 16),
@@ -43,12 +40,10 @@ namespace xen
 	{ }
 
 
-
 	signed int Color::to_integer() const
 	{
 		return (r << 24) | (g << 16) | (b << 8) | a;
 	}
-
 
 
 	inline bool operator ==(const Color& left, const Color& right)
@@ -58,7 +53,6 @@ namespace xen
 			&& left.b == right.b
 			&& left.a == right.a;
 	}
-
 
 
 	inline bool operator !=(const Color& left, const Color& right)

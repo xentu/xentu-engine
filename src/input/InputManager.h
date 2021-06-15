@@ -20,17 +20,17 @@ namespace xen
 		/// <summary>
 		/// Check weather a key is pressed.
 		/// </summary>
-		int key_down(lua_State* L);
+		int lua_key_down(lua_State* L);
 
 		/// <summary>
 		/// Check weather a key was released after being pressed (i.e. clicked).
 		/// </summary>
-		int key_clicked(lua_State* L);
+		int lua_key_clicked(lua_State* L);
 
-		int mouse_down(lua_State* L);
+		int lua_mouse_down(lua_State* L);
 
-		int get_mouse_x(lua_State* L);
-		int get_mouse_y(lua_State* L);
+		int lua_get_mouse_x(lua_State* L);
+		int lua_get_mouse_y(lua_State* L);
 
 		//Class Constants
 		static const char className[];

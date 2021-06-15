@@ -20,7 +20,6 @@ namespace xen
 	{ }
 
 
-
 	Configuration* Configuration::parse_file(std::string filename)
 	{
 		Configuration* config = new Configuration();

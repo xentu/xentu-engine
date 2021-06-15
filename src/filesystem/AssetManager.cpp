@@ -11,9 +11,7 @@
 #include "AssetManager.h"
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
-#define method(class, name) {#name, &class::name}
-
-
+#define method(class, name, realname) {#name, &class::realname}
 
 namespace xen
 {
@@ -24,7 +22,6 @@ namespace xen
 		spritemaps_iter = 0;
 		sounds_iter = 0;
 	}
-
 
 
 	AssetManager::~AssetManager()
@@ -56,8 +53,7 @@ namespace xen
 	}
 
 
-
-	int AssetManager::__load_texture(std::string filename_relative, unsigned int format, unsigned int wrap)
+	int AssetManager::load_texture(std::string filename_relative, unsigned int format, unsigned int wrap)
 	{
 		std::string filename = localize_path(filename_relative);
 
@@ -112,20 +108,18 @@ namespace xen
 	}
 
 
-
-	int AssetManager::load_texture(lua_State* L)
+	int AssetManager::lua_load_texture(lua_State* L)
 	{
 		unsigned int wrap = lua_tointeger(L, -1);
 		unsigned int format = lua_tointeger(L, -2);
 		std::string filename = lua_tostring(L, -3);
-		int id = this->__load_texture(filename, format, wrap);
+		int id = this->load_texture(filename, format, wrap);
 		lua_pushinteger(L, id);
 		return 1;
 	}
 
 
-
-	int AssetManager::__load_spritemap(std::string filename_relative)
+	int AssetManager::load_spritemap(std::string filename_relative)
 	{
 		std::string filename = localize_path(filename_relative);
 		spritemaps_iter++;
@@ -138,18 +132,16 @@ namespace xen
 	}
 
 
-
-	int AssetManager::load_spritemap(lua_State* L)
+	int AssetManager::lua_load_spritemap(lua_State* L)
 	{
 		std::string filename = lua_tostring(L, -1);
-		int id = this->__load_spritemap(filename);
+		int id = this->load_spritemap(filename);
 		lua_pushinteger(L, id);
 		return 1;
 	}
 
 
-
-	int AssetManager::__load_audio(std::string filename_relative)
+	int AssetManager::load_audio(std::string filename_relative)
 	{
 		std::string filename = localize_path(filename_relative);
 
@@ -180,18 +172,16 @@ namespace xen
 	}
 
 
-
-	int AssetManager::load_audio(lua_State* L)
+	int AssetManager::lua_load_audio(lua_State* L)
 	{
 		std::string filename = lua_tostring(L, -1);
-		int id = this->__load_audio(filename);
+		int id = this->load_audio(filename);
 		if (id >= 0) {
 			lua_pushinteger(L, id);
 			return 1;
 		}
 		return 0;
 	}
-
 
 
 	const Texture* AssetManager::get_texture(int id)
@@ -205,7 +195,6 @@ namespace xen
 	}
 
 
-
 	SpriteMap* AssetManager::get_spritemap(int id)
 	{
 		if (spritemaps.count(id))
@@ -215,7 +204,6 @@ namespace xen
 		}
 		return nullptr;
 	}
-
 
 
 	Sound* AssetManager::get_audio(int id)
@@ -229,25 +217,13 @@ namespace xen
 	}
 
 
-
-	int AssetManager::say_yo(lua_State* L)
-	{
-		std::string str = lua_tostring(L, -1);
-		std::cout << "nested lua function asked c++ to say:" << str << std::endl;
-		return 1;
-	}
-
-
-
 	std::string AssetManager::localize_path(std::string relative_path)
 	{
 		return this->base_path + relative_path;
 	}
 
 
-
 	const char AssetManager::className[] = "AssetManager";
-
 
 
 	const Luna<AssetManager>::PropertyType AssetManager::properties[] = {
@@ -255,16 +231,12 @@ namespace xen
 	};
 
 
-
 	const Luna<AssetManager>::FunctionType AssetManager::methods[] = {
-		method(AssetManager, say_yo),
-		method(AssetManager, load_texture),
-		method(AssetManager, load_spritemap),
-		method(AssetManager, load_audio),
+		method(AssetManager, load_texture, lua_load_texture),
+		method(AssetManager, load_spritemap, lua_load_spritemap),
+		method(AssetManager, load_audio, lua_load_audio),
 		{0,0}
 	};
 }
-
-
 
 #endif

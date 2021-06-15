@@ -15,7 +15,7 @@
 
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
-#define method(class, name) {#name, &class::name}
+#define method(class, name, realname) {#name, &class::realname}
 
 
 namespace xen
@@ -49,7 +49,7 @@ namespace xen
 	}
 
 
-	bool XentuGame::__pre_init() {
+	bool XentuGame::pre_init() {
 		/* find Game.lua */
 		if (!xen::Helper::file_exists(base_path + "/Game.lua")) {
 			/* store a copy of the base path */
@@ -307,7 +307,7 @@ namespace xen
 
 
 
-	int XentuGame::on(lua_State* L)
+	int XentuGame::lua_on(lua_State* L)
 	{
 		if (lua_isfunction(L, -1))
 		{
@@ -322,7 +322,7 @@ namespace xen
 
 
 
-	void XentuGame::__use_texture(int texture_id) {
+	void XentuGame::use_texture(int texture_id) {
 		const Texture* texture = assets->get_texture(texture_id);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture->gl_texture_id);
@@ -330,16 +330,16 @@ namespace xen
 
 
 
-	int XentuGame::use_texture(lua_State* L)
+	int XentuGame::lua_use_texture(lua_State* L)
 	{
 		int texture_id = lua_tointeger(L, -1);
-		__use_texture(texture_id);
+		use_texture(texture_id);
 		return 1;
 	}
 
 
 
-	int XentuGame::log(lua_State* L)
+	int XentuGame::lua_log(lua_State* L)
 	{
 		std::string text = lua_tostring(L, -1);
 		std::cout << text << std::endl;
@@ -402,7 +402,7 @@ namespace xen
 
 
 
-	int XentuGame::exit(lua_State* L)
+	int XentuGame::lua_exit(lua_State* L)
 	{
 		if (m_closing == false) {
 			m_closing = true;
@@ -413,7 +413,7 @@ namespace xen
 
 
 
-	int XentuGame::debug_stack(lua_State* L)
+	int XentuGame::lua_debug_stack(lua_State* L)
 	{
 		int i;  
 		int top = lua_gettop(L);
@@ -442,7 +442,7 @@ namespace xen
 	}
 
 
-	std::string XentuGame::__get_base_path() {
+	std::string XentuGame::get_base_path() {
 		return this->base_path;
 	}
 
@@ -464,11 +464,11 @@ namespace xen
 
 
 	const Luna<XentuGame>::FunctionType xen::XentuGame::methods[] = {
-		method(XentuGame, log),
-		method(XentuGame, on),
-		method(XentuGame, use_texture),
-		method(XentuGame, exit),
-		method(XentuGame, debug_stack),
+		method(XentuGame, log, lua_log),
+		method(XentuGame, on, lua_on),
+		method(XentuGame, use_texture, lua_use_texture),
+		method(XentuGame, exit, lua_exit),
+		method(XentuGame, debug_stack, lua_debug_stack),
 		{0,0}
 	};
 }

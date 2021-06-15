@@ -18,7 +18,6 @@ namespace xen
 	{ }
 
 
-
 	Quad::Quad(float rectLeft, float rectTop, float rectWidth, float rectHeight) :
 		left(rectLeft),
 		top(rectTop),
@@ -27,7 +26,6 @@ namespace xen
 		vbo(-1),
 		ibo(-1)
 	{ }
-
 
 
 	void GLAPIENTRY
@@ -43,7 +41,6 @@ namespace xen
 			(type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
 			type, severity, message);
 	}
-
 
 
 	void Quad::initialize()
@@ -69,7 +66,6 @@ namespace xen
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)(2 * sizeof(GLfloat)));
 	}
-
 
 
 	void Quad::draw()

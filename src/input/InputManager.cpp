@@ -6,7 +6,7 @@
 #include "InputManager.h"
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
-#define method(class, name) {#name, &class::name}
+#define method(class, name, realname) {#name, &class::realname}
 
 namespace xen
 {
@@ -74,7 +74,7 @@ namespace xen
 
 
 
-	int InputManager::key_down(lua_State* L)
+	int InputManager::lua_key_down(lua_State* L)
 	{	
 		int key_code = lua_tointeger(L, -1);
 		bool down = glfwGetKey(m_window, key_code) == GLFW_PRESS;
@@ -84,7 +84,7 @@ namespace xen
 
 
 
-	int InputManager::key_clicked(lua_State* L)
+	int InputManager::lua_key_clicked(lua_State* L)
 	{
 		int key_code = lua_tointeger(L, -1);
 		bool clicked = m_keys_clicked[key_code];
@@ -94,7 +94,7 @@ namespace xen
 	}
 
 
-	int InputManager::mouse_down(lua_State* L)
+	int InputManager::lua_mouse_down(lua_State* L)
 	{
 		int button = lua_tointeger(L, -1);
 		int state = glfwGetMouseButton(m_window, button);
@@ -103,7 +103,7 @@ namespace xen
 	}
 
 
-	int InputManager::get_mouse_x(lua_State* L)
+	int InputManager::lua_get_mouse_x(lua_State* L)
 	{
 		lua_pushinteger(L, m_last_mouse_x);
 		return 1;
@@ -111,7 +111,7 @@ namespace xen
 
 
 
-	int InputManager::get_mouse_y(lua_State* L)
+	int InputManager::lua_get_mouse_y(lua_State* L)
 	{
 		lua_pushinteger(L, m_last_mouse_y);
 		return 1;
@@ -124,17 +124,17 @@ namespace xen
 
 
 	const Luna<InputManager>::PropertyType InputManager::properties[] = {
-		{"mouse_x", &InputManager::get_mouse_x, nullptr },
-		{"mouse_y", &InputManager::get_mouse_y, nullptr },
+		{"mouse_x", &InputManager::lua_get_mouse_x, nullptr },
+		{"mouse_y", &InputManager::lua_get_mouse_y, nullptr },
 		{0,0}
 	};
 
 
 
 	const Luna<InputManager>::FunctionType InputManager::methods[] = {
-		method(InputManager, key_down),
-		method(InputManager, key_clicked),
-		method(InputManager, mouse_down),
+		method(InputManager, key_down, lua_key_down),
+		method(InputManager, key_clicked, lua_key_clicked),
+		method(InputManager, mouse_down, lua_mouse_down),
 		{0,0}
 	};
 }

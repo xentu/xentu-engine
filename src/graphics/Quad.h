@@ -15,8 +15,12 @@ namespace xen
 		Quad();
 		Quad(float rectLeft, float rectTop, float rectWidth, float rectHeight);
 
+
 		void initialize();
+
+
 		void draw();
+
 
 	private:
 		float left;       //!< Left coordinate of the rectangle.

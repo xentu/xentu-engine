@@ -18,13 +18,6 @@ namespace xen
 	}
 
 
-
-	void Sound::unload() {
-
-	}
-
-
-
 	Sound::~Sound()
 	{
 		ma_decoder_uninit(&decoder);

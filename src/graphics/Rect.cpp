@@ -13,14 +13,12 @@ namespace xen
 	{ }
 
 
-
 	Rect::Rect(float rectLeft, float rectTop, float rectWidth, float rectHeight) :
 		left(rectLeft),
 		top(rectTop),
 		width(rectWidth),
 		height(rectHeight)
 	{ }
-
 
 
 	Rect::Rect(const Vector2f& position, const Vector2f& size) :
@@ -31,14 +29,12 @@ namespace xen
 	{ }
 
 
-
 	Rect::Rect(const Rect& rectangle) :
 		left(rectangle.left),
 		top(rectangle.top),
 		width(rectangle.width),
 		height(rectangle.height)
 	{ }
-
 
 
 	bool Rect::contains(float x, float y) const
@@ -55,12 +51,10 @@ namespace xen
 	}
 
 
-
 	bool Rect::contains(const Vector2f& point) const
 	{
 		return contains(point.x, point.y);
 	}
-
 
 
 	bool Rect::intersects(const Rect& rectangle) const
@@ -68,7 +62,6 @@ namespace xen
 		Rect intersection;
 		return intersects(rectangle, intersection);
 	}
-
 
 
 	bool Rect::intersects(const Rect& rectangle, Rect& intersection) const
@@ -107,12 +100,10 @@ namespace xen
 	}
 
 
-
 	Vector2<float> Rect::get_position() const
 	{
 		return Vector2<float>(left, top);
 	}
-
 
 
 	Vector2<float> Rect::get_size() const
@@ -121,13 +112,11 @@ namespace xen
 	}
 
 
-
 	inline bool operator ==(const Rect& left, const Rect& right)
 	{
 		return (left.left == right.left) && (left.width == right.width) &&
 			(left.top == right.top) && (left.height == right.height);
 	}
-
 
 
 	inline bool operator !=(const Rect& left, const Rect& right)

@@ -19,6 +19,7 @@ namespace xen {
 		AssetManager(lua_State* L);
 		~AssetManager();
 
+
 		/// <summary>
 		/// Load a texture given a nickname and a filename. If the texture is already loaded, return the current one.
 		/// Formats supported include JPEG, PNG, TGA, BMP and GIF.
@@ -28,8 +29,9 @@ namespace xen {
 		/// <param name="mode">The colour mode to use 0=RGB, 1=RED</param>
 		/// <param name="wrap">The wrap mode to use on the texture 0=REPEAT, 1=CLAMP_TO_EDGE</param>
 		/// <returns>An integer representing the generated reference.</returns>
-		int __load_texture(std::string filename, unsigned int format, unsigned int wrap);
-		int load_texture(lua_State* L);
+		int load_texture(std::string filename, unsigned int format, unsigned int wrap);
+		int lua_load_texture(lua_State* L);
+
 
 		/// <summary>
 		/// Load a sprite map to be associated with a loaded texture. This allows Xentu to render parts of a texture, useful
@@ -39,8 +41,9 @@ namespace xen {
 		/// <param name="nickname">The name of the texture to associate with.</param>
 		/// <param name="filename">The full file path of the sprite map to load.</param>
 		/// <returns>An integer representing success or error code.</returns>
-		int __load_spritemap(std::string filename);
-		int load_spritemap(lua_State* L);
+		int load_spritemap(std::string filename);
+		int lua_load_spritemap(lua_State* L);
+
 
 		/// <summary>
 		/// Load audio clip giving a nickname and a filename. If the audio is already loaded, return the current one.
@@ -49,8 +52,8 @@ namespace xen {
 		/// <param name="nickname">The unique nickname to give the audio clip.</param>
 		/// <param name="filename">The full file path of the audio clip to load.</param>
 		/// <returns></returns>
-		int __load_audio(std::string filename);
-		int load_audio(lua_State* L);
+		int load_audio(std::string filename);
+		int lua_load_audio(lua_State* L);
 
 
 		/// <summary>
@@ -77,12 +80,6 @@ namespace xen {
 		Sound* get_audio(int id);
 
 
-		/// <summary>
-		/// Function used to test nested access in lua.
-		/// </summary>
-		int say_yo(lua_State* L);
-
-
 		std::string base_path;
 		std::string localize_path(std::string relative_path);
 
@@ -90,11 +87,14 @@ namespace xen {
 		//Class Constants
 		static const char className[];
 
+
 		// List of class properties that one can set/get from Lua
 		static const Luna<AssetManager>::PropertyType properties[];
 
+
 		// List of class methods to make available in Lua
 		static const Luna<AssetManager>::FunctionType methods[];
+
 
 	private:
 		/// <summary>
@@ -102,6 +102,7 @@ namespace xen {
 		/// user. We are using pointers so that the textures don't go out of scope.
 		/// </summary>
 	    Texture* default_texture;
+
 
 		/// <summary>
 		/// The dictionary of loaded texture instrances.

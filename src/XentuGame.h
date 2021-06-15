@@ -26,7 +26,7 @@ namespace xen {
 		~XentuGame(void);
 
 		/// Called after the constructor, but before initialize() by c++
-		bool __pre_init();
+		bool pre_init();
 
 		/// <summary>
 		/// Gets the single instance available of this class during the application lifetime.
@@ -65,21 +65,21 @@ namespace xen {
 		/// </summary>
 		/// <param name="L">Pointer to the running lua_State.</param>
 		/// <returns>Exit code, 0 unless something went wrong.</returns>
-		int on(lua_State* L);
+		int lua_on(lua_State* L);
 
 		/// <summary>
 		/// Assign a primary texture for use by the loaded shader.
 		/// </summary>
 		/// <param name="texture">The texture to assign.</param>
-		void __use_texture(int texture_id);
-		int use_texture(lua_State* L);
+		void use_texture(int texture_id);
+		int lua_use_texture(lua_State* L);
 
 		/// <summary>
 		/// Exposed to lua to test weather function calls work.
 		/// </summary>
 		/// <param name="L"></param>
 		/// <returns></returns>
-		int log(lua_State* L);
+		int lua_log(lua_State* L);
 
 		/// <summary>
 		/// Used by the main game loop to see if the game should still be running.
@@ -119,14 +119,14 @@ namespace xen {
 		/// <summary>
 		/// Called when Lua wishes to close.
 		/// </summary>
-		int exit(lua_State* L);
+		int lua_exit(lua_State* L);
 
 		/// Call this to show a debug report of what is in the lua stack.
-		int debug_stack(lua_State* L);
+		int lua_debug_stack(lua_State* L);
 
 
 		/// Get the located base path for this game.
-		std::string __get_base_path();
+		std::string get_base_path();
 
 
 		//Class Constants

@@ -26,23 +26,30 @@ namespace xen
 		AudioPlayer(lua_State* L);
 		~AudioPlayer();
 
+
 		/// <summary>Get weather a sound is playing.</summary>
-		int is_playing(lua_State* L);
+		int lua_is_playing(lua_State* L);
+
 
 		/// <summary>Play a sound!</summary>
-		int play(lua_State* L);
+		int lua_play(lua_State* L);
+
 
 		/// <summary>Set the volume off a playing sound</summary>
-		int set_volume(lua_State* L);
+		int lua_set_volume(lua_State* L);
+
 
 		/// <summary>Stop playing a sound.</summary>
-		int stop(lua_State* L);
+		int lua_stop(lua_State* L);
+
 
 		//Class Constants
 		static const char className[];
 
+
 		// List of class properties that one can set/get from Lua
 		static const Luna<AudioPlayer>::PropertyType properties[];
+
 
 		// List of class methods to make available in Lua
 		static const Luna<AudioPlayer>::FunctionType methods[];
@@ -56,15 +63,15 @@ namespace xen
 
 
 		/// <summary>Get weather a sound is currently playing..</summary>
-		bool _is_playing(xen::Sound* sound);
+		bool is_playing(xen::Sound* sound);
 
 
 		/// <summary>Spawn a playback instance of a sound, does not cancel previous playback, for that use _stop()</summary>
-		int _play(xen::Sound* sound);
+		int play(xen::Sound* sound);
 
 		
 		/// <summary>Stop playback for all instances of a specific sound.</summary>
-		int _stop(xen::Sound* sound);
+		int stop(xen::Sound* sound);
 	};
 }
 

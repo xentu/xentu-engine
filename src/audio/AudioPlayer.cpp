@@ -11,7 +11,7 @@
 #include "../XentuGame.h"
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
-#define method(class, name) {#name, &class::name}
+#define method(class, name, realname) {#name, &class::realname}
 
 namespace xen
 {
@@ -114,7 +114,6 @@ namespace xen
 	#pragma endregion
 
 
-
 	AudioPlayer::AudioPlayer(lua_State* L)
 	{
 		// create the config used by all sounds.
@@ -157,29 +156,26 @@ namespace xen
 	}
 
 
-
-	int AudioPlayer::is_playing(lua_State* L)
+	int AudioPlayer::lua_is_playing(lua_State* L)
 	{
 		int id = lua_tointeger(L, -1);
 		xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
-		bool playing = _is_playing(sound);
+		bool playing = is_playing(sound);
 		lua_pushboolean(L, playing);
 		return 1;
 	}
 
 
-
-	int AudioPlayer::play(lua_State* L)
+	int AudioPlayer::lua_play(lua_State* L)
 	{
 		int id = lua_tointeger(L, -1);
 		xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
-		_play(sound);
+		play(sound);
 		return 0;
 	}
 
 
-
-	int AudioPlayer::set_volume(lua_State* L) {
+	int AudioPlayer::lua_set_volume(lua_State* L) {
 		float volume = lua_tonumber(L, -1);
 		int id = lua_tointeger(L, -2);
 		if (id > 0) {
@@ -195,18 +191,16 @@ namespace xen
 	}
 
 
-
-	int AudioPlayer::stop(lua_State* L)
+	int AudioPlayer::lua_stop(lua_State* L)
 	{
 		int id = lua_tointeger(L, -1);
 		xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
-		_stop(sound);
+		stop(sound);
 		return 0;
 	}
 
 
-
-	bool AudioPlayer::_is_playing(xen::Sound* sound)
+	bool AudioPlayer::is_playing(xen::Sound* sound)
 	{
 		auto found = std::find(std::begin(m_decoder_refs), std::end(m_decoder_refs), &sound->decoder);
 		if (found != std::end(m_decoder_refs)) {
@@ -217,8 +211,7 @@ namespace xen
 	}
 
 
-
-	int AudioPlayer::_play(Sound* sound)
+	int AudioPlayer::play(Sound* sound)
 	{
 		// find a free mixer slot.
 		int index = next_free_mixer_slot();
@@ -252,7 +245,7 @@ namespace xen
 	}
 
 
-	int AudioPlayer::_stop(Sound* sound) {
+	int AudioPlayer::stop(Sound* sound) {
 		auto found = std::find(std::begin(m_decoder_refs), std::end(m_decoder_refs), &sound->decoder);
 		if (found != std::end(m_decoder_refs)) {
 			int index = found - std::begin(m_decoder_refs);
@@ -267,21 +260,18 @@ namespace xen
 	const char AudioPlayer::className[] = "AudioPlayer";
 
 
-
 	const Luna<AudioPlayer>::PropertyType AudioPlayer::properties[] = {
 		{0,0}
 	};
 
 
-
 	const Luna<AudioPlayer>::FunctionType AudioPlayer::methods[] = {
-		method(AudioPlayer, is_playing),
-		method(AudioPlayer, play),
-		method(AudioPlayer, set_volume),
-		method(AudioPlayer, stop),
+		method(AudioPlayer, is_playing, lua_is_playing),
+		method(AudioPlayer, play, lua_play),
+		method(AudioPlayer, set_volume, lua_set_volume),
+		method(AudioPlayer, stop, lua_stop),
 		{0,0}
 	};
 }
-
 
 #endif

@@ -14,7 +14,6 @@ namespace xen
 		Sound(std::string filename);
 		~Sound();
 
-		void unload();
 
 		std::string filename;
 		ma_decoder decoder;

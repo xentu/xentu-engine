@@ -14,8 +14,8 @@ namespace xen
 		Viewport(int width, int height);
 		~Viewport(void);
 		
-		int get_width(lua_State* L);
-		int get_height(lua_State* L);
+		int lua_get_width(lua_State* L);
+		int lua_get_height(lua_State* L);
 		
 		//Class Constants
 		static const char className[];
