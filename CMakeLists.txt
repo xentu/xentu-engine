@@ -1,5 +1,4 @@
-# Copyright (C) 2018 Tomasz Gałaj
-
+# Copyright (C) 2021 Kodaloid Soft
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 project(XentuEngine)
 
@@ -9,11 +8,18 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 
 # find packages
+find_package(Embed REQUIRED)
 find_package(OpenGL)
 find_package(GLM)
 find_package(glew)
 find_package(glfw3)
 find_package(lua)
+
+
+# include resources
+EMBED_TARGET(LUA_STARTUP src/lua/startup.lua)
+EMBED_TARGET(LUA_CLASSES src/lua/classes.lua)
+EMBED_TARGET(LUA_BEFORE_INIT src/lua/before_init.lua)
 
 
 # set compiler specific flags
@@ -30,12 +36,6 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	set(GLFW3_LIBRARY "${CMAKE_SOURCE_DIR}/lib/GLFW3/libglfw3dll.a")
 	set(LUA_LIBRARY "${CMAKE_SOURCE_DIR}/lib/lua535/lua53.lib")
 endif()
-
-
-# Define the incbin executable
-add_executable(incbin
-	src/libraries/incbin/incbin.c
-)
 
 
 # source files
@@ -78,6 +78,9 @@ set(XEN_SRC_FILES
 	src/graphics/Viewport.cpp
 	src/input/InputManager.cpp
 	src/input/InputManager.h
+	${EMBED_LUA_STARTUP_OUTPUTS}
+	${EMBED_LUA_CLASSES_OUTPUTS}
+	${EMBED_LUA_BEFORE_INIT_OUTPUTS}
 )
 
 
