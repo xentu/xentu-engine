@@ -10,6 +10,7 @@
 #include <luna/luna.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+//#include "Resources.h"
 #include "XentuGame.h"
 #include "Helper.h"
 
@@ -41,7 +42,8 @@ namespace xen
 		this->assets = new AssetManager(L);
 		this->renderer = new Renderer2D(L);
 		this->audio = new AudioPlayer(L);
-		this->input = new InputManager(L);
+		this->keyboard = new KeyboardManager(L);
+		this->mouse = new MouseManager(L);
 		this->initialized = false;
 		this->m_closing = false;
 		this->config = new xen::Configuration();
@@ -86,7 +88,14 @@ namespace xen
 
 		delete this->config; // get rid of old ref.
 		this->assets->base_path = base_path;
-		this->config = xen::Configuration::parse_file(base_path + "/Config.toml");
+		
+		if (xen::Helper::file_exists(base_path + "/Config.toml")) {
+			this->config = xen::Configuration::parse_file(base_path + "/Config.toml");
+		}
+		else {
+			this->config = new xen::Configuration();
+		}
+
 		this->viewport = new Viewport(this->config->m_viewport_width, this->config->m_viewport_height);
 		return true;
 	}
@@ -97,7 +106,8 @@ namespace xen
 		delete assets;
 		delete renderer;
 		delete audio;
-		delete input;
+		delete keyboard;
+		delete mouse;
 		delete viewport;
 
 		/* cleanup shader */
@@ -197,7 +207,7 @@ namespace xen
 
 
 
-	int XentuGame::initialize(lua_State* L) {
+	int XentuGame::initialize(lua_State* L, std::string default_vert, std::string default_frag) {
 		/* Make sure nobody calls initialize more than once */
 		if (this->initialized == true)
 			return -2;
@@ -238,8 +248,16 @@ namespace xen
 		//glfwSetKeyCallback(window, xentuKeyCallback);
 
 		/* Load our shaders from files. */
-		std::string vertexShader = xen::Helper::read_text_file(assets->base_path + "/shaders/VertexShader.shader");
-		std::string fragmentShader = xen::Helper::read_text_file(assets->base_path + "/shaders/FragmentShader.shader");
+
+		std::string vertexShader = default_vert;
+		if (xen::Helper::file_exists(assets->base_path + "/shaders/VertexShader.shader")) {
+			vertexShader = xen::Helper::read_text_file(assets->base_path + "/shaders/VertexShader.shader");
+		}
+
+		std::string fragmentShader = default_frag;
+		if (xen::Helper::file_exists(assets->base_path + "/shaders/FragmentShader.shader")) {
+			fragmentShader = xen::Helper::read_text_file(assets->base_path + "/shaders/FragmentShader.shader");
+		}
 
 		shader = create_shader(vertexShader, fragmentShader);
 		glUseProgram(shader);
@@ -260,7 +278,8 @@ namespace xen
 		//this->quad.initialize();
 
 		/* finished initializing */
-		this->input->initialize(window);
+		this->keyboard->initialize(window);
+		this->mouse->initialize(window);
 		this->initialized = true;
 
 		return 0;
@@ -379,9 +398,17 @@ namespace xen
 
 
 
-	int XentuGame::get_input(lua_State* L)
+	int XentuGame::get_keyboard(lua_State* L)
 	{
-		Luna<xen::InputManager>().push(L, this->input);
+		Luna<xen::KeyboardManager>().push(L, this->keyboard);
+		return 1;
+	}
+
+
+	
+	int XentuGame::get_mouse(lua_State* L)
+	{
+		Luna<xen::MouseManager>().push(L, this->mouse);
 		return 1;
 	}
 
@@ -456,7 +483,8 @@ namespace xen
 		{"assets", &XentuGame::get_assets, nullptr },
 		{"sprites", &XentuGame::get_renderer, nullptr }, /* deprecated: use renderer instead */
 		{"renderer", &XentuGame::get_renderer, nullptr },
-		{"input", &XentuGame::get_input, nullptr },
+		{"keyboard", &XentuGame::get_keyboard, nullptr },
+		{"mouse", &XentuGame::get_mouse, nullptr },
 		{"viewport", &XentuGame::get_viewport, nullptr },
 		{0,0}
 	};

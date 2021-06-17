@@ -8,6 +8,8 @@ audio = game.audio
 assets = game.assets
 viewport = game.viewport
 renderer = game.renderer
+keyboard = game.keyboard
+mouse = game.mouse
 
 
 -- texture loading colour modes

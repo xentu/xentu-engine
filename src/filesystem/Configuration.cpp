@@ -13,8 +13,10 @@
 namespace xen
 {
 	Configuration::Configuration() :
+		m_game_title("My Awesome Game!"),
 		m_screen_width(800),
 		m_screen_height(600),
+		m_update_frequency(30),
 		m_viewport_width(800),
 		m_viewport_height(600)
 	{ }

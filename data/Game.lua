@@ -43,13 +43,17 @@ game.on("update", function()
 	-- test to show setting realtime volume
 	if sprite.x % 50 == 0 then audio.set_volume(stage5_loop, sprite.x / viewport.width) end
 
-    -- if keyboard.clicked(KB_ESCAPE) or mouse.button_down(MB_LEFT) then game.exit() end
+	-- exit the game if the escape key is pressed
+    if keyboard.key_down(KB_ESCAPE) or mouse.button_down(MB_LEFT) then game.exit() end
 end)
 
 
 -- the drawing event.
 game.on("draw", function()
     renderer.begin()
+	-- renderer.set_origin(50, 50)
+    -- renderer.set_rotation(sprite.rotation)
+    -- renderer.set_scale(sprite.scale.x, sprite.scale.y)
     renderer.draw_sprite(sprite)
 
     renderer.draw_text(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet tortor eget pulvinar eleifend. Maecenas dapibus mauris " ..

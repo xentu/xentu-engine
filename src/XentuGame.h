@@ -11,7 +11,8 @@
 #include "graphics/Renderer2D.h"
 #include "graphics/Quad.h"
 #include "graphics/Viewport.h"
-#include "input/InputManager.h"
+#include "input/KeyboardManager.h"
+#include "input/MouseManager.h"
 
 namespace xen {
 
@@ -40,7 +41,7 @@ namespace xen {
 		/// </summary>
 		/// <param name="L">Pointer to the running lua_State.</param>
 		/// <returns>Exit code, 0 unless something went wrong.</returns>
-		int initialize(lua_State* L);
+		int initialize(lua_State* L, std::string default_vert, std::string default_frag);
 
 		/// <summary>
 		/// Part of the main game loop, updates any game logic.
@@ -102,9 +103,14 @@ namespace xen {
 		int get_renderer(lua_State* L);
 
 		/// <summary>
-		/// Helper function to allow lua to retrieve the input property.
+		/// Helper function to allow lua to retrieve the keyboard property.
 		/// </summary>
-		int get_input(lua_State* L);
+		int get_keyboard(lua_State* L);
+
+		/// <summary>
+		/// Helper function to allow lua to retrieve the mouse property.
+		/// </summary>
+		int get_mouse(lua_State* L);
 
 		/// <summary>
 		/// Helper function to allow lua to retrieve the viewport property.
@@ -153,7 +159,8 @@ namespace xen {
 		AudioPlayer* audio;
 		Sprite sprite;
 		Quad quad;
-		InputManager* input;
+		KeyboardManager* keyboard;
+		MouseManager* mouse;
 		Viewport* viewport;
 
 		/* random num variable. */

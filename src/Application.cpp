@@ -10,8 +10,8 @@
 #include <thread>
 
 #include <luna/luna.hpp>
-#include "StartupLua.h"
 #include "XentuGame.h"
+//#include "Resources.h"
 #include "Helper.h"
 
 extern "C" {
@@ -19,6 +19,33 @@ extern "C" {
 #include "lua53/lauxlib.h"
 #include "lua53/lualib.h"
 }
+
+
+
+#pragma region Resources
+
+struct Res { const char* data; size_t size; };
+
+extern "C" Res RES_SHADER_VERTEX(void);
+extern "C" Res RES_SHADER_FRAGMENT(void);
+extern "C" Res LUA_STARTUP(void);
+extern "C" Res LUA_CLASSES(void);
+extern "C" Res LUA_BEFORE_INIT(void);
+
+Res res_shader_vertex = RES_SHADER_VERTEX();
+Res res_shader_fragment = RES_SHADER_FRAGMENT();
+Res lua_startup = LUA_STARTUP(); // use *.data, *.size
+Res lua_classes = LUA_CLASSES();
+Res lua_before_init = LUA_BEFORE_INIT();
+
+// convert the raw data into standard strings. The _size is important as the raw data is null terminated.
+const std::string m_shader_vertex(res_shader_vertex.data, res_shader_vertex.size);
+const std::string m_shader_fragment(res_shader_fragment.data, res_shader_fragment.size);
+const std::string m_xen_startup_lua(lua_startup.data, lua_startup.size);
+const std::string m_xen_startup_lua_classes(lua_classes.data, lua_classes.size);
+const std::string m_xen_startup_lua_before_init(lua_before_init.data, lua_before_init.size);
+
+#pragma endregion
 
 
 using namespace std::chrono_literals;
@@ -43,7 +70,8 @@ int main(void)
 	Luna<xen::AssetManager>::Register(L, false);
 	Luna<xen::Renderer2D>::Register(L, false);
 	Luna<xen::AudioPlayer>::Register(L, false);
-	Luna<xen::InputManager>::Register(L, false);
+	Luna<xen::KeyboardManager>::Register(L, false);
+	Luna<xen::MouseManager>::Register(L, false);
 	Luna<xen::Viewport>::Register(L, false);
 
 	/* core lua ran before anything else inc standard libraries. */
@@ -72,7 +100,7 @@ int main(void)
 		std::chrono::milliseconds timestep(ms);
 
 		/* initialize the game. */
-		if (result = game->initialize(L) == 0)
+		if (result = game->initialize(L, m_shader_vertex, m_shader_fragment) == 0)
 		{
 			luaL_dostring(L, m_xen_startup_lua_before_init.c_str());
 

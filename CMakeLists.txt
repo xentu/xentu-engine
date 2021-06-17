@@ -17,9 +17,11 @@ find_package(lua)
 
 
 # include resources
-EMBED_TARGET(LUA_STARTUP src/lua/startup.lua)
-EMBED_TARGET(LUA_CLASSES src/lua/classes.lua)
-EMBED_TARGET(LUA_BEFORE_INIT src/lua/before_init.lua)
+EMBED_TARGET(RES_SHADER_VERTEX src/resources/VertexShader.shader)
+EMBED_TARGET(RES_SHADER_FRAGMENT src/resources/FragmentShader.shader)
+EMBED_TARGET(LUA_STARTUP src/resources/startup.lua)
+EMBED_TARGET(LUA_CLASSES src/resources/classes.lua)
+EMBED_TARGET(LUA_BEFORE_INIT src/resources/before_init.lua)
 
 
 # set compiler specific flags
@@ -76,8 +78,12 @@ set(XEN_SRC_FILES
 	src/graphics/Vertex.h
 	src/graphics/Viewport.h
 	src/graphics/Viewport.cpp
-	src/input/InputManager.cpp
-	src/input/InputManager.h
+	src/input/MouseManager.cpp
+	src/input/MouseManager.h
+	src/input/KeyboardManager.cpp
+	src/input/KeyboardManager.h
+	${EMBED_RES_SHADER_VERTEX_OUTPUTS}
+	${EMBED_RES_SHADER_FRAGMENT_OUTPUTS}
 	${EMBED_LUA_STARTUP_OUTPUTS}
 	${EMBED_LUA_CLASSES_OUTPUTS}
 	${EMBED_LUA_BEFORE_INIT_OUTPUTS}
