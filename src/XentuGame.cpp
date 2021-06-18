@@ -386,6 +386,23 @@ namespace xen
 	}
 
 
+	int XentuGame::lua_do_script(lua_State* L)
+	{
+		std::string file = lua_tostring(L, -1);
+		std::string full_path = this->base_path + '/' + file;
+		if (luaL_dofile(L, full_path.c_str()) == LUA_OK)
+		{
+			std::cout << "Loaded " << full_path << std::endl;
+		}
+		else
+		{
+			std::cout << "Failed to load " << full_path << std::endl;
+			std::string errormsg = lua_tostring(L, -1);
+			std::cout << errormsg << std::endl;
+		}
+		return 0;
+	}
+
 
 	int XentuGame::lua_log(lua_State* L)
 	{
@@ -525,6 +542,7 @@ namespace xen
 		method(XentuGame, on, lua_on),
 		method(XentuGame, use_texture, lua_use_texture),
 		method(XentuGame, use_shader, lua_use_shader),
+		method(XentuGame, do_script, lua_do_script),
 		method(XentuGame, exit, lua_exit),
 		method(XentuGame, debug_stack, lua_debug_stack),
 		{0,0}

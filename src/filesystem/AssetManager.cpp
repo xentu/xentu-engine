@@ -279,7 +279,7 @@ namespace xen
 
 	std::string AssetManager::localize_path(std::string relative_path)
 	{
-		return this->base_path + relative_path;
+		return this->base_path + '/' + relative_path;
 	}
 
 

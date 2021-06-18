@@ -12,23 +12,23 @@ game.on("init", function()
 	-- game.use_shader(shader1)
 
 	-- create a sprite.
-	texture1 = assets.load_texture("/images/texture1.png", TX_RGBA, TX_REPEAT)
-	spritemap1 = assets.load_spritemap("/images/texture1.json")
+	texture1 = assets.load_texture("images/texture1.png", TX_RGBA, TX_REPEAT)
+	spritemap1 = assets.load_spritemap("images/texture1.json")
 	sprite = Sprite(texture1, 100, 10, 150, 150)
 	sprite.spritemap = spritemap1
 	sprite.x_speed = 1
 
 	-- create a font.
-	texture2 = assets.load_texture("/fonts/arial_20.png", TX_RGBA, TX_CLAMP_TO_BORDER)
-	spritemap2 = assets.load_spritemap("/fonts/arial_20.json")
+	texture2 = assets.load_texture("fonts/arial_20.png", TX_RGBA, TX_CLAMP_TO_BORDER)
+	spritemap2 = assets.load_spritemap("fonts/arial_20.json")
 	font = Font(texture2, spritemap2)
 	font.letter_spacing = 1
 	font.line_height = 24
 
 	-- load some audio.
-    piano_c = assets.load_audio("/audio/Piano_Hit2.mp3")
-    piano_a = assets.load_audio("/audio/Piano_Hit.mp3")
-	stage5_loop = assets.load_audio("/audio/8bit_Stage5_Loop.mp3");
+    piano_c = assets.load_audio("audio/Piano_Hit2.mp3")
+    piano_a = assets.load_audio("audio/Piano_Hit.mp3")
+	stage5_loop = assets.load_audio("audio/8bit_Stage5_Loop.mp3");
 
 	audio.play(stage5_loop)
 	audio.set_volume(stage5_loop, 0)
@@ -57,17 +57,5 @@ game.on("update", function()
 end)
 
 
--- the drawing event.
-game.on("draw", function()
-    renderer.begin()
-	-- renderer.set_origin(50, 50)
-    -- renderer.set_rotation(sprite.rotation)
-    -- renderer.set_scale(sprite.scale.x, sprite.scale.y)
-    renderer.draw_sprite(sprite)
-
-    renderer.draw_text(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet tortor eget pulvinar eleifend. Maecenas dapibus mauris " ..
-	                         "sed felis laoreet pellentesque. Nam eget diam a lacus semper placerat luctus mattis arcu. Cras ac iaculis quam. Maecenas arcu " ..
-							 "ligula, congue eget ligula nec, pellentesque bibendum lacus. Cras iaculis lectus ipsum, euismod posuere sem rutrum sed.",
-    						 100, 200, viewport.width - 200)
-    renderer.present()
-end)
+-- include another lua script.
+require('second.lua')

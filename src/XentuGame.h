@@ -81,6 +81,11 @@ namespace xen {
 		int lua_use_shader(lua_State* L);
 
 		/// <summary>
+		/// The engines version of require() which is sensitive to the data folder.
+		/// </summary>
+		int lua_do_script(lua_State* L);
+
+		/// <summary>
 		/// Exposed to lua to test weather function calls work.
 		/// </summary>
 		/// <param name="L"></param>
