@@ -9,6 +9,8 @@
 #include <luna/luna.hpp>
 #include <stb_image/stb_image.hpp>
 #include "AssetManager.h"
+#include "Helper.h"
+
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
 #define method(class, name, realname) {#name, &class::realname}
@@ -45,6 +47,11 @@ namespace xen
 		for (auto const& asset : sounds)
 		{
 			delete asset.second;
+		}
+
+		for (int shader : shaders)
+		{
+			glDeleteShader(shader);
 		}
 
 		this->sounds.empty();
@@ -110,9 +117,9 @@ namespace xen
 
 	int AssetManager::lua_load_texture(lua_State* L)
 	{
-		unsigned int wrap = lua_tointeger(L, -1);
-		unsigned int format = lua_tointeger(L, -2);
 		std::string filename = lua_tostring(L, -3);
+		unsigned int format = lua_tointeger(L, -2);
+		unsigned int wrap = lua_tointeger(L, -1);
 		int id = this->load_texture(filename, format, wrap);
 		lua_pushinteger(L, id);
 		return 1;
@@ -184,6 +191,59 @@ namespace xen
 	}
 
 
+	// Compiles an invidivual vertex or fragment shader.
+	static unsigned int compile_shader(unsigned int type, const std::string& source)
+	{
+		unsigned int id = glCreateShader(type);
+		const char* src = source.c_str();
+		glShaderSource(id, 1, &src, nullptr);
+		glCompileShader(id);
+
+		/* handle errors */
+		int result;
+		glGetShaderiv(id, GL_COMPILE_STATUS, &result);
+		if (result == GL_FALSE)
+		{
+			int length;
+			glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+			char* message = (char*)alloca(length * sizeof(char));
+			glGetShaderInfoLog(id, length, &length, message);
+			std::cout << "Failed to compile " << (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << " shader" << std::endl;
+			std::cout << message << std::endl;
+			glDeleteShader(id);
+			return 0;
+		}
+
+		return id;
+	}
+
+
+	int AssetManager::lua_load_shader(lua_State* L)
+	{
+		std::string vertexShaderFile = localize_path( lua_tostring(L, -2) );
+		std::string vertexShader = xen::Helper::read_text_file(vertexShaderFile);
+		std::string fragmentShaderFile = localize_path( lua_tostring(L, -1) );
+		std::string fragmentShader = xen::Helper::read_text_file(fragmentShaderFile);
+		
+		unsigned int program = glCreateProgram();
+		unsigned int vs = compile_shader(GL_VERTEX_SHADER, vertexShader);
+		unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, fragmentShader);
+
+		glAttachShader(program, vs);
+		glAttachShader(program, fs);
+		glLinkProgram(program);
+		glValidateProgram(program);
+
+		glDeleteShader(vs);
+		glDeleteShader(fs);
+
+		shaders.push_back(program);
+		lua_pushinteger(L, program);
+		std::cout << "Loaded shader [" << program << "]" << std::endl;
+		return 1;
+	}
+
+
 	const Texture* AssetManager::get_texture(int id)
 	{
 		if (textures.count(id))
@@ -235,6 +295,7 @@ namespace xen
 		method(AssetManager, load_texture, lua_load_texture),
 		method(AssetManager, load_spritemap, lua_load_spritemap),
 		method(AssetManager, load_audio, lua_load_audio),
+		method(AssetManager, load_shader, lua_load_shader),
 		{0,0}
 	};
 }

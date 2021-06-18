@@ -358,7 +358,31 @@ namespace xen
 	{
 		int texture_id = lua_tointeger(L, -1);
 		use_texture(texture_id);
-		return 1;
+		return 0;
+	}
+
+
+
+	int XentuGame::lua_use_shader(lua_State* L)
+	{
+		int shader_id = lua_isinteger(L, -1) ? lua_tointeger(L, -1) : 0;
+		if (shader_id <= 0) {
+			shader_id = this->shader;
+		}
+		glUseProgram(shader_id);
+
+		/* camera stuff */
+		glViewport(0, 0, config->m_viewport_width, config->m_viewport_height);
+		glm::mat4 proj = glm::ortho(0.0f, (float)config->m_viewport_width, (float)config->m_viewport_height, 0.0f);
+		unsigned int transform_location = glGetUniformLocation(shader, "u_MVP");
+		glUniformMatrix4fv(transform_location, 1, false, &proj[0][0]);
+		
+		/* texture prep */
+		unsigned int texture_location = glGetUniformLocation(shader, "u_Texture");
+		glUniform1f(texture_location, 0);
+
+		std::cout << "Using shader #" << shader_id << std::endl;
+		return 0;
 	}
 
 
@@ -367,7 +391,7 @@ namespace xen
 	{
 		std::string text = lua_tostring(L, -1);
 		std::cout << text << std::endl;
-		return 1;
+		return 0;
 	}
 
     
@@ -500,6 +524,7 @@ namespace xen
 		method(XentuGame, log, lua_log),
 		method(XentuGame, on, lua_on),
 		method(XentuGame, use_texture, lua_use_texture),
+		method(XentuGame, use_shader, lua_use_shader),
 		method(XentuGame, exit, lua_exit),
 		method(XentuGame, debug_stack, lua_debug_stack),
 		{0,0}

@@ -76,6 +76,11 @@ namespace xen {
 		int lua_use_texture(lua_State* L);
 
 		/// <summary>
+		/// Assign a shader to be used. If nil is passed, the default shader is used instead.
+		/// </summary>
+		int lua_use_shader(lua_State* L);
+
+		/// <summary>
 		/// Exposed to lua to test weather function calls work.
 		/// </summary>
 		/// <param name="L"></param>

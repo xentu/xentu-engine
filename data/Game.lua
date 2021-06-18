@@ -7,13 +7,17 @@
 
 -- called when the game first loads.
 game.on("init", function()
+	-- shader loading example
+	-- shader1 = assets.load_shader("/custom-shader/vertex.shader", "/custom-shader/fragment.shader")
+	-- game.use_shader(shader1)
+
 	-- create a sprite.
 	texture1 = assets.load_texture("/images/texture1.png", TX_RGBA, TX_REPEAT)
 	spritemap1 = assets.load_spritemap("/images/texture1.json")
 	sprite = Sprite(texture1, 100, 10, 150, 150)
 	sprite.spritemap = spritemap1
 	sprite.x_speed = 1
-		
+
 	-- create a font.
 	texture2 = assets.load_texture("/fonts/arial_20.png", TX_RGBA, TX_CLAMP_TO_BORDER)
 	spritemap2 = assets.load_spritemap("/fonts/arial_20.json")

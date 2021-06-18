@@ -3,7 +3,7 @@
 
 #include <string>
 #include <map>
-#include <vector>
+#include <list>
 
 #include "../graphics/Texture.h"
 #include "../graphics/SpriteMap.h"
@@ -54,6 +54,12 @@ namespace xen {
 		/// <returns></returns>
 		int load_audio(std::string filename);
 		int lua_load_audio(lua_State* L);
+
+
+		/// <summary>
+		/// Load a custom shader to be used when rendering.
+		/// </summary>
+		int lua_load_shader(lua_State* L);
 
 
 		/// <summary>
@@ -110,6 +116,7 @@ namespace xen {
 		std::map<int, Texture*> textures;
 		std::map<int, SpriteMap*> spritemaps;
 		std::map<int, Sound*> sounds;
+		std::list<int> shaders;
 
 
 		/// <summary>
