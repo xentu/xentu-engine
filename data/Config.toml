@@ -3,6 +3,7 @@ game_title = 'My Awesome Game!'
 screen_width = 800
 screen_height = 600
 update_frequency = 30
+vsync = true
 
 [viewport]
 width = 800

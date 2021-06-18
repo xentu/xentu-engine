@@ -233,6 +233,11 @@ namespace xen
 		/* Make the window's context current */
 		glfwMakeContextCurrent(window);
 
+		/* allow vysnc to be disabled via the configuration. */
+		if (config->m_vsync == false) {
+			glfwSwapInterval( 0 ); // default = 1
+		}
+
 		/* Center the game */
 		GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 		center_window(window, monitor);

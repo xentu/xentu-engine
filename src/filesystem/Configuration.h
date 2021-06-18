@@ -18,6 +18,7 @@ namespace xen
 		unsigned int m_update_frequency;
 		unsigned int m_viewport_width;
 		unsigned int m_viewport_height;
+		bool m_vsync;
 	};
 }
 

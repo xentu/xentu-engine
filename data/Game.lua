@@ -32,7 +32,7 @@ game.on("init", function()
 	-- color class tests.
 	local c = Color.fromHex('00ff22')
 	game.log("String Form: " .. c.toString())
-	game.log("Hex Form: " .. c3.toHex())
+	game.log("Hex Form: " .. c.toHex())
 	
     -- say hello.
     game.log("Hello from Lua world!")

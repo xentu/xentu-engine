@@ -18,7 +18,8 @@ namespace xen
 		m_screen_height(600),
 		m_update_frequency(30),
 		m_viewport_width(800),
-		m_viewport_height(600)
+		m_viewport_height(600),
+		m_vsync(true)
 	{ }
 
 
@@ -51,6 +52,10 @@ namespace xen
 
 		if (v.find("general.update_frequency")->is<int>()) {
 			config->m_update_frequency = v.find("general.update_frequency")->as<int>();
+		}
+
+		if (v.find("general.vsync")->is<bool>()) {
+			config->m_vsync = v.find("general.vsync")->as<bool>();
 		}
 
 		if (v.find("viewport.width")->is<int>()) {
