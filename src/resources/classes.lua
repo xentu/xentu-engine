@@ -61,3 +61,33 @@ Font = class(function(inst, texture, spritemap)
 	inst.letter_spacing = 1
 	inst.line_height = 20
 end)
+
+
+-- A basic colour utility class.
+Color = class(function(inst, r, g, b, a)
+	inst.r = r
+	inst.g = g
+	inst.b = b
+	inst.a = a
+	inst.toHex = function()
+		local hex = {
+			('%02X'):format(tonumber(inst.r)),
+			('%02X'):format(tonumber(inst.g)),
+			('%02X'):format(tonumber(inst.b))
+		}
+		return table.concat(hex)
+	end
+	inst.toString = function()
+		return inst.r .. ',' .. inst.g .. ',' .. inst.b
+	end
+end)
+
+
+-- A extension method for creating a Colour instance from a hex colour string (aka #553221).
+Color.fromHex = function(hexColor)
+	hexColor = hexColor:gsub("#","")
+	local r = tonumber("0x" .. hexColor:sub(1,2))
+	local g = tonumber("0x" .. hexColor:sub(3,4))
+	local b = tonumber("0x" .. hexColor:sub(5,6))
+	return Color(r, g, b, a)
+end

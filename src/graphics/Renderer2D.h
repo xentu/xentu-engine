@@ -9,8 +9,8 @@
 #include <vector>
 
 #include <luna/luna.hpp>
-#include "LuaFont.h"
-#include "LuaSprite.h"
+#include "../lua/LuaFont.h"
+#include "../lua/LuaSprite.h"
 #include "Batch.h"
 
 namespace xen

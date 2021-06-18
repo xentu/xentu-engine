@@ -28,6 +28,11 @@ game.on("init", function()
 
 	audio.play(stage5_loop)
 	audio.set_volume(stage5_loop, 0)
+
+	-- color class tests.
+	local c = Color.fromHex('00ff22')
+	game.log("String Form: " .. c.toString())
+	game.log("Hex Form: " .. c3.toHex())
 	
     -- say hello.
     game.log("Hello from Lua world!")
