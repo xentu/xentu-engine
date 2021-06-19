@@ -1,6 +1,12 @@
 -- the drawing event.
 game.on("draw", function()
     renderer.begin()
+    
+    -- renderer.set_clear_color(0.5, 1.0, 1.0, 1.0)
+    -- renderer.enbable_blend(true)
+    -- renderer.set_blend_preset(BLEND_SOURCE_IN) // use a preset for blending
+    -- renderer.set_blend_func(SRC_ALPHA, ONE_MINUS_SRC_ALPHA) // alternatively set blending like you do in OpenGL
+
 	-- renderer.set_origin(50, 50)
     -- renderer.set_rotation(sprite.rotation)
     -- renderer.set_scale(sprite.scale.x, sprite.scale.y)

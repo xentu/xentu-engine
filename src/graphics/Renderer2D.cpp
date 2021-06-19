@@ -79,7 +79,7 @@ namespace xen
 		const int vertex_size = 4 * sizeof(Vertex);
 		const int element_size = 6 * sizeof(unsigned int);
 
-		//glClearColor(1, 1, 1, 1);
+		glClearColor(0.5, 1, 1, 1);
 		glDisable(GL_CULL_FACE);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
