@@ -34,12 +34,15 @@ game.on("init", function()
 	audio.set_volume(stage5_loop, 0)
 
 	-- color class tests.
-	local c = Color.fromHex('00ff22')
-	game.log("String Form: " .. c.toString())
-	game.log("Hex Form: " .. c.toHex())
+	local c = Color.fromHex('800080')
+	game.log("Hex Form: #" .. c.toHex())
+	renderer.set_clear_color(c)
 	
     -- say hello.
     game.log("Hello from Lua world!")
+
+	-- blend stuffs
+	renderer.enbable_blend(true)
 end)
 
 

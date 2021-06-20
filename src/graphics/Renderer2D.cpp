@@ -21,7 +21,8 @@ namespace xen
 		ibo(-1),
 		vbo(-1),
 		m_sprite(),
-		m_initialized(false)
+		m_initialized(false),
+		m_clear_color(LuaColor::White())
 	{ }
 
 
@@ -52,7 +53,6 @@ namespace xen
 			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(0));
 			glEnableVertexAttribArray(1);
 			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(8));
-
 			this->m_initialized = true;
 		}
 	}
@@ -79,9 +79,14 @@ namespace xen
 		const int vertex_size = 4 * sizeof(Vertex);
 		const int element_size = 6 * sizeof(unsigned int);
 
-		glClearColor(0.5, 1, 1, 1);
+		//glClearColor(0, 0, 0, 0);
+		float r = this->m_clear_color.red;
+		float g = this->m_clear_color.green;
+		float b = this->m_clear_color.blue;
+		glClearColor(r, g, b, 1);
+
 		glDisable(GL_CULL_FACE);
-		glEnable(GL_BLEND);
+		//glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		for (const Batch* batch : m_batches)
@@ -304,6 +309,40 @@ namespace xen
 	}
 
 
+	int Renderer2D::lua_enbable_blend(lua_State* L)
+	{
+		bool enable = lua_toboolean(L, -1);
+
+		if (enable) {
+			glEnable(GL_BLEND);
+		}
+		else {
+			glDisable(GL_BLEND);
+		}
+
+		return 0;
+	}
+
+
+	int Renderer2D::lua_set_clear_color(lua_State* L)
+	{
+		// push nil to get the table data to parse.
+		lua_pushnil(L);
+		LuaColor f = parse_lua_color(L);
+		this->m_clear_color = f;
+		return 0;
+	}
+
+
+	int Renderer2D::lua_set_blend_func(lua_State* L)
+	{
+		int sfactor = lua_tonumber(L, -2);
+		int dfactor = lua_tonumber(L, -1);
+		glBlendFunc(sfactor, dfactor);
+		return 0;
+	}
+
+
 	LuaSprite Renderer2D::parse_lua_sprite(lua_State* L)
 	{
 		LuaSprite s;
@@ -338,6 +377,21 @@ namespace xen
 	}
 
 
+	LuaColor Renderer2D::parse_lua_color(lua_State* L)
+	{
+		LuaColor c;
+		while (lua_next(L, -2)) {
+			std::string key = lua_tostring(L, -2);
+			if (key == "red") c.red = lua_tonumber(L, -1);
+			if (key == "green") c.green = lua_tonumber(L, -1);
+			if (key == "blue")  c.blue = lua_tonumber(L, -1);
+			if (key == "alpha") c.alpha = lua_tonumber(L, -1);
+			lua_pop(L, 1);
+		}
+		return c;
+	}
+
+
 	const char Renderer2D::className[] = "Renderer2D";
 
 
@@ -355,6 +409,9 @@ namespace xen
 		method(Renderer2D, set_origin, lua_set_origin),
 		method(Renderer2D, set_scale, lua_set_scale),
 		method(Renderer2D, debug_sprite, lua_debug_sprite),
+		method(Renderer2D, enbable_blend, lua_enbable_blend),
+		method(Renderer2D, set_clear_color, lua_set_clear_color),
+		method(Renderer2D, set_blend_func, lua_set_blend_func),
 		{0,0}
 	};
 }

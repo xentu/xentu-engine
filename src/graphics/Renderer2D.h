@@ -11,6 +11,7 @@
 #include <luna/luna.hpp>
 #include "../lua/LuaFont.h"
 #include "../lua/LuaSprite.h"
+#include "../lua/LuaColor.h"
 #include "Batch.h"
 
 namespace xen
@@ -86,6 +87,21 @@ namespace xen
 		/// </summary>
 		int lua_debug_sprite(lua_State* L);
 
+		/// <summary>
+		/// Enable or disable blending.
+		/// </summary>
+		int lua_enbable_blend(lua_State* L);
+
+		/// <summary>
+		/// Set the color used to clear the screen.
+		/// </summary>
+		int lua_set_clear_color(lua_State* L);
+
+		/// <summary>
+		/// Set the blend state for the renderer.
+		/// </summary>
+		int lua_set_blend_func(lua_State* L);
+
 		//Class Constants
 		static const char className[];
 
@@ -99,6 +115,7 @@ namespace xen
 		Batch* find_batch(const Sprite& sprite);
 		LuaSprite parse_lua_sprite(lua_State* L);
 		LuaFont parse_lua_font(lua_State* L);
+		LuaColor parse_lua_color(lua_State* L);
 
 		bool m_initialized;
 		std::vector<Batch*> m_batches;
@@ -108,6 +125,7 @@ namespace xen
 		float m_origin_y;
 		float m_scale_x;
 		float m_scale_y;
+		LuaColor m_clear_color;
 
 		/* the vertex/index buffer. */
 		unsigned int vbo;

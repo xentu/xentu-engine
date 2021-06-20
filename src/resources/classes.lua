@@ -65,20 +65,20 @@ end)
 
 -- A basic colour utility class.
 Color = class(function(inst, r, g, b, a)
-	inst.r = r
-	inst.g = g
-	inst.b = b
-	inst.a = a
+	inst.red = r
+	inst.green = g
+	inst.blue = b
+	inst.alpha = a
 	inst.toHex = function()
 		local hex = {
-			('%02X'):format(tonumber(inst.r)),
-			('%02X'):format(tonumber(inst.g)),
-			('%02X'):format(tonumber(inst.b))
+			('%02X'):format(tonumber(inst.red * 255)),
+			('%02X'):format(tonumber(inst.green * 255)),
+			('%02X'):format(tonumber(inst.blue * 255))
 		}
 		return table.concat(hex)
 	end
 	inst.toString = function()
-		return inst.r .. ',' .. inst.g .. ',' .. inst.b
+		return (inst.red*255) .. ',' .. (inst.green*255) .. ',' .. (inst.blue*255)
 	end
 end)
 
@@ -86,8 +86,9 @@ end)
 -- A extension method for creating a Colour instance from a hex colour string (aka #553221).
 Color.fromHex = function(hexColor)
 	hexColor = hexColor:gsub("#","")
-	local r = tonumber("0x" .. hexColor:sub(1,2))
-	local g = tonumber("0x" .. hexColor:sub(3,4))
-	local b = tonumber("0x" .. hexColor:sub(5,6))
+	local r = tonumber("0x" .. hexColor:sub(1,2)) / 255.0
+	local g = tonumber("0x" .. hexColor:sub(3,4)) / 255.0
+	local b = tonumber("0x" .. hexColor:sub(5,6)) / 255.0
+	local a = 1
 	return Color(r, g, b, a)
 end
