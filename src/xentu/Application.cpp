@@ -11,7 +11,6 @@
 
 #include <luna/luna.hpp>
 #include "XentuGame.h"
-//#include "Resources.h"
 #include "Helper.h"
 
 extern "C" {
@@ -56,6 +55,7 @@ using namespace std::chrono_literals;
 /// </summary>
 int main(void)
 {
+	std::cout << "Xentu Game Engine v" << XEN_ENGINE_VERSION << std::endl;
 	using clock = std::chrono::high_resolution_clock;
 
 	int result = 0;

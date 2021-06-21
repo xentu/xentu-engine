@@ -1,6 +1,6 @@
 # Copyright (C) 2021 Kodaloid Soft
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
-project(XentuEngine)
+project(xentu VERSION 0.0.1)
 
 
 # We need a CMAKE_DIR with some code to find external dependencies
@@ -17,11 +17,11 @@ find_package(lua)
 
 
 # include resources
-EMBED_TARGET(RES_SHADER_VERTEX src/resources/VertexShader.shader)
-EMBED_TARGET(RES_SHADER_FRAGMENT src/resources/FragmentShader.shader)
-EMBED_TARGET(LUA_STARTUP src/resources/startup.lua)
-EMBED_TARGET(LUA_CLASSES src/resources/classes.lua)
-EMBED_TARGET(LUA_BEFORE_INIT src/resources/before_init.lua)
+EMBED_TARGET(RES_SHADER_VERTEX src/xentu/resources/VertexShader.shader)
+EMBED_TARGET(RES_SHADER_FRAGMENT src/xentu/resources/FragmentShader.shader)
+EMBED_TARGET(LUA_STARTUP src/xentu/resources/startup.lua)
+EMBED_TARGET(LUA_CLASSES src/xentu/resources/classes.lua)
+EMBED_TARGET(LUA_BEFORE_INIT src/xentu/resources/before_init.lua)
 
 
 # set compiler specific flags
@@ -40,48 +40,48 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 endif()
 
 
-# source files
-set(XEN_SRC_FILES
-	src/Application.cpp
-	src/Helper.h
-	src/XentuGame.cpp
-	src/XentuGame.cpp
-	src/audio/AudioPlayer.cpp
-	src/audio/AudioPlayer.h
-	src/audio/Sound.cpp
-	src/audio/Sound.h
-	src/filesystem/AssetManager.cpp
-	src/filesystem/AssetManager.h
-	src/filesystem/Configuration.cpp
-	src/filesystem/Configuration.h
-	src/graphics/Batch.h
-	src/graphics/Color.cpp
-	src/graphics/Color.h
-	src/graphics/Quad.cpp
-	src/graphics/Quad.h
-	src/graphics/Rect.cpp
-	src/graphics/Rect.h
-	src/graphics/Renderer2D.cpp
-	src/graphics/Renderer2D.h
-	src/graphics/Sprite.cpp
-	src/graphics/Sprite.h
-	src/graphics/SpriteMap.cpp
-	src/graphics/SpriteMap.h
-	src/graphics/Texture.cpp
-	src/graphics/Texture.h
-	src/graphics/Transform.cpp
-	src/graphics/Transform.h
-	src/graphics/Transformable.cpp
-	src/graphics/Transformable.h
-	src/graphics/Vector2.h
-	src/graphics/Vertex.cpp
-	src/graphics/Vertex.h
-	src/graphics/Viewport.h
-	src/graphics/Viewport.cpp
-	src/input/MouseManager.cpp
-	src/input/MouseManager.h
-	src/input/KeyboardManager.cpp
-	src/input/KeyboardManager.h
+# source files for engine
+set(XEN_ENGINE_FILES
+	src/xentu/Application.cpp
+	src/xentu/Helper.h
+	src/xentu/XentuGame.cpp
+	src/xentu/XentuGame.cpp
+	src/xentu/audio/AudioPlayer.cpp
+	src/xentu/audio/AudioPlayer.h
+	src/xentu/audio/Sound.cpp
+	src/xentu/audio/Sound.h
+	src/xentu/filesystem/AssetManager.cpp
+	src/xentu/filesystem/AssetManager.h
+	src/xentu/filesystem/Configuration.cpp
+	src/xentu/filesystem/Configuration.h
+	src/xentu/graphics/Batch.h
+	src/xentu/graphics/Color.cpp
+	src/xentu/graphics/Color.h
+	src/xentu/graphics/Quad.cpp
+	src/xentu/graphics/Quad.h
+	src/xentu/graphics/Rect.cpp
+	src/xentu/graphics/Rect.h
+	src/xentu/graphics/Renderer2D.cpp
+	src/xentu/graphics/Renderer2D.h
+	src/xentu/graphics/Sprite.cpp
+	src/xentu/graphics/Sprite.h
+	src/xentu/graphics/SpriteMap.cpp
+	src/xentu/graphics/SpriteMap.h
+	src/xentu/graphics/Texture.cpp
+	src/xentu/graphics/Texture.h
+	src/xentu/graphics/Transform.cpp
+	src/xentu/graphics/Transform.h
+	src/xentu/graphics/Transformable.cpp
+	src/xentu/graphics/Transformable.h
+	src/xentu/graphics/Vector2.h
+	src/xentu/graphics/Vertex.cpp
+	src/xentu/graphics/Vertex.h
+	src/xentu/graphics/Viewport.h
+	src/xentu/graphics/Viewport.cpp
+	src/xentu/input/MouseManager.cpp
+	src/xentu/input/MouseManager.h
+	src/xentu/input/KeyboardManager.cpp
+	src/xentu/input/KeyboardManager.h
 	${EMBED_RES_SHADER_VERTEX_OUTPUTS}
 	${EMBED_RES_SHADER_FRAGMENT_OUTPUTS}
 	${EMBED_LUA_STARTUP_OUTPUTS}
@@ -92,8 +92,9 @@ set(XEN_SRC_FILES
 
 # Define the include DIRs
 include_directories(
-	"${CMAKE_SOURCE_DIR}/src"
-	"${CMAKE_SOURCE_DIR}/src/libraries"
+	"${CMAKE_SOURCE_DIR}/src/xentu"
+	"${CMAKE_SOURCE_DIR}/src/xentu/libraries"
+	"${CMAKE_SOURCE_DIR}/src/xentusdk/libraries"
 	"${CMAKE_SOURCE_DIR}/thirdparty"
 )
 
@@ -108,12 +109,27 @@ set(XEN_LIBS
 
 
 # Define the executable
-add_executable(${PROJECT_NAME} ${XEN_SRC_FILES})
+add_executable(xentu ${XEN_ENGINE_FILES})
+target_compile_definitions(xentu PRIVATE XEN_ENGINE_VERSION="${CMAKE_PROJECT_VERSION}")
 
 
 # Define the link libraries
-target_link_libraries(${PROJECT_NAME} PRIVATE ${XEN_LIBS})
+target_link_libraries(xentu PRIVATE ${XEN_LIBS})
 
+
+# --------------------------------------------------------------------------------------------------
+
+
+# Define the sdk executable
+project(xentusdk VERSION 0.0.1)
+
+# source files for sdk
+set(XEN_SDK_FILES
+	src/xentusdk/Application.cpp
+)
+
+add_executable(xentusdk ${XEN_SDK_FILES})
+target_compile_definitions(xentusdk PRIVATE XEN_SDK_VERSION="${CMAKE_PROJECT_VERSION}")
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
