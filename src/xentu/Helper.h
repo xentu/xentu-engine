@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 
+
 namespace xen
 {
 	class Helper
@@ -29,6 +30,17 @@ namespace xen
 			GetModuleFileNameA(NULL, buffer, MAX_PATH);
 			std::string::size_type pos = std::string(buffer).find_last_of("\\/");
 			return std::string(buffer).substr(0, pos);
+		}
+
+		static std::string get_console_path()
+		{
+			char path[256];
+			#ifdef _WIN32
+				_getcwd(path, 256);
+			#else
+				getcwd(path, 256);
+			#endif
+			return path;
 		}
 	};
 }

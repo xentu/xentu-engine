@@ -32,7 +32,12 @@ namespace xen
 	{
 		// not a true instance, so make sure to let the static variable know we've been created.
 		instance = this;
-		this->base_path = xen::Helper::get_current_directory();
+		if (USE_PROXY_PATH) {
+			this->base_path = xen::Helper::get_console_path();
+		}
+		else {
+			this->base_path = xen::Helper::get_current_directory();
+		}
 
 		// consider removing state argument.
 		std::cout << "Created instance of XentuGame." << std::endl;
@@ -513,6 +518,9 @@ namespace xen
 		printf("--- Lua Stack Report ---\n");
 		return 0;
 	}
+
+
+	bool xen::XentuGame::USE_PROXY_PATH = false;
 
 
 	std::string XentuGame::get_base_path() {

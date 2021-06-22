@@ -14,6 +14,7 @@
 #include "input/KeyboardManager.h"
 #include "input/MouseManager.h"
 
+
 namespace xen {
 
 	class XentuGame
@@ -156,6 +157,8 @@ namespace xen {
 
 		AssetManager* assets;
 		Configuration* config;
+		static bool USE_PROXY_PATH;
+
 
 	private:
 		/* Here will be the instance stored. */

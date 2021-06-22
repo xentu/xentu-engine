@@ -19,8 +19,6 @@ extern "C" {
 #include "lua53/lualib.h"
 }
 
-
-
 #pragma region Resources
 
 struct Res { const char* data; size_t size; };
@@ -53,8 +51,17 @@ using namespace std::chrono_literals;
 /// <summary>
 /// The main entry point.
 /// </summary>
-int main(void)
+int main(int arg_count, char* args[])
 {
+	// see if we need to use proxy path mode (aka via the sdk).
+	if (arg_count > 1) {
+		std::string command_arg(args[1]);
+		if (command_arg == "proxy") {
+			std::cout << "Set USE_PROXY_PATH" << std::endl;
+			xen::XentuGame::USE_PROXY_PATH = true;
+		}
+	}
+
 	std::cout << "Xentu Game Engine v" << XEN_ENGINE_VERSION << std::endl;
 	using clock = std::chrono::high_resolution_clock;
 

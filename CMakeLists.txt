@@ -125,7 +125,7 @@ project(xentusdk VERSION 0.0.1)
 
 # source files for sdk
 set(XEN_SDK_FILES
-	src/xentusdk/Application.cpp
+	src/xentusdk/main.cpp
 )
 
 add_executable(xentusdk ${XEN_SDK_FILES})
