@@ -39,8 +39,8 @@ namespace xen
 			#ifdef _WIN32
 			char buffer[MAX_PATH];
 			GetModuleFileNameA(NULL, buffer, MAX_PATH);
-			string::size_type pos = string(buffer).find_last_of("\\/");
-			return string(buffer).substr(0, pos);
+			std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+			return std::string(buffer).substr(0, pos);
 			#else
 			char arg1[20];
 			char buffer[PATH_MAX + 1] = {0};
