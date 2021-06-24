@@ -2,7 +2,6 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 project(xentu VERSION 0.0.1)
 
-
 # We need a CMAKE_DIR with some code to find external dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
@@ -11,17 +10,17 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 find_package(Embed REQUIRED)
 find_package(OpenGL)
 find_package(GLM)
-find_package(glew)
-find_package(glfw3)
-find_package(lua)
+find_package(GLEW)
+find_package(GLFW3)
+find_package(LUA)
 
 
 # include resources
-EMBED_TARGET(RES_SHADER_VERTEX src/xentu/resources/VertexShader.shader)
-EMBED_TARGET(RES_SHADER_FRAGMENT src/xentu/resources/FragmentShader.shader)
-EMBED_TARGET(LUA_STARTUP src/xentu/resources/startup.lua)
-EMBED_TARGET(LUA_CLASSES src/xentu/resources/classes.lua)
-EMBED_TARGET(LUA_BEFORE_INIT src/xentu/resources/before_init.lua)
+EMBED_TARGET(RES_SHADER_VERTEX "${CMAKE_SOURCE_DIR}/src/xentu/resources/VertexShader.shader")
+EMBED_TARGET(RES_SHADER_FRAGMENT "${CMAKE_SOURCE_DIR}/src/xentu/resources/FragmentShader.shader")
+EMBED_TARGET(LUA_STARTUP "${CMAKE_SOURCE_DIR}/src/xentu/resources/startup.lua")
+EMBED_TARGET(LUA_CLASSES "${CMAKE_SOURCE_DIR}/src/xentu/resources/classes.lua")
+EMBED_TARGET(LUA_BEFORE_INIT "${CMAKE_SOURCE_DIR}/src/xentu/resources/before_init.lua")
 
 
 # set compiler specific flags
@@ -101,10 +100,12 @@ include_directories(
 
 # compile list of libs (that will be linked to the exe)
 set(XEN_LIBS
+	dl
 	"${OPENGL_LIBRARIES}"
 	"${GLEW_LIBRARY}"
 	"${GLFW3_LIBRARY}"
 	"${LUA_LIBRARY}"
+	pthread
 )
 
 

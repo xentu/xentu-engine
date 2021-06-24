@@ -5,6 +5,9 @@
 #ifdef _WIN32
 #include <Windows.h>
 #include <direct.h>
+#else
+#include <limits.h>
+#include <unistd.h>
 #endif
 
 using namespace std;
@@ -31,10 +34,19 @@ string get_console_path()
 /// </summary>
 string get_sdk_path()
 {
+#ifdef _WIN32
     char buffer[MAX_PATH];
 	GetModuleFileNameA(NULL, buffer, MAX_PATH);
 	string::size_type pos = string(buffer).find_last_of("\\/");
 	return string(buffer).substr(0, pos);
+#else
+    char arg1[20];
+    char buffer[PATH_MAX + 1] = {0};
+    sprintf( arg1, "/proc/%d/exe", getpid() );
+    readlink( arg1, buffer, 1024 );
+    string::size_type pos = string(buffer).find_last_of("\\/");
+    return string(buffer).substr(0, pos);
+#endif
 }
 
 

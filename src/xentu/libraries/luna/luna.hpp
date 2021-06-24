@@ -279,7 +279,11 @@ public:
 			if (_index >> 8) // Try to set a func
 			{
 				char c[128];
+				#if _WINDLL
 				sprintf_s(c, "Trying to set the method [%s] of class [%s]", (*obj)->T::methods[_index ^ (1 << 8)].name, T::className);
+				#else
+				printf("Trying to set the method [%s] of class [%s]", (*obj)->T::methods[_index ^ (1 << 8)].name, T::className);
+				#endif
 				luaL_error(L, c);
 				return 0;
 			}

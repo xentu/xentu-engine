@@ -18,6 +18,7 @@ using namespace rang;
 #define PATH_SEPARATOR '\\' 
 #else 
 #define PATH_SEPARATOR '/'
+#include <sys/stat.h>
 #endif
 
 
@@ -73,7 +74,12 @@ int do_new_game()
 
     // make the directories
     string data_path = m_base + PATH_SEPARATOR + "data";
-    mkdir(data_path.c_str());
+
+    #if defined(WIN32) || defined(_WIN32) 
+        mkdir(data_path.c_str());
+    #else
+        mkdir(data_path.c_str(), 0700);
+    #endif
     
     // copy the base image.
     string image_from = s_base + PATH_SEPARATOR + "logo.png";
