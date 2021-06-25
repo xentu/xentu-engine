@@ -6,7 +6,7 @@ project(xentu VERSION 0.0.1)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 #
-set(OpenGL_GL_PREFERENCE LEGACY) #GLVND
+set(OpenGL_GL_PREFERENCE GLVND) #LEGACY
 
 # find packages
 find_package(Embed REQUIRED)

@@ -61,4 +61,4 @@ end)
 
 
 -- include another lua script.
-require('second.lua')
+require('Render.lua')

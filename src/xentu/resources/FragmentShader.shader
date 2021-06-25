@@ -1,4 +1,5 @@
-#version 300 es
+#version 330 core
+
 precision mediump float;
 layout(location = 0) out vec4 color;
 

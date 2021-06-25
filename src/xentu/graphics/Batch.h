@@ -80,7 +80,7 @@ namespace xen
 		int m_layer;
 		unsigned int m_inactive;
 		unsigned int m_count;
-		std::vector<size_t> m_indices;
+		std::vector<unsigned int> m_indices;
 		std::vector<Vertex> m_vertices;
 	};
 }
