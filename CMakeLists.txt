@@ -100,14 +100,24 @@ include_directories(
 
 
 # compile list of libs (that will be linked to the exe)
-set(XEN_LIBS
-	dl
-	"${OPENGL_LIBRARIES}"
-	"${GLEW_LIBRARY}"
-	"${GLFW3_LIBRARY}"
-	"${LUA_LIBRARY}"
-	pthread
-)
+if (WIN32)
+	set(XEN_LIBS
+		"${OPENGL_LIBRARIES}"
+		"${GLEW_LIBRARY}"
+		"${GLFW3_LIBRARY}"
+		"${LUA_LIBRARY}"
+	)
+endif (WIN32)
+if (UNIX)
+	set(XEN_LIBS
+		dl
+		"${OPENGL_LIBRARIES}"
+		"${GLEW_LIBRARY}"
+		"${GLFW3_LIBRARY}"
+		"${LUA_LIBRARY}"
+		pthread
+	)
+endif (UNIX)
 
 
 # Define the executable
