@@ -70,6 +70,7 @@ asm(
 	\".align ${CMAKE_SIZEOF_VOID_P}\\n\"
 	\"data: .incbin \\\"${InputAbs}\\\"\\n\"
 	\"end_data:\\n\"
+	\".previous\"
 )\;
 extern const char data[]\;
 extern const char end_data[]\;

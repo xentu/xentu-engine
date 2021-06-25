@@ -5,6 +5,8 @@ project(xentu VERSION 0.0.1)
 # We need a CMAKE_DIR with some code to find external dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
+#
+set(OpenGL_GL_PREFERENCE LEGACY) #GLVND
 
 # find packages
 find_package(Embed REQUIRED)
@@ -14,13 +16,12 @@ find_package(GLEW)
 find_package(GLFW3)
 find_package(LUA)
 
-
 # include resources
-EMBED_TARGET(RES_SHADER_VERTEX "${CMAKE_SOURCE_DIR}/src/xentu/resources/VertexShader.shader")
-EMBED_TARGET(RES_SHADER_FRAGMENT "${CMAKE_SOURCE_DIR}/src/xentu/resources/FragmentShader.shader")
-EMBED_TARGET(LUA_STARTUP "${CMAKE_SOURCE_DIR}/src/xentu/resources/startup.lua")
+EMBED_TARGET(RES_SHADER_VERTEX "src/xentu/resources/VertexShader.shader")
+EMBED_TARGET(RES_SHADER_FRAGMENT "src/xentu/resources/FragmentShader.shader")
+EMBED_TARGET(LUA_STARTUP "src/xentu/resources/startup.lua")
 EMBED_TARGET(LUA_CLASSES "${CMAKE_SOURCE_DIR}/src/xentu/resources/classes.lua")
-EMBED_TARGET(LUA_BEFORE_INIT "${CMAKE_SOURCE_DIR}/src/xentu/resources/before_init.lua")
+EMBED_TARGET(LUA_BEFORE_INIT "src/xentu/resources/before_init.lua")
 
 
 # set compiler specific flags
@@ -111,6 +112,7 @@ set(XEN_LIBS
 
 # Define the executable
 add_executable(xentu ${XEN_ENGINE_FILES})
+#set_target_properties(xentu PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32") -- forces 32 bit
 target_compile_definitions(xentu PRIVATE XEN_ENGINE_VERSION="${CMAKE_PROJECT_VERSION}")
 
 
