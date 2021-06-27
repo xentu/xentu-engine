@@ -1,9 +1,10 @@
 [general]
 game_title = 'My Awesome Game!'
-screen_width = 800
-screen_height = 600
+screen_width = 1280
+screen_height = 720
 update_frequency = 30
 vsync = true
+fullscreen = true
 
 [viewport]
 width = 800

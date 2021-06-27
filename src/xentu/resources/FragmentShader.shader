@@ -1,7 +1,7 @@
-#version 330 core
+#version 320 es
 
 precision mediump float;
-layout(location = 0) out vec4 color;
+out vec4 color;
 
 uniform sampler2D u_Texture;
 in vec2 v_TexCoord;

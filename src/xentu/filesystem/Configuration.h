@@ -19,6 +19,7 @@ namespace xen
 		unsigned int m_viewport_width;
 		unsigned int m_viewport_height;
 		bool m_vsync;
+		bool m_fullscreen;
 	};
 }
 

@@ -19,7 +19,8 @@ namespace xen
 		m_update_frequency(30),
 		m_viewport_width(800),
 		m_viewport_height(600),
-		m_vsync(true)
+		m_vsync(true),
+		m_fullscreen(false)
 	{ }
 
 
@@ -64,6 +65,10 @@ namespace xen
 
 		if (v.find("viewport.height")->is<int>()) {
 			config->m_viewport_height = v.find("viewport.height")->as<int>();
+		}
+
+		if (v.find("general.fullscreen")->is<bool>()) {
+			config->m_fullscreen = v.find("general.fullscreen")->as<bool>();
 		}
 
 		return config;

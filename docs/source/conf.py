@@ -14,6 +14,7 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 import stanford_theme
+import furo
 
 # -- Project information -----------------------------------------------------
 
@@ -43,7 +44,7 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'stanford_theme'
+html_theme = 'furo' #stanford_theme
 html_theme_path = [stanford_theme.get_html_theme_path()]
 html_css_files = ['extra.css']
 

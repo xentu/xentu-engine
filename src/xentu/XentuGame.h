@@ -9,7 +9,6 @@
 #include "filesystem/AssetManager.h"
 #include "filesystem/Configuration.h"
 #include "graphics/Renderer2D.h"
-#include "graphics/Quad.h"
 #include "graphics/Viewport.h"
 #include "input/KeyboardManager.h"
 #include "input/MouseManager.h"
@@ -63,6 +62,11 @@ namespace xen {
 		void trigger(lua_State* L, std::string callbackName);
 
 		/// <summary>
+		/// Set weather or not to use fullscreen.
+		/// </summary>
+		void set_fullscreen(bool fullscreen);
+
+		/// <summary>
 		/// Allows scripts in lua to subscribe to events that can be fired using the Trigger() method.
 		/// </summary>
 		/// <param name="L">Pointer to the running lua_State.</param>
@@ -84,14 +88,7 @@ namespace xen {
 		/// <summary>
 		/// The engines version of require() which is sensitive to the data folder.
 		/// </summary>
-		int lua_do_script(lua_State* L);
-
-		/// <summary>
-		/// Exposed to lua to test weather function calls work.
-		/// </summary>
-		/// <param name="L"></param>
-		/// <returns></returns>
-		int lua_log(lua_State* L);
+		int lua_require(lua_State* L);
 
 		/// <summary>
 		/// Used by the main game loop to see if the game should still be running.
@@ -159,6 +156,9 @@ namespace xen {
 		Configuration* config;
 		static bool USE_PROXY_PATH;
 
+		/* Id for our loaded shader. */
+		unsigned int shader;
+
 
 	private:
 		/* Here will be the instance stored. */
@@ -171,7 +171,6 @@ namespace xen {
 		Renderer2D* renderer;
 		AudioPlayer* audio;
 		Sprite sprite;
-		Quad quad;
 		KeyboardManager* keyboard;
 		MouseManager* mouse;
 		Viewport* viewport;
@@ -184,9 +183,6 @@ namespace xen {
 
 		/* true if the window is closing or a request to close has been made */
 		bool m_closing;
-
-		/* Id for our loaded shader. */
-		unsigned int shader;
 
 		/* Store a hashmap of assigned event callbacks. */
 		std::unordered_map<std::string, int> callbacks;

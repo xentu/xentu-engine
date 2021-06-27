@@ -20,7 +20,6 @@ find_package(LUA)
 EMBED_TARGET(RES_SHADER_VERTEX "src/xentu/resources/VertexShader.shader")
 EMBED_TARGET(RES_SHADER_FRAGMENT "src/xentu/resources/FragmentShader.shader")
 EMBED_TARGET(LUA_STARTUP "src/xentu/resources/startup.lua")
-EMBED_TARGET(LUA_CLASSES "${CMAKE_SOURCE_DIR}/src/xentu/resources/classes.lua")
 EMBED_TARGET(LUA_BEFORE_INIT "src/xentu/resources/before_init.lua")
 
 
@@ -57,8 +56,6 @@ set(XEN_ENGINE_FILES
 	src/xentu/graphics/Batch.h
 	src/xentu/graphics/Color.cpp
 	src/xentu/graphics/Color.h
-	src/xentu/graphics/Quad.cpp
-	src/xentu/graphics/Quad.h
 	src/xentu/graphics/Rect.cpp
 	src/xentu/graphics/Rect.h
 	src/xentu/graphics/Renderer2D.cpp

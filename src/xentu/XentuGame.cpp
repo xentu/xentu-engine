@@ -21,13 +21,6 @@
 
 namespace xen
 {
-	void xentuKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
-	{
-		std::cout << "Clicked: " << key << std::endl;
-	}
-
-
-
 	XentuGame::XentuGame(lua_State* L)
 	{
 		// not a true instance, so make sure to let the static variable know we've been created.
@@ -56,9 +49,11 @@ namespace xen
 	}
 
 
-	bool XentuGame::pre_init() {
+
+	bool XentuGame::pre_init()
+	{
 		/* find Game.lua */
-		if (!xen::Helper::file_exists(base_path + "/Game.lua")) {
+		if (!xen::Helper::file_exists(base_path + "/game.lua")) {
 			/* store a copy of the base path */
 			std::string data_path = base_path;
 
@@ -74,10 +69,11 @@ namespace xen
 
 			for (int i = 0; i < 5; i++) {
 				data_path = base_path + possible_paths[i];
-				std::cout << "Trying: " << possible_paths[i] + "/Game.lua" << std::endl;
-				if (xen::Helper::file_exists(data_path + "/Game.lua")) {
+				std::cout << "Trying: " << possible_paths[i] + "/game.lua" << std::endl;
+				if (xen::Helper::file_exists(data_path + "/game.lua")) {
 					base_path = data_path;
 					found = true;
+					break;
 				}
 			}
 
@@ -106,7 +102,9 @@ namespace xen
 	}
 
 
-	XentuGame::~XentuGame() {
+
+	XentuGame::~XentuGame()
+	{
 		// clean up stuff that was created on constructor.
 		delete assets;
 		delete renderer;
@@ -212,19 +210,23 @@ namespace xen
 
 
 
-	int XentuGame::initialize(lua_State* L, std::string default_vert, std::string default_frag) {
+	int XentuGame::initialize(lua_State* L, std::string default_vert, std::string default_frag)
+	{
 		/* Make sure nobody calls initialize more than once */
 		if (this->initialized == true)
 			return -2;
 
-		/* Setup glfw */
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		/* Initialize the glfw library */
 		if (!glfwInit())
 			return -1;
+
+		/* Setup glfw (Tries to use OpenGL ES 3.2) */
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 		/* Create a windowed mode window and its OpenGL context */
 		//window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
@@ -247,6 +249,11 @@ namespace xen
 		GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 		center_window(window, monitor);
 
+		/* if the config says fullscreen, do that here. */
+		if (config->m_fullscreen) {
+			this->set_fullscreen(true);
+		}
+
 		/* Initialize GLEW so we have access to modern OpenGL methods. */
 		if (glewInit() != GLEW_OK)
 		    std::cout << "Error!" << std::endl;
@@ -254,11 +261,7 @@ namespace xen
 		/* Announce the GL version. */
 		std::cout << "Version: " << glGetString(GL_VERSION) << std::endl;
 
-		/**/
-		//glfwSetKeyCallback(window, xentuKeyCallback);
-
-		/* Load our shaders from files. */
-
+		/* Load our shaders. */
 		std::string vertexShader = default_vert;
 		if (xen::Helper::file_exists(assets->base_path + "/shaders/VertexShader.shader")) {
 			vertexShader = xen::Helper::read_text_file(assets->base_path + "/shaders/VertexShader.shader");
@@ -271,21 +274,6 @@ namespace xen
 
 		shader = create_shader(vertexShader, fragmentShader);
 		glUseProgram(shader);
-
-		/* camera stuff */
-		glViewport(0, 0, config->m_viewport_width, config->m_viewport_height);
-		glm::mat4 proj = glm::ortho(0.0f, (float)config->m_viewport_width, (float)config->m_viewport_height, 0.0f);
-		unsigned int transform_location = glGetUniformLocation(shader, "u_MVP");
-		glUniformMatrix4fv(transform_location, 1, false, &proj[0][0]);
-		
-		/* texture prep */
-		unsigned int texture_location = glGetUniformLocation(shader, "u_Texture");
-		glUniform1f(texture_location, 0);
-
-		// assets->load_texture("test", "C:/Users/conta/Pictures/511-256x256.jpg");
-		// this->use_texture("test");
-		//this->quad = Quad(0, 0, 100, 100);
-		//this->quad.initialize();
 
 		/* finished initializing */
 		this->keyboard->initialize(window);
@@ -307,12 +295,6 @@ namespace xen
 		/* Render here. */
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		//this->Renderer2D->clear();
-		//this->Renderer2D->draw(this->sprite);
-
-		/* Draw our vertex buffer. */
-		//this->quad.draw();
-
 		this->trigger(L, "draw");
 
 		/* Swap front and back buffers. */
@@ -331,6 +313,20 @@ namespace xen
 		{
 			lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
 			lua_call(L, 0, 0);
+		}
+	}
+
+
+	void XentuGame::set_fullscreen(bool fullscreen)
+	{
+		GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+		const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+		if (fullscreen) {
+			glfwSetWindowMonitor(window, monitor, 0, 0, config->m_screen_width, config->m_screen_height, mode->refreshRate);
+		}
+		else {
+			
+			glfwSetWindowMonitor(window, nullptr, 0, 0, config->m_screen_width, config->m_screen_height, mode->refreshRate);
 		}
 	}
 
@@ -391,7 +387,7 @@ namespace xen
 	}
 
 
-	int XentuGame::lua_do_script(lua_State* L)
+	int XentuGame::lua_require(lua_State* L)
 	{
 		std::string file = lua_tostring(L, -1);
 		std::string full_path = this->base_path + '/' + file;
@@ -405,14 +401,6 @@ namespace xen
 			std::string errormsg = lua_tostring(L, -1);
 			std::cout << errormsg << std::endl;
 		}
-		return 0;
-	}
-
-
-	int XentuGame::lua_log(lua_State* L)
-	{
-		std::string text = lua_tostring(L, -1);
-		std::cout << text << std::endl;
 		return 0;
 	}
 
@@ -546,11 +534,10 @@ namespace xen
 
 
 	const Luna<XentuGame>::FunctionType xen::XentuGame::methods[] = {
-		method(XentuGame, log, lua_log),
 		method(XentuGame, on, lua_on),
 		method(XentuGame, use_texture, lua_use_texture),
 		method(XentuGame, use_shader, lua_use_shader),
-		method(XentuGame, do_script, lua_do_script),
+		method(XentuGame, do_require, lua_require),
 		method(XentuGame, exit, lua_exit),
 		method(XentuGame, debug_stack, lua_debug_stack),
 		{0,0}

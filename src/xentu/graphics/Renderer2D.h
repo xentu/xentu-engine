@@ -7,12 +7,15 @@
 #include <iostream>
 #include <random>
 #include <vector>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <luna/luna.hpp>
 #include "../lua/LuaFont.h"
 #include "../lua/LuaSprite.h"
 #include "../lua/LuaColor.h"
 #include "Batch.h"
+#include "Texture.h"
 
 namespace xen
 {
@@ -29,7 +32,7 @@ namespace xen
 		/// <summary>
 		/// Call this before the Renderer2D is used, but after OpenGL context is created.
 		/// </summary>
-		void initialize();
+		void initialize(lua_State* L);
 
 		/// <summary>
 		/// Begins the sequence for rendering sprites.
@@ -127,9 +130,22 @@ namespace xen
 		float m_scale_y;
 		LuaColor m_clear_color;
 
-		/* the vertex/index buffer. */
+		/* the vertex/index/frame buffer. */
 		unsigned int vbo;
 		unsigned int ibo;
+		unsigned int fbo;
+		unsigned int fbo_texture = 10;
+		Texture* fbo_texture_inst;
+
+		unsigned int shader;
+		unsigned int shader_transform_loc;
+		unsigned int shader_tex_loc;
+
+		glm::mat4 view_proj;
+		glm::mat4 screen_proj;
+
+		unsigned int vp_width, vp_height;
+		unsigned int sc_width, sc_height;
 	};
 }
 

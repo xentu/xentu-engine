@@ -2,6 +2,8 @@
 #define XEN_SPRITE_BATCH_CPP
 
 #include <GLEW/GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "Renderer2D.h"
 #include "../XentuGame.h"
@@ -36,10 +38,31 @@ namespace xen
 	#define BUFFER_OFFSET(i) ((char*)NULL + (i))
 
 
-	void Renderer2D::initialize()
+	void Renderer2D::initialize(lua_State* L)
 	{
 		if (!this->m_initialized)
 		{
+			XentuGame* game = XentuGame::get_instance(L);
+			sc_width = game->config->m_screen_width;
+			sc_height = game->config->m_screen_height;
+			vp_width = game->config->m_viewport_width;
+			vp_height = game->config->m_viewport_height;
+
+			/* calculate the projection matrices */
+			glViewport(0, 0, vp_width, vp_height);
+			this->view_proj = glm::ortho(0.0f, (float)vp_width, (float)vp_height, 0.0f);
+			this->screen_proj = glm::ortho(0.0f, (float)sc_width, (float)sc_height, 0.0f);
+
+			/* get the uniform locations */
+			shader = game->shader;
+			shader_transform_loc = glGetUniformLocation(shader, "u_MVP");
+			shader_tex_loc = glGetUniformLocation(shader, "u_Texture");
+			
+			/* set the shader uniforms default */
+			glUniformMatrix4fv(shader_transform_loc, 1, false, &view_proj[0][0]);
+			glUniform1f(shader_tex_loc, 0);
+
+
 			// prepare vertex buffer.
 			glGenBuffers(1, &vbo);
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -48,12 +71,49 @@ namespace xen
 			glGenBuffers(1, &ibo);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
-			/* Specify the vertex layout (pos + uv). */
+			// Specify the vertex layout (pos + uv).
 			glEnableVertexAttribArray(0);
 			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(0));
 			glEnableVertexAttribArray(1);
 			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(8));
 			this->m_initialized = true;
+
+			// prepare frame buffer.
+			glGenFramebuffers(1, &fbo);
+			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+			// prepare frame buffer texture.
+			glGenTextures(1, &fbo_texture);
+			glBindTexture(GL_TEXTURE_2D, fbo_texture);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, vp_width, vp_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbo_texture, 0);
+			//GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+			//glDrawBuffers(1, DrawBuffers);
+
+			auto ret = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+			if(ret != GL_FRAMEBUFFER_COMPLETE) {
+				if (ret == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+					std::cout << "Something went wrong with the fbo. GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT" << std::endl;
+				}
+				else if (ret == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+					std::cout << "Something went wrong with the fbo. GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT" << std::endl;
+				}
+				else {
+					std::cout << "Something went wrong with the fbo. #" << ret << ", texture #" << fbo_texture << std::endl;
+				}
+			}
+
+			// The depth buffer
+			/* unsigned int depthrenderbuffer;
+			glGenRenderbuffers(1, &depthrenderbuffer);
+			glBindRenderbuffer(GL_RENDERBUFFER, depthrenderbuffer);
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 800, 600);
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthrenderbuffer); */
+
+			fbo_texture_inst = new Texture(fbo_texture, vp_width, vp_height, 4);
 		}
 	}
 
@@ -61,7 +121,7 @@ namespace xen
 	int Renderer2D::lua_begin(lua_State* L)
 	{
 		if (!this->m_initialized) {
-			this->initialize();
+			this->initialize(L);
 		}
 
 		m_origin_x = 0;
@@ -70,6 +130,7 @@ namespace xen
 		m_scale_y = 1;
 		m_rotation = 0;
 		this->clear();
+
 		return 1;
 	}
 
@@ -79,14 +140,19 @@ namespace xen
 		const int vertex_size = 4 * sizeof(Vertex);
 		const int element_size = 6 * sizeof(unsigned int);
 
+		// assign the framebuffer.
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+		glViewport(0, 0, vp_width, vp_height);
+		glUniformMatrix4fv(shader_transform_loc, 1, false, &view_proj[0][0]);
+
 		//glClearColor(0, 0, 0, 0);
 		float r = this->m_clear_color.red;
 		float g = this->m_clear_color.green;
 		float b = this->m_clear_color.blue;
 		glClearColor(r, g, b, 1);
+		glClear(GL_COLOR_BUFFER_BIT);
 
 		glDisable(GL_CULL_FACE);
-		//glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		for (const Batch* batch : m_batches)
@@ -101,9 +167,45 @@ namespace xen
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, batch->m_count * element_size, batch->m_indices.data(), GL_DYNAMIC_DRAW);
 
-			// draw stuff.
 			glDrawElements(GL_TRIANGLES, batch->m_count * 6, GL_UNSIGNED_INT, nullptr);
-			//glDrawArrays(GL_TRIANGLES, 0, batch->m_count * 6);
+		}
+
+		// unbind the frame buffer.
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glUniformMatrix4fv(shader_transform_loc, 1, false, &screen_proj[0][0]);
+		glViewport(0, 0, sc_width, sc_height);
+
+		// clear the previous render info.
+		this->clear();
+
+		m_sprite.ResetTransform();
+		m_sprite.ResetTexCoords();
+		m_sprite.set_position(240, 60);
+		m_sprite.set_scale(1, 1);
+		m_sprite.m_width = fbo_texture_inst->width;
+		m_sprite.m_height = fbo_texture_inst->height;
+		m_sprite.m_texture = fbo_texture_inst;
+		find_batch(m_sprite)->draw(m_sprite);
+
+		glClearColor(0, 0, 0, 1);
+		glClear(GL_COLOR_BUFFER_BIT);
+		glDisable(GL_CULL_FACE);
+
+		for (const Batch* batch : m_batches)
+		{
+			if (batch->m_count > 0) {
+				const Texture* texture = batch->m_texture;
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, texture->gl_texture_id);
+
+				glBindBuffer(GL_ARRAY_BUFFER, vbo);
+				glBufferData(GL_ARRAY_BUFFER, batch->m_count * vertex_size, batch->m_vertices.data(), GL_DYNAMIC_DRAW);
+
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, batch->m_count * element_size, batch->m_indices.data(), GL_DYNAMIC_DRAW);
+
+				glDrawElements(GL_TRIANGLES, batch->m_count * 6, GL_UNSIGNED_INT, nullptr);
+			}
 		}
 
 		return 1;
