@@ -15,7 +15,6 @@
 
 
 namespace xen {
-
 	class XentuGame
 	{
 	public:
@@ -26,15 +25,9 @@ namespace xen {
 		XentuGame(lua_State* L);
 		~XentuGame(void);
 
-		/// Called after the constructor, but before initialize() by c++
-		bool pre_init();
 
-		/// <summary>
-		/// Gets the single instance available of this class during the application lifetime.
-		/// </summary>
-		/// <param name="L">Pointer to the running lua_State.</param>
-		/// <returns>A pointer to the single instance.</returns>
-		static XentuGame* get_instance(lua_State* L);
+#pragma region Initialization
+
 
 		/// <summary>
 		/// Initializes the game window and OpenGL.
@@ -44,51 +37,31 @@ namespace xen {
 		int initialize(lua_State* L, std::string default_vert, std::string default_frag);
 
 		/// <summary>
-		/// Part of the main game loop, updates any game logic.
+		/// Gets the single instance available of this class during the application lifetime.
 		/// </summary>
 		/// <param name="L">Pointer to the running lua_State.</param>
-		void update(lua_State* L);
+		/// <returns>A pointer to the single instance.</returns>
+		static XentuGame* get_instance(lua_State* L);
+
+		/// Called after the constructor, but before initialize() by c++
+		bool pre_init();
+
+
+#pragma endregion
+
+
+#pragma region Public Methods
+
 
 		/// <summary>
 		/// Part of the main game loop, draws everything!
 		/// </summary>
 		void draw(lua_State* L);
-
+		
 		/// <summary>
-		/// Trigger a named event.
+		/// Get the located base path for this game.
 		/// </summary>
-		/// <param name="L">Pointer to the running lua_State.</param>
-		/// <param name="callbackName">The name of the event to trigger.</param>
-		void trigger(lua_State* L, std::string callbackName);
-
-		/// <summary>
-		/// Set weather or not to use fullscreen.
-		/// </summary>
-		void set_fullscreen(bool fullscreen);
-
-		/// <summary>
-		/// Allows scripts in lua to subscribe to events that can be fired using the Trigger() method.
-		/// </summary>
-		/// <param name="L">Pointer to the running lua_State.</param>
-		/// <returns>Exit code, 0 unless something went wrong.</returns>
-		int lua_on(lua_State* L);
-
-		/// <summary>
-		/// Assign a primary texture for use by the loaded shader.
-		/// </summary>
-		/// <param name="texture">The texture to assign.</param>
-		void use_texture(int texture_id);
-		int lua_use_texture(lua_State* L);
-
-		/// <summary>
-		/// Assign a shader to be used. If nil is passed, the default shader is used instead.
-		/// </summary>
-		int lua_use_shader(lua_State* L);
-
-		/// <summary>
-		/// The engines version of require() which is sensitive to the data folder.
-		/// </summary>
-		int lua_require(lua_State* L);
+		std::string get_base_path();
 
 		/// <summary>
 		/// Used by the main game loop to see if the game should still be running.
@@ -96,9 +69,34 @@ namespace xen {
 		bool is_running();
 
 		/// <summary>
-		/// Helper function to allow lua to retrieve the audio property.
+		/// Called when this instance should poll the game window for input.
 		/// </summary>
-		int get_audio(lua_State* L);
+		void poll_input();
+
+		/// <summary>
+		/// Set weather or not to use fullscreen.
+		/// </summary>
+		void set_fullscreen(bool fullscreen);
+
+		/// <summary>
+		/// Trigger a named event.
+		/// </summary>
+		/// <param name="L">Pointer to the running lua_State.</param>
+		/// <param name="callbackName">The name of the event to trigger.</param>
+		void trigger(lua_State* L, std::string callbackName);
+		
+		/// <summary>
+		/// Part of the main game loop, updates any game logic.
+		/// </summary>
+		/// <param name="L">Pointer to the running lua_State.</param>
+		void update(lua_State* L);
+
+
+#pragma endregion
+
+
+#pragma region Lua Accessible Methods
+
 
 		/// <summary>
 		/// Helper function to allow lua to retrieve the assets property.
@@ -106,9 +104,9 @@ namespace xen {
 		int get_assets(lua_State* L);
 
 		/// <summary>
-		/// Helper function to allow lua to retrieve the renderer 2D property.
+		/// Helper function to allow lua to retrieve the audio property.
 		/// </summary>
-		int get_renderer(lua_State* L);
+		int get_audio(lua_State* L);
 
 		/// <summary>
 		/// Helper function to allow lua to retrieve the keyboard property.
@@ -121,26 +119,44 @@ namespace xen {
 		int get_mouse(lua_State* L);
 
 		/// <summary>
+		/// Helper function to allow lua to retrieve the renderer 2D property.
+		/// </summary>
+		int get_renderer(lua_State* L);
+
+		/// <summary>
 		/// Helper function to allow lua to retrieve the viewport property.
 		/// </summary>
 		int get_viewport(lua_State* L);
 
 		/// <summary>
-		/// Called when this instance should poll the game window for input.
+		/// Call this to show a debug report of what is in the lua stack.
 		/// </summary>
-		void poll_input();
+		int lua_debug_stack(lua_State* L);
 
 		/// <summary>
 		/// Called when Lua wishes to close.
 		/// </summary>
 		int lua_exit(lua_State* L);
 
-		/// Call this to show a debug report of what is in the lua stack.
-		int lua_debug_stack(lua_State* L);
+		/// <summary>
+		/// Allows scripts in lua to subscribe to events that can be fired using the Trigger() method.
+		/// </summary>
+		/// <param name="L">Pointer to the running lua_State.</param>
+		/// <returns>Exit code, 0 unless something went wrong.</returns>
+		int lua_on(lua_State* L);
 
+		/// <summary>
+		/// The engines version of require() which is sensitive to the data folder.
+		/// </summary>
+		int lua_require(lua_State* L);		
 
-		/// Get the located base path for this game.
-		std::string get_base_path();
+		/// <summary>
+		/// Allows scripts in Lua to trigger events.
+		/// </summary>
+		int lua_trigger(lua_State* L);
+		
+
+#pragma endregion
 
 
 		//Class Constants
@@ -158,7 +174,6 @@ namespace xen {
 
 		/* Id for our loaded shader. */
 		unsigned int shader;
-
 
 	private:
 		/* Here will be the instance stored. */

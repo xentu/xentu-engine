@@ -10,7 +10,7 @@
 game.on("init", function()
 	-- shader loading example
 	-- shader1 = assets.load_shader("/custom-shader/vertex.shader", "/custom-shader/fragment.shader")
-	-- game.use_shader(shader1)
+	-- renderer.use_shader(shader1)
 
 	-- create a sprite.
 	texture1 = assets.load_texture("images/texture1.png", TX_RGBA, TX_REPEAT)
@@ -35,7 +35,7 @@ game.on("init", function()
 	audio.set_volume(stage5_loop, 0)
 
 	-- color class tests.
-	local c = Color.fromHex('800080')
+	local c = Color.fromHex('#800080')
 	print("Hex Form: #" .. c.toHex())
 	renderer.set_clear_color(c)
 	
@@ -43,7 +43,7 @@ game.on("init", function()
     print("Hello from Lua world!")
 
 	-- blend stuffs
-	renderer.enbable_blend(true)
+	renderer.set_blend(true)
 end)
 
 

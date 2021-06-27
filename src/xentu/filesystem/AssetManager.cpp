@@ -292,10 +292,10 @@ namespace xen
 
 
 	const Luna<AssetManager>::FunctionType AssetManager::methods[] = {
-		method(AssetManager, load_texture, lua_load_texture),
-		method(AssetManager, load_spritemap, lua_load_spritemap),
 		method(AssetManager, load_audio, lua_load_audio),
 		method(AssetManager, load_shader, lua_load_shader),
+		method(AssetManager, load_spritemap, lua_load_spritemap),
+		method(AssetManager, load_texture, lua_load_texture),
 		{0,0}
 	};
 }

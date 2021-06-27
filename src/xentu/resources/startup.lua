@@ -97,5 +97,5 @@ end
 
 -- Wrap things up.
 game = XentuGame()
-require = game.do_require
+require = game.require
 XentuGame = nil

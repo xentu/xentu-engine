@@ -17,7 +17,6 @@ namespace xen
 		{
 			if (m_count > 0)
 			{
-				//m_batches[i].m_count = m_batches[i].m_reserved;
 				m_count = 0;
 				m_inactive = 0;
 			}
@@ -50,19 +49,15 @@ namespace xen
 			// assign the vertices.
 			m_vertices[vertex_count].position = transform.transform_point(0.0f, 0.0f);
 			m_vertices[vertex_count].texCoords = tex_bl;
-			//m_vertices[vertex_count].texCoords = Vector2f(0.0f, 1.0f);
 
 			m_vertices[vertex_count + 1].position = transform.transform_point(size.x, 0.0f);
 			m_vertices[vertex_count + 1].texCoords = tex_br;
-			//m_vertices[vertex_count + 1].texCoords = Vector2f(1.0f, 1.0f);
 
 			m_vertices[vertex_count + 2].position = transform.transform_point(size);
 			m_vertices[vertex_count + 2].texCoords = tex_tr;
-			//m_vertices[vertex_count + 2].texCoords = Vector2f(1.0f, 0.0f);
 
 			m_vertices[vertex_count + 3].position = transform.transform_point(0.0f, size.y);
 			m_vertices[vertex_count + 3].texCoords = tex_tl;
-			//m_vertices[vertex_count + 3].texCoords = Vector2f(0.0f, 0.0f);
 
 			// assign the indices.
 			m_indices[index_count] = vertex_count;

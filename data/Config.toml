@@ -4,7 +4,7 @@ screen_width = 1280
 screen_height = 720
 update_frequency = 30
 vsync = true
-fullscreen = true
+fullscreen = false
 
 [viewport]
 width = 800
