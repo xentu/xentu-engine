@@ -44,7 +44,7 @@ as-is without changes, remember to do the following:
 
 ## Documentation
 
-- Documentation is compiled using Sphinx, and is currently hosted at the following URL: https://xentu.net/docs
+- Documentation is compiled using Sphinx, and is currently hosted at the following URL: https://docs.xentu.net
 
 ## Contribution And Community
 
