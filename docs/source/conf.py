@@ -13,7 +13,6 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
-import stanford_theme
 import furo
 
 # -- Project information -----------------------------------------------------
@@ -28,6 +27,7 @@ author = 'Kodaloid'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+	'sphinx.ext.todo'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -45,7 +45,7 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 html_theme = 'furo' #stanford_theme
-html_theme_path = [stanford_theme.get_html_theme_path()]
+html_theme_path = []
 html_css_files = ['extra.css']
 
 # Add any paths that contain custom static files (such as style sheets) here,

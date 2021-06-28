@@ -1,5 +1,0 @@
-==============
-Code Reference
-==============
-
-Coming Soon.

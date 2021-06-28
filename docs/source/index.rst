@@ -7,11 +7,9 @@ Welcome to Xentu Game Engine's documentation!
 =============================================
 
 .. toctree::
-	:maxdepth: 2
-	:caption: Contents:
+	:titlesonly:
 
+	getting-started
 	installation
-	how-it-works
-	code-reference
 	jargon
-	🚀 Github <https://github.com/xentu/xentu-engine>
+	lua-code-reference
