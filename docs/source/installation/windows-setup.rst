@@ -1,13 +1,11 @@
-=================
-Windows SDK Setup
-=================
+=============
+Windows Setup
+=============
 
 
-.. warning::
-	Xentu SDK will run on versions of Windows as old as Windows 7 given the correct
-	setup. However as it is end of life, and Windows 8 also nearing it's end of life
-	for security updates, we encourage you to use an as modern version of Windows as
-	possible.
+.. note::
+	Xentu SDK will run on versions of Windows as old as Windows XP given the correct
+	setup. Honestly though if you do this, you are mad :)
 
 
 
@@ -17,7 +15,7 @@ Windows Installer
 -----------------
 
 If you wish to install the SDK the most traditional way, you can download the
-installer using the following link: `XentuSDK_Setup_x86.exe <//xentu.net/downloads/latest/x86/XentuSDK_Setup_x86.exe>`_
+installer using the following link: `XentuSDK_Setup_x86.exe <//downloads.xentu.net/latest/x86/XentuSDK_Setup_x86.exe>`_
 
 .. _windows-setup-choco:
 
@@ -42,7 +40,7 @@ Open a command line console or terminal, and enter the following command:
 
 .. code-block:: shell
 
-    xentu-sdk --version
+    xentusdk version
 
 If all goes well you should get a message telling you which version you have
 installed. However if it throws an error, it maybe that the sdk is not yet

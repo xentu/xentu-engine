@@ -3,13 +3,20 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Xentu Game Engine's documentation!
-=============================================
+Welcome to the documentation!
+=============================
+
+This is the documentation for the Xentu Game Engine. If you are looking for the
+main website, please visit `<https://xentu.net/>`_.
+
+Table of contents
+-----------------
 
 .. toctree::
 	:titlesonly:
+	:maxdepth: 2
 
-	getting-started
 	installation
-	jargon
+	using-the-sdk
 	lua-code-reference
+	🚀 Github <https://github.com/xentu/xentu-engine>

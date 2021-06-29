@@ -27,6 +27,9 @@ author = 'Kodaloid'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.autosectionlabel',
+	'sphinx_copybutton',
+	'sphinxext.opengraph',
 	'sphinx.ext.todo'
 ]
 
@@ -46,6 +49,7 @@ exclude_patterns = []
 #
 html_theme = 'furo' #stanford_theme
 html_theme_path = []
+html_logo = "site-logo-dark.png"
 html_css_files = ['extra.css']
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -55,5 +59,19 @@ html_static_path = ['_static']
 
 
 html_theme_options = {
-    "announcement": "<em>Important</em> announcement!",
+	"announcement": "<em>Important:</em> These docs are a work in progress, please check back when the main website goes live!",
+    "light_logo": "site-logo-dark.png",
+    "light_css_variables": {
+        "color-brand-primary": "#cc1247",
+        "color-brand-content": "#cc1247",
+    },
+    "dark_logo": "site-logo-light.png",
+	"dark_css_variables": {
+        "color-brand-primary": "#f8b020",
+        "color-brand-content": "#f8b020",
+    },
 }
+
+
+# ogp_site_url="https://docs.xentu.net"
+# ogp_description_length=200

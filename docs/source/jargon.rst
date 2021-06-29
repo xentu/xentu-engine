@@ -17,4 +17,3 @@ engine needs in order to work. Most commonly this includes:
 1. **XentuEngine.exe** - The main executable file for the game engine.
 2. **glew32.dll** - A library used for creating your game window.
 3. **glfw32.dll** - A library used for using modern OpenGL features.
-

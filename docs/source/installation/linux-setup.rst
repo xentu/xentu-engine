@@ -1,6 +1,6 @@
-===================
-Linux/BSD SDK Setup
-===================
+===============
+Linux/BSD Setup
+===============
 
 .. _linux-bsd-setup-apt:
 
@@ -36,7 +36,7 @@ Open a command line console or terminal, and enter the following command:
 
 .. code-block:: shell
 
-    xentu-sdk --version
+    xentusdk version
 
 If all goes well you should get a message telling you which version you have
 installed.

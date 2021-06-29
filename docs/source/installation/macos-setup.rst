@@ -1,11 +1,14 @@
-===============
-MacOS SDK Setup
-===============
+===========
+MacOS Setup
+===========
 
-Support for MacOS is experimental at the moment. However we do have builds for
-the Brew package manager available for you to try. We reccommend using MacOS
-Mojave or later for the best compatibility. Xentu SDK does work with Apple
-Silicon mac's too.
+.. warning::
+	Support for MacOS is experimental at the moment. Builds have been working,
+	however your mialage may vary as we finalize testing.
+
+To run the SDK on MacOS you will need the Brew package manager. We reccommend
+using MacOS Mojave or later for the best compatibility. The SDK also works with
+Apple Silicon mac's too.
 
 .. _macos-setup-brew:
 
@@ -29,7 +32,7 @@ Open a command line console or terminal, and enter the following command:
 
 .. code-block:: shell
 
-    xentu-sdk --version
+    xentusdk version
 
 If all goes well you should get a message telling you which version you have
 installed.

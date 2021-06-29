@@ -2,5 +2,5 @@
 The keyboard keyword.
 =====================
  
-keyboard.key_down(key_code)
----------------------------
+key_down(key_code)
+------------------

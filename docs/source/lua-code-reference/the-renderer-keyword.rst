@@ -4,49 +4,38 @@ The renderer keyword.
 
 
 
-renderer.begin()
-----------------
+begin()
+-------
 
+debug_sprite(sprite)
+--------------------
 
-renderer.debug_sprite(sprite)
------------------------------
+draw_sprite(sprite)
+-------------------
 
+draw_text(font, text, x, y, max_width)
+--------------------------------------
 
-renderer.draw_sprite(sprite)
-----------------------------
+present()
+---------
 
-
-renderer.draw_text(font, text, x, y, max_width)
------------------------------------------------
-
-
-renderer.present()
+set_blend(enabled)
 ------------------
 
-
-renderer.set_blend(enabled)
----------------------------
-
-
-renderer.set_blend_func(func_name)
-----------------------------------
-
-
-renderer.set_clear_color(color)
--------------------------------
-
-
-renderer.set_origin(x, y)
+set_blend_func(func_name)
 -------------------------
 
+set_clear_color(color)
+----------------------
 
-renderer.set_rotation(angle)
-----------------------------
+set_origin(x, y)
+----------------
 
+set_rotation(angle)
+-------------------
 
-renderer.set_scale(x, y)
-------------------------
+set_scale(x, y)
+---------------
 
-
-renderer.set_shader(shader)
----------------------------
+set_shader(shader)
+------------------

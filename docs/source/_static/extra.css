@@ -1,5 +1,7 @@
 body { font-family: BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif; }
-a {color: #3399f7; } 
+.sidebar-brand-text { font-size: 1.2rem; }
+
+/* a {color: #3399f7; }
 .wy-nav-content a:visited { color: #3399f7; }
 .wy-nav-content a:hover { color: #003c73; }
 
@@ -11,4 +13,4 @@ a {color: #3399f7; }
 .wy-menu-vertical a:active { background-color: #131510; }
 .wy-side-nav-search input[type=text] { border-radius: 10px; border-color: #42710a; border-width: 4px; }
 .wy-menu-vertical a { font-size: unset; }
-.toctree-l3 a { font-size:90%; }
+.toctree-l3 a { font-size:90%; } */ 
