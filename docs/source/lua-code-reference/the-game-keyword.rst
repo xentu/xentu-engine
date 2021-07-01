@@ -6,22 +6,23 @@ The game keywords is in charge of managing game events, controlling the
 window that hosts the game, and other generic tasks like exiting or restarting
 etc...
 
+|
 
-debug_stack()
--------------
+game.debug_stack()
+------------------
 This method is used to get a glimpse of what is stored in the lua stack. For The
 most part this method is really only useful for debugging niche situations.
 
 |
 
-exit()
-------
+game.exit()
+-----------
 Call this method to immediately exit the game.
 
 |
 
-fullscreen(bool)
-----------------
+game.fullscreen(bool)
+---------------------
 Use this method to change the screen to either full screen or windowed mode.
 
 .. note::
@@ -31,8 +32,8 @@ Use this method to change the screen to either full screen or windowed mode.
 
 |
 
-on(event)
----------
+game.on(event)
+--------------
 The on method allows you to subscribe to a named built-in or custom event. The
 built in events are really useful as these allow you to hook in and control
 game logic, drawing etc...
@@ -82,8 +83,8 @@ for rendering graphics and text onto the screen.
 
 |
 
-trigger(event, arg)
--------------------
+game.trigger(event, arg)
+------------------------
 
 Trigger allows you to trigger custom events throughout your code. These events
 can be handled by the on method shown above. To trigger an event, simply write

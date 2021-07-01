@@ -41,3 +41,8 @@ The following sections are in order of importance:
     lua-code-reference/the-keyboard-keyword
     lua-code-reference/the-mouse-keyword
     lua-code-reference/the-viewport-keyword
+
+    lua-code-reference/the-color-class
+    lua-code-reference/the-font-class
+    lua-code-reference/the-shader-class
+    lua-code-reference/the-sprite-class

@@ -2,14 +2,14 @@
 The audio keyword.
 ==================
 
-is_playing(sound)
+audio.is_playing(sound)
+-----------------------
+
+audio.play(sound)
 -----------------
 
-play(sound)
------------
+audio.set_volume(sound)
+-----------------------
 
-set_volume(sound)
+audio.stop(sound)
 -----------------
-
-stop(sound)
------------

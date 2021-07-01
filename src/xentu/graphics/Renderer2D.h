@@ -78,7 +78,12 @@ namespace xen
 		int lua_draw_sprite(lua_State* L);
 
 		/// <summary>
-		/// Draw sone text from Lua
+		/// Draw a rectangle from Lua.
+		/// </summary>
+		int lua_draw_rect(lua_State* L);
+
+		/// <summary>
+		/// Draw sone text from Lua.
 		/// </summary>
 		int lua_draw_text(lua_State* L);
 
@@ -159,6 +164,9 @@ namespace xen
 		unsigned int fbo;
 		unsigned int fbo_texture;
 		Texture* fbo_texture_inst;
+
+		/* a white texture */
+		Texture* white_texture;
 
 		/* shader information. */
 		unsigned int shader;

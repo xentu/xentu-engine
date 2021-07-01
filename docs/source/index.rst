@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to the documentation!
-=============================
+Welcome!
+========
 
 This is the documentation for the Xentu Game Engine. If you are looking for the
 main website, please visit `<https://xentu.net/>`_.

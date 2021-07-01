@@ -8,41 +8,25 @@
 
 -- called when the game first loads.
 game.on("init", function()
-	-- shader loading example
-	-- shader1 = assets.load_shader("/custom-shader/vertex.shader", "/custom-shader/fragment.shader")
-	-- renderer.use_shader(shader1)
+	-- define some colours.
+	c_red = Color.fromHex('#880000')
+	c_blue = Color.fromHex('#000088')
 
-	-- create a sprite.
-	texture1 = assets.load_texture("images/texture1.png", TX_RGBA, TX_REPEAT)
-	spritemap1 = assets.load_spritemap("images/texture1.json")
-	sprite = Sprite(texture1, 100, 10, 150, 150)
-	sprite.spritemap = spritemap1
-	sprite.x_speed = 1
+	-- create a ball entity.
+	ball = Entity.fromRect(10, 10, 30, 30)
+	ball.color = c_red
+	ball.x_vel = 2
+	ball.y_vel = 2
 
-	-- create a font.
-	texture2 = assets.load_texture("fonts/arial_20.png", TX_RGBA, TX_CLAMP_TO_BORDER)
-	spritemap2 = assets.load_spritemap("fonts/arial_20.json")
-	font = Font(texture2, spritemap2)
-	font.letter_spacing = 1
-	font.line_height = 24
-
-	-- load some audio.
-    piano_c = assets.load_audio("audio/Piano_Hit2.mp3")
-    piano_a = assets.load_audio("audio/Piano_Hit.mp3")
-	stage5_loop = assets.load_audio("audio/8bit_Stage5_Loop.mp3");
-
-	audio.play(stage5_loop)
-	audio.set_volume(stage5_loop, 0)
+	-- create a paddle entity.
+	--paddle = Entity.fromRect(100, 100, 10, 10)
+	--paddle.color = c_blue
 
 	-- color class tests.
-	local c = Color.fromHex('#800080')
-	print("Hex Form: #" .. c.toHex())
+	local c = Color.fromHex('#CCCCCC')
 	renderer.set_clear_color(c)
 	
-    -- say hello.
     print("Hello from Lua world!")
-
-	-- blend stuffs
 	renderer.set_blend(true)
 end)
 
@@ -50,15 +34,16 @@ end)
 
 -- the update event.
 game.on("update", function()
-	if sprite.x_speed > 0 and sprite.x + 1 > viewport.width - sprite.width then sprite.x_speed = -1 end
-	if sprite.x_speed < 0 and sprite.x - 1 < 0 then sprite.x_speed = 1 end
-	sprite.x = sprite.x + (sprite.x_speed * 2)
-	
-	-- test to show setting realtime volume
-	if sprite.x % 50 == 0 then audio.set_volume(stage5_loop, sprite.x / viewport.width) end
+	-- x velocity
+	ball.x = ball.x + ball.x_vel
+	if ball.x + ball.width >= viewport.width then ball.x_vel = -2 end
+	if ball.x <= 0 then ball.x_vel = 2 end
+	-- y velocity
+	ball.y = ball.y + ball.y_vel
+	if ball.y + ball.height >= viewport.height then ball.y_vel = -2 end
+	if ball.y <= 0 then ball.y_vel = 2 end
 
-	-- exit the game if the escape key is pressed
-    if keyboard.key_down(KB_ESCAPE) or mouse.button_down(MB_LEFT) then game.exit() end
+	-- print('Set pos y=' .. ball.x .. ',y=' .. ball.y)
 end)
 
 
@@ -66,16 +51,6 @@ end)
 -- the drawing event.
 game.on("draw", function()
     renderer.begin()
-    -- renderer.set_blend_preset(BLEND_SOURCE_IN) // use a preset for blending
-    -- renderer.set_blend_func(SRC_ALPHA, ONE_MINUS_SRC_ALPHA) // alternatively set blending like you do in OpenGL
-	-- renderer.set_origin(50, 50)
-    -- renderer.set_rotation(sprite.rotation)
-    -- renderer.set_scale(sprite.scale.x, sprite.scale.y)
-    renderer.draw_sprite(sprite)
-
-    renderer.draw_text(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet tortor eget pulvinar eleifend. Maecenas dapibus mauris " ..
-	                         "sed felis laoreet pellentesque. Nam eget diam a lacus semper placerat luctus mattis arcu. Cras ac iaculis quam. Maecenas arcu " ..
-							 "ligula, congue eget ligula nec, pellentesque bibendum lacus. Cras iaculis lectus ipsum, euismod posuere sem rutrum sed.",
-     						 100, 200, viewport.width - 200)
+	renderer.draw_rect(ball.color, ball.x, ball.y, ball.width, ball.height)
     renderer.present()
 end)

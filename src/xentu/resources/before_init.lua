@@ -13,8 +13,9 @@ mouse 						= game.mouse
 
 
 -- texture loading colour modes
-TX_RGBA						= 0
-TX_RED						= 1
+TX_RED						= 0
+TX_RGB                      = 1
+TX_RGBA						= 2
 
 
 --- texture loading wrap modes

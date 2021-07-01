@@ -95,6 +95,26 @@ Color.fromHex = function(hexColor)
 end
 
 
+-- A generic class for describing a theoretical entity in the game.
+Entity = class(function(inst)
+	inst.x = 0
+	inst.y = 0
+	inst.width = 0
+	inst.height = 0
+	inst.color = Color.fromHex('#000000')
+end)
+
+
+Entity.fromRect = function(x, y, width, height)
+	ent = Entity()
+	ent.x = x
+	ent.y = y
+	ent.width = width
+	ent.height = height
+	return ent
+end
+
+
 -- Wrap things up.
 game = XentuGame()
 require = game.require

@@ -37,6 +37,8 @@ namespace xen
 
 			Vector2f position(0, 0);
 			Vector2f size(sprite.m_width, sprite.m_height);
+			auto c = sprite.m_color;
+			Vector4f color(c.r, c.g, c.b, c.a);
 
 			Transform transform = sprite.get_transform();
 
@@ -49,15 +51,19 @@ namespace xen
 			// assign the vertices.
 			m_vertices[vertex_count].position = transform.transform_point(0.0f, 0.0f);
 			m_vertices[vertex_count].texCoords = tex_bl;
+			m_vertices[vertex_count].color = color;
 
 			m_vertices[vertex_count + 1].position = transform.transform_point(size.x, 0.0f);
 			m_vertices[vertex_count + 1].texCoords = tex_br;
+			m_vertices[vertex_count + 1].color = color;
 
 			m_vertices[vertex_count + 2].position = transform.transform_point(size);
 			m_vertices[vertex_count + 2].texCoords = tex_tr;
+			m_vertices[vertex_count + 2].color = color;
 
 			m_vertices[vertex_count + 3].position = transform.transform_point(0.0f, size.y);
 			m_vertices[vertex_count + 3].texCoords = tex_tl;
+			m_vertices[vertex_count + 3].color = color;
 
 			// assign the indices.
 			m_indices[index_count] = vertex_count;

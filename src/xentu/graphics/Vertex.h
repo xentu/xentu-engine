@@ -3,6 +3,7 @@
 
 #include "Color.h"
 #include "Vector2.h"
+#include "Vector4.h"
 
 namespace xen
 {
@@ -15,6 +16,7 @@ namespace xen
 
 		Vector2f position;
 		Vector2f texCoords;
+		Vector4f color;
 	};
 }
 

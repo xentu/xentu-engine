@@ -1,6 +1,17 @@
 body { font-family: BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif; }
 .sidebar-brand-text { font-size: 1.2rem; }
 
+@media (min-width: 97em) {
+    html {
+        font-size: 100%;
+    }
+}
+
+@media (max-width:768px) {
+    .announcement { height:auto; }
+    .announcement-content { white-space: normal; }   
+}
+
 /* a {color: #3399f7; }
 .wy-nav-content a:visited { color: #3399f7; }
 .wy-nav-content a:hover { color: #003c73; }

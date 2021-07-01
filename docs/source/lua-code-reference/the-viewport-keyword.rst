@@ -4,8 +4,8 @@ The viewport keyword.
 
 
 
-width
------
+viewport.width
+--------------
 
-height
-------
+viewport.height
+---------------

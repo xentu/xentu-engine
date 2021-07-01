@@ -71,6 +71,7 @@ set(XEN_ENGINE_FILES
 	src/xentu/graphics/Transformable.cpp
 	src/xentu/graphics/Transformable.h
 	src/xentu/graphics/Vector2.h
+	src/xentu/graphics/Vector4.h
 	src/xentu/graphics/Vertex.cpp
 	src/xentu/graphics/Vertex.h
 	src/xentu/graphics/Viewport.h

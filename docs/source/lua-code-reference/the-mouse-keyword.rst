@@ -4,11 +4,11 @@ The mouse keyword.
 
 
 
-mouse_x
--------
+mouse.mouse_x
+-------------
 
-mouse_y
--------
+mouse.mouse_y
+-------------
 
 button_down(button_code)
 ------------------------

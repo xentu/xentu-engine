@@ -34,6 +34,7 @@ namespace xen
 	
 	Renderer2D::~Renderer2D()
 	{
+		// todo, delete resources created by this class like buffers & textures.
 		std::cout << "Deleted instance of Renderer2D." << std::endl;
 	}
 
@@ -65,7 +66,6 @@ namespace xen
 			glUniformMatrix4fv(shader_transform_loc, 1, false, &view_proj[0][0]);
 			glUniform1f(shader_tex_loc, 0);
 
-
 			// prepare vertex buffer.
 			glGenBuffers(1, &vbo);
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -79,7 +79,20 @@ namespace xen
 			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(0));
 			glEnableVertexAttribArray(1);
 			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(8));
+			glEnableVertexAttribArray(2);
+			glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(16));
 			this->m_initialized = true;
+
+			// generate a white (10x10) texture.
+			unsigned char* wt_data = new unsigned char[400];
+			for(int i = 0; i < 400; i++) wt_data[i] = 255;
+			unsigned int wt_ref;
+			glGenTextures(1, &wt_ref);
+        	glBindTexture(GL_TEXTURE_2D, wt_ref);
+        	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 10, 10, 0, GL_RGBA, GL_UNSIGNED_BYTE, wt_data);
+			white_texture = new Texture(wt_ref, 10, 10, 4);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 			// prepare frame buffer.
 			glGenFramebuffers(1, &fbo);
@@ -296,6 +309,7 @@ namespace xen
 		m_sprite.set_rotation(m_rotation);
 		m_sprite.set_scale(m_scale_x, m_scale_y);
 
+		m_sprite.m_color = Color(1, 1, 1, 1); // TODO: fix this.
 		m_sprite.m_width = s.width;
 		m_sprite.m_height = s.height;
 		m_sprite.m_texture = game->assets->get_texture(s.texture);
@@ -309,6 +323,28 @@ namespace xen
 		if (m_sprite.m_texture == NULL)
 			return 0;
 
+		find_batch(m_sprite)->draw(m_sprite);
+
+		return 1;
+	}
+
+	int Renderer2D::lua_draw_rect(lua_State* L)
+	{
+		int color = lua_tonumber(L, -5);
+		int x = lua_tonumber(L, -4);
+		int y = lua_tonumber(L, -3);
+		int width = lua_tonumber(L, -2);
+		int height = lua_tonumber(L, -1);
+
+		m_sprite.ResetTransform();
+		m_sprite.set_position(x, y);
+		m_sprite.set_scale(1, 1);
+		m_sprite.set_rotation(0);
+		m_sprite.m_color = Color(255, 0, 0, 255);
+		m_sprite.m_width = width;
+		m_sprite.m_height = height;
+		m_sprite.m_texture = white_texture;
+		m_sprite.m_rect = Rect(0, 0, 10, 10);
 		find_batch(m_sprite)->draw(m_sprite);
 
 		return 1;
@@ -420,6 +456,7 @@ namespace xen
 		m_sprite.m_width = fbo_texture_inst->width;
 		m_sprite.m_height = fbo_texture_inst->height;
 		m_sprite.m_texture = fbo_texture_inst;
+		m_sprite.m_color = Color(1, 1, 1, 1);
 
 		// clear the screen once more (this time with black).
 		glClearColor(0, 0, 0, 1);
@@ -523,6 +560,7 @@ namespace xen
 		method(Renderer2D, begin, lua_begin),
 		method(Renderer2D, debug_sprite, lua_debug_sprite),
 		method(Renderer2D, draw_sprite, lua_draw_sprite),
+		method(Renderer2D, draw_rect, lua_draw_rect),
 		method(Renderer2D, draw_text, lua_draw_text),
 		method(Renderer2D, present, lua_present),
 		method(Renderer2D, set_blend, lua_set_blend),
