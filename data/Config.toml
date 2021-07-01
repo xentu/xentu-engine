@@ -1,5 +1,5 @@
 [general]
-game_title = 'My Awesome Game!'
+game_title = 'Brick Breaker'
 screen_width = 1280
 screen_height = 720
 update_frequency = 60
