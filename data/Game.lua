@@ -9,7 +9,7 @@
 -- called when the game first loads.
 game.on("init", function()
 	-- define some colours.
-	c_red = Color.fromHex('#880000')
+	c_red = Color.fromHex('#0ee092')
 	c_blue = Color.fromHex('#000088')
 
 	-- create a ball entity.

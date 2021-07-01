@@ -146,6 +146,7 @@ namespace xen
 		LuaSprite parse_lua_sprite(lua_State* L);
 		LuaFont parse_lua_font(lua_State* L);
 		LuaColor parse_lua_color(lua_State* L);
+		Vector4f parse_color(lua_State* L);
 
 		/* state information */
 		bool m_initialized; // weather or not the renderer has been initialized.

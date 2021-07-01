@@ -8,14 +8,14 @@ namespace xen
 	Sprite::Sprite()
 	{
 		m_texture = nullptr;
-		m_color = Color::white;
+		m_color = Vector4f(1, 1, 1, 1);
 		m_layer = 0;
 		m_rect = Rect(0, 0, 1, 1);
 	}
 
 
 
-	Sprite::Sprite(const Texture& texture, float width, float height, int layer, Color color)
+	Sprite::Sprite(const Texture& texture, float width, float height, Vector4f color, int layer)
 	{
 		m_texture = &texture;
 		m_width = 0;

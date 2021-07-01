@@ -249,6 +249,20 @@ namespace xen
 		return c;
 	}
 
+	Vector4f Renderer2D::parse_color(lua_State* L)
+	{
+		float r, g, b, a;
+		while (lua_next(L, -2)) {
+			std::string key = lua_tostring(L, -2);
+			if (key == "red") r = lua_tonumber(L, -1);
+			if (key == "green") g = lua_tonumber(L, -1);
+			if (key == "blue")  b = lua_tonumber(L, -1);
+			if (key == "alpha") a = lua_tonumber(L, -1);
+			lua_pop(L, 1);
+		}
+		return Vector4f(r, g, b, a);
+	}
+
 
 #pragma endregion
 
@@ -309,7 +323,7 @@ namespace xen
 		m_sprite.set_rotation(m_rotation);
 		m_sprite.set_scale(m_scale_x, m_scale_y);
 
-		m_sprite.m_color = Color(1, 1, 1, 1); // TODO: fix this.
+		m_sprite.m_color = Vector4f(1, 1, 1, 1); // TODO: fix this.
 		m_sprite.m_width = s.width;
 		m_sprite.m_height = s.height;
 		m_sprite.m_texture = game->assets->get_texture(s.texture);
@@ -330,17 +344,26 @@ namespace xen
 
 	int Renderer2D::lua_draw_rect(lua_State* L)
 	{
-		int color = lua_tonumber(L, -5);
 		int x = lua_tonumber(L, -4);
 		int y = lua_tonumber(L, -3);
 		int width = lua_tonumber(L, -2);
 		int height = lua_tonumber(L, -1);
 
+		// remove the 4 arguments (text, left, top, max_w) from the stack so we can read the font object.
+		lua_pop(L, 1);
+		lua_pop(L, 1);
+		lua_pop(L, 1);
+		lua_pop(L, 1);
+
+		// push nil to get the table data to parse.
+		lua_pushnil(L);
+		Vector4f color = parse_color(L);
+
 		m_sprite.ResetTransform();
 		m_sprite.set_position(x, y);
 		m_sprite.set_scale(1, 1);
 		m_sprite.set_rotation(0);
-		m_sprite.m_color = Color(255, 0, 0, 255);
+		m_sprite.m_color = color; //TODO: stack member duplication.
 		m_sprite.m_width = width;
 		m_sprite.m_height = height;
 		m_sprite.m_texture = white_texture;
@@ -456,7 +479,7 @@ namespace xen
 		m_sprite.m_width = fbo_texture_inst->width;
 		m_sprite.m_height = fbo_texture_inst->height;
 		m_sprite.m_texture = fbo_texture_inst;
-		m_sprite.m_color = Color(1, 1, 1, 1);
+		m_sprite.m_color = Vector4f(1, 1, 1, 1);
 
 		// clear the screen once more (this time with black).
 		glClearColor(0, 0, 0, 1);
