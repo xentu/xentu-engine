@@ -56,7 +56,13 @@ namespace xen
 		delete viewport;
 
 		/* cleanup shader */
-		glDeleteProgram(shader);
+		if (shader < 9999) {
+			glDeleteProgram(shader);
+		}
+		else {
+			std::cout << "Tried to clean up a shader that does not exist." << std::endl;
+		}
+		
 
 		/* terminate glfw */
 		//glfwDestroyWindow(window);
@@ -168,18 +174,19 @@ namespace xen
 		if (!glfwInit())
 			return -1;
 
-		/* Setup glfw (Tries to use OpenGL ES 3.2) */
+		/* Setup glfw (Tries to use OpenGL ES 3.0) */
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 		/* Create a windowed mode window and its OpenGL context */
-		//window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
 		window = glfwCreateWindow(config->m_screen_width, config->m_screen_height, config->m_game_title.c_str(), NULL, NULL);
 		if (!window)
 		{
 			glfwTerminate();
+			// export MESA_GL_VERSION_OVERRIDE=3.3
+			std::cout << "Failed to create game window." << std::endl;
 			return -1;
 		}
 
@@ -242,15 +249,21 @@ namespace xen
 				"/data",
 				"/../data",
 				"/../../data",
-				"/../../../data"
+				"/../../../data",
+				"/../../../../data"
 			};
 
 			bool found = false;
 
 			for (int i = 0; i < 5; i++) {
 				data_path = base_path + possible_paths[i];
-				std::cout << "Trying: " << possible_paths[i] + "/game.lua" << std::endl;
+				std::cout << "Trying: " << base_path << possible_paths[i] + "/game.lua" << std::endl;
 				if (xen::Helper::file_exists(data_path + "/game.lua")) {
+					base_path = data_path;
+					found = true;
+					break;
+				}
+				if (xen::Helper::file_exists(data_path + "/Game.lua")) {
 					base_path = data_path;
 					found = true;
 					break;
