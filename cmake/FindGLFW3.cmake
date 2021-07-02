@@ -18,6 +18,7 @@ set( _glfw3_LIB_SEARCH_DIRS
 "/usr/lib"
 "/usr/local/lib"
 "/usr/lib/x86_64-linux-gnu/"
+"/usr/local/Cellar/glfw/3.3.4/lib/"
 "${CMAKE_SOURCE_DIR}/lib/GLFW3/"
 "C:/Program Files (x86)/glfw/lib-msvc110" )
 
@@ -26,9 +27,9 @@ FIND_PATH(GLFW3_INCLUDE_DIR "GLFW3/glfw3.h" PATHS ${_glfw3_HEADER_SEARCH_DIRS} )
 message("-- GLFW3_INCLUDE_DIR = ${GLFW3_INCLUDE_DIR}")
 
 # Search for the library
-FIND_LIBRARY(GLFW3_LIBRARY "libglfw3dll.a" "libglfw.so.3.3" PATHS ${_glfw3_LIB_SEARCH_DIRS} )
+FIND_LIBRARY(GLFW3_LIBRARY "libglfw3dll.a" "libglfw.so.3.3" "libglfw.3.3.dylib" PATHS ${_glfw3_LIB_SEARCH_DIRS} )
 message("-- GLFW3_LIBRARY = ${GLFW3_LIBRARY}")
 
 # Finish up
 INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(glfw3 DEFAULT_MSG GLFW3_LIBRARY GLFW3_INCLUDE_DIR)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(GLFW3 DEFAULT_MSG GLFW3_LIBRARY GLFW3_INCLUDE_DIR)

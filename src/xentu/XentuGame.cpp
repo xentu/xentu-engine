@@ -174,10 +174,19 @@ namespace xen
 		if (!glfwInit())
 			return -1;
 
-		/* Setup glfw (Tries to use OpenGL ES 3.0) */
-		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+		#ifdef __APPLE__
+			/* We need to explicitly ask for a 3.2 context on OS X */
+			glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
+			glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 2);
+			glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+			glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		#else
+			/* Setup glfw (Tries to use OpenGL ES 3.0) */
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+		#endif
+		
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 		/* Create a windowed mode window and its OpenGL context */
@@ -254,6 +263,8 @@ namespace xen
 			};
 
 			bool found = false;
+
+			std::cout << "Base Path: " << base_path << std::endl;
 
 			for (int i = 0; i < 5; i++) {
 				data_path = base_path + possible_paths[i];

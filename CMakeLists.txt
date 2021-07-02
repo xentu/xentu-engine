@@ -2,19 +2,22 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 project(xentu VERSION 0.0.1)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # We need a CMAKE_DIR with some code to find external dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 #
 set(OpenGL_GL_PREFERENCE GLVND) #LEGACY
 
-# find packages
+find_package(LUA)
 find_package(Embed REQUIRED)
 find_package(OpenGL)
 find_package(GLM)
 find_package(GLEW)
 find_package(GLFW3)
-find_package(LUA)
+
 
 # include resources
 EMBED_TARGET(RES_SHADER_VERTEX "src/xentu/resources/VertexShader.shader")
@@ -24,8 +27,10 @@ EMBED_TARGET(LUA_BEFORE_INIT "src/xentu/resources/before_init.lua")
 
 
 # set compiler specific flags
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-	 # using Clang
+if (CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+	# using Clang
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/clang")
+	set(RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/clang")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 	# using GCC
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/gcc")
@@ -37,10 +42,16 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	set(GLFW3_LIBRARY "${CMAKE_SOURCE_DIR}/lib/GLFW3/libglfw3dll.a")
 	set(LUA_LIBRARY "${CMAKE_SOURCE_DIR}/lib/lua535/lua53.lib")
 endif()
+message("--COMPILER_ID: ${CMAKE_CXX_COMPILER_ID}")
 
 
 # source files for engine
 set(XEN_ENGINE_FILES
+	${EMBED_RES_SHADER_VERTEX_OUTPUTS}
+	${EMBED_RES_SHADER_FRAGMENT_OUTPUTS}
+	${EMBED_LUA_STARTUP_OUTPUTS}
+	${EMBED_LUA_CLASSES_OUTPUTS}
+	${EMBED_LUA_BEFORE_INIT_OUTPUTS}
 	src/xentu/Application.cpp
 	src/xentu/Helper.h
 	src/xentu/XentuGame.cpp
@@ -79,12 +90,7 @@ set(XEN_ENGINE_FILES
 	src/xentu/input/MouseManager.cpp
 	src/xentu/input/MouseManager.h
 	src/xentu/input/KeyboardManager.cpp
-	src/xentu/input/KeyboardManager.h
-	${EMBED_RES_SHADER_VERTEX_OUTPUTS}
-	${EMBED_RES_SHADER_FRAGMENT_OUTPUTS}
-	${EMBED_LUA_STARTUP_OUTPUTS}
-	${EMBED_LUA_CLASSES_OUTPUTS}
-	${EMBED_LUA_BEFORE_INIT_OUTPUTS}
+	src/xentu/input/KeyboardManager.h	
 )
 
 
@@ -99,14 +105,26 @@ include_directories(
 
 # compile list of libs (that will be linked to the exe)
 if (WIN32)
+    message("-- LIB MODE: Win32")
 	set(XEN_LIBS
 		"${OPENGL_LIBRARIES}"
 		"${GLEW_LIBRARY}"
 		"${GLFW3_LIBRARY}"
 		"${LUA_LIBRARY}"
 	)
-endif (WIN32)
-if (UNIX)
+elseif (APPLE)
+	message("-- LIB MODE: MacOS")
+	set(XEN_LIBS
+		m
+		dl
+		"${OPENGL_LIBRARIES}"
+		"${GLEW_LIBRARY}"
+		"${GLFW3_LIBRARY}"
+		"${LUA_LIBRARY}"
+		pthread
+	)
+elseif (UNIX)
+    message("-- LIB MODE: Unix")
 	set(XEN_LIBS
 		dl
 		"${OPENGL_LIBRARIES}"
@@ -115,7 +133,7 @@ if (UNIX)
 		"${LUA_LIBRARY}"
 		pthread
 	)
-endif (UNIX)
+endif (WIN32)
 
 
 # Define the executable

@@ -85,7 +85,7 @@ int main(int arg_count, char* args[])
 	if (ret_startup != LUA_OK) {
 		printf("Startup Error: %s\n", lua_tostring(L, -1));
 		lua_pop(L, 1); // pop error message
-		return false;
+		return 0;
 	}
 
 	// grab a pointer to the game singleton instance
@@ -99,7 +99,8 @@ int main(int arg_count, char* args[])
 		std::chrono::milliseconds timestep(ms);
 
 		/* initialize the game. */
-		if (result = game->initialize(L, m_shader_vertex, m_shader_fragment) == 0)
+		result = game->initialize(L, m_shader_vertex, m_shader_fragment);
+		if (result == 0)
 		{
 			luaL_dostring(L, m_xen_startup_lua_before_init.c_str());
 

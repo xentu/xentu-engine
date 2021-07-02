@@ -21,7 +21,9 @@
 #   EMBED_TARGET(SHADER source.glsl)
 #   add_executable(example main.cc ${EMBED_SHADER_OUTPUTS})
 #  ====================================================================
-
+#
+#  Note (Apple):
+#  The assembly needs an underscore before data and end_data.
 
 cmake_minimum_required(VERSION 3.2)
 
@@ -68,8 +70,8 @@ struct Res ${Name}(void) {
 asm(
 	\"${Section}\\n\"
 	\".align ${CMAKE_SIZEOF_VOID_P}\\n\"
-	\"data: .incbin \\\"${InputAbs}\\\"\\n\"
-	\"end_data:\\n\"
+	\"_data: .incbin \\\"${InputAbs}\\\"\\n\"
+	\"_end_data:\\n\"
 	\".previous\"
 )\;
 extern const char data[]\;

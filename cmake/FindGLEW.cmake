@@ -18,6 +18,7 @@ set( _glew_LIB_SEARCH_DIRS
 "/usr/lib"
 "/usr/local/lib"
 "/usr/lib/x86_64-linux-gnu/"
+"/usr/local/Cellar/glew/2.2.0_1/lib/"
 "${CMAKE_SOURCE_DIR}/lib/GLEW/"
 "C:/Program Files (x86)/glfw/lib-msvc110" )
 
@@ -26,8 +27,8 @@ FIND_PATH(GLEW_INCLUDE_DIR "GLEW/GL/glew.h" PATHS ${_glew_HEADER_SEARCH_DIRS} )
 message("-- GLEW_INCLUDE_DIR = ${GLEW_INCLUDE_DIR}")
 
 # Search for the library
-FIND_LIBRARY(GLEW_LIBRARY glew32 libglew libGLEW.so.2.1.0 PATHS ${_glew_LIB_SEARCH_DIRS} )
+FIND_LIBRARY(GLEW_LIBRARY glew32 libglew libGLEW.so.2.1.0 libGLEW.2.2.dylib PATHS ${_glew_LIB_SEARCH_DIRS} )
 
 # Finish up
 INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(glew DEFAULT_MSG GLEW_LIBRARY GLEW_INCLUDE_DIR)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(GLEW DEFAULT_MSG GLEW_LIBRARY GLEW_INCLUDE_DIR)

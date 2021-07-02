@@ -6,6 +6,10 @@
 #if defined(WIN32) || defined(_WIN32) 
 #include <Windows.h>
 #include <direct.h>
+#elif defined(__APPLE__)
+#include <mach-o/dyld.h>
+#include <limits.h>
+#include <unistd.h>
 #else
 #include <limits.h>
 #include <unistd.h>
@@ -41,6 +45,17 @@ namespace xen
 			GetModuleFileNameA(NULL, buffer, MAX_PATH);
 			std::string::size_type pos = std::string(buffer).find_last_of("\\/");
 			return std::string(buffer).substr(0, pos);
+			#elif __APPLE__
+			char path[1024];
+			uint32_t size = sizeof(path);
+			if (_NSGetExecutablePath(path, &size) == 0)
+    		{
+				std::string::size_type pos = std::string(path).find_last_of("\\/");
+				return std::string(path).substr(0, pos);
+			}
+			else
+    			printf("buffer too small; need size %u\n", size);
+				return "/";
 			#else
 			char arg1[20];
 			char buffer[PATH_MAX + 1] = {0};

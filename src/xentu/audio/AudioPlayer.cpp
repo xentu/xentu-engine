@@ -132,7 +132,7 @@ namespace xen
 
 		//m_decoder_opts = (xen_decoder_opts*)malloc(sizeof(*m_decoder_opts) * MIXER_ROWS);
 
-		if (m_decoder_opts != NULL) {
+		if (true /* TODO: why?: m_decoder_opts != NULL*/ ) {
 			// malloc might return NULL, keep the compiler happy!
 			for (int i = 0; i < MIXER_ROWS; i++) {
 				m_decoder_refs[i] = 0;
