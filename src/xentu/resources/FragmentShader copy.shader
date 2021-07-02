@@ -1,4 +1,4 @@
-#version 410 core // core for macos, es for everything else
+#version 300 es // core for macos, es for everything else
 
 precision mediump float;
 out vec4 color;

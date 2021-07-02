@@ -8,8 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # We need a CMAKE_DIR with some code to find external dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
-#
-set(OpenGL_GL_PREFERENCE GLVND) #LEGACY
+#set(OpenGL_GL_PREFERENCE GLVND) #LEGACY
 
 find_package(LUA)
 find_package(Embed REQUIRED)
