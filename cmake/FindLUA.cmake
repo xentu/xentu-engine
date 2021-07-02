@@ -14,8 +14,10 @@ set( _lua_LIB_SEARCH_DIRS
 "${CMAKE_SOURCE_DIR}/lib/lua535/" )
 
 # Search for the library
-FIND_LIBRARY(LUA_LIBRARY "liblua.5.3.dylib" liblua53 liblua5.3.so.0 PATHS ${_lua_LIB_SEARCH_DIRS} )
+FIND_LIBRARY(LUA_LIBRARY liblua53 liblua5.3.so.0 "liblua.5.3.dylib" PATHS ${_lua_LIB_SEARCH_DIRS} )
+if (APPLE)
 SET(LUA_LIBRARY "/usr/local/Cellar/lua@5.3/5.3.6/lib/liblua.5.3.dylib")
+endif (APPLE)
 message("-- LUA_LIBRARY = ${LUA_LIBRARY}")
 
 # Finish up
