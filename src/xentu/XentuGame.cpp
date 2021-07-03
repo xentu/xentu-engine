@@ -111,8 +111,26 @@ namespace xen
 
 		glAttachShader(program, vs);
 		glAttachShader(program, fs);
+
+		glBindAttribLocation(program, 0, "position");
+		glBindAttribLocation(program, 1, "texCoord");
+		glBindAttribLocation(program, 2, "color");
+
 		glLinkProgram(program);
+
+		int linked;
+		glGetProgramiv(program, GL_LINK_STATUS, &linked);
+		if (linked != true) {
+			std::cout << "Failed to link shader." << std::endl;
+		}
+
+		int valid;
 		glValidateProgram(program);
+		glGetProgramiv(program, GL_VALIDATE_STATUS, &valid);
+		if (valid != true) {
+			std::cout << "Failed to validate linked shader." << std::endl;
+		}
+
 
 		glDeleteShader(vs);
 		glDeleteShader(fs);
@@ -182,9 +200,13 @@ namespace xen
 			glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		#else
 			/* Setup glfw (Tries to use OpenGL ES 3.0) */
-			glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+			//glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+			//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+			//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+			glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 4);
+			glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 1);
+			glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+			glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		#endif
 		
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);

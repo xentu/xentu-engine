@@ -1,6 +1,6 @@
-#version 410 core
+#version 410
 
-in vec4 position;
+in vec2 position;
 in vec2 texCoord;
 in vec4 color;
 
@@ -11,7 +11,7 @@ out vec4 v_Color;
 
 void main()
 {
-   gl_Position = u_MVP * position;
+   gl_Position = u_MVP * vec4(position, 1, 1);
    v_TexCoord = texCoord;
    v_Color = color;
 }

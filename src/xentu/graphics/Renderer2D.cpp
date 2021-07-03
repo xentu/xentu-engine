@@ -14,7 +14,8 @@
 #define method(class, name, realname) {#name, &class::realname}
 
 // macro for calculating the byte offset of vertex information.
-#define BUFFER_OFFSET(i) ((char*)NULL + (i))
+//#define BUFFER_OFFSET(i) ((char*)NULL + (i))
+#define BUFFER_OFFSET(i) ((void*)(i))
 
 
 namespace xen
@@ -74,13 +75,20 @@ namespace xen
 			glGenBuffers(1, &ibo);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
-			// Specify the vertex layout (pos + uv).
+			// get the attribute locations.
+			int vertexLoc = glGetAttribLocation(shader, "position");
+			int texCoord0Loc = glGetAttribLocation(shader, "texCoord");
+			int colorLoc = glGetAttribLocation(shader, "color");
+
+			// Specify the vertex layout (pos + uv + color).
 			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(0));
+			glVertexAttribPointer(vertexLoc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(8));
+			glVertexAttribPointer(texCoord0Loc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(8));
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(16));
+			glVertexAttribPointer(colorLoc, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(16));
 			this->m_initialized = true;
 
 			// generate a white (10x10) texture.
@@ -121,6 +129,9 @@ namespace xen
 					std::cout << "Something went wrong with the fbo. #" << ret << ", texture #" << fbo_texture << std::endl;
 				}
 			}
+			else {
+				std::cout << "Framebuffer created #" << fbo_texture << std::endl;
+			}
 
 			// Some code for adding a depth buffer to the framebuffer (may need this later)
 			/* unsigned int depthrenderbuffer;
@@ -132,6 +143,10 @@ namespace xen
 			fbo_texture_inst = new Texture(fbo_texture, vp_width, vp_height, 4);
 			view_batch = new Batch();
 			view_batch->m_texture = fbo_texture_inst;
+
+			// tell GL to only draw onto a pixel if the shape is closer to the viewer
+			//glEnable(GL_DEPTH_TEST); // enable depth-testing
+			//glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
 
 			// set some basic render modes.
 			glDisable(GL_CULL_FACE);
@@ -435,20 +450,22 @@ namespace xen
 
 	int Renderer2D::lua_present(lua_State* L)
 	{
-		const int vertex_size = 4 * sizeof(Vertex);
-		const int element_size = 6 * sizeof(unsigned int);
+		bool enable_framebuffer = false;
+		const int vertex_size = sizeof(Vertex);
+		const int element_size = 8 * sizeof(unsigned int);
 
 		// assign the framebuffer.
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 		glViewport(0, 0, vp_width, vp_height);
 		glUniformMatrix4fv(shader_transform_loc, 1, false, &view_proj[0][0]);
+		
 
 		//glClearColor(0, 0, 0, 0);
 		float r = this->m_clear_color.red;
 		float g = this->m_clear_color.green;
 		float b = this->m_clear_color.blue;
 		glClearColor(r, g, b, 1);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// draw each of the batches (layers)
 		for (const Batch* batch : m_batches)
@@ -463,7 +480,7 @@ namespace xen
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, batch->m_count * element_size, batch->m_indices.data(), GL_DYNAMIC_DRAW);
 
-			glDrawElements(GL_TRIANGLES, batch->m_count * 6, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, batch->m_count * 8, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 		}
 
 		// unbind the frame buffer.
@@ -483,19 +500,18 @@ namespace xen
 
 		// clear the screen once more (this time with black).
 		glClearColor(0, 0, 0, 1);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// prepare the view_batch and draw it.
 		view_batch->clear();
 		view_batch->draw(m_sprite);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, fbo_texture);
+		glBindTexture(GL_TEXTURE_2D, fbo_texture); //
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, vertex_size, view_batch->m_vertices.data(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, view_batch->m_count * vertex_size, view_batch->m_vertices.data(), GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, element_size, view_batch->m_indices.data(), GL_DYNAMIC_DRAW);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, view_batch->m_count * element_size, view_batch->m_indices.data(), GL_DYNAMIC_DRAW);
+		glDrawElements(GL_TRIANGLES, view_batch->m_count * 8, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 		return 1;
 	}
 

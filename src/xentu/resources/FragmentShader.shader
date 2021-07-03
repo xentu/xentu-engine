@@ -1,14 +1,16 @@
-#version 410 core // core for macos, es for everything else
+#version 410 // core for macos, es for everything else
 
 precision mediump float;
-out vec4 color;
 
-uniform sampler2D u_Texture;
 in vec2 v_TexCoord;
 in vec4 v_Color;
+uniform sampler2D u_Texture;
+
+out vec4 frag_colour;
+
 
 void main()
 {
     vec4 texColor = texture(u_Texture, v_TexCoord);
-    color = texColor * v_Color;
+    frag_colour = texColor* v_Color;
 }
