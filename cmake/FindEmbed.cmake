@@ -65,6 +65,10 @@ struct Res ${Name}(void) {
 		else()
 			set(Section ".section .rodata")
 		endif()
+
+		# TODO: _data & _end_data only work on MacOS, for Linux this needs
+		# changing to data & end_data (without _ prefix).
+
 		set(CODE
 "${STRUCT}
 asm(
