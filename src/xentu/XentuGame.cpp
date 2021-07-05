@@ -110,12 +110,11 @@ namespace xen
 		unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, fragmentShader);
 
 		glAttachShader(program, vs);
+		glBindAttribLocation(program, 0, "i_position");
+		glBindAttribLocation(program, 1, "i_texcoord");
+		glBindAttribLocation(program, 2, "i_color");
+
 		glAttachShader(program, fs);
-
-		glBindAttribLocation(program, 0, "position");
-		glBindAttribLocation(program, 1, "texCoord");
-		glBindAttribLocation(program, 2, "color");
-
 		glLinkProgram(program);
 
 		int linked;
@@ -201,11 +200,9 @@ namespace xen
 		#else
 			/* Setup glfw (Tries to use OpenGL ES 3.0) */
 			//glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-			//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-			//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 			glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 4);
 			glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 1);
-			glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+			//glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 			glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		#endif
 		

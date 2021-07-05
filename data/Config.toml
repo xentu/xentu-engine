@@ -1,7 +1,7 @@
 [general]
 game_title = 'Brick Breaker'
-screen_width = 1280
-screen_height = 720
+screen_width = 800
+screen_height = 600
 update_frequency = 60
 vsync = true
 fullscreen = false

@@ -1,8 +1,8 @@
 #version 410
 
-in vec2 position;
-in vec2 texCoord;
-in vec4 color;
+in vec3 i_position;
+in vec2 i_texcoord;
+in vec4 i_color;
 
 uniform mat4 u_MVP;
 
@@ -11,7 +11,7 @@ out vec4 v_Color;
 
 void main()
 {
-   gl_Position = u_MVP * vec4(position, 1, 1);
-   v_TexCoord = texCoord;
-   v_Color = color;
+   gl_Position = u_MVP * vec4(i_position, 1.0); 
+   v_TexCoord = i_texcoord;
+   v_Color = i_color;
 }

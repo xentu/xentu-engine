@@ -6,14 +6,14 @@
 namespace xen
 {
 	Vertex::Vertex() :
-		position(Vector2f(0, 0)),
+		position(Vector3f(0, 0, 0)),
 		texCoords(Vector2f(0, 0)),
 		color(Vector4f(1, 1, 1, 1))
 	{ }
 
 
 
-	Vertex::Vertex(const Vector2f& position) :
+	Vertex::Vertex(const Vector3f& position) :
 		position(position),
 		texCoords(Vector2f(0, 0)),
 		color(Vector4f(1, 1, 1, 1))
@@ -21,7 +21,7 @@ namespace xen
 
 
 
-	Vertex::Vertex(const Vector2f& position, const Vector2f& texCoords) :
+	Vertex::Vertex(const Vector3f& position, const Vector2f& texCoords) :
 		position(position),
 		texCoords(texCoords),
 		color(Vector4f(1, 1, 1, 1))
@@ -29,8 +29,8 @@ namespace xen
 
 
 
-	Vertex::Vertex(float x, float y, float u, float v) :
-		position(Vector2f(x, y)),
+	Vertex::Vertex(float x, float y, float z, float u, float v) :
+		position(Vector3f(x, y, z)),
 		texCoords(Vector2f(u, v)),
 		color(Vector4f(1, 1, 1, 1))
 	{ }

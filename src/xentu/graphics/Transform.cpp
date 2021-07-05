@@ -76,18 +76,18 @@ namespace xen
 
 
 	////////////////////////////////////////////////////////////
-	Vector2f Transform::transform_point(float x, float y) const
+	Vector3f Transform::transform_point(float x, float y, float z) const
 	{
-		return Vector2f(m_matrix[0] * x + m_matrix[4] * y + m_matrix[12],
-			m_matrix[1] * x + m_matrix[5] * y + m_matrix[13]);
+		return Vector3f(m_matrix[0] * x + m_matrix[4] * y + m_matrix[12],
+			m_matrix[1] * x + m_matrix[5] * y + m_matrix[13], 0);
 	}
 
 
 
 	////////////////////////////////////////////////////////////
-	Vector2f Transform::transform_point(const Vector2f& point) const
+	Vector3f Transform::transform_point(const Vector3f& point) const
 	{
-		return transform_point(point.x, point.y);
+		return transform_point(point.x, point.y, 0);
 	}
 
 
@@ -96,12 +96,12 @@ namespace xen
 	Rect Transform::transform_rect(const Rect& rectangle) const
 	{
 		// Transform the 4 corners of the rectangle
-		const Vector2f points[] =
+		const Vector3f points[] =
 		{
-			transform_point(rectangle.left, rectangle.top),
-			transform_point(rectangle.left, rectangle.top + rectangle.height),
-			transform_point(rectangle.left + rectangle.width, rectangle.top),
-			transform_point(rectangle.left + rectangle.width, rectangle.top + rectangle.height)
+			transform_point(rectangle.left, rectangle.top, 0),
+			transform_point(rectangle.left, rectangle.top + rectangle.height, 0),
+			transform_point(rectangle.left + rectangle.width, rectangle.top, 0),
+			transform_point(rectangle.left + rectangle.width, rectangle.top + rectangle.height, 0)
 		};
 
 		// Compute the bounding rectangle of the transformed points
@@ -156,7 +156,7 @@ namespace xen
 
 
 	////////////////////////////////////////////////////////////
-	Transform& Transform::translate(const Vector2f& offset)
+	Transform& Transform::translate(const Vector3f& offset)
 	{
 		return translate(offset.x, offset.y);
 	}
@@ -196,7 +196,7 @@ namespace xen
 
 
 	////////////////////////////////////////////////////////////
-	Transform& Transform::rotate(float angle, const Vector2f& center)
+	Transform& Transform::rotate(float angle, const Vector3f& center)
 	{
 		return rotate(angle, center.x, center.y);
 	}
@@ -228,7 +228,7 @@ namespace xen
 
 
 	////////////////////////////////////////////////////////////
-	Transform& Transform::scale(const Vector2f& factors)
+	Transform& Transform::scale(const Vector3f& factors)
 	{
 		return scale(factors.x, factors.y);
 	}
@@ -236,7 +236,7 @@ namespace xen
 
 
 	////////////////////////////////////////////////////////////
-	Transform& Transform::scale(const Vector2f& factors, const Vector2f& center)
+	Transform& Transform::scale(const Vector3f& factors, const Vector3f& center)
 	{
 		return scale(factors.x, factors.y, center.x, center.y);
 	}
@@ -260,7 +260,7 @@ namespace xen
 
 
 	////////////////////////////////////////////////////////////
-	Vector2f operator *(const Transform& left, const Vector2f& right)
+	Vector3f operator *(const Transform& left, const Vector3f& right)
 	{
 		return left.transform_point(right);
 	}

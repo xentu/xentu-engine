@@ -14,12 +14,17 @@
 #define method(class, name, realname) {#name, &class::realname}
 
 // macro for calculating the byte offset of vertex information.
+#define BUFFER_OFFSET(i) ((float*)NULL + (i))
 //#define BUFFER_OFFSET(i) ((char*)NULL + (i))
-#define BUFFER_OFFSET(i) ((void*)(i))
+//#define BUFFER_OFFSET(i) ((void*)(i))
 
 
 namespace xen
 {
+	
+
+	
+
 	Renderer2D::Renderer2D(lua_State* L) :
 		m_rotation(0),
 		m_origin_x(0),
@@ -47,11 +52,28 @@ namespace xen
 	{
 		if (!this->m_initialized)
 		{
+			Renderer2D::checkGLError(-1);
+
 			XentuGame* game = XentuGame::get_instance(L);
 			sc_width = game->config->m_screen_width;
 			sc_height = game->config->m_screen_height;
 			vp_width = game->config->m_viewport_width;
 			vp_height = game->config->m_viewport_height;
+			view_batch = new Batch();
+
+
+			// generate a white (10x10) texture.
+			unsigned char* wt_data = new unsigned char[400];
+			for (int i = 0; i < 400; i++) wt_data[i] = 255;
+			unsigned int wt_ref;
+			glGenTextures(1, &wt_ref);
+			glBindTexture(GL_TEXTURE_2D, wt_ref);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 10, 10, 0, GL_RGBA, GL_UNSIGNED_BYTE, wt_data);
+			Renderer2D::checkGLError(0);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			white_texture = new Texture(wt_ref, 10, 10, 4);
+			Renderer2D::checkGLError(1);
 
 			/* calculate the projection matrices */
 			glViewport(0, 0, vp_width, vp_height);
@@ -61,50 +83,40 @@ namespace xen
 			/* get the uniform locations */
 			shader = game->shader;
 			shader_transform_loc = glGetUniformLocation(shader, "u_MVP");
-			shader_tex_loc = glGetUniformLocation(shader, "u_Texture");
+			//shader_tex_loc = glGetUniformLocation(shader, "u_Texture");
+			Renderer2D::checkGLError(2);
 			
 			/* set the shader uniforms default */
 			glUniformMatrix4fv(shader_transform_loc, 1, false, &view_proj[0][0]);
-			glUniform1f(shader_tex_loc, 0);
+
+			/* generate a vertex array object */
+			glGenVertexArrays(1, &vao);
+			Renderer2D::checkGLError(3);
 
 			// prepare vertex buffer.
 			glGenBuffers(1, &vbo);
+			glBindVertexArray(vao);
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-			// prepare index buffer.
-			glGenBuffers(1, &ibo);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-
-			// get the attribute locations.
-			int vertexLoc = glGetAttribLocation(shader, "position");
-			int texCoord0Loc = glGetAttribLocation(shader, "texCoord");
-			int colorLoc = glGetAttribLocation(shader, "color");
+			Renderer2D::checkGLError(4);
 
 			// Specify the vertex layout (pos + uv + color).
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(vertexLoc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(texCoord0Loc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(8));
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(colorLoc, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(16));
-			this->m_initialized = true;
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, BUFFER_OFFSET(0)); //
+			Renderer2D::checkGLError(6);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 9, BUFFER_OFFSET(3)); //sizeof(float) * 8
+			Renderer2D::checkGLError(7);
+			glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 9, BUFFER_OFFSET(5)); //sizeof(float) * 8
+			Renderer2D::checkGLError(8);
 
-			// generate a white (10x10) texture.
-			unsigned char* wt_data = new unsigned char[400];
-			for(int i = 0; i < 400; i++) wt_data[i] = 255;
-			unsigned int wt_ref;
-			glGenTextures(1, &wt_ref);
-        	glBindTexture(GL_TEXTURE_2D, wt_ref);
-        	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 10, 10, 0, GL_RGBA, GL_UNSIGNED_BYTE, wt_data);
-			white_texture = new Texture(wt_ref, 10, 10, 4);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			// Make sure the attributes are marked as enabled.
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+			glEnableVertexAttribArray(2);
+			Renderer2D::checkGLError(9);
 
 			// prepare frame buffer.
 			glGenFramebuffers(1, &fbo);
 			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+			checkGLError(10);
 
 			// prepare frame buffer texture.
 			glGenTextures(1, &fbo_texture);
@@ -112,13 +124,12 @@ namespace xen
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, vp_width, vp_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbo_texture, 0);
-			//GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
-			//glDrawBuffers(1, DrawBuffers);
+			checkGLError(11);
 
+			// debug the framebuffer creation.
 			auto ret = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-			if(ret != GL_FRAMEBUFFER_COMPLETE) {
+			if (ret != GL_FRAMEBUFFER_COMPLETE) {
 				if (ret == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
 					std::cout << "Something went wrong with the fbo. GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT" << std::endl;
 				}
@@ -133,24 +144,26 @@ namespace xen
 				std::cout << "Framebuffer created #" << fbo_texture << std::endl;
 			}
 
-			// Some code for adding a depth buffer to the framebuffer (may need this later)
-			/* unsigned int depthrenderbuffer;
-			glGenRenderbuffers(1, &depthrenderbuffer);
-			glBindRenderbuffer(GL_RENDERBUFFER, depthrenderbuffer);
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 800, 600);
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthrenderbuffer); */
-
+			// create a texture for our generated fbo.
 			fbo_texture_inst = new Texture(fbo_texture, vp_width, vp_height, 4);
 			view_batch = new Batch();
 			view_batch->m_texture = fbo_texture_inst;
 
-			// tell GL to only draw onto a pixel if the shape is closer to the viewer
-			//glEnable(GL_DEPTH_TEST); // enable depth-testing
-			//glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
+			// unbind the framebuffer for now.
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+			// create an index buffer.
+			glGenBuffers(1, &ibo);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+			Renderer2D::checkGLError(12);
+
+
+			
 			// set some basic render modes.
 			glDisable(GL_CULL_FACE);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			//glEnable(GL_BLEND);
+			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			this->m_initialized = true;
 		}
 	}
 
@@ -448,24 +461,27 @@ namespace xen
 		return 0;
 	}
 
+	
+
 	int Renderer2D::lua_present(lua_State* L)
 	{
-		bool enable_framebuffer = false;
-		const int vertex_size = sizeof(Vertex);
-		const int element_size = 8 * sizeof(unsigned int);
+		const size_t vertex_size = sizeof(Vertex) * 8;
+		const size_t element_size = sizeof(unsigned int) * 6;
 
 		// assign the framebuffer.
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+		// setup the camera.
 		glViewport(0, 0, vp_width, vp_height);
 		glUniformMatrix4fv(shader_transform_loc, 1, false, &view_proj[0][0]);
-		
 
-		//glClearColor(0, 0, 0, 0);
+
+		// clear the screen.
 		float r = this->m_clear_color.red;
 		float g = this->m_clear_color.green;
 		float b = this->m_clear_color.blue;
 		glClearColor(r, g, b, 1);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT);
 
 		// draw each of the batches (layers)
 		for (const Batch* batch : m_batches)
@@ -480,7 +496,7 @@ namespace xen
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, batch->m_count * element_size, batch->m_indices.data(), GL_DYNAMIC_DRAW);
 
-			glDrawElements(GL_TRIANGLES, batch->m_count * 8, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+			glDrawElements(GL_TRIANGLES, batch->m_count * element_size, GL_UNSIGNED_INT, nullptr);
 		}
 
 		// unbind the frame buffer.
@@ -488,30 +504,31 @@ namespace xen
 		glUniformMatrix4fv(shader_transform_loc, 1, false, &screen_proj[0][0]);
 		glViewport(0, 0, sc_width, sc_height);
 
+		// clear the screen once more (this time with black).
+		glClear(GL_COLOR_BUFFER_BIT);
+		glClearColor(0, 0, 0, 1);
+
 		// prepare to draw the render target as a texture.
 		m_sprite.ResetTransform();
 		m_sprite.ResetTexCoords();
-		m_sprite.set_position(240, 60);
+		m_sprite.set_position(0, 0); // offset of viewport to screen.
 		m_sprite.set_scale(1, 1);
 		m_sprite.m_width = fbo_texture_inst->width;
 		m_sprite.m_height = fbo_texture_inst->height;
 		m_sprite.m_texture = fbo_texture_inst;
 		m_sprite.m_color = Vector4f(1, 1, 1, 1);
 
-		// clear the screen once more (this time with black).
-		glClearColor(0, 0, 0, 1);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		// prepare the view_batch and draw it.
 		view_batch->clear();
 		view_batch->draw(m_sprite);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, fbo_texture); //
+		glBindTexture(GL_TEXTURE_2D, fbo_texture);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, view_batch->m_count * vertex_size, view_batch->m_vertices.data(), GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, view_batch->m_count * element_size, view_batch->m_indices.data(), GL_DYNAMIC_DRAW);
-		glDrawElements(GL_TRIANGLES, view_batch->m_count * 8, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+		glDrawElements(GL_TRIANGLES, view_batch->m_count * element_size, GL_UNSIGNED_INT, nullptr);
+		
 		return 1;
 	}
 
@@ -576,7 +593,7 @@ namespace xen
 		glUseProgram(shader_id);
 
 		/* camera stuff */
-		shader_transform_loc = glGetUniformLocation(shader, "u_MVP");
+		shader_transform_loc = glGetUniformLocation(shader, "u_MVP"); // todo, change this
 
 		/* texture prep */
 		shader_tex_loc = glGetUniformLocation(shader, "u_Texture");

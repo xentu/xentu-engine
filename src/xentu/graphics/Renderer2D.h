@@ -8,6 +8,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <luna/luna.hpp>
 
 #include "lua/LuaFont.h"
@@ -15,6 +16,7 @@
 #include "lua/LuaColor.h"
 #include "Batch.h"
 #include "Texture.h"
+#include "Helper.h"
 
 
 namespace xen
@@ -54,6 +56,56 @@ namespace xen
 		/// Clear the sprite batch buffer.
 		/// </summary>
 		void clear();
+
+
+		static char const* glErrorString(GLenum const err) noexcept
+		{
+			switch (err)
+			{
+				// opengl 2 errors (8)
+			case GL_NO_ERROR:
+				return "GL_NO_ERROR";
+
+			case GL_INVALID_ENUM:
+				return "GL_INVALID_ENUM";
+
+			case GL_INVALID_VALUE:
+				return "GL_INVALID_VALUE";
+
+			case GL_INVALID_OPERATION:
+				return "GL_INVALID_OPERATION";
+
+			case GL_STACK_OVERFLOW:
+				return "GL_STACK_OVERFLOW";
+
+			case GL_STACK_UNDERFLOW:
+				return "GL_STACK_UNDERFLOW";
+
+			case GL_OUT_OF_MEMORY:
+				return "GL_OUT_OF_MEMORY";
+
+			/* case GL_TABLE_TOO_LARGE:
+				return "GL_TABLE_TOO_LARGE"; */
+
+				// opengl 3 errors (1)
+			/* case GL_INVALID_FRAMEBUFFER_OPERATION:
+				return "GL_INVALID_FRAMEBUFFER_OPERATION"; */
+
+				// gles 2, 3 and gl 4 error are handled by the switch above
+			default:
+				assert(!"unknown error");
+				return nullptr;
+			}
+		}
+
+
+		static void checkGLError(const int stage)
+		{
+			GLenum err;
+			while ((err = glGetError()) != GL_NO_ERROR) {
+				std::cout << "Debug stage #" << stage << " error: " << glErrorString(err) << " " << std::endl;
+			}
+		}
 
 
 #pragma endregion
@@ -160,6 +212,7 @@ namespace xen
 		LuaColor m_clear_color; // the chosen clear color.
 
 		/* the vertex/index/frame buffer. */
+		GLuint vao;
 		unsigned int vbo;
 		unsigned int ibo;
 		unsigned int fbo;

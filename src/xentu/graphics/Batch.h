@@ -35,8 +35,8 @@ namespace xen
 				m_indices.resize(m_indices.size() + 6);
 			}
 
-			Vector2f position(0, 0);
-			Vector2f size(sprite.m_width, sprite.m_height);
+			Vector3f position(0, 0, 0);
+			Vector3f size(sprite.m_width, sprite.m_height, 0);
 
 			Transform transform = sprite.get_transform();
 
@@ -47,11 +47,11 @@ namespace xen
 			auto tex_br = Vector2f(sprite.m_rect.left + sprite.m_rect.width, sprite.m_rect.top + sprite.m_rect.height);
 
 			// assign the vertices.
-			m_vertices[vertex_count].position = transform.transform_point(0.0f, 0.0f);
+			m_vertices[vertex_count].position = transform.transform_point(0.0f, 0.0f, 0);
 			m_vertices[vertex_count].texCoords = tex_bl;
 			m_vertices[vertex_count].color = sprite.m_color;
 
-			m_vertices[vertex_count + 1].position = transform.transform_point(size.x, 0.0f);
+			m_vertices[vertex_count + 1].position = transform.transform_point(size.x, 0.0f, 0);
 			m_vertices[vertex_count + 1].texCoords = tex_br;
 			m_vertices[vertex_count + 1].color = sprite.m_color;
 
@@ -59,7 +59,7 @@ namespace xen
 			m_vertices[vertex_count + 2].texCoords = tex_tr;
 			m_vertices[vertex_count + 2].color = sprite.m_color;
 
-			m_vertices[vertex_count + 3].position = transform.transform_point(0.0f, size.y);
+			m_vertices[vertex_count + 3].position = transform.transform_point(0.0f, size.y, 0);
 			m_vertices[vertex_count + 3].texCoords = tex_tl;
 			m_vertices[vertex_count + 3].color = sprite.m_color;
 
