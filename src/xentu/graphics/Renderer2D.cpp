@@ -100,11 +100,11 @@ namespace xen
 			Renderer2D::checkGLError(4);
 
 			// Specify the vertex layout (pos + uv + color).
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, BUFFER_OFFSET(0)); //
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, BUFFER_OFFSET(0));
 			Renderer2D::checkGLError(6);
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 9, BUFFER_OFFSET(3)); //sizeof(float) * 8
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 9, BUFFER_OFFSET(3));
 			Renderer2D::checkGLError(7);
-			glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 9, BUFFER_OFFSET(5)); //sizeof(float) * 8
+			glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 9, BUFFER_OFFSET(5));
 			Renderer2D::checkGLError(8);
 
 			// Make sure the attributes are marked as enabled.
@@ -161,8 +161,8 @@ namespace xen
 			
 			// set some basic render modes.
 			glDisable(GL_CULL_FACE);
-			//glEnable(GL_BLEND);
-			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			this->m_initialized = true;
 		}
 	}
@@ -225,7 +225,7 @@ namespace xen
 		batch->m_texture = sprite.m_texture;
 		batch->m_layer = sprite.m_layer;
 		batch->m_inactive = 0;
-		batch->m_count = 0;
+		batch->quad_count = 0;
 
 		m_batches.push_back(batch);
 		return m_batches.back();
@@ -465,8 +465,8 @@ namespace xen
 
 	int Renderer2D::lua_present(lua_State* L)
 	{
-		const size_t vertex_size = sizeof(Vertex) * 8;
-		const size_t element_size = sizeof(unsigned int) * 6;
+		const size_t vertex_size = sizeof(Vertex) * 4; // 4 vertices per quad.
+		const size_t element_size = sizeof(unsigned int) * 6; // 6 indices per quad.
 
 		// assign the framebuffer.
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
@@ -483,6 +483,7 @@ namespace xen
 		glClearColor(r, g, b, 1);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+
 		// draw each of the batches (layers)
 		for (const Batch* batch : m_batches)
 		{
@@ -491,27 +492,28 @@ namespace xen
 			glBindTexture(GL_TEXTURE_2D, texture->gl_texture_id);
 
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
-			glBufferData(GL_ARRAY_BUFFER, batch->m_count * vertex_size, batch->m_vertices.data(), GL_DYNAMIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, batch->quad_count * vertex_size, batch->m_vertices.data(), GL_DYNAMIC_DRAW);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, batch->m_count * element_size, batch->m_indices.data(), GL_DYNAMIC_DRAW);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, batch->quad_count * element_size, batch->m_indices.data(), GL_DYNAMIC_DRAW);
 
-			glDrawElements(GL_TRIANGLES, batch->m_count * element_size, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, batch->quad_count * 6, GL_UNSIGNED_INT, nullptr);
 		}
+
 
 		// unbind the frame buffer.
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glUniformMatrix4fv(shader_transform_loc, 1, false, &screen_proj[0][0]);
 		glViewport(0, 0, sc_width, sc_height);
+		glUniformMatrix4fv(shader_transform_loc, 1, false, &screen_proj[0][0]);
 
 		// clear the screen once more (this time with black).
-		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(0, 0, 0, 1);
+		glClear(GL_COLOR_BUFFER_BIT);
 
 		// prepare to draw the render target as a texture.
 		m_sprite.ResetTransform();
 		m_sprite.ResetTexCoords();
-		m_sprite.set_position(0, 0); // offset of viewport to screen.
+		m_sprite.set_position(240, 60); // offset of viewport to screen.
 		m_sprite.set_scale(1, 1);
 		m_sprite.m_width = fbo_texture_inst->width;
 		m_sprite.m_height = fbo_texture_inst->height;
@@ -524,10 +526,10 @@ namespace xen
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, fbo_texture);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, view_batch->m_count * vertex_size, view_batch->m_vertices.data(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, view_batch->quad_count * vertex_size, view_batch->m_vertices.data(), GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, view_batch->m_count * element_size, view_batch->m_indices.data(), GL_DYNAMIC_DRAW);
-		glDrawElements(GL_TRIANGLES, view_batch->m_count * element_size, GL_UNSIGNED_INT, nullptr);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, view_batch->quad_count * element_size, view_batch->m_indices.data(), GL_DYNAMIC_DRAW);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		
 		return 1;
 	}

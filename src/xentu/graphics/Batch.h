@@ -15,9 +15,9 @@ namespace xen
 	{
 		void clear()
 		{
-			if (m_count > 0)
+			if (quad_count > 0)
 			{
-				m_count = 0;
+				quad_count = 0;
 				m_inactive = 0;
 			}
 			else
@@ -27,8 +27,8 @@ namespace xen
 
 		void draw(const Sprite& sprite)
 		{
-			size_t vertex_count = m_count * 4;
-			size_t index_count = m_count * 6;
+			size_t vertex_count = quad_count * 4;
+			size_t index_count = quad_count * 6;
 
 			if (vertex_count + 4 > m_vertices.size()) {
 				m_vertices.resize(m_vertices.size() + 4);
@@ -71,14 +71,14 @@ namespace xen
 			m_indices[index_count + 4] = vertex_count + 3;
 			m_indices[index_count + 5] = vertex_count;
 
-			m_count++;
+			quad_count++;
 		}
 
 
 		const Texture* m_texture;
 		int m_layer;
 		unsigned int m_inactive;
-		unsigned int m_count;
+		unsigned int quad_count;
 		std::vector<unsigned int> m_indices;
 		std::vector<Vertex> m_vertices;
 	};

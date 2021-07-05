@@ -91,7 +91,7 @@ namespace xen
 	template <typename T>
 	inline Vector4<T> operator -(const Vector4<T>& right)
 	{
-		return Vector4<T>(-right.x, -right.y, -right.z, right.w);
+		return Vector4<T>(-right.x, -right.y, -right.z, -right.w);
 	}
 
 
