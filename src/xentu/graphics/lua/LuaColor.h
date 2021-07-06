@@ -10,6 +10,16 @@ namespace xen
 		float blue;
 		float alpha;
 
+		static LuaColor Default()
+		{
+			LuaColor c;
+			c.red = 0;
+			c.green = 0;
+			c.blue = 0;
+			c.alpha = 1;
+			return c;
+		}
+
 		static LuaColor White()
 		{
 			LuaColor c;

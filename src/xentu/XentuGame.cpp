@@ -119,14 +119,14 @@ namespace xen
 
 		int linked;
 		glGetProgramiv(program, GL_LINK_STATUS, &linked);
-		if (linked != true) {
+		if (linked != GL_TRUE) {
 			std::cout << "Failed to link shader." << std::endl;
 		}
 
 		int valid;
 		glValidateProgram(program);
 		glGetProgramiv(program, GL_VALIDATE_STATUS, &valid);
-		if (valid != true) {
+		if (valid != GL_TRUE) {
 			std::cout << "Failed to validate linked shader." << std::endl;
 		}
 

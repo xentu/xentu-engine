@@ -21,10 +21,6 @@
 
 namespace xen
 {
-	
-
-	
-
 	Renderer2D::Renderer2D(lua_State* L) :
 		m_rotation(0),
 		m_origin_x(0),
@@ -251,7 +247,7 @@ namespace xen
 
 	LuaFont Renderer2D::parse_lua_font(lua_State* L)
 	{
-		LuaFont f;
+		LuaFont f = LuaFont::Default();
 		while (lua_next(L, -2)) {
 			std::string key = lua_tostring(L, -2);
 			if (key == "texture") 	f.texture_id = lua_tointeger(L, -1);
@@ -265,7 +261,7 @@ namespace xen
 
 	LuaColor Renderer2D::parse_lua_color(lua_State* L)
 	{
-		LuaColor c;
+		LuaColor c = LuaColor::Default();
 		while (lua_next(L, -2)) {
 			std::string key = lua_tostring(L, -2);
 			if (key == "red") c.red = lua_tonumber(L, -1);
@@ -280,6 +276,10 @@ namespace xen
 	Vector4f Renderer2D::parse_color(lua_State* L)
 	{
 		float r, g, b, a;
+		r = 0;
+		g = 0;
+		b = 0;
+		a = 1;
 		while (lua_next(L, -2)) {
 			std::string key = lua_tostring(L, -2);
 			if (key == "red") r = lua_tonumber(L, -1);

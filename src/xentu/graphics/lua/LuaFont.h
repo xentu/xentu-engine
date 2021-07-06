@@ -9,6 +9,16 @@ namespace xen
 		int spritemap_id;
         int letter_spacing;
         int line_height;
+
+		static LuaFont Default()
+		{
+			LuaFont f;
+			f.texture_id = -1;
+			f.spritemap_id = -1;
+			f.letter_spacing = 1;
+			f.line_height = 12;
+			return f;
+		}
 	};
 }
 

@@ -62,8 +62,12 @@ struct Res ${Name}(void) {
 	else()
 		if(APPLE)
 			set(Section ".const_data")
+			set(DataWord "_data")
+			set(EndEndWord "_end_data")
 		else()
 			set(Section ".section .rodata")
+			set(DataWord "data")
+			set(EndEndWord "end_data")
 		endif()
 
 		# TODO: _data & _end_data only work on MacOS, for Linux this needs
@@ -74,8 +78,8 @@ struct Res ${Name}(void) {
 asm(
 	\"${Section}\\n\"
 	\".align ${CMAKE_SIZEOF_VOID_P}\\n\"
-	\"_data: .incbin \\\"${InputAbs}\\\"\\n\"
-	\"_end_data:\\n\"
+	\"${DataWord}: .incbin \\\"${InputAbs}\\\"\\n\"
+	\"{EndDataWord}:\\n\"
 	\".previous\"
 )\;
 extern const char data[]\;
