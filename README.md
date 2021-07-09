@@ -17,12 +17,21 @@ C++, and very cross-platform friendly.
 
 ## Building
 
-The engine is tested with GCC (vscode-linux), GCC/MinGW32 (vscode-win), and
-MSVCC (vs-win) using CMake. I plan to make this more straight forward soon.
-However for now here are some platform specific notes to get you started.
+The engine is written in C++ 14 standard, and is set-up to be built with CMake. Generally if an OS is
+supported by the dependencies, can compile using CMake, and has support for OpenGL 4.1, then you can
+built it.
 
-Note for the most part testing has taken place inside VSCode with the CMake and
-C++ extensions enabled.
+Here is a bare metal checklist for how to build the engine on Windows within VS Code:
+1. Install GCC 8 or higher (mingw in i686 is a good shot: http://mingw-w64.org/doku.php).
+2. Verify your console can find GCC by using `gcc --version`, if not fix first.
+3. Install CMake (https://cmake.org/download/)
+4. Install the CMake Tools extension for VS Code.
+3. Clone this repo, then open the folder with VS Code, and allow CMake Tools to auto-configure.
+4. Either use the keyboard shortcut F7 or use the CMake panel in VSCode to build.
+5. Both executable files will appear in the generated out folder.
+
+If you prefer using Visual Studio, the CMake project is also compatible, just make sure you have CMake
+installed, there is no need for GCC using this method.
 
 ### Windows Notes
 
@@ -36,15 +45,23 @@ as-is without changes, remember to do the following:
 ### Linux Notes
 
 - Compiling on Linux has been tested with GCC 7.3, 8.4 and 9.3 and works.
-- You might get an error saying GLSL 3.3 is not available using the test shaders.
-  While not the best solution, you can try "export MESA_GL_VERSION_OVERRIDE=3.3"
-  before running to make your distro use the compatibility profile.
 - To compile on Linux Mint v20, I needed to install (with apt): libgl1-mesa-dev,
   libglu1-mesa-dev, liblua5.3-0, libglew2.1, libglfw3, build-essential
+
+## MacOS Notes
+
+Compiling is very similar to Linux (above), however you should make sure the device is OpenGL 4.1 compatible. I have tested
+on a MacMini from 2012, and it barely meets the spec.
 
 ## Documentation
 
 - Documentation is compiled using Sphinx, and is currently hosted at the following URL: https://docs.xentu.net
+
+## Known Issues
+
+- The engine has a resource system where resources are built during CMake configuration. The system uses a
+assembly trick with switches that should work on most operating systems. However only Windows, Linux 64bit
+and MacOS Catalina have been tested, so your milage may vary. The mechanism can be explored in cmake/FindEmbed.cmake
 
 ## Contribution And Community
 
