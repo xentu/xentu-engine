@@ -1,9 +1,6 @@
 #ifndef XEN_GAME_CPP
 #define XEN_GAME_CPP
-#define GLFW_INCLUDE_NONE
 
-#include <GLEW/GL/glew.h>
-#include <GLFW3/glfw3.h>
 #include <iostream>
 #include <string>
 
@@ -11,7 +8,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "XentuGame.h"
-#include "Helper.h"
+
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
 #define method(class, name, realname) {#name, &class::realname}
@@ -30,7 +27,7 @@ namespace xen
 		}
 
 		// consider removing state argument.
-		std::cout << "Created instance of XentuGame." << std::endl;
+		Advisor::logInfo("Created instance of XentuGame.");
 		this->num = 99;
 		this->shader = -1;
 		this->window = 0;
@@ -60,7 +57,7 @@ namespace xen
 			glDeleteProgram(shader);
 		}
 		else {
-			std::cout << "Tried to clean up a shader that does not exist." << std::endl;
+			Advisor::throwError("Tried to clean up a shader that does not exist.");
 		}
 		
 
@@ -68,7 +65,7 @@ namespace xen
 		//glfwDestroyWindow(window);
 		glfwTerminate();
 
-		std::cout << "Deleted instance of XentuGame." << std::endl;
+		Advisor::logInfo("Deleted instance of XentuGame.");
 	}
 
 
@@ -90,10 +87,10 @@ namespace xen
 		{
 			int length;
 			glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-			char* message = (char*)alloca(length * sizeof(char));
+			//char* message = (char*)alloca(length * sizeof(char));
+			char* message = (char*)_malloca(length * sizeof(char));
 			glGetShaderInfoLog(id, length, &length, message);
-			std::cout << "Failed to compile " << (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << " shader" << std::endl;
-			std::cout << message << std::endl;
+			Advisor::throwError("Failed to compile ", (type == GL_VERTEX_SHADER ? "vertex" : "fragment"), " shader\n", message);
 			glDeleteShader(id);
 			return 0;
 		}
@@ -120,14 +117,14 @@ namespace xen
 		int linked;
 		glGetProgramiv(program, GL_LINK_STATUS, &linked);
 		if (linked != GL_TRUE) {
-			std::cout << "Failed to link shader." << std::endl;
+			Advisor::throwError("Failed to link shader.");
 		}
 
 		int valid;
 		glValidateProgram(program);
 		glGetProgramiv(program, GL_VALIDATE_STATUS, &valid);
 		if (valid != GL_TRUE) {
-			std::cout << "Failed to validate linked shader." << std::endl;
+			Advisor::throwError("Failed to validate linked shader.");
 		}
 
 
@@ -214,7 +211,7 @@ namespace xen
 		{
 			glfwTerminate();
 			// export MESA_GL_VERSION_OVERRIDE=3.3
-			std::cout << "Failed to create game window." << std::endl;
+			Advisor::throwError("Failed to create game window.");
 			return -1;
 		}
 
@@ -236,11 +233,13 @@ namespace xen
 		}
 
 		/* Initialize GLEW so we have access to modern OpenGL methods. */
-		if (glewInit() != GLEW_OK)
-			std::cout << "Error!" << std::endl;
-
+		if (glewInit() != GLEW_OK) {
+			Advisor::throwError("Failed to initialize glew!");
+			return 0;
+		}
+			
 		/* Announce the GL version. */
-		std::cout << "Version: " << glGetString(GL_VERSION) << std::endl;
+		Advisor::logInfo("GL Version: ", glGetString(GL_VERSION));
 
 		/* Load our shaders. */
 		std::string vertexShader = default_vert;
@@ -265,7 +264,7 @@ namespace xen
 	}
 
 
-	bool XentuGame::pre_init()
+	int XentuGame::pre_init()
 	{
 		/* find Game.lua */
 		if (!xen::Helper::file_exists(base_path + "/game.lua")) {
@@ -283,11 +282,11 @@ namespace xen
 
 			bool found = false;
 
-			std::cout << "Base Path: " << base_path << std::endl;
+			Advisor::logInfo("Base Path: ", base_path);
 
 			for (int i = 0; i < 5; i++) {
 				data_path = base_path + possible_paths[i];
-				std::cout << "Trying: " << base_path << possible_paths[i] + "/game.lua" << std::endl;
+				Advisor::logInfo("Trying: ", base_path, possible_paths[i] + "/game.lua");
 				if (xen::Helper::file_exists(data_path + "/game.lua")) {
 					base_path = data_path;
 					found = true;
@@ -301,14 +300,14 @@ namespace xen
 			}
 
 			if (found == false) {
-				std::cout << "Failed to locate Game.lua, Xentu will now exit." << std::endl;
-				return false;
+				Advisor::throwError("Failed to locate Game.lua, Xentu will now exit.");
+				return -1;
 			}
 		}
 
 		/* log the game folder path */
 		std::string game_path = base_path + "/Game.lua";
-		std::cout << "Located game at: " << game_path << std::endl;
+		Advisor::logInfo("Located game at: ", game_path);
 
 		delete this->config; // get rid of old ref.
 		this->assets->base_path = base_path;
@@ -321,7 +320,7 @@ namespace xen
 		}
 
 		this->viewport = new Viewport(this->config->m_viewport_width, this->config->m_viewport_height);
-		return true;
+		return 0;
 	}
 
 
@@ -485,13 +484,12 @@ namespace xen
 		std::string full_path = this->base_path + '/' + file;
 		if (luaL_dofile(L, full_path.c_str()) == LUA_OK)
 		{
-			std::cout << "Loaded " << full_path << std::endl;
+			Advisor::logInfo("Loaded ", full_path);
 		}
 		else
 		{
-			std::cout << "Failed to load " << full_path << std::endl;
 			std::string errormsg = lua_tostring(L, -1);
-			std::cout << errormsg << std::endl;
+			Advisor::throwError("Failed to load ", full_path, ": ", errormsg);
 		}
 		return 0;
 	}

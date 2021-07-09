@@ -7,6 +7,7 @@
 
 #include <json/json.hpp>
 #include "SpriteMap.h"
+#include "../utilities/Advisor.h"
 
 namespace xen
 {
@@ -41,7 +42,7 @@ namespace xen
 				result->add_region(el.key(), new Rect(x, y, w, h));
 			}
 			else {
-				std::cout << "Ignored SpriteMap entry: " << el.key() << " : " << el.value() << "\n";
+				Advisor::logInfo("Ignored SpriteMap entry: ", el.key(), " : ", el.value());
 			}
 		}
 

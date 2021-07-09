@@ -52,7 +52,6 @@ set(XEN_ENGINE_FILES
 	${EMBED_LUA_CLASSES_OUTPUTS}
 	${EMBED_LUA_BEFORE_INIT_OUTPUTS}
 	src/xentu/Application.cpp
-	src/xentu/Helper.h
 	src/xentu/XentuGame.cpp
 	src/xentu/XentuGame.cpp
 	src/xentu/audio/AudioPlayer.cpp
@@ -90,7 +89,10 @@ set(XEN_ENGINE_FILES
 	src/xentu/input/MouseManager.cpp
 	src/xentu/input/MouseManager.h
 	src/xentu/input/KeyboardManager.cpp
-	src/xentu/input/KeyboardManager.h	
+	src/xentu/input/KeyboardManager.h
+	src/xentu/utilities/Advisor.cpp
+	src/xentu/utilities/Advisor.h
+	src/xentu/utilities/Helper.h
 )
 
 

@@ -1,7 +1,6 @@
 #ifndef XEN_GAME
 #define XEN_GAME
 
-#include <GLFW3/glfw3.h>
 #include <unordered_map>
 #include <luna/luna.hpp>
 
@@ -12,6 +11,8 @@
 #include "graphics/Viewport.h"
 #include "input/KeyboardManager.h"
 #include "input/MouseManager.h"
+#include "utilities/Helper.h"
+#include "utilities/Advisor.h"
 
 
 namespace xen {
@@ -43,8 +44,8 @@ namespace xen {
 		/// <returns>A pointer to the single instance.</returns>
 		static XentuGame* get_instance(lua_State* L);
 
-		/// Called after the constructor, but before initialize() by c++
-		bool pre_init();
+		/// Called after the constructor, but before initialize() by c++ 0 for success
+		int pre_init();
 
 
 #pragma endregion

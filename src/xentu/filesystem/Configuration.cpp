@@ -9,6 +9,7 @@
 
 #include <toml/toml.hpp>
 #include "Configuration.h"
+#include "../utilities/Advisor.h"
 
 namespace xen
 {
@@ -35,7 +36,7 @@ namespace xen
 		const toml::Value& v = pr.value;
 
 		if (!pr.valid()) {
-			std::cout << pr.errorReason << std::endl;
+			Advisor::throwError(pr.errorReason);
 			return config;
 		}
 

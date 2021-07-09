@@ -1,9 +1,11 @@
 #ifndef XEN_KEYBOARD_MANAGER_CPP
 #define XEN_KEYBOARD_MANAGER_CPP
+#define GLFW_INCLUDE_NONE
 
 #include <iostream>
 
 #include "KeyboardManager.h"
+#include "../utilities/Advisor.h"
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
 #define method(class, name, realname) {#name, &class::realname}
@@ -22,7 +24,7 @@ namespace xen
 
 	KeyboardManager::~KeyboardManager()
 	{
-		std::cout << "Deleted instance of KeyboardManager." << std::endl;
+		Advisor::logInfo("Deleted instance of KeyboardManager.");
 	}
 
 

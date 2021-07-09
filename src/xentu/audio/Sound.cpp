@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "Sound.h"
+#include "../utilities/Advisor.h"
 
 namespace xen
 {
@@ -21,7 +22,7 @@ namespace xen
 	Sound::~Sound()
 	{
 		ma_decoder_uninit(&decoder);
-		std::cout << "Deleted instance of Sound." << std::endl;
+		Advisor::logInfo("Deleted instance of Sound.");
 	}
 }
 

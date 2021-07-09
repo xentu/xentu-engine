@@ -1,5 +1,5 @@
-#ifndef LUASCRIPT_H
-#define LUASCRIPT_H
+#ifndef APPLICATION_HPP
+#define APPLICATION_HPP
 #endif
 
 #define LUA_OK 0
@@ -11,7 +11,7 @@
 
 #include <luna/luna.hpp>
 #include "XentuGame.h"
-#include "Helper.h"
+#include "utilities/Helper.h"
 
 extern "C" {
 #include "lua53/lua.h"
@@ -51,12 +51,14 @@ using namespace std::chrono_literals;
 int main(int arg_count, char* args[])
 {
 	int result = 0;
+	xen::Advisor::setMode(false, false, true, true);
+	xen::Advisor::setModeDate(false);
 
 	// see if we need to use proxy path mode (aka via the sdk).
 	if (arg_count > 1) {
 		std::string command_arg(args[1]);
 		if (command_arg == "proxy") {
-			std::cout << "Set USE_PROXY_PATH" << std::endl;
+			xen::Advisor::logInfo("Set USE_PROXY_PATH");
 			xen::XentuGame::USE_PROXY_PATH = true;
 		}
 	}
@@ -83,16 +85,19 @@ int main(int arg_count, char* args[])
 	luaL_openlibs(L);
 	auto ret_startup = luaL_dostring(L, m_xen_startup_lua.c_str());
 	if (ret_startup != LUA_OK) {
-		printf("Startup Error: %s\n", lua_tostring(L, -1));
+		xen::Advisor::throwError("One of the startup Lua components failed: ", lua_tostring(L, -1));
 		lua_pop(L, 1); // pop error message
 		return 0;
 	}
 
 	// grab a pointer to the game singleton instance
 	xen::XentuGame* game = xen::XentuGame::get_instance(L);
-	game->pre_init();
+	if (game->pre_init() != 0) {
+		return 0;
+	}
 	std::string game_path = game->get_base_path() + "/Game.lua";
 
+	// load and run the game.lua script
 	if (luaL_dofile(L, game_path.c_str()) == LUA_OK)
 	{
 		unsigned int ms = 1000.0f / game->config->m_update_frequency;
@@ -130,10 +135,9 @@ int main(int arg_count, char* args[])
 	else
 	{
 		std::string errormsg = lua_tostring(L, -1);
-		std::cout << errormsg << std::endl;
+		xen::Advisor::throwError("There is an error in your game code: ", errormsg);
 	}
 	
 	lua_close(L);
-
 	return result;
 }

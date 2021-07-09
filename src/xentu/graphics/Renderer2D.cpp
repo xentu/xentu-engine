@@ -1,5 +1,5 @@
-#ifndef XEN_SPRITE_BATCH_CPP
-#define XEN_SPRITE_BATCH_CPP
+#ifndef XEN_RENDERER2D_CPP
+#define XEN_RENDERER2D_CPP
 
 #include <GLEW/GL/glew.h>
 #include <glm/glm.hpp>
@@ -15,8 +15,6 @@
 
 // macro for calculating the byte offset of vertex information.
 #define BUFFER_OFFSET(i) ((float*)NULL + (i))
-//#define BUFFER_OFFSET(i) ((char*)NULL + (i))
-//#define BUFFER_OFFSET(i) ((void*)(i))
 
 
 namespace xen
@@ -37,7 +35,7 @@ namespace xen
 	Renderer2D::~Renderer2D()
 	{
 		// todo, delete resources created by this class like buffers & textures.
-		std::cout << "Deleted instance of Renderer2D." << std::endl;
+		Advisor::logInfo("Deleted instance of Renderer2D.");
 	}
 
 
@@ -48,7 +46,7 @@ namespace xen
 	{
 		if (!this->m_initialized)
 		{
-			Renderer2D::checkGLError(-1);
+			Advisor::throwOnGLError("initializing renderer");
 
 			XentuGame* game = XentuGame::get_instance(L);
 			sc_width = game->config->m_screen_width;
@@ -65,11 +63,10 @@ namespace xen
 			glGenTextures(1, &wt_ref);
 			glBindTexture(GL_TEXTURE_2D, wt_ref);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 10, 10, 0, GL_RGBA, GL_UNSIGNED_BYTE, wt_data);
-			Renderer2D::checkGLError(0);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			white_texture = new Texture(wt_ref, 10, 10, 4);
-			Renderer2D::checkGLError(1);
+			Advisor::throwOnGLError("generating white texture");
 
 			/* calculate the projection matrices */
 			glViewport(0, 0, vp_width, vp_height);
@@ -79,40 +76,39 @@ namespace xen
 			/* get the uniform locations */
 			shader = game->shader;
 			shader_transform_loc = glGetUniformLocation(shader, "u_MVP");
-			//shader_tex_loc = glGetUniformLocation(shader, "u_Texture");
-			Renderer2D::checkGLError(2);
+			Advisor::throwOnGLError("getting camera matrices");
 			
 			/* set the shader uniforms default */
 			glUniformMatrix4fv(shader_transform_loc, 1, false, &view_proj[0][0]);
 
 			/* generate a vertex array object */
 			glGenVertexArrays(1, &vao);
-			Renderer2D::checkGLError(3);
+			Advisor::throwOnGLError("generating vertex array object");
 
 			// prepare vertex buffer.
 			glGenBuffers(1, &vbo);
 			glBindVertexArray(vao);
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
-			Renderer2D::checkGLError(4);
+			Advisor::throwOnGLError("generating and binding a vbo");
 
 			// Specify the vertex layout (pos + uv + color).
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, BUFFER_OFFSET(0));
-			Renderer2D::checkGLError(6);
+			Advisor::throwOnGLError("setting the 1st shader attribute pointer");
 			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 9, BUFFER_OFFSET(3));
-			Renderer2D::checkGLError(7);
+			Advisor::throwOnGLError("setting the 2nd shader attribute pointer");
 			glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 9, BUFFER_OFFSET(5));
-			Renderer2D::checkGLError(8);
+			Advisor::throwOnGLError("setting the 3rd shader attribute pointer");
 
 			// Make sure the attributes are marked as enabled.
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(1);
 			glEnableVertexAttribArray(2);
-			Renderer2D::checkGLError(9);
+			Advisor::throwOnGLError("enabling the vertex attribute array markers");
 
 			// prepare frame buffer.
 			glGenFramebuffers(1, &fbo);
 			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-			checkGLError(10);
+			Advisor::throwOnGLError("generating a frame buffer");
 
 			// prepare frame buffer texture.
 			glGenTextures(1, &fbo_texture);
@@ -121,23 +117,23 @@ namespace xen
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbo_texture, 0);
-			checkGLError(11);
+			Advisor::throwOnGLError("preparing the generated frame buffer");
 
 			// debug the framebuffer creation.
 			auto ret = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			if (ret != GL_FRAMEBUFFER_COMPLETE) {
 				if (ret == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-					std::cout << "Something went wrong with the fbo. GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT" << std::endl;
+					Advisor::throwError("Something went wrong with the fbo. GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
 				}
 				else if (ret == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-					std::cout << "Something went wrong with the fbo. GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT" << std::endl;
+					Advisor::throwError("Something went wrong with the fbo. GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
 				}
 				else {
-					std::cout << "Something went wrong with the fbo. #" << ret << ", texture #" << fbo_texture << std::endl;
+					Advisor::throwError("Something went wrong with the fbo. #", ret, ", texture #", fbo_texture);
 				}
 			}
 			else {
-				std::cout << "Framebuffer created #" << fbo_texture << std::endl;
+				Advisor::logInfo("Framebuffer created #", fbo_texture);
 			}
 
 			// create a texture for our generated fbo.
@@ -151,7 +147,7 @@ namespace xen
 			// create an index buffer.
 			glGenBuffers(1, &ibo);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-			Renderer2D::checkGLError(12);
+			Advisor::throwOnGLError("generating an index buffer");
 
 
 			
@@ -316,24 +312,24 @@ namespace xen
 
 	int Renderer2D::lua_debug_sprite(lua_State* L)
 	{
-		printf("--- Sprite Debug ---\n");
+		Advisor::logInfo("--- Sprite Debug ---");
 		int count = lua_gettop(L);
 		if (count == 1) {
 			int type = lua_type(L, 1);
 			if (type == LUA_TTABLE) {
 				lua_pushnil(L);
 				LuaSprite s = parse_lua_sprite(L);
-				std::cout << "sprite: (" << s.x << "," << s.y << "," << s.width << "," << s.height << ") [" << s.region << "]" << std::endl;
-				printf("success: everything looks normal!\n");
+				Advisor::logInfo("sprite: (", s.x, ",", s.y, ",", s.width, ",", s.height, ") [", s.region, "]");
+				Advisor::logInfo("success: everything looks normal!");
 			}
 			else {
-				printf("error: first item on stack is not a table.\n");
+				Advisor::throwError("first item on stack is not a table.");
 			}
 		}
 		else {
-			printf("error: no sprite detected.\n");
+			Advisor::throwError("no sprite detected.");
 		}
-		printf("--- Sprite Debug ---\n");
+		Advisor::logInfo("--- Sprite Debug ---");
 		return 0;
 	}
 
@@ -600,7 +596,7 @@ namespace xen
 		/* texture prep */
 		shader_tex_loc = glGetUniformLocation(shader, "u_Texture");
 
-		std::cout << "Using shader #" << shader_id << std::endl;
+		Advisor::logInfo("Using shader #", shader_id);
 		return 0;
 	}
 

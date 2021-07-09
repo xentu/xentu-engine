@@ -19,6 +19,11 @@
 #include <fstream>
 #include <sstream>
 
+#if defined(__APPLE__)
+#define GLFW_INCLUDE_NONE
+#include "Advisor.h"
+#endif
+
 
 namespace xen
 {
@@ -53,7 +58,7 @@ namespace xen
 				return std::string(path).substr(0, pos);
 			}
 			else
-    			printf("buffer too small; need size %u\n", size);
+    			Advisor::throwError("buffer too small; need size ", size);
 				return "/";
 			#else
 			char arg1[20];

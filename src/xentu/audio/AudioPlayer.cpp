@@ -96,7 +96,7 @@ namespace xen
 
 	void _stop_callback(ma_device* device)
 	{
-		std::cout << "Audio Device Stopped" << std::endl;
+		Advisor::logInfo("Audio Device Stopped");
 	}
 
 
@@ -152,7 +152,7 @@ namespace xen
 			ma_device_uninit(&m_device);
 			m_alive = false;
 		}
-		std::cout << "Deleted instance of AudioPlayer." << std::endl;
+		Advisor::logInfo("Deleted instance of AudioPlayer.");
 	}
 
 
@@ -235,7 +235,7 @@ namespace xen
 		if (!m_playing) {
 			m_playing = true;
 			if (ma_device_start(&m_device) != MA_SUCCESS) {
-				printf("Failed to start playback device.\n");
+				Advisor::throwError("Failed to start playback device.");
 				ma_device_uninit(&m_device);
 				return -3;
 			}

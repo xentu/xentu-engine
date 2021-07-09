@@ -9,7 +9,8 @@
 #include <luna/luna.hpp>
 #include <stb_image/stb_image.hpp>
 #include "AssetManager.h"
-#include "Helper.h"
+#include "../utilities/Helper.h"
+#include "../utilities/Advisor.h"
 
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
@@ -56,7 +57,7 @@ namespace xen
 
 		this->sounds.empty();
 		
-		std::cout << "Deleted instance of AssetManager." << std::endl;
+		Advisor::logInfo("Deleted instance of AssetManager.");
 	}
 
 
@@ -102,14 +103,14 @@ namespace xen
 		}
 		else
 		{
-			std::cout << "Failed to load texture " << filename_relative << std::endl;
+			Advisor::throwError("Failed to load texture ", filename_relative);
 			return -1;
 		}
 		stbi_image_free(data);
 
 		Texture* created = new Texture(texture, width, height, nrChannels);
 		textures_iter++;
-		std::cout << "Loaded texture [#" << textures_iter << "] wh: " << width << "x" << height << ", channels: " << nrChannels << ", from: " << filename << std::endl;
+		Advisor::logInfo("Loaded texture [#", textures_iter, "] wh: ", width, "x", height, ", channels: ", nrChannels, ", from: ", filename);
 		textures.insert(std::make_pair(textures_iter, created));
 		return textures_iter;
 	}
@@ -157,19 +158,19 @@ namespace xen
 			sounds_iter++;
 			Sound* created = new Sound(filename);
 			sounds.insert(std::make_pair(sounds_iter, created));
-			std::cout << "Loaded audio [#" << sounds_iter << "] from: " << filename << std::endl;
+			Advisor::logInfo("Loaded audio [#", sounds_iter, "] from: ", filename);
 		}
 		catch (int err)
 		{
 			switch (err) {
 				case MA_ACCESS_DENIED:
-					std::cout << "Access denied when loading audio from: " << filename << std::endl;
+					Advisor::throwError("Access denied when loading audio from: ", filename);
 					break;
 				case MA_DOES_NOT_EXIST:
-					std::cout << "Audio file does not exist: " << filename << std::endl;
+					Advisor::throwError("Audio file does not exist: ", filename);
 					break;
 				default:
-					std::cout << "Could not load audio from: " << filename << std::endl;
+					Advisor::throwError("Could not load audio from: ", filename);
 					break;
 			}
 			throw;
@@ -208,8 +209,7 @@ namespace xen
 			glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
 			char* message = (char*)alloca(length * sizeof(char));
 			glGetShaderInfoLog(id, length, &length, message);
-			std::cout << "Failed to compile " << (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << " shader" << std::endl;
-			std::cout << message << std::endl;
+			Advisor::throwError("Failed to compile ", (type == GL_VERTEX_SHADER ? "vertex" : "fragment"), " shader\n", message);
 			glDeleteShader(id);
 			return 0;
 		}
@@ -239,7 +239,7 @@ namespace xen
 
 		shaders.push_back(program);
 		lua_pushinteger(L, program);
-		std::cout << "Loaded shader [" << program << "]" << std::endl;
+		Advisor::logInfo("Loaded shader [", program, "]");
 		return 1;
 	}
 

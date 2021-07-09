@@ -1,10 +1,12 @@
 #ifndef XEN_TEXTURE_CPP
 #define XEN_TEXTURE_CPP
+#define GLFW_INCLUDE_NONE
 
 #include <GLEW/GL/glew.h>
 #include <iostream>
 
 #include "Texture.h"
+#include "../utilities/Advisor.h"
 
 namespace xen
 {
@@ -39,7 +41,7 @@ namespace xen
 		if (gl_texture_id > 0) {
 			glDeleteTextures(1, &gl_texture_id);
 		}
-		std::cout << "Deleted instance of Texture." << std::endl;
+		Advisor::logInfo("Deleted instance of Texture.");
 	}
 }
 
