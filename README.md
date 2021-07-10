@@ -4,11 +4,10 @@ A slim, fast and easy to learn framework for creating 2D games scripted in Lua.
 It's completely free to use, open-source (under the zlib license), links to other
 open-source libraries, written in C/C++, and very cross-platform friendly.
 
-Main Website: [https://xentu.net](https://xentu.net)
+<br />
 
-Core Goals: [CORE_GOALS.md](CORE_GOALS.md)
+## Engine Features
 
-Features include:
 - Works on OpenGL 4.1+ (and ES 3.0+).
 - Write game code in Lua, no need to recompile every time.
 - Very fast emitter/subscriber event system.
@@ -21,6 +20,11 @@ Features include:
 - Compact & portable, with the main exe compiling to 2mb in release mode.
 
 <br />
+
+## Main Links
+
+- Main Website: [https://xentu.net](https://xentu.net)
+- Core Goals: [CORE_GOALS.md](CORE_GOALS.md)
 
 ## Table Of Contents
 
