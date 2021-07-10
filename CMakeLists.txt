@@ -52,8 +52,10 @@ set(XEN_ENGINE_FILES
 	${EMBED_LUA_CLASSES_OUTPUTS}
 	${EMBED_LUA_BEFORE_INIT_OUTPUTS}
 	src/xentu/Application.cpp
+	src/xentu/XentuGame.h
 	src/xentu/XentuGame.cpp
-	src/xentu/XentuGame.cpp
+	src/xentu/XentuScene.h
+	src/xentu/XentuScene.cpp
 	src/xentu/audio/AudioPlayer.cpp
 	src/xentu/audio/AudioPlayer.h
 	src/xentu/audio/Sound.cpp

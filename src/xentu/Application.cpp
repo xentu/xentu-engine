@@ -51,7 +51,7 @@ using namespace std::chrono_literals;
 int main(int arg_count, char* args[])
 {
 	int result = 0;
-	xen::Advisor::setMode(false, false, true, true);
+	xen::Advisor::setMode(true, true, true, true);
 	xen::Advisor::setModeDate(false);
 
 	// see if we need to use proxy path mode (aka via the sdk).
@@ -74,6 +74,7 @@ int main(int arg_count, char* args[])
 	// make luna aware of classes it can proxy to lua.
 	lua_State* L = luaL_newstate();
 	Luna<xen::XentuGame>::Register(L, false);
+	Luna<xen::XentuScene>::Register(L, false);
 	Luna<xen::AssetManager>::Register(L, false);
 	Luna<xen::Renderer2D>::Register(L, false);
 	Luna<xen::AudioPlayer>::Register(L, false);

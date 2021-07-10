@@ -115,7 +115,14 @@ Entity.fromRect = function(x, y, width, height)
 end
 
 
+-- Func for creating scene instances
+function new_scene()
+	return XentuScene()
+end 
+
+
 -- Wrap things up.
 game = XentuGame()
 require = game.require
 XentuGame = nil
+

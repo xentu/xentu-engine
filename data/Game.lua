@@ -5,6 +5,10 @@
 ]]
 
 
+-- define scenes outside of init so that you can hook their events globally.
+scene1 = new_scene()
+scene1.name = "intro scene"
+
 
 -- called when the game first loads.
 game.on("init", function()
@@ -42,14 +46,32 @@ game.on("init", function()
     -- say hello.
     print("Hello from Lua world!")
 
-	-- blend stuffs
+	-- blend stuffs.
 	renderer.set_blend(true)
+
+
+	-- create a new scene, and make it the active one.
+	game.set_scene(scene1)
 end)
 
 
 
--- the update event.
+-- the update event (always called regardless of scene).
 game.on("update", function()
+	-- do nothing :)
+end)
+
+
+
+-- the drawing event (always called regardless of scene).
+game.on("draw", function()
+	-- do nothing :)
+end)
+
+
+
+-- the update event for scene1
+scene1.on('update', function()
 	if sprite.x_speed > 0 and sprite.x + 1 > viewport.width - sprite.width then sprite.x_speed = -1 end
 	if sprite.x_speed < 0 and sprite.x - 1 < 0 then sprite.x_speed = 1 end
 	sprite.x = sprite.x + (sprite.x_speed * 2)
@@ -63,14 +85,9 @@ end)
 
 
 
--- the drawing event.
-game.on("draw", function()
+-- the draw event for scene1
+scene1.on('draw', function()
     renderer.begin()
-    -- renderer.set_blend_preset(BLEND_SOURCE_IN) // use a preset for blending
-    -- renderer.set_blend_func(SRC_ALPHA, ONE_MINUS_SRC_ALPHA) // alternatively set blending like you do in OpenGL
-	-- renderer.set_origin(50, 50)
-    -- renderer.set_rotation(sprite.rotation)
-    -- renderer.set_scale(sprite.scale.x, sprite.scale.y)
     renderer.draw_sprite(sprite)
 
     renderer.draw_text(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet tortor eget pulvinar eleifend. Maecenas dapibus mauris " ..

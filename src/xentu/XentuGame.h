@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <luna/luna.hpp>
 
+#include "XentuScene.h"
 #include "audio/AudioPlayer.h"
 #include "filesystem/AssetManager.h"
 #include "filesystem/Configuration.h"
@@ -93,6 +94,12 @@ namespace xen {
 		void update(lua_State* L);
 
 
+		/// <summary>
+		/// Set the currently active scene.
+		/// </summary>
+		void set_scene(XentuScene* scene);
+
+
 #pragma endregion
 
 
@@ -155,6 +162,12 @@ namespace xen {
 		/// Allows scripts in Lua to trigger events.
 		/// </summary>
 		int lua_trigger(lua_State* L);
+
+		/// <summary>
+		///	Allows the user to set a scene to receive update and draw events. By
+		/// default only the game global handles these.
+		/// </summary>
+		int lua_set_scene(lua_State* L);
 		
 
 #pragma endregion
@@ -199,6 +212,9 @@ namespace xen {
 
 		/* true if the window is closing or a request to close has been made */
 		bool m_closing;
+
+		/* A pointer to the currently selected scene, default is nullptr */
+		XentuScene* m_current_scene;
 
 		/* Store a hashmap of assigned event callbacks. */
 		std::unordered_map<std::string, int> callbacks;

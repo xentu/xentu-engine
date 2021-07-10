@@ -38,6 +38,7 @@ namespace xen
 		this->mouse = new MouseManager(L);
 		this->initialized = false;
 		this->m_closing = false;
+		this->m_current_scene = nullptr;
 		this->config = new xen::Configuration();
 		this->viewport = new Viewport(320, 240);
 	}
@@ -337,6 +338,10 @@ namespace xen
 
 		this->trigger(L, "draw");
 
+		if (this->m_current_scene != nullptr) {
+			this->m_current_scene->trigger(L, "draw");
+		}
+
 		/* Swap front and back buffers. */
 		glfwSwapBuffers(window);
 
@@ -383,6 +388,15 @@ namespace xen
 
 	void XentuGame::update(lua_State* L) {
 		this->trigger(L, "update");
+
+		if (this->m_current_scene != nullptr) {
+			this->m_current_scene->trigger(L, "update");
+		}
+	}
+
+
+	void XentuGame::set_scene(XentuScene* scene) {
+		this->m_current_scene = scene;
 	}
 
 
@@ -447,6 +461,9 @@ namespace xen
 			case LUA_TNUMBER:  /* numbers */
 				printf("> #%i number: %g\n", i, lua_tonumber(L, i));
 				break;
+			case LUA_TTABLE:
+				printf("> #%i table.", i);
+				break;
 			default:  /* other values */
 				printf("> #%i is: %s\n", i, lua_typename(L, t));
 				break;
@@ -503,6 +520,16 @@ namespace xen
 	}
 
 
+	int XentuGame::lua_set_scene(lua_State* L)
+	{
+		// deal with double reference evil >:)
+		XentuScene** scene = static_cast<XentuScene**>(lua_touserdata(L, -1));
+		XentuGame* game = XentuGame::get_instance(L);
+		game->set_scene(*scene);
+		return 0;
+	}
+
+
 #pragma endregion
 
 
@@ -527,6 +554,7 @@ namespace xen
 		method(XentuGame, on, lua_on),
 		method(XentuGame, require, lua_require),
 		method(XentuGame, trigger, lua_trigger),
+		method(XentuGame, set_scene, lua_set_scene),
 		{0,0}
 	};
 }
