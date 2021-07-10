@@ -4,15 +4,21 @@ A slim, fast and easy to learn framework for creating 2D games scripted in Lua.
 It's completely free to use, open-source (under the zlib license), links to other
 open-source libraries, written in C++, and very cross-platform friendly.
 
-For more information on what the core goals of the engine are please check out:
-[CORE_GOALS.md](CORE_GOALS.md).
+# Table Of Contents
 
-And for even more information, why not visit the official website!:
-https://xentu.net.
+- [Core Goals](CORE_GOALS.md)
+- [Visit The Xentu Website](https://xentu.net)
+- [Dependencies](#dependencies)
+- [Building](#building)
+- [Documentation](#documentation)
+- [Contribution And Community](#contribution-and-community)
+- [Contributors](#contributors)
 
 <br />
 
 ## Dependencies
+
+This project relies on the following libraries:
 
 - GLEW
 - GLFW3
@@ -22,6 +28,7 @@ https://xentu.net.
 - nlohmann/json
 - STB Image
 - TinyToml
+- TmxLite
 
 <br />
 
