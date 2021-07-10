@@ -24,6 +24,7 @@ open-source libraries, written in C/C++, and very cross-platform friendly.
 ## Main Links
 
 - Main Website: [https://xentu.net](https://xentu.net)
+- Documentation: [https://docs.xentu.net](https://docs.xentu.net)
 - Core Goals: [CORE_GOALS.md](CORE_GOALS.md)
 
 ## Table Of Contents
