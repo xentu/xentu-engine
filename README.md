@@ -5,6 +5,7 @@ It's completely free to use, open-source (under the zlib license), links to othe
 open-source libraries, written in C/C++, and very cross-platform friendly.
 
 Main Website: [https://xentu.net](https://xentu.net)
+
 Core Goals: [CORE_GOALS.md](CORE_GOALS.md)
 
 Features include:
