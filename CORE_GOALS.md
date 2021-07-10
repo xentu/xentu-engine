@@ -1,18 +1,31 @@
-## Maintain A Responsible API
+[< Back](README.md)
+
+# Core Goals
+The way you create something is important, especially when you are creating it
+to share with others. These core goals explain the direction of the project. And
+also why the project has been created.
+
+<br />
+
+## 1. Maintain A Responsible API
 Xentu is an API first game engine. Which means the syntax/layout of how you
 program a game using Xentu is hugely important. Weather it be a game built for a
 web browser, a games console, or a mobile phone, the Lua code you write must work
 without modification. For this reason, all maintained official ports of the base
 engine must adhere to the API specification.
 
-## Remain Free
+<br />
+
+## 2. Remain Free
 No exceptions. The main source, and all libraries we link too must be ZLib, MIT,
 un-license, BSD 2-Clause or equivalent. If a 3rd party library changes to a license
 that adds restrictions, then we must at earliest convenience replace that library
 with another that fits this principle, and push for a release ideally before that
 new license comes into effect.
 
-## Be Accessible
+<br />
+
+## 3. Be Accessible
 The engine must always be easy to get hold of, easy to learn and use. The goal is
 to have the following:
 
@@ -27,7 +40,9 @@ to have the following:
 - Prepare and present talks at game dev events and game jams to introduce people
   and show them how they can use the engine.
 
-## Support Minimum Spec
+<br />
+
+## 4. Support Minimum Spec
 Adding a requested feature is not an excuse to exclude older hardware. A milestone
 goal of v1.0.0 is to have a benchmark project that can run within the following
 specification:
@@ -49,7 +64,9 @@ legitimate reason for being considered. It's important to understand that many
 engine projects welcome such requests, but such an open door policy conflicts
 with the principle of maintaining support for a minimum spec.
 
-## Encourage & Facilitate Video Game Preservation
+<br />
+
+## 5. Encourage & Facilitate Video Game Preservation
 We want games made in 2021 using Xentu to still be playable in 2121. The only way
 we can stand any chance of aiding that, is to work hard enact all of the core
 principles of this project.
