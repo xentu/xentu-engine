@@ -1,5 +1,5 @@
 ===============
-Create A Folder
+Getting Started
 ===============
 
 Whenever you start work on a project in Xentu, you should create a folder to

@@ -5,93 +5,72 @@
 ]]
 
 
--- define scenes outside of init so that you can hook their events globally.
-scene1 = new_scene()
-scene1.name = "intro scene"
+speed = 5
 
 
 -- called when the game first loads.
 game.on("init", function()
-	-- shader loading example
-	-- shader1 = assets.load_shader("/custom-shader/vertex.shader", "/custom-shader/fragment.shader")
-	-- renderer.use_shader(shader1)
-
-	-- create a sprite.
-	texture1 = assets.load_texture("images/texture1.png", TX_RGBA, TX_REPEAT)
-	spritemap1 = assets.load_spritemap("images/texture1.json")
-	sprite = Sprite(texture1, 100, 10, 150, 150)
-	sprite.spritemap = spritemap1
-	sprite.x_speed = 1
-
-	-- create a font.
-	texture2 = assets.load_texture("fonts/arial_20.png", TX_RGBA, TX_CLAMP_TO_BORDER)
-	spritemap2 = assets.load_spritemap("fonts/arial_20.json")
-	font = Font(texture2, spritemap2)
-	font.letter_spacing = 1
-	font.line_height = 24
-
-	-- load some audio.
-    piano_c = assets.load_audio("audio/Piano_Hit2.mp3")
-    piano_a = assets.load_audio("audio/Piano_Hit.mp3")
-	stage5_loop = assets.load_audio("audio/8bit_Stage5_Loop.mp3");
-
-	audio.play(stage5_loop)
-	audio.set_volume(stage5_loop, 0)
-
-	-- color class tests.
-	local c = Color.fromHex('#800080')
-	print("Hex Form: #" .. c.toHex())
-	renderer.set_clear_color(c)
 	
-    -- say hello.
+	-- define some colours.
+	c_red = Color.fromHex('#0ee092')
+	c_blue = Color.fromHex('#0eb0e0')
+	
+	-- create a ball entity.
+	ball = Entity.fromRect(10, 10, 30, 30)
+	ball.color = c_red
+	ball.x_vel = speed
+	ball.y_vel = speed
+	
+	-- create a paddle entity.
+	local half_width = viewport.width / 2;
+	paddle = Entity.fromRect(half_width - 50, viewport.height - 50, 100, 10)
+	paddle.color = c_blue
+
+	-- set the background.
+	renderer.set_clear_color( Color.fromHex('#5f7988') )
+	
     print("Hello from Lua world!")
-
-	-- blend stuffs.
 	renderer.set_blend(true)
-
-	-- create a new scene, and make it the active one.
-	game.set_scene(scene1)
 end)
 
 
 
--- the update event (always called regardless of scene).
+-- the update event.
 game.on("update", function()
-	-- do nothing :)
+	-- x velocity
+	ball.x = ball.x + ball.x_vel
+	if ball.x + ball.width >= viewport.width then ball.x_vel = -speed end
+	if ball.x <= 0 then ball.x_vel = speed end
+
+	-- y velocity (roof)
+	ball.y = ball.y + ball.y_vel
+	if ball.y <= 0 then ball.y_vel = speed end
+
+	-- fail condition
+	if ball.y + ball.height >= viewport.height then 
+		ball.x = 10
+		ball.y = 10
+		ball.x_vel = speed
+		ball.y_vel = speed
+	end
+
+	-- paddle hit
+	if ball.y + ball.height == paddle.y and ball.x > paddle.x - ball.width and ball.x < paddle.x + paddle.width then ball.y_vel = -speed end
+
+	-- keyboard handler
+	if keyboard.key_down(KB_LEFT) then paddle.x = paddle.x - 8 end
+	if keyboard.key_down(KB_RIGHT) then paddle.x = paddle.x + 8 end
+
 end)
 
 
 
--- the drawing event (always called regardless of scene).
+-- the drawing event.
 game.on("draw", function()
-	-- do nothing :)
-end)
-
-
-
--- the update event for scene1
-scene1.on('update', function()
-	if sprite.x_speed > 0 and sprite.x + 1 > viewport.width - sprite.width then sprite.x_speed = -1 end
-	if sprite.x_speed < 0 and sprite.x - 1 < 0 then sprite.x_speed = 1 end
-	sprite.x = sprite.x + (sprite.x_speed * 2)
-	
-	-- test to show setting realtime volume
-	if sprite.x % 50 == 0 then audio.set_volume(stage5_loop, sprite.x / viewport.width) end
-
-	-- exit the game if the escape key is pressed
-    if keyboard.key_down(KB_ESCAPE) or mouse.button_down(MB_LEFT) then game.exit() end
-end)
-
-
-
--- the draw event for scene1
-scene1.on('draw', function()
     renderer.begin()
-    renderer.draw_sprite(sprite)
-
-    renderer.draw_text(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet tortor eget pulvinar eleifend. Maecenas dapibus mauris " ..
-	                         "sed felis laoreet pellentesque. Nam eget diam a lacus semper placerat luctus mattis arcu. Cras ac iaculis quam. Maecenas arcu " ..
-							 "ligula, congue eget ligula nec, pellentesque bibendum lacus. Cras iaculis lectus ipsum, euismod posuere sem rutrum sed.",
-     						 100, 200, viewport.width - 200)
+	-- draw the ball
+	renderer.draw_rect(ball.color, ball.x, ball.y, ball.width, ball.height)
+	-- draw the paddle
+	renderer.draw_rect(paddle.color, paddle.x, paddle.y, paddle.width, paddle.height)
     renderer.present()
 end)

@@ -83,6 +83,42 @@ for rendering graphics and text onto the screen.
 
 |
 
+game.set_scene(scene)
+---------------------
+By default Xentu fires the ``update`` and ``draw`` events through game object
+global. However using this method you can also tell the game to fire ``update``
+and ``draw`` events attached to scene objects that you create with ``new_scene()``.
+Here is an example of how it would look:
+
+.. code-block:: lua
+
+	scene1 = new_scene()
+	game.set_scene(scene1)
+
+	scene1.on('update', function(arg)
+		-- update code for scene goes here.
+	end)
+
+	scene1.on('draw', function(arg)
+		-- draw code for scene goes here.
+	end)
+
+This functionality allows you to switch between sets of update/render calls, giving
+a convenient way to switch between parts of a game. For example you could have a
+scene exclusively for the menu, one for the main gameplay, and perhaps one for a
+scoreboard.
+
+Passing ``nil`` to this function unattaches the currently attached scene.
+
+.. note::
+
+	Even when a scene is attached using this method, the ``update`` and ``draw``
+	calls on the main game object global will still be called. This is important
+	as it's one of the mechanisms you can use to perform fades between scenes,
+	or the changing of music etc...
+
+|
+
 game.trigger(event, arg)
 ------------------------
 

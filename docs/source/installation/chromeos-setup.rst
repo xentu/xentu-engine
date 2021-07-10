@@ -1,5 +1,0 @@
-==============
-ChromeOS Setup
-==============
-
-Coming Soon

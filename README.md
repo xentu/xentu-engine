@@ -2,12 +2,27 @@
 
 A slim, fast and easy to learn framework for creating 2D games scripted in Lua.
 It's completely free to use, open-source (under the zlib license), links to other
-open-source libraries, written in C++, and very cross-platform friendly.
+open-source libraries, written in C/C++, and very cross-platform friendly.
 
-# Table Of Contents
+Main Website: [https://xentu.net](https://xentu.net)
+
+Features include:
+- Works on OpenGL 4.1+ (and ES 3.0+).
+- Write game code in Lua, no need to recompile every time.
+- Very fast emitter/subscriber event system.
+- Scene system, to switch instantly between game parts.
+- Load in textures, sprite-sheets, custom swappable shaders, fonts, audio, 
+  tile maps (tmx), text data, databases etc...
+- Smart renderer that renders in pre-organised batches for performance.
+- Simple and easy to use transform system to move, rotate or scale graphics.
+- An SDK/CLI for creating, packaging and sharing your games.
+- Compact & portable, with the main exe compiling to 2mb in release mode.
+
+<br />
+
+## Table Of Contents
 
 - [Core Goals](CORE_GOALS.md)
-- [Visit The Xentu Website](https://xentu.net)
 - [Dependencies](#dependencies)
 - [Building](#building)
 - [Documentation](#documentation)
@@ -15,6 +30,24 @@ open-source libraries, written in C++, and very cross-platform friendly.
 - [Contributors](#contributors)
 
 <br />
+
+## Background
+
+The engine works, but it's still far from a v1.0. Development (with prototyping)
+has taken the best part of 3 years so far, so don't let the commit log fool you.
+
+Original prototype development started early 2018 on top of the MonoGame framework
+in C# and the NLua bindings. The project lasted till November 2019, where it was
+decided to move to C++ due to wanting more control and performance.
+
+The concern was that the Lua cross-talk (while optimal thanks to NLua) was still
+slow, and hurt performance when tied to the game loop. It was theorised that a
+straight implementation without overhead would alleviate the problem, which it
+did.
+
+The C++ concept prototype was completed in May 2020 showing the implementation was
+much stronger performance wise. And so development of the project began in earnest
+on the 3rd of May 2020.
 
 ## Dependencies
 
