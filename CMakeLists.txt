@@ -95,6 +95,38 @@ set(XEN_ENGINE_FILES
 	src/xentu/utilities/Advisor.cpp
 	src/xentu/utilities/Advisor.h
 	src/xentu/utilities/Helper.h
+
+
+	src/xentu/libraries/tmxlite/detail/Android.hpp
+	src/xentu/libraries/tmxlite/detail/Log.hpp
+	src/xentu/libraries/tmxlite/detail/pugiconfig.hpp
+	src/xentu/libraries/tmxlite/detail/pugixml.cpp
+	src/xentu/libraries/tmxlite/detail/pugixml.hpp
+	src/xentu/libraries/tmxlite/Config.hpp
+	src/xentu/libraries/tmxlite/FreeFuncs.cpp
+	src/xentu/libraries/tmxlite/FreeFuncs.hpp
+	src/xentu/libraries/tmxlite/ImageLayer.cpp
+	src/xentu/libraries/tmxlite/ImageLayer.hpp
+	src/xentu/libraries/tmxlite/Layer.hpp
+	src/xentu/libraries/tmxlite/LayerGroup.cpp
+	src/xentu/libraries/tmxlite/Map.cpp
+	src/xentu/libraries/tmxlite/Map.hpp
+	src/xentu/libraries/tmxlite/miniz.h
+	src/xentu/libraries/tmxlite/miniz.c
+	src/xentu/libraries/tmxlite/Object.cpp
+	src/xentu/libraries/tmxlite/Object.hpp
+	src/xentu/libraries/tmxlite/ObjectGroup.cpp
+	src/xentu/libraries/tmxlite/ObjectGroup.hpp
+	src/xentu/libraries/tmxlite/ObjectTypes.cpp
+	src/xentu/libraries/tmxlite/ObjectTypes.hpp
+	src/xentu/libraries/tmxlite/Property.cpp
+	src/xentu/libraries/tmxlite/Property.hpp
+	src/xentu/libraries/tmxlite/TileLayer.cpp
+	src/xentu/libraries/tmxlite/TileLayer.hpp
+	src/xentu/libraries/tmxlite/Tileset.cpp
+	src/xentu/libraries/tmxlite/Tileset.hpp
+	src/xentu/libraries/tmxlite/Types.hpp
+	src/xentu/libraries/tmxlite/Types.inl
 )
 
 

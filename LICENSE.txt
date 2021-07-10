@@ -21,6 +21,15 @@ This project contains code from the following
 	License: BSD 2-Clause
 	Copyright: (c) 2014, MAYAH
 
+- tmxlite
+	Website: http://trederia.blogspot.com
+	License: Zlib License
+	Copyright: (c)Matt Marchant & contributors 2016 - 2021
+
+- pugixml
+	Website: http://pugixml.org/
+	License: MIT License
+	Copyright: Copyright (C) 2006-2015, by Arseny Kapoulkine (arseny.kapoulkine@gmail.com)
 
 Full License Details
 ============

@@ -49,7 +49,6 @@ game.on("init", function()
 	-- blend stuffs.
 	renderer.set_blend(true)
 
-
 	-- create a new scene, and make it the active one.
 	game.set_scene(scene1)
 end)

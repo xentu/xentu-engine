@@ -12,6 +12,7 @@
 #include <luna/luna.hpp>
 #include "XentuGame.h"
 #include "utilities/Helper.h"
+#include "libraries/tmxlite/Map.hpp"
 
 extern "C" {
 #include "lua53/lua.h"
@@ -51,6 +52,17 @@ using namespace std::chrono_literals;
 int main(int arg_count, char* args[])
 {
 	int result = 0;
+
+	tmx::Map* map = new tmx::Map();
+	if (map->load("C:\\Program Files\\Tiled\\examples\\sewers.tmx"))
+	{
+		xen::Advisor::logInfo("Loaded tmx!");
+	}
+	else {
+		xen::Advisor::logInfo("Failed to load tmx :(");
+	}
+
+
 	xen::Advisor::setMode(true, true, true, true);
 	xen::Advisor::setModeDate(false);
 
