@@ -24,6 +24,7 @@ namespace xen
 		textures_iter = 0;
 		spritemaps_iter = 0;
 		sounds_iter = 0;
+		tilemap_iter = 0;
 	}
 
 
@@ -180,6 +181,20 @@ namespace xen
 	}
 
 
+	TileMap* AssetManager::load_tilemap(lua_State* L, std::string filename_relative)
+	{
+		std::string filename = localize_path(filename_relative);
+		tilemap_iter++;
+
+		TileMap* tilemap = new TileMap(L);
+		tilemap->load(filename);
+
+		// add the intance to a list.
+
+		return tilemap;
+	}
+
+
 	int AssetManager::lua_load_audio(lua_State* L)
 	{
 		std::string filename = lua_tostring(L, -1);
@@ -244,6 +259,16 @@ namespace xen
 	}
 
 
+	int AssetManager::lua_load_tilemap(lua_State* L)
+	{
+		// todo: this isn't tested.
+		std::string filename = lua_tostring(L, -1);
+		TileMap* tilemap = load_tilemap(L, filename);
+		lua_pushlightuserdata(L, tilemap);
+		return 1;
+	}
+
+
 	const Texture* AssetManager::get_texture(int id)
 	{
 		if (textures.count(id))
@@ -296,6 +321,7 @@ namespace xen
 		method(AssetManager, load_shader, lua_load_shader),
 		method(AssetManager, load_spritemap, lua_load_spritemap),
 		method(AssetManager, load_texture, lua_load_texture),
+		method(AssetManager, load_tilemap, lua_load_tilemap),
 		{0,0}
 	};
 }

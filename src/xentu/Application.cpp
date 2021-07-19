@@ -53,9 +53,16 @@ int main(int arg_count, char* args[])
 {
 	int result = 0;
 
-	tmx::Map* map = new tmx::Map();
-	if (map->load("C:\\Program Files\\Tiled\\examples\\sewers.tmx"))
+	tmx::Map map;
+	if (map.load("C:\\Program Files\\Tiled\\examples\\sewers.tmx"))
 	{
+		const auto& layers = map.getLayers();
+		std::cout << "Map has " << layers.size() << " layers" <<  std::endl;
+        for (const auto& layer : layers)
+		{
+			std::cout << "Found Layer: " << layer->getName() << std::endl;
+            std::cout << "Layer Type: " << int(layer->getType()) << std::endl;
+		}
 		xen::Advisor::logInfo("Loaded tmx!");
 	}
 	else {

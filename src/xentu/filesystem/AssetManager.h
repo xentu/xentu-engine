@@ -6,6 +6,7 @@
 #include <list>
 
 #include "../graphics/Texture.h"
+#include "../graphics/TileMap.h"
 #include "../graphics/SpriteMap.h"
 #include "../audio/Sound.h"
 
@@ -60,6 +61,13 @@ namespace xen {
 		/// Load a custom shader to be used when rendering.
 		/// </summary>
 		int lua_load_shader(lua_State* L);
+
+
+		/// <summary>
+		/// Load a Tiled TMX map.
+		/// </summary>
+		TileMap* load_tilemap(lua_State* L, std::string filename_relative);
+		int lua_load_tilemap(lua_State* L);
 
 
 		/// <summary>
@@ -124,7 +132,8 @@ namespace xen {
 		/// </summmary>
 		int textures_iter;
 		int spritemaps_iter;
-		int sounds_iter; 
+		int sounds_iter;
+		int tilemap_iter;
 	};
 }
 
