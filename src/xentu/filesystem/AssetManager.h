@@ -124,6 +124,7 @@ namespace xen {
 		std::map<int, Texture*> textures;
 		std::map<int, SpriteMap*> spritemaps;
 		std::map<int, Sound*> sounds;
+		std::map<int, TileMap*> tilemaps;
 		std::list<int> shaders;
 
 
@@ -133,7 +134,7 @@ namespace xen {
 		int textures_iter;
 		int spritemaps_iter;
 		int sounds_iter;
-		int tilemap_iter;
+		int tilemaps_iter;
 	};
 }
 

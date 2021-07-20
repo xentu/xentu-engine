@@ -53,23 +53,6 @@ int main(int arg_count, char* args[])
 {
 	int result = 0;
 
-	tmx::Map map;
-	if (map.load("C:\\Program Files\\Tiled\\examples\\sewers.tmx"))
-	{
-		const auto& layers = map.getLayers();
-		std::cout << "Map has " << layers.size() << " layers" <<  std::endl;
-        for (const auto& layer : layers)
-		{
-			std::cout << "Found Layer: " << layer->getName() << std::endl;
-            std::cout << "Layer Type: " << int(layer->getType()) << std::endl;
-		}
-		xen::Advisor::logInfo("Loaded tmx!");
-	}
-	else {
-		xen::Advisor::logInfo("Failed to load tmx :(");
-	}
-
-
 	xen::Advisor::setMode(true, true, true, true);
 	xen::Advisor::setModeDate(false);
 
@@ -100,6 +83,7 @@ int main(int arg_count, char* args[])
 	Luna<xen::KeyboardManager>::Register(L, false);
 	Luna<xen::MouseManager>::Register(L, false);
 	Luna<xen::Viewport>::Register(L, false);
+	Luna<xen::TileMap>::Register(L, false);
 
 	// core lua ran before anything else inc standard libraries.
 	luaL_openlibs(L);

@@ -12,6 +12,8 @@ speed = 5
 game.on("init", function()
 	-- load a tilemap
 	map = assets.load_tilemap("brick-breaker-level1.tmx")
+	map.say_hello()
+
 	
 	-- define some colours.
 	c_red = Color.fromHex('#0ee092')

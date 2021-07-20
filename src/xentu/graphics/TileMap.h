@@ -17,6 +17,8 @@ namespace xen
 
 		void load(std::string filename);
 
+		int lua_say_hello(lua_State* L);
+
 		//Class Constants
 		static const char className[];
 
@@ -27,7 +29,7 @@ namespace xen
 		static const Luna<TileMap>::FunctionType methods[];
 
 	private:
-		tmx::Map map;
+		tmx::Map* map;
 	};
 }
 

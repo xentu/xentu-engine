@@ -24,7 +24,7 @@ namespace xen
 		textures_iter = 0;
 		spritemaps_iter = 0;
 		sounds_iter = 0;
-		tilemap_iter = 0;
+		tilemaps_iter = 0;
 	}
 
 
@@ -51,12 +51,21 @@ namespace xen
 			delete asset.second;
 		}
 
+		this->sounds.empty();
+
 		for (int shader : shaders)
 		{
 			glDeleteShader(shader);
 		}
 
-		this->sounds.empty();
+		this->shaders.empty();
+
+		for (auto const& tilemap : tilemaps)
+		{
+			delete tilemap.second;
+		}
+
+		this->tilemaps.empty();
 		
 		Advisor::logInfo("Deleted instance of AssetManager.");
 	}
@@ -184,12 +193,11 @@ namespace xen
 	TileMap* AssetManager::load_tilemap(lua_State* L, std::string filename_relative)
 	{
 		std::string filename = localize_path(filename_relative);
-		tilemap_iter++;
+		tilemaps_iter++;
 
 		TileMap* tilemap = new TileMap(L);
 		tilemap->load(filename);
-
-		// add the intance to a list.
+		tilemaps.insert(std::make_pair(tilemaps_iter, tilemap));
 
 		return tilemap;
 	}
@@ -264,7 +272,9 @@ namespace xen
 		// todo: this isn't tested.
 		std::string filename = lua_tostring(L, -1);
 		TileMap* tilemap = load_tilemap(L, filename);
-		lua_pushlightuserdata(L, tilemap);
+		// send it to lua.
+		Luna<TileMap>::push(L, tilemap);
+		// let lua know the instance is on the stack.
 		return 1;
 	}
 
