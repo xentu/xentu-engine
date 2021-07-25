@@ -74,6 +74,11 @@ Here are a few other top priority things that need focus:
 - Transform stacking, currently world transforms are addative until frame reset.
 - It's currently not possible to send custom information to shaders.
 
+Also builds of the engine have not been submitted to the desired package managers
+yet (although referenced in the documentation), so installation has to be done by
+downloading from the main website. This should be resolved as a matter of urgency
+over the next week or two.
+
 ## Dependencies
 
 This project relies on the following libraries:
