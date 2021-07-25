@@ -457,6 +457,21 @@ namespace xen
 		return 0;
 	}
 
+
+	int Renderer2D::lua_draw_tilemap(lua_State* L)
+	{
+		TileMap* container = *static_cast<TileMap**>(lua_touserdata(L, -1));
+		tmx::Map* map = container->get_map();
+		
+		/* const auto& layers = map->getLayers();
+		std::cout << "Map has " << layers.size() << " layers" << std::endl;
+		for (const auto& layer : layers)
+		{
+
+		} */
+
+		return 0;
+	}
 	
 
 	int Renderer2D::lua_present(lua_State* L)
@@ -616,6 +631,7 @@ namespace xen
 		method(Renderer2D, draw_sprite, lua_draw_sprite),
 		method(Renderer2D, draw_rect, lua_draw_rect),
 		method(Renderer2D, draw_text, lua_draw_text),
+		method(Renderer2D, draw_tilemap, lua_draw_tilemap),
 		method(Renderer2D, present, lua_present),
 		method(Renderer2D, set_blend, lua_set_blend),
 		method(Renderer2D, set_blend_func, lua_set_blend_func),

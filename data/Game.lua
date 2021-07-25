@@ -12,7 +12,11 @@ speed = 5
 game.on("init", function()
 	-- load a tilemap
 	map = assets.load_tilemap("brick-breaker-level1.tmx")
-	map.say_hello()
+	layer1 = map.get_layer(0)
+
+	print("Layer0's name is: " .. layer1.get_type())
+
+	--map.say_hello()
 
 	
 	-- define some colours.
@@ -72,6 +76,8 @@ end)
 -- the drawing event.
 game.on("draw", function()
     renderer.begin()
+	-- draw the background
+	renderer.draw_tilemap(map)
 	-- draw the ball
 	renderer.draw_rect(ball.color, ball.x, ball.y, ball.width, ball.height)
 	-- draw the paddle

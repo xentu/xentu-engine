@@ -37,35 +37,25 @@ namespace xen
 			delete asset.second;
 		}
 
-		this->textures.empty();
-
 		for (auto const& asset : spritemaps)
 		{
 			delete asset.second;
 		}
-
-		this->spritemaps.empty();
 		
 		for (auto const& asset : sounds)
 		{
 			delete asset.second;
 		}
 
-		this->sounds.empty();
-
 		for (int shader : shaders)
 		{
 			glDeleteShader(shader);
 		}
 
-		this->shaders.empty();
-
 		for (auto const& tilemap : tilemaps)
 		{
 			delete tilemap.second;
 		}
-
-		this->tilemaps.empty();
 		
 		Advisor::logInfo("Deleted instance of AssetManager.");
 	}
@@ -196,7 +186,7 @@ namespace xen
 		tilemaps_iter++;
 
 		TileMap* tilemap = new TileMap(L);
-		tilemap->load(filename);
+		tilemap->load(L, filename);
 		tilemaps.insert(std::make_pair(tilemaps_iter, tilemap));
 
 		return tilemap;

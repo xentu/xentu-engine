@@ -5,6 +5,7 @@
 #include <string>
 #include <luna/luna.hpp>
 
+#include "TileMapLayer.h"
 #include "../libraries/tmxlite/Map.hpp"
 
 namespace xen
@@ -15,9 +16,11 @@ namespace xen
 		TileMap(lua_State* L);
 		~TileMap(void);
 
-		void load(std::string filename);
+		void load(lua_State* L, std::string filename);
 
-		int lua_say_hello(lua_State* L);
+		tmx::Map* get_map();
+		int lua_get_layers_count(lua_State* L);
+		int lua_get_layer(lua_State* L);
 
 		//Class Constants
 		static const char className[];
@@ -29,7 +32,9 @@ namespace xen
 		static const Luna<TileMap>::FunctionType methods[];
 
 	private:
-		tmx::Map* map;
+		tmx::Map* m_map;
+		TileMapLayer *m_layers[100]; // max 100 layers.
+		int m_layers_count;
 	};
 }
 
