@@ -10,12 +10,29 @@
 namespace xen {
 	
 	TileMapLayer::TileMapLayer(lua_State* L)
-		: m_layer(nullptr)
+		: m_layer(nullptr),
+		  m_objects_count(0)
 	{ }
 
 	TileMapLayer::TileMapLayer(lua_State* L, const tmx::Layer::Ptr& layer)
 		: m_layer(layer)
-	{ }
+	{
+		auto type = layer->getType();
+
+		if (type == tmx::Layer::Type::Object)
+		{
+			auto object_group = layer->getLayerAs<tmx::ObjectGroup>();
+			auto objects = object_group.getObjects();
+			m_objects_count = 0;
+			for (const tmx::Object object : objects)
+			{
+				m_objects[m_objects_count] = new TileMapObject(L, object);
+				m_objects_count++;
+			}
+		}
+
+		Advisor::logInfo("Loaded instance of TileMapLayer.");
+	}
 
 	
 	TileMapLayer::~TileMapLayer(void)
@@ -48,9 +65,9 @@ namespace xen {
 			lua_pushinteger(L, 0);
 		}
 		else {
-			auto vec2 = m_layer->getOffset();
-			lua_pushinteger(L, vec2.x);
-			lua_pushinteger(L, vec2.y);
+			auto vec2 = &m_layer->getOffset();
+			lua_pushinteger(L, vec2->x);
+			lua_pushinteger(L, vec2->y);
 		}
 		return 2;
 	}
@@ -121,6 +138,29 @@ namespace xen {
 	}
 
 
+	int TileMapLayer::lua_get_objects_count(lua_State* L)
+	{
+		lua_pushinteger(L, m_objects_count);
+		return 1;
+	}
+
+
+	int TileMapLayer::lua_get_object(lua_State* L)
+	{
+		int object_index = lua_tointeger(L, -1);
+		int max_index = m_objects_count - 1;
+
+		if (object_index < 0 || object_index > max_index) {
+			Advisor::throwError("Tried to access a TileLayer with an invalid index.");
+			return 0;
+		}
+		else {
+			// send it to lua.
+			Luna<TileMapObject>::push(L, m_objects[object_index]);
+		}
+	}
+
+
 	const char TileMapLayer::className[] = "TileMapLayer";
 
 
@@ -136,6 +176,8 @@ namespace xen {
 		method(TileMapLayer, get_size, lua_get_size),
 		method(TileMapLayer, get_type, lua_get_type),
 		method(TileMapLayer, get_visible, lua_get_visible),
+		method(TileMapLayer, get_objects_count, lua_get_objects_count),
+		method(TileMapLayer, get_object, lua_get_object),
 		{0,0}
 	};
 }

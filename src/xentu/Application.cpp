@@ -85,6 +85,7 @@ int main(int arg_count, char* args[])
 	Luna<xen::Viewport>::Register(L, false);
 	Luna<xen::TileMap>::Register(L, false);
 	Luna<xen::TileMapLayer>::Register(L, false);
+	Luna<xen::TileMapObject>::Register(L, false);
 
 	// core lua ran before anything else inc standard libraries.
 	luaL_openlibs(L);

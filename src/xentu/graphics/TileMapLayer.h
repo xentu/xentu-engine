@@ -5,6 +5,7 @@
 #include <string>
 #include <luna/luna.hpp>
 
+#include "TileMapObject.h"
 #include "../libraries/tmxlite/Map.hpp"
 
 namespace xen
@@ -25,6 +26,8 @@ namespace xen
 		int lua_get_size(lua_State* L);
 		int lua_get_type(lua_State* L);
 		int lua_get_visible(lua_State* L);
+		int lua_get_objects_count(lua_State* L);
+		int lua_get_object(lua_State* L);
 
 
 		//Class Constants
@@ -38,6 +41,8 @@ namespace xen
 
 	private:
 		const tmx::Layer::Ptr& m_layer;
+		TileMapObject *m_objects[1000];
+		int m_objects_count;
 	};
 }
 

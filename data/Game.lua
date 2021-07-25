@@ -12,15 +12,14 @@ speed = 5
 game.on("init", function()
 	-- load a tilemap
 	map = assets.load_tilemap("brick-breaker-level1.tmx")
+	
 	layer1 = map.get_layer(0)
-
-	print("Layer0's name is: " .. layer1.get_type())
-
-	--map.say_hello()
-
+	layer1_obj_count = layer1.get_objects_count()
+	print("Layer1's name is: " .. layer1.get_name() .. " with " .. layer1_obj_count .. " object(s).")
 	
 	-- define some colours.
-	c_red = Color.fromHex('#0ee092')
+	c_red  = Color.fromHex('#0ee092')
+	c_gray = Color.fromHex('#333333')
 	c_blue = Color.fromHex('#0eb0e0')
 	
 	-- create a ball entity.
@@ -76,8 +75,17 @@ end)
 -- the drawing event.
 game.on("draw", function()
     renderer.begin()
+
+	-- draw objects from the tile layer.
+	for i=1, layer1_obj_count do
+		local o = layer1.get_object(i - 1)
+		o_x, o_y = o.get_position()
+		renderer.draw_rect(c_gray, o_x, o_y, 70, 20)
+	end	
+
 	-- draw the background
-	renderer.draw_tilemap(map)
+	-- renderer.draw_tilemap(map)
+
 	-- draw the ball
 	renderer.draw_rect(ball.color, ball.x, ball.y, ball.width, ball.height)
 	-- draw the paddle

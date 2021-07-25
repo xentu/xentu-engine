@@ -81,6 +81,8 @@ set(XEN_ENGINE_FILES
 	src/xentu/graphics/TileMap.h
 	src/xentu/graphics/TileMapLayer.cpp
 	src/xentu/graphics/TileMapLayer.h
+	src/xentu/graphics/TileMapObject.cpp
+	src/xentu/graphics/TileMapObject.h
 	src/xentu/graphics/Transform.cpp
 	src/xentu/graphics/Transform.h
 	src/xentu/graphics/Transformable.cpp
