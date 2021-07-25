@@ -56,6 +56,24 @@ The C++ concept prototype was completed in May 2020 showing the implementation w
 much stronger performance wise. And so development of the project began in earnest
 on the 3rd of May 2020.
 
+<br />
+
+## Going Forward (as of July 25th)
+
+Effort is targetted at finishing off the code for native loading of TileMap's at 
+the moment. This should enable building games that can show the engines potential.
+
+It's actually possible to build many types of games already, as a lot of the
+pieces are working. However having this loader will mean there won't be as much
+friction for attempting to design a game.
+
+Here are a few other top priority things that need focus:
+- There are a lot of const correctness violations that need cleaning up.
+- The game singleton is called to retrieve the lua_State sometimes when it shouldn't.
+- Not enough validation is carried out when calling native methods via Lua.
+- Transform stacking, currently world transforms are addative until frame reset.
+- It's currently not possible to send custom information to shaders.
+
 ## Dependencies
 
 This project relies on the following libraries:
