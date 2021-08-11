@@ -13,7 +13,7 @@ namespace xen
 {
 	TileMap::TileMap(lua_State* L)
 	{
-		m_map = nullptr;
+		m_map = new tmx::Map();
 		m_layers_count = 0;
         Advisor::logInfo("Created instance of TileMap.");
 	}
@@ -33,11 +33,9 @@ namespace xen
 
 	void TileMap::load(lua_State* L, std::string filename)
 	{
-		m_map = new tmx::Map();
 		if (m_map->load(filename))
 		{
 			// TODO: Load textures, and process layers so that drawing is made easier.
-
 
 			const auto& layers = m_map->getLayers();
 			std::cout << "Map has " << layers.size() << " layers" <<  std::endl;
@@ -59,7 +57,7 @@ namespace xen
 	}
 
 
-	tmx::Map* TileMap::get_map()
+	const tmx::Map* TileMap::get_map() const
 	{
 		return m_map;
 	}

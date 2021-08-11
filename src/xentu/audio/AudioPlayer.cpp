@@ -159,7 +159,7 @@ namespace xen
 	int AudioPlayer::lua_is_playing(lua_State* L)
 	{
 		int id = lua_tointeger(L, -1);
-		xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
+		const xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
 		bool playing = is_playing(sound);
 		lua_pushboolean(L, playing);
 		return 1;
@@ -179,7 +179,7 @@ namespace xen
 		float volume = lua_tonumber(L, -1);
 		int id = lua_tointeger(L, -2);
 		if (id > 0) {
-			xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
+			const xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
 			auto found = std::find(std::begin(m_decoder_refs), std::end(m_decoder_refs), &sound->decoder);
 			if (found != std::end(m_decoder_refs)) {
 				int index = found - std::begin(m_decoder_refs);
@@ -194,13 +194,13 @@ namespace xen
 	int AudioPlayer::lua_stop(lua_State* L)
 	{
 		int id = lua_tointeger(L, -1);
-		xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
+		const xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
 		stop(sound);
 		return 0;
 	}
 
 
-	bool AudioPlayer::is_playing(xen::Sound* sound)
+	bool AudioPlayer::is_playing(const xen::Sound* sound) const
 	{
 		auto found = std::find(std::begin(m_decoder_refs), std::end(m_decoder_refs), &sound->decoder);
 		if (found != std::end(m_decoder_refs)) {
@@ -245,7 +245,7 @@ namespace xen
 	}
 
 
-	int AudioPlayer::stop(Sound* sound) {
+	int AudioPlayer::stop(const Sound* sound) {
 		auto found = std::find(std::begin(m_decoder_refs), std::end(m_decoder_refs), &sound->decoder);
 		if (found != std::end(m_decoder_refs)) {
 			int index = found - std::begin(m_decoder_refs);

@@ -11,7 +11,7 @@ namespace xen
 		Configuration();
 		static Configuration* parse_file(std::string filename);
 
-
+		// todo: lots of variables here that should not be public.
 		std::string m_game_title;
 		unsigned int m_screen_width;
 		unsigned int m_screen_height;

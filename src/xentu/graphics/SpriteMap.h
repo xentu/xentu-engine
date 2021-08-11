@@ -24,11 +24,11 @@ namespace xen
 		/// </summary>
 		/// <param name="nickname">The name of the region to return.</param>
 		/// <returns>The rectangle that represents the found region.</returns>
-		Rect* get_region(std::string nickname);
-		int add_region(std::string nickname, Rect* rect);
+		const Rect* get_region(std::string nickname) const;
+		int add_region(const std::string nickname, const Rect* rect);
 	private:
 
-		std::map<std::string, Rect*> regions;
+		std::map<const std::string, const Rect*> regions;
 	};
 }
 

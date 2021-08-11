@@ -352,9 +352,9 @@ namespace xen
 		m_sprite.m_height = s.height;
 		m_sprite.m_texture = game->assets->get_texture(s.texture);
 
-		SpriteMap* sprite_map = game->assets->get_spritemap(s.spritemap);
+		const SpriteMap* sprite_map = game->assets->get_spritemap(s.spritemap);
 		if (sprite_map != NULL) {
-			Rect* r = sprite_map->get_region(s.region);
+			const Rect* r = sprite_map->get_region(s.region);
 			m_sprite.m_rect = *r;
 		}
 
@@ -417,7 +417,7 @@ namespace xen
 		lua_pushnil(L);
 		LuaFont f = parse_lua_font(L);
 
-		SpriteMap* sprite_map = game->assets->get_spritemap(f.spritemap_id);
+		const SpriteMap* sprite_map = game->assets->get_spritemap(f.spritemap_id);
 
 		m_sprite.ResetTransform();
 		m_sprite.set_position(left, top);
@@ -433,7 +433,7 @@ namespace xen
 		if (sprite_map != NULL) {
 			for (std::string::size_type i = 0; i < text.size(); ++i) {
 				std::string cs = std::to_string(text[i]);
-				Rect* rect = sprite_map->get_region(cs);
+				const Rect* rect = sprite_map->get_region(cs);
 
 				if (rect)
 				{
@@ -461,7 +461,7 @@ namespace xen
 	int Renderer2D::lua_draw_tilemap(lua_State* L)
 	{
 		TileMap* container = *static_cast<TileMap**>(lua_touserdata(L, -1));
-		tmx::Map* map = container->get_map();
+		const tmx::Map* map = container->get_map();
 		
 		/* const auto& layers = map->getLayers();
 		std::cout << "Map has " << layers.size() << " layers" << std::endl;

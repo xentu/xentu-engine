@@ -50,24 +50,25 @@ namespace xen
 	}
 
 
-	Rect* SpriteMap::get_region(std::string nickname)
+	const Rect* SpriteMap::get_region(const std::string nickname) const
 	{
 		if (regions.count(nickname))
 		{
-			return regions[nickname];
+			return regions.at(nickname);
 		}
 		return nullptr;
 	}
 
 
-	int SpriteMap::add_region(std::string nickname, Rect* rect)
+	int SpriteMap::add_region(const std::string nickname, const Rect* rect)
 	{
 		if (regions.count(nickname))
 		{
 			return -1;
 		}
 
-		regions.insert(std::make_pair(nickname, rect));
+		const auto pair = std::make_pair(nickname, rect);
+		regions.insert(pair);
 		return 0;
 	}
 }

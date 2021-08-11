@@ -18,7 +18,7 @@ namespace xen
 
 		void load(lua_State* L, std::string filename);
 
-		tmx::Map* get_map();
+		const tmx::Map* TileMap::get_map() const;
 		int lua_get_layers_count(lua_State* L);
 		int lua_get_layer(lua_State* L);
 

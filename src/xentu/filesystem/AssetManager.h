@@ -83,7 +83,7 @@ namespace xen {
 		/// </summary>
 		/// <param name="nickname">The unique nickname given to the asset.</param>
 		/// <returns>A pointer to a SpriteMap instance.</returns>
-		SpriteMap* get_spritemap(int id);
+		const SpriteMap* get_spritemap(int id);
 
 
 		/// <summary>

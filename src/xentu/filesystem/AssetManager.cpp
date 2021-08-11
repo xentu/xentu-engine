@@ -280,7 +280,7 @@ namespace xen
 	}
 
 
-	SpriteMap* AssetManager::get_spritemap(int id)
+	const SpriteMap* AssetManager::get_spritemap(int id)
 	{
 		if (spritemaps.count(id))
 		{

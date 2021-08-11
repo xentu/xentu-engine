@@ -8,7 +8,7 @@
 
 namespace xen
 {
-	Sound::Sound(std::string filename)
+	Sound::Sound(const std::string& filename)
 	{
 		this->filename = filename;
 		ma_result result;
@@ -23,6 +23,12 @@ namespace xen
 	{
 		ma_decoder_uninit(&decoder);
 		Advisor::logInfo("Deleted instance of Sound.");
+	}
+
+
+	const std::string& Sound::get_filename()
+	{
+		return this->filename;
 	}
 }
 

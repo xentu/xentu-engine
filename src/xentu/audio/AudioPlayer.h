@@ -63,7 +63,7 @@ namespace xen
 
 
 		/// <summary>Get weather a sound is currently playing..</summary>
-		bool is_playing(xen::Sound* sound);
+		bool is_playing(const xen::Sound* sound) const;
 
 
 		/// <summary>Spawn a playback instance of a sound, does not cancel previous playback, for that use _stop()</summary>
@@ -71,7 +71,7 @@ namespace xen
 
 		
 		/// <summary>Stop playback for all instances of a specific sound.</summary>
-		int stop(xen::Sound* sound);
+		int stop(const xen::Sound* sound);
 	};
 }
 

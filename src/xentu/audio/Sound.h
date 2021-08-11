@@ -11,12 +11,15 @@ namespace xen
 	class Sound
 	{
 	public:
-		Sound(std::string filename);
+		Sound(const std::string& filename);
 		~Sound();
 
+		const std::string& get_filename();
+ 
+		ma_decoder decoder; // todo: this shouldn't be public
 
+	private:
 		std::string filename;
-		ma_decoder decoder;
 	};
 }
 
