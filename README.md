@@ -58,26 +58,20 @@ on the 3rd of May 2020.
 
 <br />
 
-## Going Forward (as of July 25th)
+## Going Forward (as of August 13th)
 
-Effort is targetted at finishing off the code for native loading of TileMap's at 
-the moment. This should enable building games that can show the engines potential.
+TileMap system now loads files, and can even render basic TMX files. The issue with
+const correctness has been resolved, and a few stability features have been added
+to smooth things out. Here is the new list of focus for the rest of the month:
 
-It's actually possible to build many types of games already, as a lot of the
-pieces are working. However having this loader will mean there won't be as much
-friction for attempting to design a game.
-
-Here are a few other top priority things that need focus:
-- There are a lot of const correctness violations that need cleaning up.
 - The game singleton is called to retrieve the lua_State sometimes when it shouldn't.
 - Not enough validation is carried out when calling native methods via Lua.
-- Transform stacking, currently world transforms are addative until frame reset.
+- Reduce the number of times the engine crashes out due to a basic error, things like loading assets.
+- Add a Math library for calculating transforms, this should simplify things.
 - It's currently not possible to send custom information to shaders.
+- LuaSprite, LuaFont, LuaColor do not need to exist any more now that native class refs are possible.
 
-Also builds of the engine have not been submitted to the desired package managers
-yet (although referenced in the documentation), so installation has to be done by
-downloading from the main website. This should be resolved as a matter of urgency
-over the next week or two.
+
 
 ## Dependencies
 

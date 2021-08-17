@@ -2,6 +2,7 @@
 #define XEN_TILEMAP_CPP
 
 #include <iostream>
+#include <limits>
 
 #include "TileMap.h"
 #include "../utilities/Advisor.h"
@@ -41,11 +42,12 @@ namespace xen
 			std::cout << "Map has " << layers.size() << " layers" <<  std::endl;
 			m_layers_count = 0;
 
-			for (const auto& layer : layers)
+			for (const tmx::Layer::Ptr& layer : layers)
 			{
 				const tmx::Layer::Ptr& l = layer;
-				m_layers[m_layers_count] = new TileMapLayer(L, l);
-				m_layers_count++;				
+				m_layers[m_layers_count] = new TileMapLayer(L, *m_map, l);
+
+				m_layers_count++;
 				// std::cout << "Found Layer: " << layer->getName() << std::endl;
 				// std::cout << "Layer Type: " << int(layer->getType()) << std::endl;
 			}
@@ -82,6 +84,7 @@ namespace xen
 		else {
 			// send it to lua.
 			Luna<TileMapLayer>::push(L, m_layers[layer_index]);
+			return 1;
 		}
 	}
 

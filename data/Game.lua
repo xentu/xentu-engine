@@ -10,6 +10,7 @@
 game.on("init", function()
 	-- load a tilemap
 	map = assets.load_tilemap("tiled-desert/desert.tmx")
+	layer0 = map.get_layer(0)
 
 	-- set the background.
 	renderer.set_clear_color( Color.fromHex('#5f7988') )
@@ -31,7 +32,7 @@ end)
 game.on("draw", function()
     renderer.begin()
 
-	--renderer.draw_tilemap(map)
+	renderer.draw_tilemap_layer(layer0)
 
     renderer.present()
 end)

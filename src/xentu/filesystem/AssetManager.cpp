@@ -304,6 +304,10 @@ namespace xen
 
 	std::string AssetManager::localize_path(std::string relative_path)
 	{
+		if (relative_path.find(":") != std::string::npos) {
+			// if path is absolute, dont prepend the base_path.
+			return relative_path;
+		}
 		return this->base_path + '/' + relative_path;
 	}
 

@@ -458,17 +458,31 @@ namespace xen
 	}
 
 
-	int Renderer2D::lua_draw_tilemap(lua_State* L)
+	int Renderer2D::lua_draw_tilemap_layer(lua_State* L)
 	{
-		TileMap* container = *static_cast<TileMap**>(lua_touserdata(L, -1));
-		const tmx::Map* map = container->get_map();
+		XentuGame* game = XentuGame::get_instance(L);
+		TileMapLayer* layer = *static_cast<TileMapLayer**>(lua_touserdata(L, -1));
 		
-		/* const auto& layers = map->getLayers();
-		std::cout << "Map has " << layers.size() << " layers" << std::endl;
-		for (const auto& layer : layers)
+		for (int i=0; i<layer->m_tile_count; i++)
 		{
+			auto& tile = layer->m_tiles[i];
+			m_sprite.ResetTransform();
+			m_sprite.set_position(tile->x, tile->y);
+			m_sprite.set_scale(1, 1);
+			m_sprite.set_rotation(0);
+			//m_sprite.m_color = color; //TODO: stack member duplication.
+			m_sprite.m_width = tile->width;
+			m_sprite.m_height = tile->height;
+			m_sprite.m_texture = game->assets->get_texture(tile->texture_id);
 
-		} */
+			float u = tile->t_x / (float)m_sprite.m_texture->width;
+			float v = tile->t_y / (float)m_sprite.m_texture->height;
+			float w = tile->t_width / (float)m_sprite.m_texture->width;
+			float h = tile->t_height / (float)m_sprite.m_texture->height;
+
+			m_sprite.m_rect = Rect(u, 1.0 - v - h,w,h);
+			find_batch(m_sprite)->draw(m_sprite);
+		}
 
 		return 0;
 	}
@@ -631,7 +645,7 @@ namespace xen
 		method(Renderer2D, draw_sprite, lua_draw_sprite),
 		method(Renderer2D, draw_rect, lua_draw_rect),
 		method(Renderer2D, draw_text, lua_draw_text),
-		method(Renderer2D, draw_tilemap, lua_draw_tilemap),
+		method(Renderer2D, draw_tilemap_layer, lua_draw_tilemap_layer),
 		method(Renderer2D, present, lua_present),
 		method(Renderer2D, set_blend, lua_set_blend),
 		method(Renderer2D, set_blend_func, lua_set_blend_func),

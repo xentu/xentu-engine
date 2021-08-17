@@ -89,9 +89,9 @@ namespace xen
 		int lua_draw_text(lua_State* L);
 
 		/// <summary>
-		/// Draw a tilemap from Lua.
+		/// Draw a tilemap layer from Lua.
 		/// </summary>
-		int lua_draw_tilemap(lua_State* L);
+		int lua_draw_tilemap_layer(lua_State* L);
 
 		/// <summary>
 		/// Call this to flush the buffer and draw the loaded sprites.

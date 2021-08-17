@@ -18,14 +18,15 @@ namespace xen
 
 		void load(lua_State* L, std::string filename);
 
-		const tmx::Map* TileMap::get_map() const;
+		const tmx::Map* get_map() const;
+		
 		int lua_get_layers_count(lua_State* L);
 		int lua_get_layer(lua_State* L);
 
 		//Class Constants
 		static const char className[];
 
-		// List of class properties that one can set/get from Lua
+		// List of class properties that one can set/get from Lua.
 		static const Luna<TileMap>::PropertyType properties[];
 
 		// List of class methods to make available in Lua

@@ -1,6 +1,9 @@
 #ifndef XEN_TILEMAP_LAYER_CPP
 #define XEN_TILEMAP_LAYER_CPP
 
+#define NOMINMAX
+
+#include "XentuGame.h"
 #include "TileMapLayer.h"
 #include "../utilities/Advisor.h"
 
@@ -11,24 +14,98 @@ namespace xen {
 	
 	TileMapLayer::TileMapLayer(lua_State* L)
 		: m_layer(nullptr),
-		  m_objects_count(0)
+		  m_tile_count(0),
+		  m_object_count(0),
+		  m_objects{},
+		  m_tiles{}
 	{ }
 
-	TileMapLayer::TileMapLayer(lua_State* L, const tmx::Layer::Ptr& layer)
-		: m_layer(layer)
+
+	TileMapLayer::TileMapLayer(lua_State* L, tmx::Map& map, const tmx::Layer::Ptr& layer) 
+		: m_layer(layer),
+		  m_tile_count(0),
+		  m_object_count(0),
+		  m_objects{},
+		  m_tiles{}
 	{
-		auto type = layer->getType();
+		tmx::Layer::Type type = layer->getType();
 
 		if (type == tmx::Layer::Type::Object)
 		{
 			auto object_group = layer->getLayerAs<tmx::ObjectGroup>();
 			auto objects = object_group.getObjects();
-			m_objects_count = 0;
 			for (const tmx::Object object : objects)
 			{
-				m_objects[m_objects_count] = new TileMapObject(L, object);
-				m_objects_count++;
+				m_objects[m_object_count] = new TileMapObject(L, object);
+				m_object_count++;
 			}
+		}
+		else if (type == tmx::Layer::Type::Tile)
+		{
+			XentuGame* game = XentuGame::get_instance(L);
+			const auto& tiles = this->get_tiles();
+			const auto& tileSize = map.getTileSize();
+			const auto& tileSets = map.getTilesets();
+			auto tileSetTextures = new std::map<std::string, int>();
+			const auto layerSize = this->get_size();
+			std::uint32_t maxID = std::numeric_limits<std::uint32_t>::max();
+			std::vector<const tmx::Tileset*> usedTileSets;
+			unsigned int idx = 0;
+
+			// identify which tilesets are used by the layer.
+			for (auto i = tileSets.rbegin(); i != tileSets.rend(); ++i)
+			{
+				for (const auto& tile : tiles)
+				{
+					if (tile.ID >= i->getFirstGID() && tile.ID < maxID)
+					{
+						usedTileSets.push_back(&(*i));
+						break;
+					}
+				}
+				maxID = i->getFirstGID();
+			}
+
+			// make sure tileset textures are loaded.
+			for (const auto& ts : usedTileSets)
+			{
+				const auto& path = ts->getImagePath();
+				int texture_id = game->assets->load_texture(path, 2, 1); // TX_RGBA - TX_CLAMP_TO_EDGE
+				tileSetTextures->insert(std::make_pair(ts->getName(), texture_id));
+			}
+
+			// create the tiles one by one.
+			for (auto row = 0; row < layerSize.y; ++row)
+			{
+				for (auto col = 0; col < layerSize.x; ++col)
+				{
+					uint32_t global_id = tiles[idx].ID; // the global id of the tile to use.
+					Tile* new_tile = new Tile(col * tileSize.x, row * tileSize.y, tileSize.x, tileSize.y);
+
+					// find the tileset, to give us the the subrect to add to new_tile for texture.
+					for (auto i = tileSets.rbegin(); i != tileSets.rend(); ++i)
+					{
+						if (global_id >= i->getFirstGID() && global_id <= i->getLastGID())
+						{
+							auto ts_tile = i->getTile(global_id);
+							auto ts_tile_size = i->getTileSize();
+							new_tile->t_x = ts_tile->imagePosition.x;
+							new_tile->t_y = ts_tile->imagePosition.y;
+							new_tile->t_width = ts_tile_size.x;
+							new_tile->t_height = ts_tile_size.y;
+							new_tile->texture_id = tileSetTextures->at(i->getName());
+							break;
+						}
+					}
+
+					m_tiles[m_tile_count] = new_tile;
+					m_tile_count++;
+					idx++;
+				}
+			}
+		
+			// be a good coder and clean up your mess!
+			delete tileSetTextures;
 		}
 
 		Advisor::logInfo("Loaded instance of TileMapLayer.");
@@ -37,13 +114,35 @@ namespace xen {
 	
 	TileMapLayer::~TileMapLayer(void)
 	{
+		if (m_tile_count > 0)
+		{
+			for (int i = 0; i < m_tile_count; i++)
+			{
+				delete m_tiles[i];
+			}
+		}
+		
+		if (m_object_count > 0)
+		{
+			for (int i = 0; i < m_object_count; i++)
+			{
+				delete m_objects[i];
+			}
+		}
+
 		Advisor::logInfo("Deleted instance of TileMapLayer.");
 	}
 
 
-	const tmx::Layer::Ptr& TileMapLayer::get_layer()
+	const tmx::Layer::Ptr& TileMapLayer::get_layer() const
 	{
 		return m_layer;
+	}
+
+
+	const tmx::Vector2u TileMapLayer::get_size() const
+	{
+		return m_layer->getSize();
 	}
 
 
@@ -140,7 +239,7 @@ namespace xen {
 
 	int TileMapLayer::lua_get_objects_count(lua_State* L)
 	{
-		lua_pushinteger(L, m_objects_count);
+		lua_pushinteger(L, m_object_count);
 		return 1;
 	}
 
@@ -148,7 +247,7 @@ namespace xen {
 	int TileMapLayer::lua_get_object(lua_State* L)
 	{
 		int object_index = lua_tointeger(L, -1);
-		int max_index = m_objects_count - 1;
+		int max_index = m_object_count - 1;
 
 		if (object_index < 0 || object_index > max_index) {
 			Advisor::throwError("Tried to access a TileLayer with an invalid index.");
@@ -158,6 +257,13 @@ namespace xen {
 			// send it to lua.
 			Luna<TileMapObject>::push(L, m_objects[object_index]);
 		}
+	}
+
+
+	std::vector<tmx::TileLayer::Tile> TileMapLayer::get_tiles() const
+	{
+		tmx::TileLayer& tile_layer = m_layer->getLayerAs<tmx::TileLayer>();
+		return tile_layer.getTiles();
 	}
 
 
