@@ -19,5 +19,5 @@ Table of contents
 	introduction
 	installation
 	making-games
-	lua-code-reference
+	code-reference
 	🚀 Github <https://github.com/xentu/xentu-engine>

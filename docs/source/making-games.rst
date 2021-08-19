@@ -14,4 +14,4 @@ Next read the following:
     :titlesonly:
     
     making-games/getting-started
-    making-games/try-a-demo
+    making-games/using-the-sdk

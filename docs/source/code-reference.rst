@@ -1,10 +1,10 @@
-==================
-Lua Code Reference
-==================
+==============
+Code Reference
+==============
 
-Xentu games are created using the Lua programming language. Xentu (written in C++)
-looks for a file called ``game.lua``, and executes the code in that file before
-starting the game.
+Xentu games are created using the Lua programming language. On load, the engine
+looks for a file called ``game.lua``, and executes the code in that file
+before starting the game.
 
 From ``game.lua`` you can require other lua files using the require command like
 so:

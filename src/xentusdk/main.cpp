@@ -93,13 +93,13 @@ int do_new_game()
 
 int do_play_game()
 {
-    system("xentu proxy");
+    system("xentu .");
     return 0;
 }
 
 
 int main(int arg_count, char* args[]) {
-    cout << rang::fg::blue << "Xentu Game Engine SDK v" << XEN_SDK_VERSION << rang::fg::reset << endl;
+    cout << rang::fg::reset << "Xentu Game Engine SDK v" << XEN_SDK_VERSION << rang::fg::reset << endl;
 
     // if no args other than executed path are passed, let the user know how to find more information.
     if (arg_count == 1)

@@ -59,7 +59,7 @@ int main(int arg_count, char* args[])
 	// see if we need to use proxy path mode (aka via the sdk).
 	if (arg_count > 1) {
 		std::string command_arg(args[1]);
-		if (command_arg == "proxy") {
+		if (command_arg == ".") {
 			xen::Advisor::logInfo("Set USE_PROXY_PATH");
 			xen::XentuGame::USE_PROXY_PATH = true;
 		}

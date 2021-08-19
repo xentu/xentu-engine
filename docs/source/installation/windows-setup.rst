@@ -19,6 +19,10 @@ installer using the following link: `XentuSDK_Setup_x86.exe <//downloads.xentu.n
 
 .. _windows-setup-choco:
 
+.. raw:: html
+
+    <!--
+
 Chocolatey Package Manager
 --------------------------
 
@@ -30,6 +34,10 @@ then enter the following command:
 .. code-block:: shell
 
     choco install xentu
+
+.. raw:: html
+    
+    -->
 
 .. _windows-setup-troubleshooting:
 
