@@ -25,7 +25,6 @@ Pick Your OS
     installation/windows-setup
     installation/linux-setup
     installation/macos-setup
-    installation/haikuos-setup
 
 Already Installed?
 ------------------

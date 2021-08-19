@@ -3,8 +3,7 @@ Getting Started
 ===============
 
 Whenever you start work on a project in Xentu, you should create a folder to
-host the files within. Once you have done that, use your terminal/console to
-navigate to it's location.
+host the files within.
 
 Every game you create needs a ``game.lua`` file that contains game code,
 and an optional ``config.toml`` file to configure how the engine should behave

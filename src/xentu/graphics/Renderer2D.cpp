@@ -23,6 +23,8 @@ namespace xen
 		m_rotation(0),
 		m_origin_x(0),
 		m_origin_y(0),
+		m_pos_x(0),
+		m_pos_y(0),
 		m_scale_x(1),
 		m_scale_y(1),
 		ibo(-1),
@@ -302,6 +304,8 @@ namespace xen
 
 		m_origin_x = 0;
 		m_origin_y = 0;
+		m_pos_x = 0;
+		m_pos_y = 0;
 		m_scale_x = 1;
 		m_scale_y = 1;
 		m_rotation = 0;
@@ -342,7 +346,7 @@ namespace xen
 		XentuGame* game = XentuGame::get_instance(L);
 
 		m_sprite.ResetTransform();
-		m_sprite.set_position(s.x, s.y);
+		m_sprite.set_position(m_pos_x + s.x, m_pos_y + s.y);
 		m_sprite.set_origin(m_origin_x, m_origin_y);
 		m_sprite.set_rotation(m_rotation);
 		m_sprite.set_scale(m_scale_x, m_scale_y);
@@ -597,6 +601,13 @@ namespace xen
 		return 1;
 	}
 
+	int Renderer2D::lua_set_position(lua_State* L)
+	{
+		m_pos_x = lua_tonumber(L, -2);
+		m_pos_y = lua_tonumber(L, -1);
+		return 1;
+	}
+
 	int Renderer2D::lua_set_rotation(lua_State* L)
 	{
 		m_rotation = lua_tonumber(L, -1);
@@ -651,6 +662,7 @@ namespace xen
 		method(Renderer2D, set_blend_func, lua_set_blend_func),
 		method(Renderer2D, set_clear_color, lua_set_clear_color),
 		method(Renderer2D, set_origin, lua_set_origin),
+		method(Renderer2D, set_position, lua_set_position),
 		method(Renderer2D, set_rotation, lua_set_rotation),
 		method(Renderer2D, set_scale, lua_set_scale),
 		method(Renderer2D, set_shader, lua_set_shader),

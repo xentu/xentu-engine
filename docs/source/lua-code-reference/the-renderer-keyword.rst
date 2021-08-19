@@ -46,6 +46,7 @@ The above may not seem that useful at first. However once you start building you
 own games, you will understand why this can be so powerful.
 
 |
+|
 
 Basic drawing
 =============
@@ -58,6 +59,7 @@ for new draw instructions. If you dont do this after calling ``present()``. The
 result from the previous draw call will still be stored in the instruction buffer.
 
 |
+|
 
 renderer.present()
 ------------------
@@ -66,14 +68,60 @@ The present method tells the renderer to send all queued instructions from the
 instruction buffer to the GPU for rendering.
 
 |
+|
 
 renderer.draw_sprite(sprite)
 ----------------------------
 
 This method tells the renderer to queue an instruction in it's buffer to draw a
-sprite. The sprite argument must be an instance of the :ref:`Color <The Color Class>` class setup
+sprite. The sprite argument must be an instance of the :ref:`Sprite <The Sprite Class>` class setup
 earlier in your code.
 
+|
+|
+
+renderer.draw_rect(color, x, y, width, height)
+----------------------------------------------
+
+This method tells the renderer to draw a rectangle of a specific color, position, and dimensions.
+
+|
+|
+
+renderer.draw_tilemap(tilemap)
+------------------------------
+
+Use this method to draw all tile layers within a tilemap. This method is discouraged
+as it gives little control on how each layer interacts with your game, try using
+``draw_tilemap_layer`` instead.
+
+|
+|
+
+renderer.draw_tilemap_layer(layer)
+----------------------------------
+
+Use this method to draw an individual layer from a loaded tilemap. To get a layer,
+first you will need to do something like the following in your init event handler:
+
+.. code-block:: lua
+
+	tilemap = assets.load_tilemap("level1.tmx")
+	layer0 = tilemap.get_layer(0)
+
+Then in your draw event you could do something like:
+
+.. code-block:: lua
+
+	renderer.draw_tilemap_layer(layer0)
+
+A good use case for drawing layers individually, is that it allows you to do other
+things between rendering each layer. For example if you have a tilemap that has a
+ground, and foreground/sky layer. You could render a player sprite between those
+two layers. Alternatively you can also apply different shaders to each drawn layer
+for advanced effects.
+
+|
 |
 
 renderer.draw_text(font, text, x, y, max_width)
@@ -85,6 +133,7 @@ class, some text, an x-y position, and a maximum width before wrapping onto the
 next line.
 
 |
+|
 
 Blending graphics
 =================
@@ -95,6 +144,7 @@ renderer.set_blend(bool)
 The set_blend method is used to specify weather or not to use alpha blending when
 rendering. By default it is set to true, however you can switch it off if needed.
 
+|
 |
 
 renderer.set_blend_func(sfactor, dfactor)
@@ -128,6 +178,7 @@ foundation's documentation `here <https://developer.mozilla.org/en-US/docs/Web/A
 This should be arriving over the next few weeks.
 
 |
+|
 
 renderer.set_clear_color(color)
 -------------------------------
@@ -143,17 +194,17 @@ use it:
 	renderer.set_clear_color(blue)
 
 |
+|
 
 Transforming Coordinates
 ========================
 
-Xentu uses a matrices multiplication transform system, this means if you set a
-rotation, then a translation, then another rotation, you maybe confused with the
-result. Think of it as if each transform call you make is an add operation, not
-an overwrite.
+Moving, rotating or scaling the graphics you draw is important for making interesting
+games. So Xentu provides some straight forward methods for doing so. Transforms are
+reset every time you call the ``renderer.begin()`` method, then can be modified using
+the following methods:
 
-Every time you call the ``begin()`` method, the transforms you setup will be reset.
-
+|
 |
 
 renderer.set_origin(x, y)
@@ -168,14 +219,16 @@ This will move the origin to exactly the centre of that sprite. So when you draw
 it, you'll instead only see the bottom right quater of the sprite.
 
 |
+|
 
 renderer.set_rotation(angle)
 ----------------------------
 
 This method transforms the next rendered graphic by a angle based rotation. If we
 expand on the ``set_origin()`` example from above, using ``set_rotation(45)``
-would effectively rotate the sprite around it's centre by 45 degrees.
+would effectively rotate the sprite around it's centre by 45 degrees clockwise.
 
+|
 |
 
 renderer.set_scale(x, y)
@@ -191,8 +244,9 @@ following:
 The next drawn graphic would be 200% tall, and 200% wide.
 
 |
+|
 
-renderer.set_translate(x, y)
+renderer.set_position(x, y)
 ----------------------------
 
 This method transforms the next rendered graphic by moving (translating). So if
@@ -200,10 +254,13 @@ you wrote the following:
 
 .. code-block:: lua
 	
-	renderer.set_translate(10, 2)
+	renderer.set_position(10, 2)
 
-The next drawn graphic would move by 10 pixels to the right.
+The next drawn graphic would move by 10 pixels to the right. Note that some drawing
+methods also let you set a position. When using those after calling ``set_position``, 
+both position values will be added up.
 
+|
 |
 
 Using Shaders

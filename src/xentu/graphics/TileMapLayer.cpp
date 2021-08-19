@@ -253,10 +253,10 @@ namespace xen {
 			Advisor::throwError("Tried to access a TileLayer with an invalid index.");
 			return 0;
 		}
-		else {
-			// send it to lua.
-			Luna<TileMapObject>::push(L, m_objects[object_index]);
-		}
+		
+		// send it to lua.
+		Luna<TileMapObject>::push(L, m_objects[object_index]);
+		return 1;
 	}
 
 

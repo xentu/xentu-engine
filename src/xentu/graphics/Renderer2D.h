@@ -119,6 +119,11 @@ namespace xen
 		int lua_set_origin(lua_State* L);
 
 		/// <summary>
+		/// Set the x,y translation value, default is 0,0.
+		/// </summary>
+		int lua_set_position(lua_State* L);
+
+		/// <summary>
 		/// Set the rotation angle of the next drawn sprite, default is 0
 		/// </summary>
 		int lua_set_rotation(lua_State* L);
@@ -159,6 +164,8 @@ namespace xen
 		std::vector<Batch*> m_batches; // the collection of batches.
 		Sprite m_sprite;  // the one sprite instance we modify per draw.
 		float m_rotation; // the chosen rotational angle for the next sprite.
+		float m_pos_x;
+		float m_pos_y;
 		float m_origin_x; // the chosen x origin for the next sprite.
 		float m_origin_y; // the chosen y origin for the next sprite.
 		float m_scale_x; // the chosen x scale factor for the next sprite.

@@ -41,5 +41,7 @@ The following sections are in order of importance:
     lua-code-reference/the-keyboard-keyword
     lua-code-reference/the-mouse-keyword
     lua-code-reference/the-viewport-keyword
+    lua-code-reference/the-config-keyword
+    lua-code-reference/the-math-keyword
 
     lua-code-reference/classes

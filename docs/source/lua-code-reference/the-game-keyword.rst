@@ -7,6 +7,7 @@ window that hosts the game, and other generic tasks like exiting or restarting
 etc...
 
 |
+|
 
 game.debug_stack()
 ------------------
