@@ -59,6 +59,11 @@ namespace xen {
 		/// Part of the main game loop, draws everything!
 		/// </summary>
 		void draw(lua_State* L);
+
+		/// <summary>
+		/// Set the base path for this game.
+		/// </summary>
+		void set_base_path(std::string base_path);
 		
 		/// <summary>
 		/// Get the located base path for this game.

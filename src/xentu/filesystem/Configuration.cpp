@@ -27,6 +27,7 @@ namespace xen
 
 	Configuration* Configuration::parse_file(std::string filename)
 	{
+		// TODO: validate this, on error it can cause a segmentation fault.
 		Configuration* config = new Configuration();
 		
 		/* try to read the specified file. */

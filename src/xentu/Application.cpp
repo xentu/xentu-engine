@@ -56,15 +56,6 @@ int main(int arg_count, char* args[])
 	xen::Advisor::setMode(true, true, true, true);
 	xen::Advisor::setModeDate(false);
 
-	// see if we need to use proxy path mode (aka via the sdk).
-	if (arg_count > 1) {
-		std::string command_arg(args[1]);
-		if (command_arg == ".") {
-			xen::Advisor::logInfo("Set USE_PROXY_PATH");
-			xen::XentuGame::USE_PROXY_PATH = true;
-		}
-	}
-
 	// welcome the user, tell them the version.
 	std::cout << "Xentu Game Engine v" << XEN_ENGINE_VERSION << std::endl;
 
@@ -73,8 +64,9 @@ int main(int arg_count, char* args[])
 	auto time_start = clock::now();
 	std::chrono::nanoseconds time_elapsed(0ns);
 
-	// make luna aware of classes it can proxy to lua.
+	
 	lua_State* L = luaL_newstate();
+	// make luna aware of classes it can proxy to lua.
 	Luna<xen::XentuGame>::Register(L, false);
 	Luna<xen::XentuScene>::Register(L, false);
 	Luna<xen::AssetManager>::Register(L, false);
@@ -96,8 +88,17 @@ int main(int arg_count, char* args[])
 		return 0;
 	}
 
-	// grab a pointer to the game singleton instance
+	// grab a pointer to the game singleton instance (created in lua)
 	xen::XentuGame* game = xen::XentuGame::get_instance(L);
+
+	// see if we need to use custom path.
+	if (arg_count > 1) {
+		std::string command_arg(args[1]);
+		xen::Advisor::logInfo("Using a custom base_path: ", command_arg);
+		//xen::Helper::get_current_directory();
+		game->set_base_path(command_arg);
+	}
+
 	if (game->pre_init() != 0) {
 		return 0;
 	}

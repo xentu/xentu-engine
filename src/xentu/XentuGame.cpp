@@ -17,17 +17,8 @@ namespace xen
 {
 	XentuGame::XentuGame(lua_State* L)
 	{
-		// not a true instance, so make sure to let the static variable know we've been created.
 		instance = this;
-		if (USE_PROXY_PATH) {
-			this->base_path = xen::Helper::get_console_path();
-		}
-		else {
-			this->base_path = xen::Helper::get_current_directory();
-		}
-
-		// consider removing state argument.
-		Advisor::logInfo("Created instance of XentuGame.");
+		this->base_path = xen::Helper::get_current_directory();
 		this->num = 99;
 		this->shader = -1;
 		this->window = 0;
@@ -41,7 +32,9 @@ namespace xen
 		this->m_current_scene = nullptr;
 		this->config = new xen::Configuration();
 		this->viewport = new Viewport(320, 240);
+		Advisor::logInfo("Created instance of XentuGame.");
 	}
+
 
 	XentuGame::~XentuGame()
 	{
@@ -349,6 +342,11 @@ namespace xen
 		glfwPollEvents();
 	}
 
+	void XentuGame::set_base_path(std::string base_path)
+	{
+		this->base_path = base_path;
+	}
+
 	std::string XentuGame::get_base_path()
 	{
 		return this->base_path;
@@ -531,9 +529,6 @@ namespace xen
 
 
 #pragma endregion
-
-
-	bool xen::XentuGame::USE_PROXY_PATH = false;
 
 	const char xen::XentuGame::className[] = "XentuGame";
 

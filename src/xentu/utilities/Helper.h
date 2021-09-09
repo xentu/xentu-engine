@@ -37,11 +37,14 @@ namespace xen
 			return file_contents;
 		}
 
+
 		static bool file_exists(const std::string& filePath) {
 			struct stat buffer;   
 			return (stat (filePath.c_str(), &buffer) == 0); 
 		}
 
+
+		/// <summary>Get the directory from which the xentu excutable exists.</summary>
 		static std::string get_current_directory()
 		{
 			#ifdef _WIN32
@@ -70,6 +73,8 @@ namespace xen
 			#endif
 		}
 
+
+		/// <summary>Get the current working directory</summary>
 		static std::string get_console_path()
 		{
 			char path[256];
