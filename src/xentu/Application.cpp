@@ -100,11 +100,12 @@ int main(int arg_count, char* args[])
 	}
 
 	if (game->pre_init() != 0) {
+		// TODO: do something more useful here.
 		return 0;
 	}
-	std::string game_path = game->get_base_path() + "/Game.lua";
 
 	// load and run the game.lua script
+	std::string game_path = game->get_base_path() + "/game.lua";
 	if (luaL_dofile(L, game_path.c_str()) == LUA_OK)
 	{
 		unsigned int ms = 1000.0f / game->config->m_update_frequency;

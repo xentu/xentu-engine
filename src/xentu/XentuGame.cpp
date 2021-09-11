@@ -260,60 +260,61 @@ namespace xen
 
 	int XentuGame::pre_init()
 	{
-		/* find Game.lua */
-		if (!xen::Helper::file_exists(base_path + "/game.lua")) {
-			/* store a copy of the base path */
-			std::string data_path = base_path;
+		bool found = false;
 
-			/* Possible locations for Game.lua */
-			std::string possible_paths[5] = {
+		/* find Game.lua */
+		if (xen::Helper::file_exists(base_path + "/game.lua")) {
+			found = true;
+			Advisor::logInfo("Located game at: ", base_path, "/game.lua");
+		}
+		else {
+			/* Possible locations for game.lua */
+			const int possible_path_count = 5;
+			std::string possible_paths[possible_path_count] = {
 				"/data",
 				"/../data",
 				"/../../data",
 				"/../../../data",
 				"/../../../../data"
 			};
-
-			bool found = false;
+			// TODO: remove searching directories above the base_path as it's an anti-pattern.
 
 			Advisor::logInfo("Base Path: ", base_path);
 
-			for (int i = 0; i < 5; i++) {
-				data_path = base_path + possible_paths[i];
-				Advisor::logInfo("Trying: ", base_path, possible_paths[i] + "/game.lua");
-				if (xen::Helper::file_exists(data_path + "/game.lua")) {
-					base_path = data_path;
+			/* iterate through the possibles to find a match */
+			std::string possible_path = base_path;
+			for (int i = 0; i < possible_path_count; i++) {
+				possible_path = base_path + possible_paths[i];
+				//Advisor::logInfo("Trying: ", possible_path, "/game.lua");
+				if (xen::Helper::file_exists(possible_path + "/game.lua")) {
+					base_path = possible_path;
 					found = true;
+					Advisor::logInfo("Located game at: ", possible_path, "/game.lua");
+					this->set_base_path(base_path);
 					break;
 				}
-				if (xen::Helper::file_exists(data_path + "/Game.lua")) {
-					base_path = data_path;
-					found = true;
-					break;
-				}
-			}
-
-			if (found == false) {
-				Advisor::throwError("Failed to locate Game.lua, Xentu will now exit.");
-				return -1;
 			}
 		}
 
-		/* log the game folder path */
-		std::string game_path = base_path + "/Game.lua";
-		Advisor::logInfo("Located game at: ", game_path);
+		/* only proceed if the game.lua file was found */
+		if (found == false) {
+			Advisor::throwError("Failed to locate Game.lua, Xentu will now exit.");
+			return -1;
+		}
 
-		delete this->config; // get rid of old ref.
+		/* share the working base_path with the assets system */
 		this->assets->base_path = base_path;
 
-		if (xen::Helper::file_exists(base_path + "/Config.toml")) {
-			this->config = xen::Configuration::parse_file(base_path + "/Config.toml");
-		}
-		else {
-			this->config = new xen::Configuration();
+		/* attempt to load the config file */
+		if (xen::Helper::file_exists(base_path + "/config.toml")) {
+			delete this->config; // get rid of old ref.
+			this->config = xen::Configuration::parse_file(base_path + "/config.toml");
 		}
 
-		this->viewport = new Viewport(this->config->m_viewport_width, this->config->m_viewport_height);
+		/* set viewport dimensions based on the config settings */
+		this->viewport->width = this->config->m_viewport_width;
+		this->viewport->height = this->config->m_viewport_height;
+
 		return 0;
 	}
 
