@@ -31,7 +31,7 @@ extern "C" Res LUA_BEFORE_INIT(void);
 
 Res res_shader_vertex = RES_SHADER_VERTEX();
 Res res_shader_fragment = RES_SHADER_FRAGMENT();
-Res lua_startup = LUA_STARTUP(); // use *.data, *.size
+Res lua_startup = LUA_STARTUP();
 Res lua_before_init = LUA_BEFORE_INIT();
 
 // convert the raw data into standard strings. The _size is important as the raw data is null terminated.
@@ -128,10 +128,13 @@ int main(int arg_count, char* args[])
 				time_start = clock::now();
 				time_elapsed += std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
 
+				//unsigned long delta_time_ns = delta_time.count();
 				// update game logic as lag permits
 				while (time_elapsed >= timestep) {
+					auto time_elapsed_d = std::chrono::duration<float>(time_elapsed);
+					const float delta_ms = time_elapsed_d.count();
+					game->update(L, delta_ms); // update at a fixed rate each time
 					time_elapsed -= timestep;
-					game->update(L); // update at a fixed rate each time
 				}
 
 				game->draw(L);

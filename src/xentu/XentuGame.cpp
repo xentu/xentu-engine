@@ -385,11 +385,34 @@ namespace xen
 		}
 	}
 
-	void XentuGame::update(lua_State* L) {
-		this->trigger(L, "update");
+	void XentuGame::trigger_integer(lua_State* L, std::string callbackName, lua_Integer data)
+	{
+		int functionRef = this->callbacks[callbackName];
+		if (functionRef > 0)
+		{
+			lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
+			lua_pushinteger(L, data);
+			lua_call(L, 1, 0);
+		}
+	}
+
+	void XentuGame::trigger_number(lua_State* L, std::string callbackName, lua_Number data)
+	{
+		int functionRef = this->callbacks[callbackName];
+		if (functionRef > 0)
+		{
+			lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
+			lua_pushnumber(L, data);
+			lua_call(L, 1, 0);
+		}
+	}
+
+	void XentuGame::update(lua_State* L, const float delta) {
+		this->trigger_number(L, "update", delta);
 
 		if (this->m_current_scene != nullptr) {
-			this->m_current_scene->trigger(L, "update");
+			this->m_current_scene->trigger_number(L, "update", delta);
+			// TODO: add trigger_integer to scene class.
 		}
 	}
 

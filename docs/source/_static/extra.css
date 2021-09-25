@@ -5,6 +5,9 @@ body { font-family: BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ub
     html {
         font-size: 100%;
     }
+    .toc-drawer {
+        width: 22em;
+    }
 }
 
 @media (max-width:768px) {

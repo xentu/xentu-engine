@@ -35,9 +35,10 @@ Use this method to change the screen to either full screen or windowed mode.
 
 game.on(event)
 --------------
-The on method allows you to subscribe to a named built-in or custom event. The
+The ``on`` method allows you to subscribe to a named built-in or custom event. The
 built in events are really useful as these allow you to hook in and control
-game logic, drawing etc...
+game logic, drawing etc... The ``on`` event is available on the game global, and
+instances of the Scene class.
 
 Here are some code examples for key events you should be aware of:
 
@@ -46,7 +47,7 @@ The init event
 
 .. code-block:: lua
 
-	game.on('init', function(arg)
+	game.on('init', function()
 	    -- do something here
 	end)
 
@@ -59,20 +60,22 @@ The update event
 
 .. code-block:: lua
 
-	game.on('update', function(arg)
+	game.on('update', function(dt)
 	    -- do something here
 	end)
 
 The ``update`` event is called when the game wants to update game logic. This
 event is triggered using a separate frequency set by the update_frequency config
-value (usually set to 30 times a second).
+value (usually set to 30 times a second). This callback provides a dt argument
+which is a float representing the delta time since update was last called, useful
+for timing animations, or game logic.
 
 The draw event
 ^^^^^^^^^^^^^^
 
 .. code-block:: lua
 	
-	game.on('draw', function(arg)
+	game.on('draw', function()
 	    renderer.begin()
 	    -- do something here
 	    renderer.present()
@@ -87,7 +90,7 @@ for rendering graphics and text onto the screen.
 game.set_scene(scene)
 ---------------------
 By default Xentu fires the ``update`` and ``draw`` events through game object
-global. However using this method you can also tell the game to fire ``update``
+global. However you can alternatively tell the game to fire ``update``
 and ``draw`` events attached to scene objects that you create with ``new_scene()``.
 Here is an example of how it would look:
 
@@ -96,12 +99,12 @@ Here is an example of how it would look:
 	scene1 = new_scene()
 	game.set_scene(scene1)
 
-	scene1.on('update', function(arg)
-		-- update code for scene goes here.
+	scene1.on('update', function()
+	    -- update code for scene goes here.
 	end)
 
-	scene1.on('draw', function(arg)
-		-- draw code for scene goes here.
+	scene1.on('draw', function()
+	    -- draw code for scene goes here.
 	end)
 
 This functionality allows you to switch between sets of update/render calls, giving
@@ -120,16 +123,16 @@ Passing ``nil`` to this function unattaches the currently attached scene.
 
 |
 
-game.trigger(event, arg)
+game.trigger(event)
 ------------------------
 
 Trigger allows you to trigger custom events throughout your code. These events
-can be handled by the on method shown above. To trigger an event, simply write
+can be handled by the ``on`` method shown above. To trigger an event, simply write
 something like this:
 
 .. code-block:: lua
 
-    game.trigger('my_custom_event', nil)
+    game.trigger('my_custom_event')
 
-The first argument is the name of the event to trigger. And the second is an
-optional data value to pass to the event.
+The first argument is the name of the event to trigger. At this time the trigger
+method does not support passing additional arguments.

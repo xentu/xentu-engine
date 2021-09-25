@@ -91,12 +91,29 @@ namespace xen {
 		/// <param name="L">Pointer to the running lua_State.</param>
 		/// <param name="callbackName">The name of the event to trigger.</param>
 		void trigger(lua_State* L, std::string callbackName);
+
+		/// <summary>
+		/// Trigger a named event, and pass a single integer parameter.
+		/// </summary>
+		/// <param name="L">Pointer to the running lua_State.</param>
+		/// <param name="callbackName">The name of the event to trigger.</param>
+		/// <param name="data">The data to passs with the event.</param>
+		void trigger_integer(lua_State* L, std::string callbackName, lua_Integer data);
+
+		/// <summary>
+		/// Trigger a named event, and pass a single number (float etc...) parameter.
+		/// </summary>
+		/// <param name="L">Pointer to the running lua_State.</param>
+		/// <param name="callbackName">The name of the event to trigger.</param>
+		/// <param name="data">The data to passs with the event.</param>
+		void trigger_number(lua_State* L, std::string callbackName, lua_Number data);
 		
 		/// <summary>
 		/// Part of the main game loop, updates any game logic.
 		/// </summary>
 		/// <param name="L">Pointer to the running lua_State.</param>
-		void update(lua_State* L);
+		/// <param name="delta">The delta number of seconds since last update.</param>
+		void update(lua_State* L, const float delta);
 
 
 		/// <summary>

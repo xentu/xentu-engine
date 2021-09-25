@@ -85,7 +85,7 @@ end)
 
 
 -- Method for creating a Colour instance from a hex colour string (aka #553221).
-Color.fromHex = function(hexColor)
+Color.from_hex = function(hexColor)
 	hexColor = hexColor:gsub("#","")
 	local r = tonumber("0x" .. hexColor:sub(1,2)) / 255.0
 	local g = tonumber("0x" .. hexColor:sub(3,4)) / 255.0
@@ -105,7 +105,7 @@ Entity = class(function(inst)
 end)
 
 
-Entity.fromRect = function(x, y, width, height)
+Entity.from_rect = function(x, y, width, height)
 	ent = Entity()
 	ent.x = x
 	ent.y = y

@@ -31,6 +31,30 @@ namespace xen
 	}
 
 
+	void XentuScene::trigger_integer(lua_State* L, std::string callbackName, lua_Integer data)
+	{
+		int functionRef = this->m_callbacks[callbackName];
+		if (functionRef > 0)
+		{
+			lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
+			lua_pushinteger(L, data);
+			lua_call(L, 1, 0);
+		}
+	}
+
+
+	void XentuScene::trigger_number(lua_State* L, std::string callbackName, lua_Number data)
+	{
+		int functionRef = this->m_callbacks[callbackName];
+		if (functionRef > 0)
+		{
+			lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
+			lua_pushnumber(L, data);
+			lua_call(L, 1, 0);
+		}
+	}
+
+
     int XentuScene::lua_on(lua_State* L)
 	{
 		if (lua_isfunction(L, -1))

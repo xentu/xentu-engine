@@ -16,10 +16,10 @@ file. Here is an example of how you could use it:
 .. code-block:: lua
 	
 	game.on('draw', function(arg)
-		renderer.begin()
-		renderer.draw_sprite( my_sprite )
-		renderer.draw_sprite( my_sprite2 )
-		renderer.present()
+	    renderer.begin()
+	    renderer.draw_sprite( my_sprite )
+	    renderer.draw_sprite( my_sprite2 )
+	    renderer.present()
 	end)
 
 Notice that we use a ``begin()`` and ``present()`` call surrounding the actual
@@ -30,16 +30,16 @@ straight after like so:
 .. code-block:: lua
 	
 	game.on('draw', function(arg)
-		-- layer #1
-		renderer.begin()
-		renderer.draw_sprite( my_sprite )
-		renderer.draw_sprite( my_sprite2 )
-		renderer.present()
+	    -- layer #1
+	    renderer.begin()
+	    renderer.draw_sprite( my_sprite )
+	    renderer.draw_sprite( my_sprite2 )
+	    renderer.present()
 
-		-- layer #2
-		renderer.begin()
-		renderer.draw_sprite( my_sprite3 )
-		renderer.present()
+	    -- layer #2
+	    renderer.begin()
+	    renderer.draw_sprite( my_sprite3 )
+	    renderer.present()
 	end)
 
 The above may not seem that useful at first. However once you start building your
