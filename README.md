@@ -9,14 +9,13 @@ open-source libraries, written in C/C++, and very cross-platform friendly.
 ## Engine Features
 
 - Works on OpenGL 4.1+ (and ES 3.0+).
-- Write game code in Lua, no need to recompile every time.
-- Very fast emitter/subscriber event system.
-- Scene system, to switch instantly between game parts.
-- Load in textures, sprite-sheets, custom swappable shaders, fonts, audio, 
-  tile maps (tmx), text data, databases etc...
-- Smart renderer that renders in pre-organised batches for performance.
-- Simple and easy to use transform system to move, rotate or scale graphics.
-- An SDK/CLI for creating, packaging and sharing your games.
+- Game code is written in Lua, no need to recompile every time.
+- Structure using very fast emitter/subscriber events.
+- Organise with the scene system (switch instantly between game parts).
+- Load in textures, sprites, custom shaders, fonts, data etc... using a clever asset manager.
+- Renderer smartly with a system that draws in pre-organised batches for performance.
+- Move, rotate or scale graphics using the simple built-in transform system.
+- Includes tools for creating, packaging and sharing your games.
 - Compact & portable, with the main exe compiling to 2mb in release mode.
 
 <br />
@@ -25,7 +24,6 @@ open-source libraries, written in C/C++, and very cross-platform friendly.
 
 - Main Website: [https://xentu.net](https://xentu.net)
 - Documentation: [https://docs.xentu.net](https://docs.xentu.net)
-- Core Goals: [CORE_GOALS.md](CORE_GOALS.md)
 
 ## Table Of Contents
 

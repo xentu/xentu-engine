@@ -17,6 +17,7 @@ Table of contents
 	:maxdepth: 2
 
 	introduction
+	core-goals
 	installation
 	making-games
 	code-reference

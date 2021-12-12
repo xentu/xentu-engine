@@ -50,7 +50,7 @@ exclude_patterns = []
 html_static_path = ['_static']
 html_theme = 'furo' #stanford_theme
 html_theme_path = []
-html_logo = "site-logo-dark.png"
+#html_logo = "_static/site-logo-dark.png"
 html_css_files = [
     'extra.css',
     '.htaccess',

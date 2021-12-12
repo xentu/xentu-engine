@@ -5,7 +5,6 @@
 ]]
 
 
-
 -- called when the game first loads.
 game.on("init", function()
 	-- load a tilemap

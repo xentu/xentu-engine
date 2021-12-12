@@ -16,12 +16,19 @@ Brew Package Manager
 --------------------
 
 If you do not have Brew installed already, visit `this link <https://brew.sh/>`_
-to download and install. Once done, enter the following command in a terminal
-window:
+to download and install. Once done, you will need to add a tap to Brew so that
+it knows where to find the engine files (see https://docs.brew.sh/Taps). To do
+this enter the following command in a terminal window:
 
 .. code-block:: shell
 
-    brew install xentu
+    brew tap xentu/xentu-engine-macos
+
+Next run the following command to install the engine:
+
+.. code-block:: shell
+
+    brew install xentu/xentu-engine-macos
 
 .. _macos-setup-troubleshooting:
 

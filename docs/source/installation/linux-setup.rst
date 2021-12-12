@@ -1,36 +1,41 @@
-===============
-Linux/BSD Setup
-===============
+===================
+Linux/FreeBSD Setup
+===================
 
 .. _linux-bsd-setup-apt:
 
 APT Package Manager
 -------------------
 
-If you are using Ubuntu or a variant like Lubuntu/Mint, you will likely already
-have APT inststalled on your system. So to install Xentu SDK using APT, Open a
-terminal window, and enter following command:
+If you are using Ubuntu or a variant like Lubuntu/Mint, you can use the APT Package
+manager that is inststalled on your system. First of all we need to add the repo
+and update apt so it knows where to find the files, then do the actuall install.
+So do this by opening a terminal window, and enter following commands one by one:
 
 .. code-block:: shell
 
-    apt-get install xentu
-
+    echo "deb [arch=amd64] https://xentu.net/files/apt stable main" | sudo tee /etc/apt/sources.list.d/xentu.list
+    sudo apt-get update
+    sudo apt-get install xentu
+    
 .. _linux-bsd-setup-yum:
 
 YUM Package Manager
 -------------------
 
-If you prefer to use the YUM Package Manager, enter the following command in
-your terminal instead:
+If you prefer or only have access to use the YUM Package Manager, enter the
+following commands one by one instead into your terminal:
 
 .. code-block:: shell
 
-    yum install xentu
+    sudo yum-config-manager --add-repo https://xentu.net/files/yum/xentu.repo
+    sudo yum-config-manager --enable xentu
+    sudo yum install xentu
 
 .. _linux-bsd-setup-troubleshooting:
 
-Make Sure It Works! (Linux/BSD)
--------------------------------
+Make Sure It Works! (Linux/FreeBSD)
+-----------------------------------
 
 Open a command line console or terminal, and enter the following command:
 
