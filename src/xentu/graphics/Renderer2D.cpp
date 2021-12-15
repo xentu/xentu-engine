@@ -542,7 +542,10 @@ namespace xen
 		// prepare to draw the render target as a texture.
 		m_sprite.ResetTransform();
 		m_sprite.ResetTexCoords();
-		m_sprite.set_position(240, 60); // offset of viewport to screen.
+
+		// offset of viewport to screen.
+		//m_sprite.set_position(240, 60); 
+
 		m_sprite.set_scale(1, 1);
 		m_sprite.m_width = fbo_texture_inst->width;
 		m_sprite.m_height = fbo_texture_inst->height;

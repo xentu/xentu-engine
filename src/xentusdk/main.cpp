@@ -8,6 +8,7 @@
 
 
 #include "functions.cpp"
+#include <windows.h>
 
 
 using namespace std;
@@ -98,6 +99,19 @@ int do_play_game()
 }
 
 
+int do_install()
+{
+    if (const char* env_p = std::getenv("PATH")) {
+        const string env_p2 = (string)env_p + ";" + get_sdk_path();
+        set_perm_env_variable("PATH", env_p2.c_str());
+        cout << "Environment path set." << endl;
+    }
+    
+    cout << "Install complete." << endl;
+    return 0;
+}
+
+
 int main(int arg_count, char* args[]) {
     cout << rang::fg::reset << "Xentu Game Engine SDK v" << XEN_SDK_VERSION << rang::fg::reset << endl;
 
@@ -137,6 +151,8 @@ int main(int arg_count, char* args[]) {
     if (command_arg == "path") return do_path();
     if (command_arg == "new")  return do_new_game();
     if (command_arg == "play") return do_play_game();
+    if (command_arg == "install") return do_install();
+    if (command_arg == "version") return 0;
     
     // default output.
     cout << rang::fg::yellow << "Error unrecognised command '" << command_arg << "'." << rang::fg::reset << endl;

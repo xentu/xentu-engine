@@ -79,3 +79,31 @@ bool copy_file(const char *SRC, const char* DEST)
     dest << src.rdbuf();
     return src && dest;
 }
+
+
+bool set_perm_env_variable(LPCTSTR value, LPCTSTR data)
+{
+    HKEY hKey;
+    //LPCTSTR keyPath = TEXT("System\\CurrentControlSet\\Control\\Session Manager\\Environment");
+    LPCTSTR keyPath = TEXT("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment");
+    LSTATUS lOpenStatus = RegOpenKeyEx(HKEY_LOCAL_MACHINE, keyPath, 0, KEY_ALL_ACCESS, &hKey);
+    if (lOpenStatus == ERROR_SUCCESS) 
+    {
+        LSTATUS lSetStatus = RegSetValueEx(hKey, value, 0, REG_SZ,(LPBYTE)data, strlen(data) + 1);
+        RegCloseKey(hKey);
+
+        if (lSetStatus == ERROR_SUCCESS)
+        {
+            SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0, (LPARAM)"Environment", SMTO_BLOCK, 100, NULL);
+            return true;
+        }
+        else
+        {
+            std::cout << "Failed to set environment path. " << lSetStatus << std::endl;
+            return false;
+        }
+    }
+
+    std::cout << "Failed to open environment key." << std::endl;
+    return false;
+}
