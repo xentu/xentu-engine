@@ -56,20 +56,27 @@ on the 3rd of May 2020.
 
 <br />
 
-## Going Forward (as of August 13th)
+## Going Forward (as of December 15th)
 
-TileMap system now loads files, and can even render basic TMX files. The issue with
-const correctness has been resolved, and a few stability features have been added
-to smooth things out. Here is the new list of focus for the rest of the month:
+The Windows installer now works, and the documentation has been completed to a
+point of basic competence. A lot of work has been done getting the infrastructure
+for the website up and running, and problems where the SDK environment path was 
+not being set has been rectified (if a bit patchy still).
 
+Here is a list of todos going forward:
+
+- Turn the things in this list into GitHub issues.
+- Finish the website, and set the repo as public.
 - The game singleton is called to retrieve the lua_State sometimes when it shouldn't.
 - Not enough validation is carried out when calling native methods via Lua.
 - Reduce the number of times the engine crashes out due to a basic error, things like loading assets.
 - Add a Math library for calculating transforms, this should simplify things.
 - It's currently not possible to send custom information to shaders.
-- LuaSprite, LuaFont, LuaColor do not need to exist any more now that native class refs are possible.
+- Fix the SDK install routine where it sometimes adds too much to the path variable.
+- Create an icon for the SDK, and finish the basic help page.
+- Get a code signing certificate to add trust for the SDK download.
 
-
+<br />
 
 ## Dependencies
 
