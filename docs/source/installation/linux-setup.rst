@@ -2,6 +2,10 @@
 Linux/FreeBSD Setup
 ===================
 
+.. raw:: html
+
+    <!--
+
 .. _linux-bsd-setup-apt:
 
 APT Package Manager
@@ -31,6 +35,10 @@ following commands one by one instead into your terminal:
     sudo yum-config-manager --add-repo https://files.xentu.net/yum/xentu.repo
     sudo yum-config-manager --enable xentu
     sudo yum install xentu
+
+.. raw:: html
+
+    -->
 
 .. _linux-bsd-setup-troubleshooting:
 

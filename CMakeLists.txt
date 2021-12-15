@@ -4,7 +4,20 @@ project(xentu VERSION 0.0.1)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ ${CMAKE_CSS_STANDARD_LIBRARIES}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static")
+
+# Setup version info.
+set(MY_PRODUCT_NUMBER 0)
+set(MY_PRODUCT_VERSION 0)
+set(MY_BUILD_NUMBER 1)
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/version.rc.in
+  ${CMAKE_CURRENT_BINARY_DIR}/version.rc
+  @ONLY)
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/version-sdk.rc.in
+  ${CMAKE_CURRENT_BINARY_DIR}/version-sdk.rc
+  @ONLY)
 
 # We need a CMAKE_DIR with some code to find external dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
@@ -134,6 +147,7 @@ set(XEN_ENGINE_FILES
 	src/xentu/libraries/tmxlite/Tileset.hpp
 	src/xentu/libraries/tmxlite/Types.hpp
 	src/xentu/libraries/tmxlite/Types.inl
+	${CMAKE_CURRENT_BINARY_DIR}/version.rc
 )
 
 
@@ -184,7 +198,6 @@ add_executable(xentu ${XEN_ENGINE_FILES})
 #set_target_properties(xentu PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32") -- forces 32 bit
 target_compile_definitions(xentu PRIVATE XEN_ENGINE_VERSION="${CMAKE_PROJECT_VERSION}")
 
-
 # Define the link libraries
 target_link_libraries(xentu PRIVATE ${XEN_LIBS})
 
@@ -198,6 +211,7 @@ project(xentusdk VERSION 0.0.1)
 # source files for sdk
 set(XEN_SDK_FILES
 	src/xentusdk/main.cpp
+	${CMAKE_CURRENT_BINARY_DIR}/version-sdk.rc
 )
 
 add_executable(xentusdk ${XEN_SDK_FILES})

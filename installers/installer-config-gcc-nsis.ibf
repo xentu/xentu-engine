@@ -3,7 +3,7 @@
   "SoftwareType": "DotNetApplication",
   "Description": "Xentu is a slim, fast and easy to learn framework for creating 2D games scripted in Lua. It’s completely free to use, open-source (under the zlib license), links to other open-source libraries, written in C/C++, and very cross-platform friendly.",
   "Publisher": "Xentu",
-  "Copyright": "Xentu",
+  "Copyright": "xentu.net",
   "Website": "https://xentu.net",
   "Version": "0.0.1.0",
   "OutputFilename": "{ProductName}_Installer_v{Version}.exe",

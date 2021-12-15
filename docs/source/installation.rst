@@ -23,8 +23,6 @@ Pick Your OS
     :titlesonly:
     
     installation/windows-setup
-    installation/linux-setup
-    installation/macos-setup
 
 Already Installed?
 ------------------

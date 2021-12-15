@@ -15,7 +15,7 @@ Windows Installer
 -----------------
 
 If you wish to install the SDK the most traditional way, you can download the
-installer using the following link: `XentuSDK_Setup_x86.exe <//files.xentu.net/win/XentuSDK_Setup_x86.exe>`_
+installer using the following link: `XentuSDK_Alpha_Setup_x86.exe <//files.xentu.net/win/XentuSDK_Alpha_Setup_x86.exe>`_
 
 .. _windows-setup-choco:
 
