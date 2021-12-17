@@ -8,7 +8,9 @@
 
 
 #include "functions.cpp"
+#if defined(WIN32) || defined(_WIN32) 
 #include <windows.h>
+#endif
 
 
 using namespace std;
@@ -101,12 +103,15 @@ int do_play_game()
 
 int do_install()
 {
+    #if defined(WIN32) || defined(_WIN32) 
     if (const char* env_p = std::getenv("PATH")) {
         const string env_p2 = (string)env_p + ";" + get_sdk_path();
         set_perm_env_variable("PATH", env_p2.c_str());
         cout << "Environment path set." << endl;
     }
-    
+    #else
+        cout << "Skipped env set, not on windows." << endl;
+    #endif
     cout << "Install complete." << endl;
     return 0;
 }

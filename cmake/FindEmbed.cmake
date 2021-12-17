@@ -64,31 +64,49 @@ struct Res ${Name}(void) {
 			set(Section ".const_data")
 			set(DataWord "_data")
 			set(EndEndWord "_end_data")
+			set(CODE
+				"${STRUCT}
+				asm(
+					\"${Section}\\n\"
+					\".align ${CMAKE_SIZEOF_VOID_P}\\n\"
+					\"${DataWord}: .incbin \\\"${InputAbs}\\\"\\n\"
+					\"{EndDataWord}:\\n\"
+					\".previous\"
+				)\;
+				extern const char data[]\;
+				extern const char end_data[]\;
+				struct Res ${Name}(void) {
+					struct Res r = { data, end_data - data }\;
+					return r\;
+				}"
+			)
+
 		else()
 			set(Section ".section .rodata")
 			set(DataWord "data")
 			set(EndEndWord "end_data")
+			set(CODE
+				"${STRUCT}
+				asm(
+					\"${Section}\\n\"
+					\".align ${CMAKE_SIZEOF_VOID_P}\\n\"
+					\"data: .incbin \\\"${InputAbs}\\\"\\n\"
+					\"end_data:\\n\"
+					\".previous\"
+				)\;
+				extern const char data[]\;
+				extern const char end_data[]\;
+				struct Res ${Name}(void) {
+					struct Res r = { data, end_data - data }\;
+					return r\;
+				}"
+			)
 		endif()
 
 		# TODO: _data & _end_data only work on MacOS, for Linux this needs
 		# changing to data & end_data (without _ prefix).
 
-		set(CODE
-"${STRUCT}
-asm(
-	\"${Section}\\n\"
-	\".align ${CMAKE_SIZEOF_VOID_P}\\n\"
-	\"${DataWord}: .incbin \\\"${InputAbs}\\\"\\n\"
-	\"{EndDataWord}:\\n\"
-	\".previous\"
-)\;
-extern const char data[]\;
-extern const char end_data[]\;
-struct Res ${Name}(void) {
-	struct Res r = { data, end_data - data }\;
-	return r\;
-}"
-		)
+		
 		set(OutputC "${CMAKE_CURRENT_BINARY_DIR}/${Name}.c")
 		set(Outputs ${OutputC})
 		file(WRITE ${OutputC} ${CODE})

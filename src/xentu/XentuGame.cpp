@@ -81,8 +81,12 @@ namespace xen
 		{
 			int length;
 			glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-			//char* message = (char*)alloca(length * sizeof(char));
+			#if defined(WIN32) || defined(_WIN32) 
 			char* message = (char*)_malloca(length * sizeof(char));
+			#else
+			char* message = (char*)alloca(length * sizeof(char));
+			#endif
+			//
 			glGetShaderInfoLog(id, length, &length, message);
 			Advisor::throwError("Failed to compile ", (type == GL_VERTEX_SHADER ? "vertex" : "fragment"), " shader\n", message);
 			glDeleteShader(id);

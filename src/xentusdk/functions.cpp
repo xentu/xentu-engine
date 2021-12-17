@@ -81,6 +81,7 @@ bool copy_file(const char *SRC, const char* DEST)
 }
 
 
+#if defined(WIN32) || defined(_WIN32) 
 bool set_perm_env_variable(LPCTSTR value, LPCTSTR data)
 {
     HKEY hKey;
@@ -107,3 +108,4 @@ bool set_perm_env_variable(LPCTSTR value, LPCTSTR data)
     std::cout << "Failed to open environment key." << std::endl;
     return false;
 }
+#endif

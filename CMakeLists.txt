@@ -4,7 +4,9 @@ project(xentu VERSION 0.0.1)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if (WIN32)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static")
+endif()
 
 # Setup version info.
 set(MY_PRODUCT_NUMBER 0)
@@ -224,4 +226,4 @@ endif()
 
 # set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 # set(CMAKE_CXX_FLAGS_DEBUG "-g")
-# set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
