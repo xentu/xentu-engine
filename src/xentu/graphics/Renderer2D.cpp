@@ -31,7 +31,8 @@ namespace xen
 		vbo(-1),
 		m_sprite(),
 		m_initialized(false),
-		m_clear_color(LuaColor::White())
+		m_clear_color(LuaColor::White()),
+		m_text_color(Vector4f(1, 1, 1, 1))
 	{ }
 	
 	Renderer2D::~Renderer2D()
@@ -428,7 +429,7 @@ namespace xen
 		m_sprite.set_origin(m_origin_x, m_origin_y);
 		m_sprite.set_rotation(m_rotation);
 		m_sprite.set_scale(m_scale_x, m_scale_y);
-
+		m_sprite.m_color = this->m_text_color;
 		m_sprite.m_width = 10;
 		m_sprite.m_height = 22;
 		m_sprite.m_texture = game->assets->get_texture(f.texture_id);
@@ -597,6 +598,15 @@ namespace xen
 		return 0;
 	}
 
+	int Renderer2D::lua_set_text_color(lua_State* L)
+	{
+		// push nil to get the table data to parse.
+		lua_pushnil(L);
+		Vector4f f = parse_color(L);
+		this->m_text_color = f;
+		return 0;
+	}
+
 	int Renderer2D::lua_set_origin(lua_State* L)
 	{
 		m_origin_x = lua_tonumber(L, -2);
@@ -664,6 +674,7 @@ namespace xen
 		method(Renderer2D, set_blend, lua_set_blend),
 		method(Renderer2D, set_blend_func, lua_set_blend_func),
 		method(Renderer2D, set_clear_color, lua_set_clear_color),
+		method(Renderer2D, set_text_color, lua_set_text_color),
 		method(Renderer2D, set_origin, lua_set_origin),
 		method(Renderer2D, set_position, lua_set_position),
 		method(Renderer2D, set_rotation, lua_set_rotation),

@@ -1,0 +1,11 @@
+[general]
+game_title = 'Pong Example'
+screen_width = 800
+screen_height = 600
+update_frequency = 60
+vsync = true
+fullscreen = false
+
+[viewport]
+width = 800
+height = 600

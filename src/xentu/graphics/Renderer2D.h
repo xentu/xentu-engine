@@ -114,6 +114,11 @@ namespace xen
 		int lua_set_clear_color(lua_State* L);
 
 		/// <summary>
+		/// Set the color used to draw text.
+		/// </summary>
+		int lua_set_text_color(lua_State* L);
+
+		/// <summary>
 		/// Set the x,y transformational origin of the next drawn sprite, default is 0,0.
 		/// </summary>
 		int lua_set_origin(lua_State* L);
@@ -171,6 +176,7 @@ namespace xen
 		float m_scale_x; // the chosen x scale factor for the next sprite.
 		float m_scale_y; // the chosen y scale factor for the next sprite.
 		LuaColor m_clear_color; // the chosen clear color.
+		Vector4f m_text_color; // the chosen text color.
 
 		/* the vertex/index/frame buffer. */
 		unsigned int vao;
