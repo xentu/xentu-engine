@@ -48,8 +48,8 @@ namespace xen
 				m_layers[m_layers_count] = new TileMapLayer(L, *m_map, l);
 
 				m_layers_count++;
-				// std::cout << "Found Layer: " << layer->getName() << std::endl;
-				// std::cout << "Layer Type: " << int(layer->getType()) << std::endl;
+				std::cout << "Found Layer: " << layer->getName() << std::endl;
+				std::cout << "Layer Type: " << int(layer->getType()) << std::endl;
 			}
 			xen::Advisor::logInfo("Loaded tmx!");
 		}

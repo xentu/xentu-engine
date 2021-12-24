@@ -471,8 +471,11 @@ namespace xen
 		for (int i=0; i<layer->m_tile_count; i++)
 		{
 			auto& tile = layer->m_tiles[i];
+
+			if (tile->texture_id <= 0) continue;
+
 			m_sprite.ResetTransform();
-			m_sprite.set_position(tile->x, tile->y);
+			m_sprite.set_position(m_pos_x + tile->x, m_pos_y + tile->y);
 			m_sprite.set_scale(1, 1);
 			m_sprite.set_rotation(0);
 			//m_sprite.m_color = color; //TODO: stack member duplication.
@@ -486,6 +489,20 @@ namespace xen
 			float h = tile->t_height / (float)m_sprite.m_texture->height;
 
 			m_sprite.m_rect = Rect(u, 1.0 - v - h,w,h);
+			find_batch(m_sprite)->draw(m_sprite);
+		}
+
+		const int texture_id = layer->get_texture_id();
+		if (texture_id > 0) {
+			m_sprite.ResetTransform();
+			m_sprite.set_position(m_pos_x, m_pos_y);
+			m_sprite.set_scale(1, 1);
+			m_sprite.set_rotation(0);
+			m_sprite.m_color = xen::Vector4f(1, 1, 1, 1); //TODO: stack member duplication.
+			m_sprite.m_width = 2048;
+			m_sprite.m_height = 2048;
+			m_sprite.m_texture = game->assets->get_texture(texture_id);
+			m_sprite.m_rect = Rect(0, 0, 1, 1);
 			find_batch(m_sprite)->draw(m_sprite);
 		}
 

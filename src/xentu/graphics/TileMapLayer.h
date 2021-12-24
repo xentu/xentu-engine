@@ -7,6 +7,7 @@
 
 #include "tmxlite/Map.hpp"
 #include "tmxlite/TileLayer.hpp"
+#include "tmxlite/ImageLayer.hpp"
 
 #include "TileMapObject.h"
 
@@ -45,6 +46,7 @@ namespace xen
 		const tmx::Layer::Ptr& get_layer() const;
 		const tmx::Vector2u get_size() const;
 		std::vector<tmx::TileLayer::Tile> get_tiles() const;
+		const int get_texture_id() const;
 
 		int lua_get_name(lua_State* L);
 		int lua_get_offset(lua_State* L);
@@ -71,6 +73,8 @@ namespace xen
 		const tmx::Layer::Ptr& m_layer;
 		TileMapObject *m_objects[MAX_OBJECTS_OR_TILES];
 		int m_object_count;
+		// background texture
+		int m_texture_id;
 	};
 }
 

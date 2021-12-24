@@ -1,13 +1,10 @@
 --[[
-	Flappy Bird Example
+	Space Hopper Example
 ]]
 
 colors = { }
 textures = { }
-sprites = {
-	["pipe_down"] = {},
-	["pipe_up"] = {}
-}
+sprites = { }
 
 pipe_count = 50
 world_x = 0
@@ -20,8 +17,6 @@ suspended_message = ""
 
 -- the init event
 game.on("init", function()
-	print("Flappy Bird Clone")
-
 	-- setup colours
 	colors.bg = Color.from_hex('#333333')
 	colors.black = Color.from_hex('#000000')
@@ -52,6 +47,8 @@ game.on("init", function()
 
 
 	-- create sprites for the pipes
+	sprites["pipe_down"] = {}
+	sprites["pipe_up"] = {}
 	for i=1, pipe_count do
 
 		sprites.pipe_down[i] = Sprite(textures.pipe_down, 0, 0, 32, 300)

@@ -17,7 +17,8 @@ namespace xen {
 		  m_tile_count(0),
 		  m_object_count(0),
 		  m_objects{},
-		  m_tiles{}
+		  m_tiles{},
+		  m_texture_id(0)
 	{ }
 
 
@@ -26,8 +27,10 @@ namespace xen {
 		  m_tile_count(0),
 		  m_object_count(0),
 		  m_objects{},
-		  m_tiles{}
+		  m_tiles{},
+		  m_texture_id(0)
 	{
+		XentuGame* game = XentuGame::get_instance(L);
 		tmx::Layer::Type type = layer->getType();
 
 		if (type == tmx::Layer::Type::Object)
@@ -40,9 +43,15 @@ namespace xen {
 				m_object_count++;
 			}
 		}
+		else if (type == tmx::Layer::Type::Image)
+		{
+			auto image = layer->getLayerAs<tmx::ImageLayer>();
+			auto image_path = image.getImagePath();
+			std::cout << "Image Layer: " << image_path << std::endl;
+			m_texture_id = game->assets->load_texture(image_path, 2, 1); // TX_RGBA - TX_CLAMP_TO_EDGE
+		}
 		else if (type == tmx::Layer::Type::Tile)
 		{
-			XentuGame* game = XentuGame::get_instance(L);
 			const auto& tiles = this->get_tiles();
 			const auto& tileSize = map.getTileSize();
 			const auto& tileSets = map.getTilesets();
@@ -264,6 +273,12 @@ namespace xen {
 	{
 		tmx::TileLayer& tile_layer = m_layer->getLayerAs<tmx::TileLayer>();
 		return tile_layer.getTiles();
+	}
+
+
+	const int TileMapLayer::get_texture_id() const
+	{
+		return m_texture_id;
 	}
 
 

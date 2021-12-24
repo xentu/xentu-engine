@@ -1,5 +1,5 @@
 [general]
-game_title = 'Flappy Bird Clone'
+game_title = 'Pong Example'
 screen_width = 800
 screen_height = 600
 update_frequency = 60

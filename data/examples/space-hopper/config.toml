@@ -1,5 +1,5 @@
 [general]
-game_title = 'Platformer'
+game_title = 'Space Hopper'
 screen_width = 800
 screen_height = 600
 update_frequency = 60
