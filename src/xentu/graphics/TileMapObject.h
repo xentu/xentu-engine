@@ -6,6 +6,7 @@
 #include <luna/luna.hpp>
 
 #include "../libraries/tmxlite/Map.hpp"
+#include "Tile.h"
 
 namespace xen
 {
@@ -22,6 +23,7 @@ namespace xen
 		int lua_get_size(lua_State* L);
 		int lua_get_shape(lua_State* L);
 
+		const xen::Tile get_tile() const;
 
 		//Class Constants
 		static const char className[];
@@ -31,6 +33,10 @@ namespace xen
 
 		// List of class methods to make available in Lua
 		static const Luna<TileMapObject>::FunctionType methods[];
+
+
+		bool has_tile;
+		xen::Tile m_tile;
 
 	private:
 		const tmx::Object m_object;

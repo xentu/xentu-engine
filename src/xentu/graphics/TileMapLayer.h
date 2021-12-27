@@ -9,31 +9,13 @@
 #include "tmxlite/TileLayer.hpp"
 #include "tmxlite/ImageLayer.hpp"
 
+#include "Tile.h"
 #include "TileMapObject.h"
 
 
 namespace xen
 {
 	constexpr int MAX_OBJECTS_OR_TILES = 65536;
-
-
-	struct Tile
-	{
-		Tile(int x, int y, int w, int h) :
-			x(x),
-			y(y),
-			width(w),
-			height(h),
-			t_x(0),
-			t_y(0),
-			t_width(1),
-			t_height(1),
-			texture_id(-1)
-		{ }
-
-		int x, y, width, height, t_x, t_y, t_width, t_height;
-		int texture_id;
-	};
 
 
 	class TileMapLayer
@@ -47,6 +29,9 @@ namespace xen
 		const tmx::Vector2u get_size() const;
 		std::vector<tmx::TileLayer::Tile> get_tiles() const;
 		const int get_texture_id() const;
+		const int get_object_count() const;
+		const TileMapObject* get_object(const int object_index);
+
 
 		int lua_get_name(lua_State* L);
 		int lua_get_offset(lua_State* L);

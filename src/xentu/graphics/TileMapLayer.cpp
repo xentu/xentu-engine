@@ -5,6 +5,7 @@
 
 #include "XentuGame.h"
 #include "TileMapLayer.h"
+#include "Tile.h"
 #include "../utilities/Advisor.h"
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
@@ -33,32 +34,77 @@ namespace xen {
 		XentuGame* game = XentuGame::get_instance(L);
 		tmx::Layer::Type type = layer->getType();
 
+
+		const auto& tileSize = map.getTileSize();
+		const auto& tileSets = map.getTilesets();
+		auto tileSetTextures = new std::map<std::string, int>();
+		const auto layerSize = this->get_size();
+		std::uint32_t maxID = std::numeric_limits<std::uint32_t>::max();
+		std::vector<const tmx::Tileset*> usedTileSets;
+
+
 		if (type == tmx::Layer::Type::Object)
 		{
+			auto tileSetTextures = new std::map<std::string, int>();
 			auto object_group = layer->getLayerAs<tmx::ObjectGroup>();
 			auto objects = object_group.getObjects();
 			for (const tmx::Object object : objects)
 			{
-				m_objects[m_object_count] = new TileMapObject(L, object);
-				m_object_count++;
+				auto tobj = new TileMapObject(L, object);
+
+				// identify which tilesets are used by the object.
+				uint32_t idx = object.getTileID();
+				if (idx > 0) {
+					bool found = false;
+					int index = 0;
+					for (auto ts = tileSets.rbegin(); ts != tileSets.rend(); ++ts)
+					{
+						index++;
+						if (idx >= ts->getFirstGID() && idx < maxID)
+						{
+							const auto& path = ts->getImagePath();
+							auto vec2 = &object.getPosition();
+
+							int texture_id = game->assets->lookup_texture(path);
+							if (texture_id == -1) {
+								texture_id = game->assets->load_texture(path, 2, 1);
+							}
+
+							auto ts_tile = ts->getTile(idx);
+							auto ts_tile_size = ts->getTileSize();
+
+							tobj->m_tile = Tile(vec2->x, vec2->y - ts_tile_size.y, ts_tile_size.x, ts_tile_size.y, texture_id);
+							tobj->m_tile.t_x = ts_tile->imagePosition.x;
+							tobj->m_tile.t_y = ts_tile->imagePosition.y;
+							tobj->m_tile.t_width = ts_tile_size.x;
+							tobj->m_tile.t_height = ts_tile_size.y;
+							tobj->has_tile = true;
+							found = true;
+							break;
+						}
+					}
+
+					if (found == false) {
+						std::cout << "Failed to find tileset." << std::endl;
+					}
+				}
+				
+				if (tobj->has_tile) {
+					m_objects[m_object_count] = tobj;
+					m_object_count++;
+				}
 			}
 		}
 		else if (type == tmx::Layer::Type::Image)
 		{
 			auto image = layer->getLayerAs<tmx::ImageLayer>();
 			auto image_path = image.getImagePath();
-			std::cout << "Image Layer: " << image_path << std::endl;
 			m_texture_id = game->assets->load_texture(image_path, 2, 1); // TX_RGBA - TX_CLAMP_TO_EDGE
 		}
 		else if (type == tmx::Layer::Type::Tile)
 		{
 			const auto& tiles = this->get_tiles();
-			const auto& tileSize = map.getTileSize();
-			const auto& tileSets = map.getTilesets();
-			auto tileSetTextures = new std::map<std::string, int>();
-			const auto layerSize = this->get_size();
-			std::uint32_t maxID = std::numeric_limits<std::uint32_t>::max();
-			std::vector<const tmx::Tileset*> usedTileSets;
+			
 			unsigned int idx = 0;
 
 			// identify which tilesets are used by the layer.
@@ -72,7 +118,7 @@ namespace xen {
 						break;
 					}
 				}
-				maxID = i->getFirstGID();
+				//maxID = i->getFirstGID();
 			}
 
 			// make sure tileset textures are loaded.
@@ -117,7 +163,7 @@ namespace xen {
 			delete tileSetTextures;
 		}
 
-		Advisor::logInfo("Loaded instance of TileMapLayer.");
+		Advisor::logInfo("Loaded instance of TileMapLayer (" + layer->getName() + ").");
 	}
 
 	
@@ -259,7 +305,7 @@ namespace xen {
 		int max_index = m_object_count - 1;
 
 		if (object_index < 0 || object_index > max_index) {
-			Advisor::throwError("Tried to access a TileLayer with an invalid index.");
+			Advisor::throwError("Tried to access a TileMapObject with an invalid index.");
 			return 0;
 		}
 		
@@ -279,6 +325,26 @@ namespace xen {
 	const int TileMapLayer::get_texture_id() const
 	{
 		return m_texture_id;
+	}
+
+
+	const int TileMapLayer::get_object_count() const
+	{
+		return m_object_count;
+	}
+	
+	
+	const TileMapObject* TileMapLayer::get_object(const int object_index)
+	{
+		int max_index = m_object_count - 1;
+
+		if (object_index < 0 || object_index > max_index) {
+			Advisor::throwError("Tried to access a TileMapObject with an invalid index.");
+			return 0;
+		}
+		
+		// send it to lua.
+		return m_objects[object_index];
 	}
 
 

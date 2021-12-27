@@ -65,6 +65,7 @@ namespace xen
 	{
 		std::string filename = localize_path(filename_relative);
 
+
 		int gl_format = GL_RGBA;
 		switch (format) {
 			case 1:
@@ -112,6 +113,7 @@ namespace xen
 		textures_iter++;
 		Advisor::logInfo("Loaded texture [#", textures_iter, "] wh: ", width, "x", height, ", channels: ", nrChannels, ", from: ", filename);
 		textures.insert(std::make_pair(textures_iter, created));
+		texture_lookups.insert(std::make_pair(filename_relative, textures_iter));
 		return textures_iter;
 	}
 
@@ -309,6 +311,17 @@ namespace xen
 			return relative_path;
 		}
 		return this->base_path + '/' + relative_path;
+	}
+
+
+	int AssetManager::lookup_texture(std::string relative_path)
+	{
+		std::map<std::string, int>::iterator it = texture_lookups.find(relative_path);
+		if (it != texture_lookups.end())
+		{
+			return it->second;
+		}
+		return -1;
 	}
 
 

@@ -39,17 +39,14 @@ namespace xen
 			// TODO: Load textures, and process layers so that drawing is made easier.
 
 			const auto& layers = m_map->getLayers();
-			std::cout << "Map has " << layers.size() << " layers" <<  std::endl;
+			Advisor::logInfo("Map has ", std::to_string( layers.size() ), " layers");
 			m_layers_count = 0;
 
 			for (const tmx::Layer::Ptr& layer : layers)
 			{
 				const tmx::Layer::Ptr& l = layer;
 				m_layers[m_layers_count] = new TileMapLayer(L, *m_map, l);
-
 				m_layers_count++;
-				std::cout << "Found Layer: " << layer->getName() << std::endl;
-				std::cout << "Layer Type: " << int(layer->getType()) << std::endl;
 			}
 			xen::Advisor::logInfo("Loaded tmx!");
 		}

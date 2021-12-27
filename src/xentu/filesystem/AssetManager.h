@@ -98,6 +98,10 @@ namespace xen {
 		std::string localize_path(std::string relative_path);
 
 
+		// either returns a texture_id or -1 if texture is not loaded.
+		int lookup_texture(std::string relative_path);
+
+
 		//Class Constants
 		static const char className[];
 
@@ -126,6 +130,12 @@ namespace xen {
 		std::map<int, Sound*> sounds;
 		std::map<int, TileMap*> tilemaps;
 		std::list<int> shaders;
+
+
+		/// <summary>
+		/// Lookup tables for loaded assets.
+		/// </summary>
+		std::map<std::string, int> texture_lookups;
 
 
 		/// <summary>

@@ -9,13 +9,17 @@
 
 namespace xen
 {
-	TileMapObject::TileMapObject(lua_State* L)
+	TileMapObject::TileMapObject(lua_State* L) :
+		has_tile(false)
 	{ }
 
 
 	TileMapObject::TileMapObject(lua_State* L, tmx::Object object) :
+		has_tile(false),
 		m_object(object)
-	{ }
+	{
+		
+	}
 
 
 	TileMapObject::~TileMapObject(void)
@@ -62,6 +66,12 @@ namespace xen
 		}
 		lua_pushstring(L, name.c_str());
 		return 1;
+	}
+
+
+	const xen::Tile TileMapObject::get_tile() const
+	{
+		return m_tile;
 	}
 
 
