@@ -3,6 +3,12 @@
 #include <string>
 #include <map>
 
+#if defined(WIN32) || defined(_WIN32) 
+#define PATH_SEPARATOR '\\' 
+#else 
+#define PATH_SEPARATOR '/'
+#include <sys/stat.h>
+#endif
 
 #include "templates.h"
 
@@ -15,14 +21,6 @@
 
 using namespace std;
 using namespace rang;
-
-
-#if defined(WIN32) || defined(_WIN32) 
-#define PATH_SEPARATOR '\\' 
-#else 
-#define PATH_SEPARATOR '/'
-#include <sys/stat.h>
-#endif
 
 
 map<string, string> parsed_args;
@@ -94,6 +92,30 @@ int do_new_game()
 }
 
 
+int do_clone_game(string template_name) {
+    if (template_name.length() == 0) {
+        cout << rang::fg::red << "Error, please provide a valid template name!" << endl;
+        return -1;
+    }
+
+    string file = "M:\\GitHub\\xentu\\xentu-engine\\out\\build\\gcc\\templates\\" + template_name + ".zip";
+
+    if (!file_exists(file)) {
+        cout << rang::fg::red << "Error, cant load template named " << file << "!" << endl;
+        return -2;
+    }
+
+    string m_base = get_console_path();
+
+    cout << "Template: " << file << endl;
+    cout << "Destination: " << m_base << endl;
+    unzip_template(file, m_base);
+
+    cout << "Game prepared. Type \"xentusdk play\" to startup your game!" << endl;
+    return 0;
+}
+
+
 int do_play_game()
 {
     system("xentu .");
@@ -103,16 +125,20 @@ int do_play_game()
 
 int do_install()
 {
+    cout << "Installing..." << endl;
     #if defined(WIN32) || defined(_WIN32) 
-    if (const char* env_p = std::getenv("PATH")) {
-        const string env_p2 = (string)env_p + ";" + get_sdk_path();
-        set_perm_env_variable("PATH", env_p2.c_str());
-        cout << "Environment path set." << endl;
+
+    const string env_p = get_perm_env_variable("PATH");
+    if (env_p.length() == 0) {
+        cout << "Failed to read environment path variable." << endl;
+        return 0;
     }
+    const string env_p2 = (string)env_p + ";" + get_sdk_path();
+    set_perm_env_variable("PATH", env_p2.c_str());
+    cout << "Environment path set." << endl;
     #else
         cout << "Skipped env set, not on windows." << endl;
     #endif
-    cout << "Install complete." << endl;
     return 0;
 }
 
@@ -155,6 +181,7 @@ int main(int arg_count, char* args[]) {
     if (command_arg == "help") return do_help();
     if (command_arg == "path") return do_path();
     if (command_arg == "new")  return do_new_game();
+    if (command_arg == "clone") return do_clone_game(arg_count > 2 ? args[2] : "");
     if (command_arg == "play") return do_play_game();
     if (command_arg == "install") return do_install();
     if (command_arg == "version") return 0;

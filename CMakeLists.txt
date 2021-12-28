@@ -154,15 +154,6 @@ set(XEN_ENGINE_FILES
 )
 
 
-# Define the include DIRs
-include_directories(
-	"${CMAKE_SOURCE_DIR}/src/xentu"
-	"${CMAKE_SOURCE_DIR}/src/xentu/libraries"
-	"${CMAKE_SOURCE_DIR}/src/xentusdk/libraries"
-	"${CMAKE_SOURCE_DIR}/thirdparty"
-)
-
-
 # compile list of libs (that will be linked to the exe)
 if (WIN32)
     message("-- LIB MODE: Win32")
@@ -194,10 +185,18 @@ elseif (UNIX)
 		pthread
 	)
 endif (WIN32)
-
+ 
 
 # Define the executable
 add_executable(xentu ${XEN_ENGINE_FILES})
+
+# Define the include DIRs
+target_include_directories(xentu PUBLIC
+	"${CMAKE_SOURCE_DIR}/src/xentu"
+	"${CMAKE_SOURCE_DIR}/src/xentu/libraries"
+	"${CMAKE_SOURCE_DIR}/thirdparty"
+)
+
 #set_target_properties(xentu PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32") -- forces 32 bit
 target_compile_definitions(xentu PRIVATE XEN_ENGINE_VERSION="${CMAKE_PROJECT_VERSION}")
 
@@ -213,12 +212,18 @@ project(xentusdk VERSION 0.0.1)
 
 # source files for sdk
 set(XEN_SDK_FILES
+	src/xentusdk/libraries/miniz.h
 	src/xentusdk/main.cpp
 	${CMAKE_CURRENT_BINARY_DIR}/version-sdk.rc
 )
 
 add_executable(xentusdk ${XEN_SDK_FILES})
+target_include_directories(xentusdk PUBLIC
+	"${CMAKE_SOURCE_DIR}/src/xentusdk/libraries"
+)
 target_compile_definitions(xentusdk PRIVATE XEN_SDK_VERSION="${CMAKE_PROJECT_VERSION}")
+
+
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)

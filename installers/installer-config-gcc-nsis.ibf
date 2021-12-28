@@ -20,6 +20,6 @@
   "DesktopShortcutIncludes": null,
   "PrimaryExeFilename": "",
   "IncludeUninstaller": true,
-  "ExtraNsisCode": "Section \"Add Env Var\"\r\nExec \"$INSTDIR\\xentusdk.exe install\"\r\nSectionEnd",
+  "ExtraNsisCode": "Section /o \"Set PATH Variable\"\r\nExec \"$INSTDIR\\xentusdk.exe install\"\r\nSectionEnd",
   "ExtraUninstNsisCode": ""
 }
