@@ -200,6 +200,7 @@ namespace xen
 		glm::mat4 screen_proj;
 		unsigned int vp_width, vp_height;
 		unsigned int sc_width, sc_height;
+		int vp_mode;
 	};
 }
 

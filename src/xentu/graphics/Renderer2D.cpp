@@ -56,6 +56,7 @@ namespace xen
 			sc_height = game->config->m_screen_height;
 			vp_width = game->config->m_viewport_width;
 			vp_height = game->config->m_viewport_height;
+			vp_mode = game->config->m_mode;
 			view_batch = new Batch();
 
 
@@ -589,13 +590,29 @@ namespace xen
 		// prepare to draw the render target as a texture.
 		m_sprite.ResetTransform();
 		m_sprite.ResetTexCoords();
-
-		// offset of viewport to screen.
-		//m_sprite.set_position(240, 60); 
-
 		m_sprite.set_scale(1, 1);
-		m_sprite.m_width = fbo_texture_inst->width;
-		m_sprite.m_height = fbo_texture_inst->height;
+
+		// choose the viewport mode.
+		if (vp_mode == 2) {
+			// stretch
+			m_sprite.m_width = sc_width;
+			m_sprite.m_height = sc_height;
+		}
+		else if (vp_mode == 1) {
+			// centre
+			m_sprite.m_width = fbo_texture_inst->width;
+			m_sprite.m_height = fbo_texture_inst->height;
+			int hx = (sc_width / 2) - (vp_width / 2);
+			int hy = (sc_height / 2) - (vp_height / 2);
+			m_sprite.set_position(hx, hy); 
+		}
+		else {
+			// none
+			m_sprite.m_width = fbo_texture_inst->width;
+			m_sprite.m_height = fbo_texture_inst->height;
+		}
+		
+		
 		m_sprite.m_texture = fbo_texture_inst;
 		m_sprite.m_color = Vector4f(1, 1, 1, 1);
 

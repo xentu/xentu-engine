@@ -98,7 +98,7 @@ int do_clone_game(string template_name) {
         return -1;
     }
 
-    string file = "M:\\GitHub\\xentu\\xentu-engine\\out\\build\\gcc\\templates\\" + template_name + ".zip";
+    string file = get_sdk_path() + PATH_SEPARATOR + "templates" + PATH_SEPARATOR + template_name + ".zip";
 
     if (!file_exists(file)) {
         cout << rang::fg::red << "Error, cant load template named " << file << "!" << endl;

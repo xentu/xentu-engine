@@ -46,6 +46,7 @@ of how one of these files looks:
 	[viewport]
 	width = 800
 	height = 600
+	mode = 1
 
 For now the ``[general]`` and ``[viewport]`` groups are the only built-in ones
 that have some rules. For example the engine will throw an error if you use anything
@@ -86,10 +87,16 @@ Here is a list of commands that you can use in the ``[viewport]`` group:
 +------------------+-----------+-----------------------------------------------+
 | height           | integer   | The height of the viewport in pixels.         |
 +------------------+-----------+-----------------------------------------------+
+| mode             | integer   | The size mode of the viewport                 |
++------------------+-----------+-----------------------------------------------+
 
 The viewport is the rendered canvas. If the viewport is smaller than the screen,
 then black borders will appear. If the viewport is larger, then the rendered
 game will be clipped.
+
+Setting the mode decides where to place the viewport. The valid values are 0 for
+normal (top left), 1 to place the viewport in the centre of the screen, or 2 to
+stretch the viewport to all 4 corners.
 
 |
 

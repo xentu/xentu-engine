@@ -20,6 +20,9 @@ namespace xen
 		unsigned int m_viewport_height;
 		bool m_vsync;
 		bool m_fullscreen;
+
+		/* 0=none, 1=centre, 2=stretch */
+		int m_mode;
 	};
 }
 

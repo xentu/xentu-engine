@@ -21,7 +21,8 @@ namespace xen
 		m_viewport_width(800),
 		m_viewport_height(600),
 		m_vsync(true),
-		m_fullscreen(false)
+		m_fullscreen(false),
+		m_mode(0)
 	{ }
 
 
@@ -34,43 +35,47 @@ namespace xen
 		std::ifstream ifs(filename);
 		toml::ParseResult pr = toml::parse(ifs);
 
-		const toml::Value& v = pr.value;
-
 		if (!pr.valid()) {
 			Advisor::throwError(pr.errorReason);
 			return config;
 		}
 
-		if (v.find("general.game_title")->is<std::string>()) {
+		const toml::Value& v = pr.value;
+
+		if (v.has("general.game_title") && v.find("general.game_title")->is<std::string>()) {
 			config->m_game_title = v.find("general.game_title")->as<std::string>();
 		}
 
-		if (v.find("general.screen_width")->is<int>()) {
+		if (v.has("general.screen_width") && v.find("general.screen_width")->is<int>()) {
 			config->m_screen_width = v.find("general.screen_width")->as<int>();
 		}
 
-		if (v.find("general.screen_height")->is<int>()) {
+		if (v.has("general.screen_height") && v.find("general.screen_height")->is<int>()) {
 			config->m_screen_height = v.find("general.screen_height")->as<int>();
 		}
 
-		if (v.find("general.update_frequency")->is<int>()) {
+		if (v.has("general.update_frequency") && v.find("general.update_frequency")->is<int>()) {
 			config->m_update_frequency = v.find("general.update_frequency")->as<int>();
 		}
 
-		if (v.find("general.vsync")->is<bool>()) {
+		if (v.has("general.vsync") && v.find("general.vsync")->is<bool>()) {
 			config->m_vsync = v.find("general.vsync")->as<bool>();
 		}
 
-		if (v.find("viewport.width")->is<int>()) {
+		if (v.has("viewport.width") && v.find("viewport.width")->is<int>()) {
 			config->m_viewport_width = v.find("viewport.width")->as<int>();
 		}
 
-		if (v.find("viewport.height")->is<int>()) {
+		if (v.has("viewport.height") && v.find("viewport.height")->is<int>()) {
 			config->m_viewport_height = v.find("viewport.height")->as<int>();
 		}
 
-		if (v.find("general.fullscreen")->is<bool>()) {
+		if (v.has("general.fullscreen") && v.find("general.fullscreen")->is<bool>()) {
 			config->m_fullscreen = v.find("general.fullscreen")->as<bool>();
+		}
+
+		if (v.has("viewport.mode") && v.find("viewport.mode")->is<int>()) {
+			config->m_mode = v.find("viewport.mode")->as<int>();
 		}
 
 		return config;
