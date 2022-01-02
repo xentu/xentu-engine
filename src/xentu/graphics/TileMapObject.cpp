@@ -18,7 +18,11 @@ namespace xen
 		has_tile(false),
 		m_object(object)
 	{
-		
+		auto aabb = &m_object.getAABB();
+		x = aabb->left;
+		y = aabb->top;
+		width = aabb->width;
+		height = aabb->height;
 	}
 
 
@@ -35,21 +39,59 @@ namespace xen
 	}
 
 
-	int TileMapObject::lua_get_position(lua_State* L)
+	int TileMapObject::lua_get_x(lua_State* L)
 	{
-		auto vec2 = &m_object.getPosition();
-		lua_pushinteger(L, vec2->x);
-		lua_pushinteger(L, vec2->y);
-		return 2;
+		lua_pushnumber(L, x);
+		return 1;
 	}
 
 
-	int TileMapObject::lua_get_size(lua_State* L)
+	int TileMapObject::lua_get_y(lua_State* L)
 	{
-		auto aabb = &m_object.getAABB();
-		lua_pushinteger(L, aabb->width);
-		lua_pushinteger(L, aabb->height);
-		return 2;
+		lua_pushnumber(L, y);
+		return 1;
+	}
+
+
+	int TileMapObject::lua_get_width(lua_State* L)
+	{
+		lua_pushnumber(L, width);
+		return 1;
+	}
+
+
+	int TileMapObject::lua_get_height(lua_State* L)
+	{
+		lua_pushnumber(L, height);
+		return 1;
+	}
+
+
+	int TileMapObject::lua_set_x(lua_State* L)
+	{
+		x = lua_tonumber(L, -1);
+		return 0;
+	}
+
+
+	int TileMapObject::lua_set_y(lua_State* L)
+	{
+		y = lua_tonumber(L, -1);
+		return 0;
+	}
+
+
+	int TileMapObject::lua_set_width(lua_State* L)
+	{
+		width = lua_tonumber(L, -1);
+		return 0;
+	}
+
+
+	int TileMapObject::lua_set_height(lua_State* L)
+	{
+		height = lua_tonumber(L, -1);
+		return 0;
 	}
 
 
@@ -79,14 +121,16 @@ namespace xen
 
 
 	const Luna<TileMapObject>::PropertyType TileMapObject::properties[] = {
+		{"x", &TileMapObject::lua_get_x, &TileMapObject::lua_set_x },
+		{"y", &TileMapObject::lua_get_y, &TileMapObject::lua_set_y },
+		{"width", &TileMapObject::lua_get_width, &TileMapObject::lua_set_width },
+		{"height", &TileMapObject::lua_get_height, &TileMapObject::lua_set_height },
 		{0,0}
 	};
 
 
 	const Luna<TileMapObject>::FunctionType TileMapObject::methods[] = {
 		method(TileMapObject, get_name, lua_get_name),
-		method(TileMapObject, get_position, lua_get_position),
-		method(TileMapObject, get_size, lua_get_size),
 		method(TileMapObject, get_shape, lua_get_shape),
 		{0,0}
 	};

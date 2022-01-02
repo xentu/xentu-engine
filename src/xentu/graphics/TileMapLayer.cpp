@@ -79,6 +79,7 @@ namespace xen {
 							tobj->m_tile.t_width = ts_tile_size.x;
 							tobj->m_tile.t_height = ts_tile_size.y;
 							tobj->has_tile = true;
+							tobj->y = tobj->y - ts_tile_size.y;
 							found = true;
 							break;
 						}

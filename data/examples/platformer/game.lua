@@ -1,5 +1,5 @@
 --[[
-	Pong Game Example
+	Platformer Example
 ]]
 colors = {
 	["bg"] = Color.from_hex('#333333'),
@@ -7,18 +7,23 @@ colors = {
 }
 textures = { }
 offset = { ['x'] = 0, ['y'] = 0 }
+layers = { }
 
 
 -- the init event
 game.on("init", function()
+	-- load the tilemap.
 	map = assets.load_tilemap("assets/levels/level1.tmx")
-	layer0 = map.get_layer(0)
-	layer1 = map.get_layer(1)
-	-- layer2 = map.get_layer(2) - ignore
-	layer3 = map.get_layer(3) -- jewels
-	layer4 = map.get_layer(4)
-	layer5 = map.get_layer(5)
-
+	-- grab some handles to layers loaded in the map.
+	layers['background'] = map.get_layer(0)
+	layers['tiles'] = map.get_layer(1)
+	layers['collision'] = map.get_layer(2)
+	layers['jewels'] = map.get_layer(3)
+	layers['enemies'] = map.get_layer(4)
+	layers['entities'] = map.get_layer(5)
+	-- get the first enemy,
+	enemy1 = layers.enemies.get_object(0)
+	-- setup the renderer.
 	renderer.set_clear_color(colors.bg)
 	renderer.set_blend(true)
 end)
@@ -31,6 +36,7 @@ game.on("update", function(dt)
 	if keyboard.key_down(KB_RIGHT) then offset.x = offset.x - 4 end
 	if keyboard.key_down(KB_UP) then offset.y = offset.y + 4 end
 	if keyboard.key_down(KB_DOWN) then offset.y = offset.y - 4 end
+	enemy1.x = enemy1.x - 1
 end)
 
 
@@ -39,11 +45,11 @@ game.on("draw", function()
 	renderer.begin()
 	-- draw the tile map.
 	renderer.set_position(offset.x, offset.y)
-	renderer.draw_tilemap_layer(layer0)
-	renderer.draw_tilemap_layer(layer1)
-	renderer.draw_tilemap_layer(layer3) -- jewels
-	renderer.draw_tilemap_layer(layer4)
-	renderer.draw_tilemap_layer(layer5)
+	renderer.draw_tilemap_layer(layers.background)
+	renderer.draw_tilemap_layer(layers.tiles)
+	renderer.draw_tilemap_layer(layers.jewels)
+	renderer.draw_tilemap_layer(layers.enemies)
+	renderer.draw_tilemap_layer(layers.entities)
 	-- present the image.
 	renderer.present()
 end)

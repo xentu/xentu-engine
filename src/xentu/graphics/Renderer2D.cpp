@@ -518,7 +518,7 @@ namespace xen
 					
 					if (tile.texture_id <= 0) continue;
 					m_sprite.ResetTransform();
-					m_sprite.set_position(m_pos_x + tile.x, m_pos_y + tile.y);
+					m_sprite.set_position(m_pos_x + obj->x, m_pos_y + obj->y);
 					m_sprite.set_scale(1, 1);
 					m_sprite.set_rotation(0);
 					m_sprite.m_width = tile.width;
