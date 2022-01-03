@@ -1,3 +1,6 @@
+<img width="100" src="data/logo.png" alt="Xentu logo">
+
+
 # Xentu Game Engine
 
 A slim, fast and easy to learn framework for creating 2D games scripted in Lua.
