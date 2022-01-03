@@ -1,6 +1,6 @@
-===================
-The assets keyword.
-===================
+==================
+The assets keyword
+==================
 
 The assets keywords provides methods for loading game assets such as textures
 and sounds. The filename structure can be either absolute, or relative (comared
@@ -83,7 +83,7 @@ various compatible formats. Here is how to use it:
 
 .. code-block:: lua
 
-	spriteMap1 = assets.load_spritemap('texture1_sprites.json', SM_DEFAULT_JSON)
+	spriteMap1 = assets.load_spritemap('texture1_sprites.json', SM_DEFAULT)
 
 Here is a list of format codes that you can use with this method:
 
@@ -102,11 +102,6 @@ A tile map is a complex object made up of tile set's (similar to sprite map's),
 properties, and a collection of layers of either objects or arranged tiles that can
 be drawn onto the screen.
 
-This type of object is ideal for building complicated visuals in games. Things like
-levels for platformers, or tile based games (think Stardew Valley). Xentu currently
-supports the TMX format, which is provided by a popular editor for these kinds of
-structures called Tiled.
-
 Here is an example of how to load a tilemap:
 
 .. code-block:: lua
@@ -114,4 +109,4 @@ Here is an example of how to load a tilemap:
 	tilemap = assets.load_tilemap('level1.tmx')
 
 When you call this function the tile map will be loaded, along with any associated
-tile set's and textures. 
+tile set's and textures. For more information check out :ref:`The TileMap Class`

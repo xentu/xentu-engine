@@ -1,6 +1,6 @@
-=================
-The game keyword.
-=================
+================
+The game keyword
+================
 
 The game keywords is in charge of managing game events, controlling the 
 window that hosts the game, and other generic tasks like exiting or restarting

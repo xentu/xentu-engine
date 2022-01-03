@@ -129,23 +129,27 @@ namespace xen
 	}
 
 
-	int AssetManager::load_spritemap(std::string filename_relative)
+	int AssetManager::load_spritemap(std::string filename_relative, const unsigned int format)
 	{
 		std::string filename = localize_path(filename_relative);
-		spritemaps_iter++;
 
-		/* try to read the specified file. */
-		SpriteMap* created = SpriteMap::parse_file(filename);
-		spritemaps.insert(std::make_pair(spritemaps_iter, created));
-
-		return spritemaps_iter;
+		if (format == 0) {
+			spritemaps_iter++;
+			/* try to read the specified file. */
+			SpriteMap* created = SpriteMap::parse_file(filename);
+			spritemaps.insert(std::make_pair(spritemaps_iter, created));
+			return spritemaps_iter;
+		}
+		// todo: handle spritemap modes 1 and 2
+		return -1;
 	}
 
 
 	int AssetManager::lua_load_spritemap(lua_State* L)
 	{
-		std::string filename = lua_tostring(L, -1);
-		int id = this->load_spritemap(filename);
+		std::string filename = lua_tostring(L, -2);
+		const unsigned int format = lua_tointeger(L, -1);
+		int id = this->load_spritemap(filename, format);
 		lua_pushinteger(L, id);
 		return 1;
 	}

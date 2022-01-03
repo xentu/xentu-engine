@@ -1,6 +1,6 @@
-=================
-The math keyword.
-=================
+================
+The math keyword
+================
 
 A library of helpful mathematical functions that you can use to enhance your games.
 

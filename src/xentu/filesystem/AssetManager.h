@@ -42,7 +42,7 @@ namespace xen {
 		/// <param name="nickname">The name of the texture to associate with.</param>
 		/// <param name="filename">The full file path of the sprite map to load.</param>
 		/// <returns>An integer representing success or error code.</returns>
-		int load_spritemap(std::string filename);
+		int load_spritemap(std::string filename, const unsigned int format);
 		int lua_load_spritemap(lua_State* L);
 
 

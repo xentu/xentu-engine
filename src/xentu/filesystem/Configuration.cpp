@@ -7,13 +7,17 @@
 #include <sstream>
 #include <fstream>
 
+#include <luna/luna.hpp>
 #include <toml/toml.hpp>
 #include "Configuration.h"
 #include "../utilities/Advisor.h"
 
+// Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
+#define method(class, name, realname) {#name, &class::realname}
+
 namespace xen
 {
-	Configuration::Configuration() :
+	Configuration::Configuration(lua_State* L) :
 		m_game_title("My Awesome Game!"),
 		m_screen_width(800),
 		m_screen_height(600),
@@ -22,14 +26,15 @@ namespace xen
 		m_viewport_height(600),
 		m_vsync(true),
 		m_fullscreen(false),
-		m_mode(0)
+		m_mode(0),
+		m_value(toml::Value(false))
 	{ }
 
 
-	Configuration* Configuration::parse_file(std::string filename)
+	Configuration* Configuration::parse_file(lua_State* L, std::string filename)
 	{
 		// TODO: validate this, on error it can cause a segmentation fault.
-		Configuration* config = new Configuration();
+		Configuration* config = new Configuration(L);
 		
 		/* try to read the specified file. */
 		std::ifstream ifs(filename);
@@ -41,6 +46,7 @@ namespace xen
 		}
 
 		const toml::Value& v = pr.value;
+		config->m_value = v;
 
 		if (v.has("general.game_title") && v.find("general.game_title")->is<std::string>()) {
 			config->m_game_title = v.find("general.game_title")->as<std::string>();
@@ -80,6 +86,45 @@ namespace xen
 
 		return config;
 	}
+
+
+	int Configuration::lua_get_string(lua_State* L)
+	{
+		std::string key = lua_tostring(L, -1);
+		if (m_value.has(key) && m_value.find(key)->is<std::string>()) {
+			std::string value = m_value.find(key)->as<std::string>();
+			lua_pushstring(L, value.c_str());
+			return 1;
+		}
+		return 0;
+	}
+
+
+	int Configuration::lua_get_integer(lua_State* L)
+	{
+		std::string key = lua_tostring(L, -1);
+		if (m_value.has(key) && m_value.find(key)->is<int>()) {
+			int value = m_value.find(key)->as<int>();
+			lua_pushinteger(L, value);
+			return 1;
+		}
+		return 0;
+	}
+
+
+	const char Configuration::className[] = "Configuration";
+
+
+	const Luna<Configuration>::PropertyType Configuration::properties[] = {
+		{0,0}
+	};
+
+
+	const Luna<Configuration>::FunctionType Configuration::methods[] = {
+		method(Configuration, get_string, lua_get_string),
+		method(Configuration, get_integer, lua_get_integer),
+		{0,0}
+	};
 }
 
 #endif

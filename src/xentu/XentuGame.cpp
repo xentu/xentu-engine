@@ -30,7 +30,7 @@ namespace xen
 		this->initialized = false;
 		this->m_closing = false;
 		this->m_current_scene = nullptr;
-		this->config = new xen::Configuration();
+		this->config = new xen::Configuration(L);
 		this->viewport = new Viewport(320, 240);
 		Advisor::logInfo("Created instance of XentuGame.");
 	}
@@ -262,7 +262,7 @@ namespace xen
 	}
 
 
-	int XentuGame::pre_init()
+	int XentuGame::pre_init(lua_State* L)
 	{
 		bool found = false;
 
@@ -312,7 +312,7 @@ namespace xen
 		/* attempt to load the config file */
 		if (xen::Helper::file_exists(base_path + "/config.toml")) {
 			delete this->config; // get rid of old ref.
-			this->config = xen::Configuration::parse_file(base_path + "/config.toml");
+			this->config = xen::Configuration::parse_file(L, base_path + "/config.toml");
 		}
 
 		/* set viewport dimensions based on the config settings */
@@ -468,6 +468,12 @@ namespace xen
 		return 1;
 	}
 
+	int XentuGame::get_config(lua_State* L)
+	{
+		Luna<xen::Configuration>().push(L, this->config);
+		return 1;
+	}
+
 	int XentuGame::lua_debug_stack(lua_State* L)
 	{
 		int i;
@@ -568,6 +574,7 @@ namespace xen
 		{"keyboard", &XentuGame::get_keyboard, nullptr },
 		{"mouse", &XentuGame::get_mouse, nullptr },
 		{"viewport", &XentuGame::get_viewport, nullptr },
+		{"config", &XentuGame::get_config, nullptr },
 		{0,0}
 	};
 

@@ -24,6 +24,12 @@ TX_CLAMP_TO_EDGE			= 1
 TX_CLAMP_TO_BORDER			= 2
 
 
+-- spritemap loading modes
+SM_DEFAULT                  = 0
+SM_ASESPRITE                = 1
+SM_TEXPACK                  = 2
+
+
 -- keyboard codes
 KB_SPACE					= 32
 KB_APOSTROPHE				= 39
@@ -150,6 +156,7 @@ KB_MENU						= 348
 -- mouse codes  
 MOUSE_LEFT					= 0
 MOUSE_RIGHT					= 1
+MOUSE_MIDDLE                = 2
 
 
 -- blend presets (same as //developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation)

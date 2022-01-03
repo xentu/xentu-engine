@@ -78,6 +78,7 @@ int main(int arg_count, char* args[])
 	Luna<xen::TileMap>::Register(L, false);
 	Luna<xen::TileMapLayer>::Register(L, false);
 	Luna<xen::TileMapObject>::Register(L, false);
+	Luna<xen::Configuration>::Register(L, false);
 
 	// core lua ran before anything else inc standard libraries.
 	luaL_openlibs(L);
@@ -99,7 +100,7 @@ int main(int arg_count, char* args[])
 		game->set_base_path(command_arg);
 	}
 
-	if (game->pre_init() != 0) {
+	if (game->pre_init(L) != 0) {
 		// TODO: do something more useful here.
 		return 0;
 	}

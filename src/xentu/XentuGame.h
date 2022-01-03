@@ -46,7 +46,7 @@ namespace xen {
 		static XentuGame* get_instance(lua_State* L);
 
 		/// Called after the constructor, but before initialize() by c++ 0 for success
-		int pre_init();
+		int pre_init(lua_State* L);
 
 
 #pragma endregion
@@ -157,6 +157,11 @@ namespace xen {
 		/// Helper function to allow lua to retrieve the viewport property.
 		/// </summary>
 		int get_viewport(lua_State* L);
+
+		/// <summeray>
+		/// Helper function to allow lua to retrieve the config property.
+		/// </summary>
+		int get_config(lua_State* L);
 
 		/// <summary>
 		/// Call this to show a debug report of what is in the lua stack.

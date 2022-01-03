@@ -42,10 +42,10 @@ The following sections are in order of importance:
     lua-code-reference/the-mouse-keyword
     lua-code-reference/the-viewport-keyword
     lua-code-reference/the-config-keyword
-    lua-code-reference/the-math-keyword
-    lua-code-reference/the-color-class
-    lua-code-reference/the-font-class
+    
+    lua-code-reference/the-color-struct
+    lua-code-reference/the-font-struct
     lua-code-reference/the-scene-class
     lua-code-reference/the-shader-class
-    lua-code-reference/the-sprite-class
+    lua-code-reference/the-sprite-struct
     lua-code-reference/the-tilemap-class

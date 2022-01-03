@@ -1,6 +1,6 @@
-=====================
-The renderer keyword.
-=====================
+====================
+The renderer keyword
+====================
 
 The renderer is the main utility in Xentu used for drawing graphics onto the
 screen. In terms of functionality it is very similar to the SpriteBatch that
@@ -74,7 +74,7 @@ renderer.draw_sprite(sprite)
 ----------------------------
 
 This method tells the renderer to queue an instruction in it's buffer to draw a
-sprite. The sprite argument must be an instance of the :ref:`Sprite <The Sprite Class>` class setup
+sprite. The sprite argument must be an instance of the :ref:`Sprite <The Sprite struct>` class setup
 earlier in your code.
 
 |
@@ -84,16 +84,6 @@ renderer.draw_rect(color, x, y, width, height)
 ----------------------------------------------
 
 This method tells the renderer to draw a rectangle of a specific color, position, and dimensions.
-
-|
-|
-
-renderer.draw_tilemap(tilemap)
-------------------------------
-
-Use this method to draw all tile layers within a tilemap. This method is discouraged
-as it gives little control on how each layer interacts with your game, try using
-``draw_tilemap_layer`` instead.
 
 |
 |
@@ -128,7 +118,7 @@ renderer.draw_text(font, text, x, y, max_width)
 -----------------------------------------------
 
 This method tells the renderer to queue an instruction in it's buffer to draw 
-text onto the screen. The method requires you provide an instance to a :ref:`Font <The Font Class>`
+text onto the screen. The method requires you provide an instance to a :ref:`Font <The Font struct>`
 class, some text, an x-y position, and a maximum width before wrapping onto the
 next line.
 
@@ -185,12 +175,12 @@ renderer.set_clear_color(color)
 
 This method allows you to pick a color to clear the background with just before
 ``present()`` sends new drawing calls to the GPU. The color argument requires 
-creating a new instance of the :ref:`Color <The Color Class>` class. Here is an example of how to
+creating a new instance of the :ref:`Color <The Color struct>` class. Here is an example of how to
 use it:
 
 .. code-block:: lua
 	
-	local blue = Color.fromHex('#0000ff')
+	local blue = Color.from_hex('#0000ff')
 	renderer.set_clear_color(blue)
 
 |
