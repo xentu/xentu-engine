@@ -84,13 +84,26 @@ namespace xen
 			if (m_show_errors) {
 				std::stringstream ss;
 				std::initializer_list<int> unused{ (ss << args, 0)... };
+				std::string msg = ss.str();
+				strReplace(msg, "\r", "\r\n");
+
 				if (m_show_date) {
-					std::cout << now() << " - ERR: An unexpected error occured: " << ss.str() << " " << std::endl;
+					std::cout << now() << " - ERR: An unexpected error occured: " << msg << " " << std::endl;
 				}
 				else {
-					std::cout << " - ERR: An unexpected error occured: " << ss.str() << " " << std::endl;
+					
+					std::cout << " - ERR: An unexpected error occured: " << msg << std::endl;
 				}
 			}
+		}
+
+
+		static bool strReplace(std::string& str, const std::string& from, const std::string& to) {
+			size_t start_pos = str.find(from);
+			if(start_pos == std::string::npos)
+				return false;
+			str.replace(start_pos, from.length(), to);
+			return true;
 		}
 
 
@@ -100,11 +113,14 @@ namespace xen
 			if (m_show_warnings) {
 				std::stringstream ss;
 				std::initializer_list<int> unused{ (ss << args, 0)... };
+				std::string msg = ss.str();
+				strReplace(msg, "\r", "\r\n");
+
 				if (m_show_date) {
-					std::cout << now() << " - WARN: An unexpected error occured: " << ss.str() << " " << std::endl;
+					std::cout << now() << " - WARN: An unexpected error occured: " << msg << " " << std::endl;
 				}
 				else {
-					std::cout << " - WARN: An unexpected error occured: " << ss.str() << " " << std::endl;
+					std::cout << " - WARN: An unexpected error occured: " << msg << " " << std::endl;
 				}
 			}
 		}
@@ -116,11 +132,14 @@ namespace xen
 			if (m_show_info) {
 				std::stringstream ss;
 				std::initializer_list<int> unused{ (ss << args, 0)... };
+				std::string msg = ss.str();
+				strReplace(msg, "\r", "\r\n");
+
 				if (m_show_date) {
-					std::cout << now() << " - " << ss.str() << " " << std::endl;
+					std::cout << now() << " - " << msg << " " << std::endl;
 				}
 				else {
-					std::cout << " - " << ss.str() << " " << std::endl;
+					std::cout << " - " << msg << " " << std::endl;
 				}
 				
 			}

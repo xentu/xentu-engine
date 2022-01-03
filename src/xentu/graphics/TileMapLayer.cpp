@@ -131,9 +131,9 @@ namespace xen {
 			}
 
 			// create the tiles one by one.
-			for (auto row = 0; row < layerSize.y; ++row)
+			for (unsigned int row = 0; row < layerSize.y; ++row)
 			{
-				for (auto col = 0; col < layerSize.x; ++col)
+				for (unsigned int col = 0; col < layerSize.x; ++col)
 				{
 					uint32_t global_id = tiles[idx].ID; // the global id of the tile to use.
 					Tile* new_tile = new Tile(col * tileSize.x, row * tileSize.y, tileSize.x, tileSize.y);

@@ -1,3 +1,4 @@
+-- Xentu Startup Code
 -- Used to setup some Lua only features, such as various class style structure
 -- templates that can be passed to the C++ side of the engine. Also creates the
 -- game global, and overrides the require function with our own smarter one.
@@ -45,6 +46,11 @@ end
 
 -- A class that holds information about a sprite to draw graphicss.
 Sprite = class(function(inst, texture, x, y, width, height)
+	if not (type(texture) == "number") then error("Invalid value for texture passed to the Sprite constructor.") end
+	if not (type(x) == "number") then error("Non-numeric value for x passed to the Sprite constructor.") end
+	if not (type(y) == "number") then error("Non-numeric value for y passed to the Sprite constructor.") end
+	if not (type(width) == "number") then error("Non-numeric value for width passed to the Sprite constructor.") end
+	if not (type(height) == "number") then error("Non-numeric value for height passed to the Sprite constructor.") end
 	inst.texture = texture
 	inst.x = x
 	inst.y = y
@@ -57,6 +63,8 @@ end)
 
 -- A class that holds information about a font that can be used to draw text.
 Font = class(function(inst, texture, spritemap) 
+	if not (type(texture) == "number") then error("Invalid value for texture passed to the Font constructor.") end
+	if not (type(spritemap) == "number") then error("Invalid value for spritemap passed to the Font constructor.") end
 	inst.texture = texture
 	inst.spritemap = spritemap
 	inst.letter_spacing = 1
@@ -66,6 +74,10 @@ end)
 
 -- A basic colour utility class.
 Color = class(function(inst, r, g, b, a)
+	if not (type(r) == "number") then error("Non-numeric value passed for r value when creating a Color struct instance.") end
+	if not (type(g) == "number") then error("Non-numeric value passed for g value when creating a Color struct instance.") end
+	if not (type(b) == "number") then error("Non-numeric value passed for b value when creating a Color struct instance.") end
+	if not (type(a) == "number") then error("Non-numeric value passed for a value when creating a Color struct instance.") end
 	inst.red = r
 	inst.green = g
 	inst.blue = b
@@ -86,6 +98,10 @@ end)
 
 -- Method for creating a Colour instance from a hex colour string (aka #553221).
 Color.from_hex = function(hexColor)
+	local t = type(hexColor)
+	if not (t == "string") then error("Color.from_hex expects a string hex value.", 2) end
+	if not (string.len(hexColor) == 7) then error("Color.from_hex expects a string with 6 digits prefixed with a hash.", 2) end
+
 	hexColor = hexColor:gsub("#","")
 	local r = tonumber("0x" .. hexColor:sub(1,2)) / 255.0
 	local g = tonumber("0x" .. hexColor:sub(3,4)) / 255.0
@@ -97,6 +113,9 @@ end
 
 Color.from_hsl = function(h, s, l, a)
 	-- thanks to https://stackoverflow.com/questions/68317097/
+	if not (type(h) == "number") then error("Non-numeric value passed for h value when using Color.from_hsl.") end
+	if not (type(s) == "number") then error("Non-numeric value passed for s value when using Color.from_hsl.") end
+	if not (type(l) == "number") then error("Non-numeric value passed for l value when using Color.from_hsl.") end
 	h = (h * 255) / 360
     s = (s * 255) / 100
     l = (l * 255) / 100
@@ -157,4 +176,3 @@ game = XentuGame()
 config = game.config
 require = game.require
 XentuGame = nil
-
