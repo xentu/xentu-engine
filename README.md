@@ -1,7 +1,6 @@
-<img width="100" src="data/logo.png" alt="Xentu logo">
+<p align="center"><img width="100" src="data/logo.png" alt="Xentu logo" /></p>
+<h1 align="center">Xentu Game Engine</h1>
 
-
-# Xentu Game Engine
 
 A slim, fast and easy to learn framework for creating 2D games scripted in Lua.
 It's completely free to use, open-source (under the zlib license), links to other
