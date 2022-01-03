@@ -15,7 +15,7 @@ The main constructor is used to create a sprite instance. For example:
 
 .. code-block:: lua
 	
-    ball_texture = assets.load_texture('ball.png', TX_RGBA, TX_REPEAT)
+	ball_texture = assets.load_texture('ball.png', TX_RGBA, TX_REPEAT)
 	ball_sprite = Sprite(ball_texture, 0, 0, 100, 100)
 
 Then in your render event you could draw it like this:
@@ -24,9 +24,9 @@ Then in your render event you could draw it like this:
 
 	-- the drawing event.
 	game.on("draw", function()
-		renderer.begin()
-		renderer.draw_sprite(ball_sprite)
-		renderer.present()
+	    renderer.begin()
+	    renderer.draw_sprite(ball_sprite)
+	    renderer.present()
 	end)
 
 |
@@ -40,7 +40,6 @@ loaded spritemap:
 .. code-block:: lua
 
 	ball_sprite.spritemap = assets.load_spritemap('ball_sprites.json')
-	ball_sprite.region = 
 
 |
 
