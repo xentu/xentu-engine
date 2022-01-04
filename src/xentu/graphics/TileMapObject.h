@@ -7,9 +7,12 @@
 
 #include "../libraries/tmxlite/Map.hpp"
 #include "Tile.h"
+#include "Vector2.h"
 
 namespace xen
 {
+	constexpr int MAX_POLYGON_POINTS = 65536;
+
 	class TileMapObject
 	{
 	public:
@@ -24,6 +27,8 @@ namespace xen
 		int lua_get_y(lua_State* L);
 		int lua_get_width(lua_State* L);
 		int lua_get_height(lua_State* L);
+		int lua_get_point_count(lua_State * L);
+		int lua_get_point(lua_State* L);
 
 		int lua_set_x(lua_State* L);
 		int lua_set_y(lua_State* L);
@@ -54,6 +59,9 @@ namespace xen
 	private:
 		const tmx::Object m_object;
 
+		// polygon points.
+		xen::Vector2f m_points[MAX_POLYGON_POINTS];
+		int m_point_count;
 	};
 }
 

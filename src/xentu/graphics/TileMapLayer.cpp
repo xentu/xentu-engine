@@ -95,11 +95,11 @@ namespace xen {
 						std::cout << "Failed to find tileset." << std::endl;
 					}
 				}
-				
-				if (tobj->has_tile) {
+
+				//if (tobj->has_tile) {
 					m_objects[m_object_count] = tobj;
 					m_object_count++;
-				}
+				//}
 			}
 		}
 		else if (type == tmx::Layer::Type::Image)

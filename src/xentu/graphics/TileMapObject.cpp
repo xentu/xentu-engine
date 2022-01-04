@@ -2,6 +2,7 @@
 #define XEN_TILEMAP_OBJECT_CPP
 
 #include "TileMapObject.h"
+#include "Vector2.h"
 #include "../utilities/Advisor.h"
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
@@ -23,6 +24,16 @@ namespace xen
 		y = aabb->top;
 		width = aabb->width;
 		height = aabb->height;
+		m_point_count = 0;
+
+		auto points = object.getPoints();
+		if (points.size() > 0) {
+			for (const tmx::Vector2f point : points)
+			{
+				m_points[m_point_count] = Vector2f(point.x, point.y);
+				m_point_count++;
+			}
+		}
 	}
 
 
@@ -64,6 +75,31 @@ namespace xen
 	{
 		lua_pushnumber(L, height);
 		return 1;
+	}
+
+
+	int TileMapObject::lua_get_point_count(lua_State* L)
+	{
+		lua_pushinteger(L, m_point_count);
+		return 1;
+	}
+
+
+	int TileMapObject::lua_get_point(lua_State* L)
+	{
+		int point_index = lua_tointeger(L, -1);
+		int max_index = m_point_count - 1;
+
+		if (point_index < 0 || point_index > max_index) {
+			Advisor::throwError("Tried to access a point on a TileMapObject wi TileLayer with an invalid index.");
+			return 0;
+		}
+		else {
+			// send it to lua.
+			lua_pushnumber(L, m_points[point_index].x);
+			lua_pushnumber(L, m_points[point_index].y);
+			return 2;
+		}
 	}
 
 
@@ -127,11 +163,13 @@ namespace xen
 		{"y", &TileMapObject::lua_get_y, &TileMapObject::lua_set_y },
 		{"width", &TileMapObject::lua_get_width, &TileMapObject::lua_set_width },
 		{"height", &TileMapObject::lua_get_height, &TileMapObject::lua_set_height },
+		{"point_count", &TileMapObject::lua_get_point_count, nullptr },
 		{0,0}
 	};
 
 
 	const Luna<TileMapObject>::FunctionType TileMapObject::methods[] = {
+		method(TileMapObject, get_point, lua_get_point),
 		{0,0}
 	};
 }

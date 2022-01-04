@@ -24,10 +24,10 @@
   </data>
  </layer>
  <objectgroup id="3" name="Collision">
-  <object id="1" x="2" y="299">
+  <object id="1" name="c0" x="2" y="299">
    <polyline points="0,0 1016,0"/>
   </object>
-  <object id="2" x="834" y="395">
+  <object id="2" name="c1" x="834" y="395">
    <polyline points="0,0 1214,-2"/>
   </object>
   <object id="3" x="8" y="490">

@@ -64,9 +64,12 @@ namespace xen
 		int m_tile_count;
 	private:
 		const tmx::Layer::Ptr& m_layer;
+
+		// object info.
 		TileMapObject *m_objects[MAX_OBJECTS_OR_TILES];
 		int m_object_count;
-		// background texture
+
+		// background texture.
 		int m_texture_id;
 		std::string m_name;
 		float m_opacity;
