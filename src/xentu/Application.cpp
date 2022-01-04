@@ -121,6 +121,8 @@ int main(int arg_count, char* args[])
 			/* test the event system */
 			game->trigger(L, "init");
 
+			bool first_draw_called = false;
+
 			/* Loop until the user closes the window */
 			while (game->is_running())
 			{
@@ -129,16 +131,21 @@ int main(int arg_count, char* args[])
 				time_start = clock::now();
 				time_elapsed += std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
 
-				//unsigned long delta_time_ns = delta_time.count();
 				// update game logic as lag permits
-				while (time_elapsed >= timestep) {
-					auto time_elapsed_d = std::chrono::duration<float>(time_elapsed);
-					const float delta_ms = time_elapsed_d.count();
-					game->update(L, delta_ms); // update at a fixed rate each time
-					time_elapsed -= timestep;
+				if (first_draw_called) {
+					while (time_elapsed >= timestep) {
+						auto time_elapsed_d = std::chrono::duration<float>(time_elapsed);
+						const float delta_ms = time_elapsed_d.count();
+						game->update(L, delta_ms); // update at a fixed rate each time
+						time_elapsed -= timestep;
+					}
 				}
 
 				game->draw(L);
+				if (first_draw_called == false) {
+					first_draw_called = true;
+					time_elapsed = std::chrono::nanoseconds(0);
+				}
 			}
 		}
 

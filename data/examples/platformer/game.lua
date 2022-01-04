@@ -8,7 +8,7 @@ colors = {
 textures = { }
 offset = { ['x'] = 0, ['y'] = 0 }
 layers = { }
-
+gane_time_secs = 0
 
 -- the init event
 game.on("init", function()
@@ -23,25 +23,6 @@ game.on("init", function()
 	layers['entities'] = map.get_layer(5)
 	-- get the first enemy,
 	enemy1 = layers.enemies.get_object(0)
-	layers.jewels.visible = false
-
-	-- object point test.
-	local collision_obj_count = layers.collision.object_count;
-	print('Collision layer has ' .. collision_obj_count .. ' object(s) and is named ' .. layers.collision.name)
-	local collision_obj1 = layers.collision.get_object(0)
-	local collision_obj1_point_count = collision_obj1.point_count
-	print('First collision object has ' .. collision_obj1_point_count .. ' point(s)')
-	local co1p0_x, co1p0_y = collision_obj1.get_point(0)
-	local co1p1_x, co1p1_y = collision_obj1.get_point(1)
-
-	co1p0_x = co1p0_x + collision_obj1.x
-	co1p1_x = co1p1_x + collision_obj1.x
-	co1p0_y = co1p0_y + collision_obj1.y
-	co1p1_y = co1p1_y + collision_obj1.y
-
-	print('First collision object point0 is at ' .. co1p0_x .. 'x' .. co1p0_y)
-	print('First collision object point1 is at ' .. co1p1_x .. 'x' .. co1p1_y)
-
 	-- setup the renderer.
 	renderer.set_clear_color(colors.bg)
 	renderer.set_blend(true)
@@ -50,12 +31,16 @@ end)
 
 -- the update event.
 game.on("update", function(dt)
+	-- increment the game time
+	gane_time_secs = gane_time_secs + dt
 	-- handle user input
 	if keyboard.key_down(KB_LEFT) then offset.x = offset.x + 4 end
 	if keyboard.key_down(KB_RIGHT) then offset.x = offset.x - 4 end
 	if keyboard.key_down(KB_UP) then offset.y = offset.y + 4 end
 	if keyboard.key_down(KB_DOWN) then offset.y = offset.y - 4 end
 	enemy1.x = enemy1.x - 1
+
+	print("Time" .. gane_time_secs)
 end)
 
 
