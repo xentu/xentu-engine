@@ -11,7 +11,7 @@
 
 namespace xen
 {
-	constexpr int MAX_POLYGON_POINTS = 65536;
+	constexpr unsigned int MAX_POLYGON_POINTS = 1024;
 
 	class TileMapObject
 	{
@@ -34,6 +34,8 @@ namespace xen
 		int lua_set_y(lua_State* L);
 		int lua_set_width(lua_State* L);
 		int lua_set_height(lua_State* L);
+		int lua_set_point_count(lua_State* L);
+		int lua_set_point(lua_State* L);
 
 		int lua_get_shape(lua_State* L);
 
@@ -61,7 +63,7 @@ namespace xen
 
 		// polygon points.
 		xen::Vector2f m_points[MAX_POLYGON_POINTS];
-		int m_point_count;
+		unsigned int m_point_count;
 	};
 }
 

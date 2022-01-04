@@ -131,6 +131,38 @@ namespace xen
 	}
 
 
+	int TileMapObject::lua_set_point_count(lua_State* L)
+	{
+		const unsigned int new_point_count = lua_tointeger(L, -1);
+
+		if (new_point_count > MAX_POLYGON_POINTS)
+		{
+			Advisor::throwError("Tried to set a point_count higher than MAX_POLYGON_POINTS.");
+			return 0;
+		}
+
+		m_point_count = new_point_count;
+		return 0;
+	}
+
+
+	int TileMapObject::lua_set_point(lua_State* L)
+	{
+		const int point_index = lua_tointeger(L, -3);
+		const float new_x = lua_tonumber(L, -2);
+		const float new_y = lua_tonumber(L, -1);
+
+		if (point_index > m_point_count)
+		{
+			Advisor::throwError("Tried to set a point with a point_index thats higher than point_count.");
+			return 0;
+		}
+
+		m_points[point_index] = Vector2f(new_x, new_y);
+		return 0;
+	}
+
+
 	int TileMapObject::lua_get_shape(lua_State* L) {
 		std::string name = "Unknown";
 		switch (m_object.getShape())
@@ -163,13 +195,14 @@ namespace xen
 		{"y", &TileMapObject::lua_get_y, &TileMapObject::lua_set_y },
 		{"width", &TileMapObject::lua_get_width, &TileMapObject::lua_set_width },
 		{"height", &TileMapObject::lua_get_height, &TileMapObject::lua_set_height },
-		{"point_count", &TileMapObject::lua_get_point_count, nullptr },
+		{"point_count", &TileMapObject::lua_get_point_count, &TileMapObject::lua_set_point_count },
 		{0,0}
 	};
 
 
 	const Luna<TileMapObject>::FunctionType TileMapObject::methods[] = {
 		method(TileMapObject, get_point, lua_get_point),
+		method(TileMapObject, set_point, lua_set_point),
 		{0,0}
 	};
 }
