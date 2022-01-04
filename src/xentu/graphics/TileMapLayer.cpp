@@ -19,7 +19,10 @@ namespace xen {
 		  m_object_count(0),
 		  m_objects{},
 		  m_tiles{},
-		  m_texture_id(0)
+		  m_texture_id(0),
+		  m_name("Untitled"),
+		  m_opacity(1.0f),
+		  m_visible(true)
 	{ }
 
 
@@ -29,7 +32,10 @@ namespace xen {
 		  m_object_count(0),
 		  m_objects{},
 		  m_tiles{},
-		  m_texture_id(0)
+		  m_texture_id(0),
+		  m_name(layer->getName()),
+		  m_opacity(layer->getOpacity()),
+		  m_visible(layer->getVisible())
 	{
 		XentuGame* game = XentuGame::get_instance(L);
 		tmx::Layer::Type type = layer->getType();
@@ -203,12 +209,7 @@ namespace xen {
 
 
 	int TileMapLayer::lua_get_name(lua_State* L) {
-		if (m_layer == nullptr) {
-			lua_pushstring(L, "james");
-		}
-		else {
-			lua_pushstring(L, m_layer->getName().c_str());
-		}
+		lua_pushstring(L, m_name.c_str());
 		return 1;
 	}
 
@@ -229,12 +230,7 @@ namespace xen {
 
 
 	int TileMapLayer::lua_get_opacity(lua_State* L) {
-		if (m_layer == nullptr) {
-			lua_pushnumber(L, 1.0f);
-		}
-		else {
-			lua_pushnumber(L, m_layer->getOpacity());
-		}
+		lua_pushnumber(L, m_opacity);
 		return 1;
 	}
 
@@ -242,13 +238,13 @@ namespace xen {
 	int TileMapLayer::lua_get_size(lua_State* L) {
 		if (m_layer == nullptr) {
 			auto vec2 = m_layer->getSize();
-			lua_pushinteger(L, 0);
-			lua_pushinteger(L, 0);
+			lua_pushnumber(L, 0.0f);
+			lua_pushnumber(L, 0.0f);
 		}
 		else {
 			auto vec2 = m_layer->getSize();
-			lua_pushinteger(L, vec2.x);
-			lua_pushinteger(L, vec2.y);
+			lua_pushnumber(L, vec2.x);
+			lua_pushnumber(L, vec2.y);
 		}
 		return 2;
 	}
@@ -282,18 +278,14 @@ namespace xen {
 	}
 
 
-	int TileMapLayer::lua_get_visible(lua_State* L) {
-		if (m_layer == nullptr) {
-			lua_pushboolean(L, false);
-		}
-		else {
-			lua_pushboolean(L, m_layer->getVisible());
-		}
+	int TileMapLayer::lua_get_visible(lua_State* L)
+	{
+		lua_pushboolean(L, m_visible);
 		return 1;
 	}
 
 
-	int TileMapLayer::lua_get_objects_count(lua_State* L)
+	int TileMapLayer::lua_get_object_count(lua_State* L)
 	{
 		lua_pushinteger(L, m_object_count);
 		return 1;
@@ -316,6 +308,81 @@ namespace xen {
 	}
 
 
+	int TileMapLayer::lua_get_property_as_string(lua_State* L)
+	{
+		std::string s = lua_tostring(L, -1);
+		if (s.length() > 0) {
+			auto v = m_layer->getProperties();
+			auto it = find_if(v.begin(), v.end(), [&s](const tmx::Property& obj) {return obj.getName() == s;});
+			if (it != v.end())
+			{
+				std::string value = it->getStringValue();
+				lua_pushstring(L, value.c_str());
+				return 1;
+			}
+		}
+		
+		return 0;
+	}
+
+
+	int TileMapLayer::lua_get_property_as_int(lua_State* L)
+	{
+		std::string s = lua_tostring(L, -1);
+		if (s.length() > 0) {
+			auto v = m_layer->getProperties();
+			auto it = find_if(v.begin(), v.end(), [&s](const tmx::Property& obj) {return obj.getName() == s;});
+			if (it != v.end())
+			{
+				const int value = it->getIntValue();
+				lua_pushinteger(L, value);
+				return 1;
+			}
+		}
+		
+		return 0;
+	}
+
+
+	int TileMapLayer::lua_get_property_as_float(lua_State* L)
+	{
+		std::string s = lua_tostring(L, -1);
+		if (s.length() > 0) {
+			auto v = m_layer->getProperties();
+			auto it = find_if(v.begin(), v.end(), [&s](const tmx::Property& obj) {return obj.getName() == s;});
+			if (it != v.end())
+			{
+				const float value = it->getFloatValue();
+				lua_pushnumber(L, value);
+				return 1;
+			}
+		}
+		
+		return 0;
+	}
+
+
+	int TileMapLayer::lua_set_name(lua_State* L)
+	{
+		m_name = lua_tostring(L, -1);
+		return 0;
+	}
+
+
+	int TileMapLayer::lua_set_opacity(lua_State* L)
+	{
+		m_opacity = lua_tonumber(L, -1);
+		return 0;
+	}
+
+
+	int TileMapLayer::lua_set_visible(lua_State* L)
+	{
+		m_visible = lua_toboolean(L, -1);
+		return 0;
+	}
+
+
 	std::vector<tmx::TileLayer::Tile> TileMapLayer::get_tiles() const
 	{
 		tmx::TileLayer& tile_layer = m_layer->getLayerAs<tmx::TileLayer>();
@@ -333,7 +400,7 @@ namespace xen {
 	{
 		return m_object_count;
 	}
-	
+
 	
 	const TileMapObject* TileMapLayer::get_object(const int object_index)
 	{
@@ -353,19 +420,22 @@ namespace xen {
 
 
 	const Luna<TileMapLayer>::PropertyType TileMapLayer::properties[] = {
+		{"name", &TileMapLayer::lua_get_name, &TileMapLayer::lua_set_name },
+		{"opacity", &TileMapLayer::lua_get_opacity, &TileMapLayer::lua_set_opacity },
+		{"type", &TileMapLayer::lua_get_type, nullptr },
+		{"visible", &TileMapLayer::lua_get_visible, &TileMapLayer::lua_set_visible },
+		{"object_count", &TileMapLayer::lua_get_object_count, nullptr },
 		{0,0}
 	};
 
 
 	const Luna<TileMapLayer>::FunctionType TileMapLayer::methods[] = {
-		method(TileMapLayer, get_name, lua_get_name),
 		method(TileMapLayer, get_offset, lua_get_offset),
-		method(TileMapLayer, get_opacity, lua_get_opacity),
 		method(TileMapLayer, get_size, lua_get_size),
-		method(TileMapLayer, get_type, lua_get_type),
-		method(TileMapLayer, get_visible, lua_get_visible),
-		method(TileMapLayer, get_objects_count, lua_get_objects_count),
 		method(TileMapLayer, get_object, lua_get_object),
+		method(TileMapLayer, get_property_as_string, lua_get_property_as_string),
+		method(TileMapLayer, get_property_as_int, lua_get_property_as_int),
+		method(TileMapLayer, get_property_as_float, lua_get_property_as_float),
 		{0,0}
 	};
 }

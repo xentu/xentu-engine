@@ -121,6 +121,8 @@ namespace xen
 
 
 	const Luna<TileMapObject>::PropertyType TileMapObject::properties[] = {
+		{"name", &TileMapObject::lua_get_name, nullptr},
+		{"shape", &TileMapObject::lua_get_shape, nullptr},
 		{"x", &TileMapObject::lua_get_x, &TileMapObject::lua_set_x },
 		{"y", &TileMapObject::lua_get_y, &TileMapObject::lua_set_y },
 		{"width", &TileMapObject::lua_get_width, &TileMapObject::lua_set_width },
@@ -130,8 +132,6 @@ namespace xen
 
 
 	const Luna<TileMapObject>::FunctionType TileMapObject::methods[] = {
-		method(TileMapObject, get_name, lua_get_name),
-		method(TileMapObject, get_shape, lua_get_shape),
 		{0,0}
 	};
 }

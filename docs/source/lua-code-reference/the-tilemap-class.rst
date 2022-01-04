@@ -31,3 +31,6 @@ here is an example of how to do that:
 	end)
 
 Please note you must draw each layer individually, there is no draw_tilemap method.
+
+For more information what information each layer you can gain access to provides,
+please see the :ref:`The TileMapLayer class`.

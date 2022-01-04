@@ -49,3 +49,5 @@ The following sections are in order of importance:
     lua-code-reference/the-shader-class
     lua-code-reference/the-sprite-struct
     lua-code-reference/the-tilemap-class
+    lua-code-reference/the-tilemaplayer-class
+    lua-code-reference/the-tilemapobject-class

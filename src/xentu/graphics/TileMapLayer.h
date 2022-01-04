@@ -39,9 +39,17 @@ namespace xen
 		int lua_get_size(lua_State* L);
 		int lua_get_type(lua_State* L);
 		int lua_get_visible(lua_State* L);
-		int lua_get_objects_count(lua_State* L);
+		int lua_get_object_count(lua_State* L);
 		int lua_get_object(lua_State* L);
+		int lua_get_property_as_string(lua_State* L);
+		int lua_get_property_as_int(lua_State* L);
+		int lua_get_property_as_float(lua_State* L);
 		
+
+		int lua_set_name(lua_State* L);
+		int lua_set_opacity(lua_State* L);
+		int lua_set_visible(lua_State* L);
+
 
 		//Class Constants
 		static const char className[];
@@ -60,6 +68,9 @@ namespace xen
 		int m_object_count;
 		// background texture
 		int m_texture_id;
+		std::string m_name;
+		float m_opacity;
+		bool m_visible;
 	};
 }
 

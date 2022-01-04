@@ -23,6 +23,11 @@ game.on("init", function()
 	layers['entities'] = map.get_layer(5)
 	-- get the first enemy,
 	enemy1 = layers.enemies.get_object(0)
+	layers.jewels.visible = false
+
+	width1, height1 = layers.jewels.get_size()
+	print('Jewels Layer Size: ' .. width1 .. 'x' .. height1)
+
 	-- setup the renderer.
 	renderer.set_clear_color(colors.bg)
 	renderer.set_blend(true)
@@ -47,7 +52,9 @@ game.on("draw", function()
 	renderer.set_position(offset.x, offset.y)
 	renderer.draw_tilemap_layer(layers.background)
 	renderer.draw_tilemap_layer(layers.tiles)
-	renderer.draw_tilemap_layer(layers.jewels)
+	if layers.jewels.visible == true then
+		renderer.draw_tilemap_layer(layers.jewels)
+	end
 	renderer.draw_tilemap_layer(layers.enemies)
 	renderer.draw_tilemap_layer(layers.entities)
 	-- present the image.
