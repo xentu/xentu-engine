@@ -2,25 +2,33 @@
 	Platformer Example
 ]]
 colors = {
-	["bg"] = Color.from_hex('#333333'),
-	["white"] = Color.from_hex('#ffffff')
+	bg = Color.from_hex('#333333'),
+	white = Color.from_hex('#ffffff')
 }
 textures = { }
-offset = { ['x'] = 0, ['y'] = 0 }
+offset = { x = 0, y = 0 }
 layers = { }
 gane_time_secs = 0
 
+
+game.on("cool_thing", function(fruit)
+	print("Thing is: " .. fruit)
+end)
+
+
 -- the init event
 game.on("init", function()
+	game.trigger_with('cool_thing', "apple")
+
 	-- load the tilemap.
 	map = assets.load_tilemap("assets/levels/level1.tmx")
 	-- grab some handles to layers loaded in the map.
-	layers['background'] = map.get_layer(0)
-	layers['tiles'] = map.get_layer(1)
-	layers['collision'] = map.get_layer(2)
-	layers['jewels'] = map.get_layer(3)
-	layers['enemies'] = map.get_layer(4)
-	layers['entities'] = map.get_layer(5)
+	layers.background = map.get_layer(0)
+	layers.tiles = map.get_layer(1)
+	layers.collision = map.get_layer(2)
+	layers.jewels = map.get_layer(3)
+	layers.enemies = map.get_layer(4)
+	layers.entities = map.get_layer(5)
 	-- get the first enemy,
 	enemy1 = layers.enemies.get_object(0)
 	-- setup the renderer.

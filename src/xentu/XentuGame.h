@@ -191,6 +191,11 @@ namespace xen {
 		int lua_trigger(lua_State* L);
 
 		/// <summary>
+		/// Allows scripts in Lua to trigger events with a single argument.
+		/// </summary>
+		int lua_trigger_with(lua_State* L);
+
+		/// <summary>
 		///	Allows the user to set a scene to receive update and draw events. By
 		/// default only the game global handles these.
 		/// </summary>

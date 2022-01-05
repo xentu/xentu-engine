@@ -158,9 +158,9 @@ namespace xen
 
 	int AudioPlayer::lua_is_playing(lua_State* L)
 	{
-		int id = lua_tointeger(L, -1);
+		const int id = lua_tointeger(L, -1);
 		const xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
-		bool playing = is_playing(sound);
+		const bool playing = is_playing(sound);
 		lua_pushboolean(L, playing);
 		return 1;
 	}
@@ -168,7 +168,7 @@ namespace xen
 
 	int AudioPlayer::lua_play(lua_State* L)
 	{
-		int id = lua_tointeger(L, -1);
+		const int id = lua_tointeger(L, -1);
 		xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
 		play(sound);
 		return 0;
@@ -176,8 +176,8 @@ namespace xen
 
 
 	int AudioPlayer::lua_set_volume(lua_State* L) {
-		float volume = lua_tonumber(L, -1);
-		int id = lua_tointeger(L, -2);
+		const float volume = lua_tonumber(L, -1);
+		const int id = lua_tointeger(L, -2);
 		if (id > 0) {
 			const xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
 			auto found = std::find(std::begin(m_decoder_refs), std::end(m_decoder_refs), &sound->decoder);
@@ -193,7 +193,7 @@ namespace xen
 
 	int AudioPlayer::lua_stop(lua_State* L)
 	{
-		int id = lua_tointeger(L, -1);
+		const int id = lua_tointeger(L, -1);
 		const xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
 		stop(sound);
 		return 0;
@@ -202,16 +202,16 @@ namespace xen
 
 	bool AudioPlayer::is_playing(const xen::Sound* sound) const
 	{
-		auto found = std::find(std::begin(m_decoder_refs), std::end(m_decoder_refs), &sound->decoder);
+		const auto found = std::find(std::begin(m_decoder_refs), std::end(m_decoder_refs), &sound->decoder);
 		if (found != std::end(m_decoder_refs)) {
-			int index = found - std::begin(m_decoder_refs);
+			const int index = found - std::begin(m_decoder_refs);
 			return m_decoder_opts[index].state == MIXER_PLAYING;
 		}
 		return false;
 	}
 
 
-	int AudioPlayer::play(Sound* sound)
+	int AudioPlayer::play(xen::Sound* sound)
 	{
 		// find a free mixer slot.
 		int index = next_free_mixer_slot();
@@ -246,7 +246,7 @@ namespace xen
 
 
 	int AudioPlayer::stop(const Sound* sound) {
-		auto found = std::find(std::begin(m_decoder_refs), std::end(m_decoder_refs), &sound->decoder);
+		const auto found = std::find(std::begin(m_decoder_refs), std::end(m_decoder_refs), &sound->decoder);
 		if (found != std::end(m_decoder_refs)) {
 			int index = found - std::begin(m_decoder_refs);
 			//m_decoder_refs[index] = 0;

@@ -52,8 +52,8 @@ namespace xen {
 		if (type == tmx::Layer::Type::Object)
 		{
 			auto tileSetTextures = new std::map<std::string, int>();
-			auto object_group = layer->getLayerAs<tmx::ObjectGroup>();
-			auto objects = object_group.getObjects();
+			const auto object_group = layer->getLayerAs<tmx::ObjectGroup>();
+			const auto objects = object_group.getObjects();
 			for (const tmx::Object object : objects)
 			{
 				auto tobj = new TileMapObject(L, object);
@@ -104,8 +104,8 @@ namespace xen {
 		}
 		else if (type == tmx::Layer::Type::Image)
 		{
-			auto image = layer->getLayerAs<tmx::ImageLayer>();
-			auto image_path = image.getImagePath();
+			const auto image = layer->getLayerAs<tmx::ImageLayer>();
+			const auto image_path = image.getImagePath();
 			m_texture_id = game->assets->load_texture(image_path, 2, 1); // TX_RGBA - TX_CLAMP_TO_EDGE
 		}
 		else if (type == tmx::Layer::Type::Tile)
@@ -132,7 +132,7 @@ namespace xen {
 			for (const auto& ts : usedTileSets)
 			{
 				const auto& path = ts->getImagePath();
-				int texture_id = game->assets->load_texture(path, 2, 1); // TX_RGBA - TX_CLAMP_TO_EDGE
+				const int texture_id = game->assets->load_texture(path, 2, 1); // TX_RGBA - TX_CLAMP_TO_EDGE
 				tileSetTextures->insert(std::make_pair(ts->getName(), texture_id));
 			}
 
@@ -141,7 +141,7 @@ namespace xen {
 			{
 				for (unsigned int col = 0; col < layerSize.x; ++col)
 				{
-					uint32_t global_id = tiles[idx].ID; // the global id of the tile to use.
+					const uint32_t global_id = tiles[idx].ID; // the global id of the tile to use.
 					Tile* new_tile = new Tile(col * tileSize.x, row * tileSize.y, tileSize.x, tileSize.y);
 
 					// find the tileset, to give us the the subrect to add to new_tile for texture.
@@ -149,8 +149,8 @@ namespace xen {
 					{
 						if (global_id >= i->getFirstGID() && global_id <= i->getLastGID())
 						{
-							auto ts_tile = i->getTile(global_id);
-							auto ts_tile_size = i->getTileSize();
+							const auto ts_tile = i->getTile(global_id);
+							const auto ts_tile_size = i->getTileSize();
 							new_tile->t_x = ts_tile->imagePosition.x;
 							new_tile->t_y = ts_tile->imagePosition.y;
 							new_tile->t_width = ts_tile_size.x;
@@ -216,12 +216,12 @@ namespace xen {
 
 	int TileMapLayer::lua_get_offset(lua_State* L) {
 		if (m_layer == nullptr) {
-			auto vec2 = m_layer->getOffset();
+			const auto vec2 = m_layer->getOffset();
 			lua_pushinteger(L, 0);
 			lua_pushinteger(L, 0);
 		}
 		else {
-			auto vec2 = &m_layer->getOffset();
+			const auto vec2 = &m_layer->getOffset();
 			lua_pushinteger(L, vec2->x);
 			lua_pushinteger(L, vec2->y);
 		}
@@ -237,12 +237,12 @@ namespace xen {
 
 	int TileMapLayer::lua_get_size(lua_State* L) {
 		if (m_layer == nullptr) {
-			auto vec2 = m_layer->getSize();
+			const auto vec2 = m_layer->getSize();
 			lua_pushnumber(L, 0.0f);
 			lua_pushnumber(L, 0.0f);
 		}
 		else {
-			auto vec2 = m_layer->getSize();
+			const auto vec2 = m_layer->getSize();
 			lua_pushnumber(L, vec2.x);
 			lua_pushnumber(L, vec2.y);
 		}
@@ -294,8 +294,8 @@ namespace xen {
 
 	int TileMapLayer::lua_get_object(lua_State* L)
 	{
-		int object_index = lua_tointeger(L, -1);
-		int max_index = m_object_count - 1;
+		const int object_index = lua_tointeger(L, -1);
+		const int max_index = m_object_count - 1;
 
 		if (object_index < 0 || object_index > max_index) {
 			Advisor::throwError("Tried to access a TileMapObject with an invalid index.");
@@ -310,10 +310,10 @@ namespace xen {
 
 	int TileMapLayer::lua_get_property_as_string(lua_State* L)
 	{
-		std::string s = lua_tostring(L, -1);
+		const std::string s = lua_tostring(L, -1);
 		if (s.length() > 0) {
-			auto v = m_layer->getProperties();
-			auto it = find_if(v.begin(), v.end(), [&s](const tmx::Property& obj) {return obj.getName() == s;});
+			const auto v = m_layer->getProperties();
+			const auto it = find_if(v.begin(), v.end(), [&s](const tmx::Property& obj) {return obj.getName() == s;});
 			if (it != v.end())
 			{
 				std::string value = it->getStringValue();
@@ -328,10 +328,10 @@ namespace xen {
 
 	int TileMapLayer::lua_get_property_as_int(lua_State* L)
 	{
-		std::string s = lua_tostring(L, -1);
+		const std::string s = lua_tostring(L, -1);
 		if (s.length() > 0) {
-			auto v = m_layer->getProperties();
-			auto it = find_if(v.begin(), v.end(), [&s](const tmx::Property& obj) {return obj.getName() == s;});
+			const auto v = m_layer->getProperties();
+			const auto it = find_if(v.begin(), v.end(), [&s](const tmx::Property& obj) {return obj.getName() == s;});
 			if (it != v.end())
 			{
 				const int value = it->getIntValue();
@@ -346,10 +346,10 @@ namespace xen {
 
 	int TileMapLayer::lua_get_property_as_float(lua_State* L)
 	{
-		std::string s = lua_tostring(L, -1);
+		const std::string s = lua_tostring(L, -1);
 		if (s.length() > 0) {
-			auto v = m_layer->getProperties();
-			auto it = find_if(v.begin(), v.end(), [&s](const tmx::Property& obj) {return obj.getName() == s;});
+			const auto v = m_layer->getProperties();
+			const auto it = find_if(v.begin(), v.end(), [&s](const tmx::Property& obj) {return obj.getName() == s;});
 			if (it != v.end())
 			{
 				const float value = it->getFloatValue();

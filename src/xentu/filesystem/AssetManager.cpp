@@ -63,7 +63,7 @@ namespace xen
 
 	int AssetManager::load_texture(std::string filename_relative, unsigned int format, unsigned int wrap)
 	{
-		std::string filename = localize_path(filename_relative);
+		const std::string filename = localize_path(filename_relative);
 
 
 		int gl_format = GL_RGBA;
@@ -120,10 +120,10 @@ namespace xen
 
 	int AssetManager::lua_load_texture(lua_State* L)
 	{
-		std::string filename = lua_tostring(L, -3);
-		unsigned int format = lua_tointeger(L, -2);
-		unsigned int wrap = lua_tointeger(L, -1);
-		int id = this->load_texture(filename, format, wrap);
+		const std::string filename = lua_tostring(L, -3);
+		const unsigned int format = lua_tointeger(L, -2);
+		const unsigned int wrap = lua_tointeger(L, -1);
+		const int id = this->load_texture(filename, format, wrap);
 		lua_pushinteger(L, id);
 		return 1;
 	}
@@ -131,7 +131,7 @@ namespace xen
 
 	int AssetManager::load_spritemap(std::string filename_relative, const unsigned int format)
 	{
-		std::string filename = localize_path(filename_relative);
+		const std::string filename = localize_path(filename_relative);
 
 		if (format == 0) {
 			spritemaps_iter++;
@@ -147,7 +147,7 @@ namespace xen
 
 	int AssetManager::lua_load_spritemap(lua_State* L)
 	{
-		std::string filename = lua_tostring(L, -2);
+		const std::string filename = lua_tostring(L, -2);
 		const unsigned int format = lua_tointeger(L, -1);
 		int id = this->load_spritemap(filename, format);
 		lua_pushinteger(L, id);
@@ -157,7 +157,7 @@ namespace xen
 
 	int AssetManager::load_audio(std::string filename_relative)
 	{
-		std::string filename = localize_path(filename_relative);
+		const std::string filename = localize_path(filename_relative);
 
 		try 
 		{
@@ -188,7 +188,7 @@ namespace xen
 
 	TileMap* AssetManager::load_tilemap(lua_State* L, std::string filename_relative)
 	{
-		std::string filename = localize_path(filename_relative);
+		const std::string filename = localize_path(filename_relative);
 		tilemaps_iter++;
 
 		TileMap* tilemap = new TileMap(L);
@@ -201,8 +201,8 @@ namespace xen
 
 	int AssetManager::lua_load_audio(lua_State* L)
 	{
-		std::string filename = lua_tostring(L, -1);
-		int id = this->load_audio(filename);
+		const std::string filename = lua_tostring(L, -1);
+		const int id = this->load_audio(filename);
 		if (id >= 0) {
 			lua_pushinteger(L, id);
 			return 1;
@@ -214,7 +214,7 @@ namespace xen
 	// Compiles an invidivual vertex or fragment shader.
 	static unsigned int compile_shader(unsigned int type, const std::string& source)
 	{
-		unsigned int id = glCreateShader(type);
+		const unsigned int id = glCreateShader(type);
 		const char* src = source.c_str();
 		glShaderSource(id, 1, &src, nullptr);
 		glCompileShader(id);
@@ -239,14 +239,14 @@ namespace xen
 
 	int AssetManager::lua_load_shader(lua_State* L)
 	{
-		std::string vertexShaderFile = localize_path( lua_tostring(L, -2) );
-		std::string vertexShader = xen::Helper::read_text_file(vertexShaderFile);
-		std::string fragmentShaderFile = localize_path( lua_tostring(L, -1) );
-		std::string fragmentShader = xen::Helper::read_text_file(fragmentShaderFile);
+		const std::string vertexShaderFile = localize_path( lua_tostring(L, -2) );
+		const std::string vertexShader = xen::Helper::read_text_file(vertexShaderFile);
+		const std::string fragmentShaderFile = localize_path( lua_tostring(L, -1) );
+		const std::string fragmentShader = xen::Helper::read_text_file(fragmentShaderFile);
 		
-		unsigned int program = glCreateProgram();
-		unsigned int vs = compile_shader(GL_VERTEX_SHADER, vertexShader);
-		unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, fragmentShader);
+		const unsigned int program = glCreateProgram();
+		const unsigned int vs = compile_shader(GL_VERTEX_SHADER, vertexShader);
+		const unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, fragmentShader);
 
 		glAttachShader(program, vs);
 		glAttachShader(program, fs);
@@ -266,7 +266,7 @@ namespace xen
 	int AssetManager::lua_load_tilemap(lua_State* L)
 	{
 		// todo: this isn't tested.
-		std::string filename = lua_tostring(L, -1);
+		const std::string filename = lua_tostring(L, -1);
 		TileMap* tilemap = load_tilemap(L, filename);
 		// send it to lua.
 		Luna<TileMap>::push(L, tilemap);

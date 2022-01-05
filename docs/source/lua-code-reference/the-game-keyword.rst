@@ -85,6 +85,23 @@ The ``draw`` event is called when the game wants to draw a frame. This event is
 usually combined with calls to the renderer keyword, as that is the main system
 for rendering graphics and text onto the screen.
 
+Custom handler with an argument
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The on event is sometimes passed an argument to provide extra information, this
+can be seen in the update event seen above. For custom events the :ref:`trigger_with`
+function provides you with a way to do that yourself:
+
+.. code-block:: lua
+
+	game.on('mycustomevent', function(message)
+	    print("Message: " .. message)
+	end)
+
+	game.on('init', function()
+	    game.trigger_with('mycustomevent', 'Hello World!')
+	end)
+
 |
 
 game.set_scene(scene)
@@ -124,7 +141,7 @@ Passing ``nil`` to this function unattaches the currently attached scene.
 |
 
 game.trigger(event)
-------------------------
+-------------------
 
 Trigger allows you to trigger custom events throughout your code. These events
 can be handled by the ``on`` method shown above. To trigger an event, simply write
@@ -136,3 +153,18 @@ something like this:
 
 The first argument is the name of the event to trigger. At this time the trigger
 method does not support passing additional arguments.
+
+|
+
+game.trigger_with(event, arg)
+-----------------------------
+
+This function is the same as trigger with the added feature of being able to pass
+a value (can only be a string, boolean, integer or float) like so:
+
+.. code-block:: lua
+
+    game.trigger_with('my_custom_event', 'my info')
+
+See :ref:`Custom handler with an argument` on how to handle the callback for an
+event fired this way.

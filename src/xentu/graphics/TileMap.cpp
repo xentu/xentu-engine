@@ -71,8 +71,8 @@ namespace xen
 
 	int TileMap::lua_get_layer(lua_State* L)
 	{
-		int layer_index = lua_tointeger(L, -1);
-		int max_index = m_layers_count - 1;
+		const int layer_index = lua_tointeger(L, -1);
+		const int max_index = m_layers_count - 1;
 
 		if (layer_index < 0 || layer_index > max_index) {
 			Advisor::throwError("Tried to access a TileLayer with an invalid index.");

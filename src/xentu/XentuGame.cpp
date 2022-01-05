@@ -218,7 +218,10 @@ namespace xen
 
 		/* allow vysnc to be disabled via the configuration. */
 		if (config->m_vsync == false) {
-			glfwSwapInterval(0); // default = 1
+			glfwSwapInterval(0);
+		}
+		else {
+			glfwSwapInterval(1);
 		}
 
 		/* Center the game */
@@ -529,8 +532,8 @@ namespace xen
 
 	int XentuGame::lua_require(lua_State* L)
 	{
-		std::string file = lua_tostring(L, -1);
-		std::string full_path = this->base_path + '/' + file;
+		const std::string file = lua_tostring(L, -1);
+		const std::string full_path = this->base_path + '/' + file;
 		if (luaL_dofile(L, full_path.c_str()) == LUA_OK)
 		{
 			Advisor::logInfo("Loaded ", full_path);
@@ -545,9 +548,41 @@ namespace xen
 
 	int XentuGame::lua_trigger(lua_State* L)
 	{
-		std::string event = lua_tostring(L, -1);
-		XentuGame* game = XentuGame::get_instance(L);
-		game->trigger(L, event);
+		const std::string event = lua_tostring(L, -1);
+		this->trigger(L, event);
+		return 0;
+	}
+
+	int XentuGame::lua_trigger_with(lua_State* L)
+	{
+		const std::string event = lua_tostring(L, -2);
+		int functionRef = this->callbacks[event];
+		if (functionRef > 0)
+		{
+			int t = lua_type(L, -1);
+			if (t == LUA_TSTRING) {
+				const auto str_arg = lua_tostring(L, -1);
+				lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
+				lua_pushstring(L, str_arg);
+				lua_call(L, 1, 0);
+			}
+			else if (t == LUA_TBOOLEAN) {
+				const auto bool_arg = lua_toboolean(L, -1);
+				lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
+				lua_pushboolean(L, bool_arg);
+				lua_call(L, 1, 0);
+			}
+			else if (t == LUA_TNUMBER) {
+				const auto num_arg = lua_tonumber(L, -1);
+				lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
+				lua_pushnumber(L, num_arg);
+				lua_call(L, 1, 0);
+			}
+			else {
+				Advisor::throwError("Tried to trigger an event with an unsupported data argument " + std::to_string(t) + ".");
+			}
+		}
+
 		return 0;
 	}
 
@@ -569,7 +604,6 @@ namespace xen
 	const Luna<XentuGame>::PropertyType xen::XentuGame::properties[] = {
 		{"audio", &XentuGame::get_audio, nullptr },
 		{"assets", &XentuGame::get_assets, nullptr },
-		{"sprites", &XentuGame::get_renderer, nullptr }, /* deprecated: use renderer instead */
 		{"renderer", &XentuGame::get_renderer, nullptr },
 		{"keyboard", &XentuGame::get_keyboard, nullptr },
 		{"mouse", &XentuGame::get_mouse, nullptr },
@@ -584,6 +618,7 @@ namespace xen
 		method(XentuGame, on, lua_on),
 		method(XentuGame, require, lua_require),
 		method(XentuGame, trigger, lua_trigger),
+		method(XentuGame, trigger_with, lua_trigger_with),
 		method(XentuGame, set_scene, lua_set_scene),
 		{0,0}
 	};

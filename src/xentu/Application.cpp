@@ -109,7 +109,7 @@ int main(int arg_count, char* args[])
 	std::string game_path = game->get_base_path() + "/game.lua";
 	if (luaL_dofile(L, game_path.c_str()) == LUA_OK)
 	{
-		unsigned int ms = 1000.0f / game->config->m_update_frequency;
+		unsigned int ms = 1000.0 / game->config->m_update_frequency;
 		std::chrono::milliseconds timestep(ms);
 
 		/* initialize the game. */
@@ -136,8 +136,8 @@ int main(int arg_count, char* args[])
 					while (time_elapsed >= timestep) {
 						auto time_elapsed_d = std::chrono::duration<float>(time_elapsed);
 						const float delta_ms = time_elapsed_d.count();
-						game->update(L, delta_ms); // update at a fixed rate each time
 						time_elapsed -= timestep;
+						game->update(L, delta_ms); // update at a fixed rate each time
 					}
 				}
 

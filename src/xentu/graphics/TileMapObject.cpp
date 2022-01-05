@@ -19,14 +19,14 @@ namespace xen
 		has_tile(false),
 		m_object(object)
 	{
-		auto aabb = &m_object.getAABB();
+		const auto aabb = &m_object.getAABB();
 		x = aabb->left;
 		y = aabb->top;
 		width = aabb->width;
 		height = aabb->height;
 		m_point_count = 0;
 
-		auto points = object.getPoints();
+		const auto points = object.getPoints();
 		if (points.size() > 0) {
 			for (const tmx::Vector2f point : points)
 			{
@@ -87,8 +87,8 @@ namespace xen
 
 	int TileMapObject::lua_get_point(lua_State* L)
 	{
-		int point_index = lua_tointeger(L, -1);
-		int max_index = m_point_count - 1;
+		const int point_index = lua_tointeger(L, -1);
+		const int max_index = m_point_count - 1;
 
 		if (point_index < 0 || point_index > max_index) {
 			Advisor::throwError("Tried to access a point on a TileMapObject wi TileLayer with an invalid index.");

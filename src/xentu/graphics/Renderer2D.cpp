@@ -313,7 +313,7 @@ namespace xen
 		m_rotation = 0;
 		this->clear();
 
-		return 1;
+		return 0;
 	}
 
 	int Renderer2D::lua_debug_sprite(lua_State* L)
@@ -344,8 +344,8 @@ namespace xen
 		// make sure the table is on the stack.
 		lua_pushnil(L);
 		// iterate the values to populate an LuaSprite struct.
-		LuaSprite s = parse_lua_sprite(L);
-		XentuGame* game = XentuGame::get_instance(L);
+		const LuaSprite s = parse_lua_sprite(L);
+		const XentuGame* game = XentuGame::get_instance(L);
 
 		m_sprite.ResetTransform();
 		m_sprite.set_position(m_pos_x + s.x, m_pos_y + s.y);
@@ -374,10 +374,10 @@ namespace xen
 
 	int Renderer2D::lua_draw_rect(lua_State* L)
 	{
-		int x = lua_tonumber(L, -4);
-		int y = lua_tonumber(L, -3);
-		int width = lua_tonumber(L, -2);
-		int height = lua_tonumber(L, -1);
+		const int x = lua_tonumber(L, -4);
+		const int y = lua_tonumber(L, -3);
+		const int width = lua_tonumber(L, -2);
+		const int height = lua_tonumber(L, -1);
 
 		// remove the 4 arguments (text, left, top, max_w) from the stack so we can read the font object.
 		lua_pop(L, 1);
@@ -387,7 +387,7 @@ namespace xen
 
 		// push nil to get the table data to parse.
 		lua_pushnil(L);
-		Vector4f color = parse_color(L);
+		const Vector4f color = parse_color(L);
 
 		m_sprite.ResetTransform();
 		m_sprite.set_position(x, y);
@@ -406,10 +406,10 @@ namespace xen
 	int Renderer2D::lua_draw_text(lua_State* L)
 	{
 		// read the other variables first.
-		std::string text = lua_tostring(L, -4);
-		float left = lua_tonumber(L, -3);
-		float top = lua_tonumber(L, -2);
-		float max_width = lua_tonumber(L, -1);
+		const std::string text = lua_tostring(L, -4);
+		const float left = lua_tonumber(L, -3);
+		const float top = lua_tonumber(L, -2);
+		const float max_width = lua_tonumber(L, -1);
 
 		XentuGame* game = XentuGame::get_instance(L);
 
@@ -421,7 +421,7 @@ namespace xen
 
 		// push nil to get the table data to parse.
 		lua_pushnil(L);
-		LuaFont f = parse_lua_font(L);
+		const LuaFont f = parse_lua_font(L);
 
 		const SpriteMap* sprite_map = game->assets->get_spritemap(f.spritemap_id);
 
@@ -466,12 +466,12 @@ namespace xen
 
 	int Renderer2D::lua_draw_tilemap_layer(lua_State* L)
 	{
-		XentuGame* game = XentuGame::get_instance(L);
+		const XentuGame* game = XentuGame::get_instance(L);
 		TileMapLayer* layer = *static_cast<TileMapLayer**>(lua_touserdata(L, -1));
 		
 		for (int i=0; i<layer->m_tile_count; i++)
 		{
-			auto& tile = layer->m_tiles[i];
+			const auto& tile = layer->m_tiles[i];
 
 			if (tile->texture_id <= 0) continue;
 
@@ -512,7 +512,7 @@ namespace xen
 		const int obj_count = layer->get_object_count();
 		if (obj_count > 0) {
 			for (int i=0; i<obj_count; i++) {
-				auto obj = layer->get_object(i);
+				const auto obj = layer->get_object(i);
 				if (obj->has_tile) {
 					const auto tile = obj->get_tile();
 					
@@ -554,9 +554,9 @@ namespace xen
 
 
 		// clear the screen.
-		float r = this->m_clear_color.red;
-		float g = this->m_clear_color.green;
-		float b = this->m_clear_color.blue;
+		const float r = this->m_clear_color.red;
+		const float g = this->m_clear_color.green;
+		const float b = this->m_clear_color.blue;
 		glClearColor(r, g, b, 1);
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -602,8 +602,8 @@ namespace xen
 			// centre
 			m_sprite.m_width = fbo_texture_inst->width;
 			m_sprite.m_height = fbo_texture_inst->height;
-			int hx = (sc_width / 2) - (vp_width / 2);
-			int hy = (sc_height / 2) - (vp_height / 2);
+			const int hx = (sc_width / 2) - (vp_width / 2);
+			const int hy = (sc_height / 2) - (vp_height / 2);
 			m_sprite.set_position(hx, hy); 
 		}
 		else {
@@ -627,12 +627,12 @@ namespace xen
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, view_batch->quad_count * element_size, view_batch->m_indices.data(), GL_DYNAMIC_DRAW);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		
-		return 1;
+		return 0;
 	}
 
 	int Renderer2D::lua_set_blend(lua_State* L)
 	{
-		bool enable = lua_toboolean(L, -1);
+		const bool enable = lua_toboolean(L, -1);
 
 		if (enable) {
 			glEnable(GL_BLEND);
@@ -646,8 +646,8 @@ namespace xen
 
 	int Renderer2D::lua_set_blend_func(lua_State* L)
 	{
-		int sfactor = lua_tonumber(L, -2);
-		int dfactor = lua_tonumber(L, -1);
+		const int sfactor = lua_tonumber(L, -2);
+		const int dfactor = lua_tonumber(L, -1);
 		glBlendFunc(sfactor, dfactor);
 		return 0;
 	}
@@ -656,7 +656,7 @@ namespace xen
 	{
 		// push nil to get the table data to parse.
 		lua_pushnil(L);
-		LuaColor f = parse_lua_color(L);
+		const LuaColor f = parse_lua_color(L);
 		this->m_clear_color = f;
 		return 0;
 	}
@@ -665,7 +665,7 @@ namespace xen
 	{
 		// push nil to get the table data to parse.
 		lua_pushnil(L);
-		Vector4f f = parse_color(L);
+		const Vector4f f = parse_color(L);
 		this->m_text_color = f;
 		return 0;
 	}
@@ -674,27 +674,27 @@ namespace xen
 	{
 		m_origin_x = lua_tonumber(L, -2);
 		m_origin_y = lua_tonumber(L, -1);
-		return 1;
+		return 0;
 	}
 
 	int Renderer2D::lua_set_position(lua_State* L)
 	{
 		m_pos_x = lua_tonumber(L, -2);
 		m_pos_y = lua_tonumber(L, -1);
-		return 1;
+		return 0;
 	}
 
 	int Renderer2D::lua_set_rotation(lua_State* L)
 	{
 		m_rotation = lua_tonumber(L, -1);
-		return 1;
+		return 0;
 	}
 
 	int Renderer2D::lua_set_scale(lua_State* L)
 	{
 		m_scale_x = lua_tonumber(L, -2);
 		m_scale_y = lua_tonumber(L, -1);
-		return 1;
+		return 0;
 	}
 
 	int Renderer2D::lua_set_shader(lua_State* L)

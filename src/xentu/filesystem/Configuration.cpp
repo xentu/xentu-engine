@@ -90,9 +90,9 @@ namespace xen
 
 	int Configuration::lua_get_string(lua_State* L)
 	{
-		std::string key = lua_tostring(L, -1);
+		const std::string key = lua_tostring(L, -1);
 		if (m_value.has(key) && m_value.find(key)->is<std::string>()) {
-			std::string value = m_value.find(key)->as<std::string>();
+			const std::string value = m_value.find(key)->as<std::string>();
 			lua_pushstring(L, value.c_str());
 			return 1;
 		}
@@ -102,9 +102,9 @@ namespace xen
 
 	int Configuration::lua_get_integer(lua_State* L)
 	{
-		std::string key = lua_tostring(L, -1);
+		const std::string key = lua_tostring(L, -1);
 		if (m_value.has(key) && m_value.find(key)->is<int>()) {
-			int value = m_value.find(key)->as<int>();
+			const int value = m_value.find(key)->as<int>();
 			lua_pushinteger(L, value);
 			return 1;
 		}
