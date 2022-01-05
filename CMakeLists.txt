@@ -14,11 +14,11 @@ set(MY_PRODUCT_NUMBER 0)
 set(MY_PRODUCT_VERSION 0)
 set(MY_BUILD_NUMBER 1)
 configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/version.rc.in
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/xentu/version.rc.in
   ${CMAKE_CURRENT_BINARY_DIR}/version.rc
   @ONLY)
 configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/version-sdk.rc.in
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/xentusdk/version.rc.in
   ${CMAKE_CURRENT_BINARY_DIR}/version-sdk.rc
   @ONLY)
 

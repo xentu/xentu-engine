@@ -39,8 +39,6 @@ game.on("update", function(dt)
 	if keyboard.key_down(KB_UP) then offset.y = offset.y + 4 end
 	if keyboard.key_down(KB_DOWN) then offset.y = offset.y - 4 end
 	enemy1.x = enemy1.x - 1
-
-	print("Time" .. gane_time_secs)
 end)
 
 
