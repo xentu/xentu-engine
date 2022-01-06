@@ -24,23 +24,66 @@ you can use it elsewhere. Here is an eample of how to use this method:
 In future versions the ability to load other sample rates will be implemented.
 
 |
+|
 
 assets.load_shader(vert_file, frag_file)
 ----------------------------------------
 
-Use this method to load a pair of custom shaders. This method requires you pass
-a filename for a vertex shader, and another for a fragment shader. The result of
-this method is a :ref:`Shader <The Shader Class>` object instance that should be stored somewhere 
-so that you can use it elsewhre. Here is an example of how to use this:
+Use this method to load a a shader program. You should pass it a filename for a
+vertex shader, and another for a fragment shader. The result of this method is an
+integer specifying the id of the shader. Here's an example of how to do it:
 
 .. code-block:: lua
 
-    shader1 = assets.load_shader('shaders/vertex.glsl', 'shaders/fragment.glsl')
+    shader1 = assets.load_shader('shaders/vertex.glsl', 'shaders/fragment.glsl')    
 
-.. note::
+Xentu supports shaders written in GSLS compatible with OpenGL ES 3.2. Lets take
+a look at how a basic monochrome shader filter could be written. First the vertex
+shader:
 
-	Xentu expects shaders to be compatible with OpenGL ES 3.2.
+.. code-block:: glsl
 
+    #version 410
+
+    in vec3 i_position;
+    in vec2 i_texcoord;
+    in vec4 i_color;
+
+    uniform mat4 u_MVP;
+
+    out vec2 v_TexCoord;
+    out vec4 v_Color;
+
+    void main()
+    {
+        gl_Position = u_MVP * vec4(i_position, 1.0);
+        v_TexCoord = i_texcoord;
+        v_Color = i_color;
+    }
+
+Next the fragment shader:
+
+.. code-block:: glsl
+
+    #version 410
+
+    in vec2 v_TexCoord;
+    in vec4 v_Color;
+
+    uniform sampler2D u_Texture;
+
+    out vec4 frag_colour;
+
+    void main()
+    {
+        vec4 color = texture(u_Texture, v_TexCoord) * v_Color;
+        frag_colour = vec4(color.r, color.r, color.r, color.a);
+    }
+
+You can not currently pass extra information into a shader, however this is something
+that will be added in a very near future build.
+
+|
 |
 
 assets.load_texture(texture_file, color_mode, wrap_mode)
@@ -73,6 +116,7 @@ development on the engine progresses. Feel free to make a feature request if one
 you need is currently not provided.
 
 |
+|
 
 assets.load_spritemap(json_file, format)
 ----------------------------------------
@@ -93,6 +137,7 @@ Here is a list of format codes that you can use with this method:
 
 For more information about how to use a sprite map once loaded, please see this page.
 
+|
 |
 
 assets.load_tilemap(tmx_file)

@@ -260,8 +260,9 @@ renderer.set_shader(shader)
 ---------------------------
 
 The ``set_shader()`` method allows you to tell the renderer what shader program
-to use when ``present()`` is called. The shader argument should be an instance
-of the :ref:`Shader <The Shader Class>` class created earlier in your code.
+to use when ``present()`` is called. The shader argument should be the index integer
+that you get from :ref:`assets.load_shader() <assets.load_shader(vert_file, frag_file)>`
+earlier in your code.
 
 .. note:
 

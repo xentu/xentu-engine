@@ -15,11 +15,13 @@ This method is used to get a glimpse of what is stored in the lua stack. For The
 most part this method is really only useful for debugging niche situations.
 
 |
+|
 
 game.exit()
 -----------
 Call this method to immediately exit the game.
 
+|
 |
 
 game.fullscreen(bool)
@@ -31,6 +33,7 @@ Use this method to change the screen to either full screen or windowed mode.
 	Calling this method too often can crash the game, be careful not to call it
 	more than once in quick succession.
 
+|
 |
 
 game.on(event)
@@ -103,6 +106,7 @@ function provides you with a way to do that yourself:
 	end)
 
 |
+|
 
 game.set_scene(scene)
 ---------------------
@@ -139,6 +143,7 @@ Passing ``nil`` to this function unattaches the currently attached scene.
 	or the changing of music etc...
 
 |
+|
 
 game.trigger(event)
 -------------------
@@ -154,6 +159,7 @@ something like this:
 The first argument is the name of the event to trigger. At this time the trigger
 method does not support passing additional arguments.
 
+|
 |
 
 game.trigger_with(event, arg)

@@ -31,6 +31,9 @@ game.on("init", function()
 	layers.entities = map.get_layer(5)
 	-- get the first enemy,
 	enemy1 = layers.enemies.get_object(0)
+	-- setup a shader
+	shader1 = assets.load_shader("assets/shaders/vertex.shader", "assets/shaders/fragment.shader")
+	renderer.set_shader(shader1)
 	-- setup the renderer.
 	renderer.set_clear_color(colors.bg)
 	renderer.set_blend(true)
