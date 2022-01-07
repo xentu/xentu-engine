@@ -11,15 +11,8 @@ layers = { }
 gane_time_secs = 0
 
 
-game.on("cool_thing", function(fruit)
-	print("Thing is: " .. fruit)
-end)
-
-
 -- the init event
 game.on("init", function()
-	game.trigger_with('cool_thing', "apple")
-
 	-- load the tilemap.
 	map = assets.load_tilemap("assets/levels/level1.tmx")
 	-- grab some handles to layers loaded in the map.
@@ -32,8 +25,8 @@ game.on("init", function()
 	-- get the first enemy,
 	enemy1 = layers.enemies.get_object(0)
 	-- setup a shader
-	shader1 = assets.load_shader("assets/shaders/vertex.shader", "assets/shaders/fragment.shader")
-	renderer.set_shader(shader1)
+	-- shader1 = assets.load_shader("assets/shaders/vertex.shader", "assets/shaders/fragment.shader")
+	-- renderer.set_shader(shader1)
 	-- setup the renderer.
 	renderer.set_clear_color(colors.bg)
 	renderer.set_blend(true)

@@ -121,9 +121,10 @@ you need is currently not provided.
 assets.load_spritemap(json_file, format)
 ----------------------------------------
 
-A sprite map is a utility built into the engine that enables you to divide up a
-texture into smaller sprites. This method allows you to load those files from
-various compatible formats. Here is how to use it:
+A SpriteMap is a loaded resource used as an information source for the Font and
+Sprite structs. It provides a map for a texture letting the engine know where 
+named regions are. This method allows you to load those files from various
+compatible formats. Here is how to use it:
 
 .. code-block:: lua
 

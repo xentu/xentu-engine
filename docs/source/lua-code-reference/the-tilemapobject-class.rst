@@ -7,12 +7,14 @@ a :ref:`TileMapLayer <The TileMapLayer class>` instance. Objects tend to be used
 for entities, polygons (lines, areas, triggers).
 
 |
+|
 
 [instance].name
 ---------------
 
 This property gives you the name of the object.
 
+|
 |
 
 [instance].shape
@@ -22,12 +24,14 @@ This property gives you information about what the object is used for. Usual val
 include Rectangle, Ellipse, Point, Polygon, Polyline & Text.
 
 |
+|
 
 [instance].x
 ------------
 
 Use x coordinate for the bound of this object.
 
+|
 |
  
 [instance].y
@@ -36,12 +40,14 @@ Use x coordinate for the bound of this object.
 Use y coordinate for the bound of this object.
 
 |
+|
 
 [instance].width
 ----------------
 
 Use width for the bound of this object.
 
+|
 |
 
 [instance].height
@@ -50,6 +56,7 @@ Use width for the bound of this object.
 Use height for the bound of this object.
 
 |
+|
 
 [instance].point_count
 ----------------------
@@ -57,6 +64,7 @@ Use height for the bound of this object.
 Get or set the number of polygonal points loaded into this object. This
 is stored as an unsigned integer.
 
+|
 |
 
 [instance].get_point(point_index)
@@ -92,6 +100,7 @@ great power to move things about, as you can modify coordinates
 either at point, object or layer level, and everything below will
 adjust accordingly.
 
+|
 |
 
 [instance].set_point(point_index, x, y)

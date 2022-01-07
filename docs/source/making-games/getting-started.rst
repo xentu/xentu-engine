@@ -25,6 +25,7 @@ in the documents folder. Keeping your files tidy, will make sure you don't run i
 problems later down the road when you try to share your game with others.
 
 |
+|
 
 The ``config.toml`` file
 ------------------------
@@ -98,6 +99,7 @@ Setting the mode decides where to place the viewport. The valid values are 0 for
 normal (top left), 1 to place the viewport in the centre of the screen, or 2 to
 stretch the viewport to all 4 corners.
 
+|
 |
 
 The ``game.lua`` file

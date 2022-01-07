@@ -7,6 +7,7 @@ part of a texture onto the screen. All you need to get started is a loaded textu
 and an idea of where you want to draw it.
 
 |
+|
 
 Sprite(texture, x, y, width, height)
 ------------------------------------
@@ -30,6 +31,7 @@ Then in your render event you could draw it like this:
 	end)
 
 |
+|
 
 [instance].spritemap
 --------------------
@@ -41,21 +43,27 @@ loaded spritemap:
 
 	ball_sprite.spritemap = assets.load_spritemap('ball_sprites.json')
 
+For more information, see :ref:`The SpriteMap class`.
+
+|
 |
 
 [instance].region
 -----------------
 
-Along with the spritemap property, you can also choose which sprite on the spritemap
-to use by providing a region name. By default this is set to 'full', however you can
-change it:
+Along with the spritemap property, you can also choose which region on the spritemap
+to use by providing a region name. By default this is set to 'full', which is a
+reserved region name which means the whole texture is used. However you can
+change it like so:
 
 .. code-block:: lua
 
 	ball_sprite.region = "walk1"
 
 This can be really useful for providing some basic animation for your game sprites.
+For more information, see :ref:`The SpriteMap class`.
 
+|
 |
 
 [instance].x
@@ -68,6 +76,7 @@ The x property can be modified to move the sprite on the x-axis like so:
 	ball_sprite.x = ball_sprite.x + 10
 
 |
+|
 
 [instance].y
 ------------
@@ -79,6 +88,7 @@ The y property can be modified to move the sprite on the y-axis like so:
 	ball_sprite.y = ball_sprite.y + 10
 
 |
+|
 
 [instance].width
 ----------------
@@ -89,6 +99,7 @@ The width property can be modified to change the width of the drawn sprite:
     
 	ball_sprite.width = 200
 
+|
 |
 
 [instance].height

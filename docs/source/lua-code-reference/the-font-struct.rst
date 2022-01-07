@@ -6,6 +6,8 @@ The font struct wraps information to pass to the renderer when drawing text. It
 includes useful things like which loaded sprite font to use, letter/line spacing
 etc...
 
+|
+|
 
 Font(texture, spritemap)
 ------------------------
@@ -19,6 +21,7 @@ here is an example of how you'd load those then use this constructor:
 	spritemap = assets.load_spritemap("arial_20.json")
     font = Font(texture, spritemap)
 
+|
 |
 
 [instance].letter_spacing
@@ -34,6 +37,7 @@ be set like so:
 Letter spacing determines how many pixels are placed on the x-axis between each
 text character.
 
+|
 |
 
 [instance].line_spacing

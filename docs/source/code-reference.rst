@@ -21,6 +21,7 @@ some text to the console you can use something like this:
     print('Hello From Lua!')
 
 |
+|
 
 Engine Keywords
 ===============
@@ -42,11 +43,28 @@ The following sections are in order of importance:
     lua-code-reference/the-mouse-keyword
     lua-code-reference/the-viewport-keyword
     lua-code-reference/the-config-keyword
+
+|
+|
+
+Engine Classes And Structs
+==========================
+
+Xentu also has a number of complex data types. Classes are those types that live
+in the C++ world exposing features to your code, where as Structs are native and
+more lightweight Lua objects.
+
+.. toctree::
+    :titlesonly:
     
     lua-code-reference/the-color-struct
     lua-code-reference/the-font-struct
     lua-code-reference/the-scene-class
     lua-code-reference/the-sprite-struct
+    lua-code-reference/the-spritemap-class
     lua-code-reference/the-tilemap-class
     lua-code-reference/the-tilemaplayer-class
     lua-code-reference/the-tilemapobject-class
+
+|
+|

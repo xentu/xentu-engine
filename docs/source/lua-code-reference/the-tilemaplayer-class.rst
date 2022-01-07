@@ -13,7 +13,7 @@ custom properties to allow you to add any extra information you need to pass to
 the game.
 
 |
-
+|
 
 [instance].name
 ---------------
@@ -21,12 +21,14 @@ the game.
 Use this property to get or set the name of the layer.
 
 |
+|
  
 [instance].opacity
 ------------------
 
 Use this property to get or set the scalar opacity of the layer used for rendering.
 
+|
 |
  
 [instance].type
@@ -36,12 +38,14 @@ This read-only property gives you the purpose of the layer. Most common values a
 Group, Image, Object and Tile.
 
 |
+|
  
 [instance].visible
 ------------------
 
 Use this property to get or set weather the layer is visible when rendering.
 
+|
 |
  
 [instance].object_count
@@ -64,6 +68,7 @@ rendering. Note that this function returns 2 values, example:
 	offsetx, offsety = layer1.offset
 
 |
+|
  
 [instance].get_size()
 ---------------------
@@ -76,6 +81,7 @@ This function gives you the layer size in pixels (also returns 2 values).
 	width, height = layer1.size
 
 |
+|
 
 [instance].get_object(index)
 ----------------------------
@@ -85,7 +91,8 @@ need an index, it's reccommended that you read the object_count property first
 before calling this to make sure your index is within bounds.
 
 |
- 
+|
+
 [instance].get_property_as_string(name)
 ---------------------------------------
 
@@ -98,6 +105,7 @@ value returned if found will be a string.
 	print("prop1=" .. prop1)
 
 |
+|
  
 [instance].get_property_as_int(name)
 ------------------------------------
@@ -105,6 +113,7 @@ value returned if found will be a string.
 This method gets the value of a custom property based on the property name. The
 value returned if found will be an integer.
 
+|
 |
  
 [instance].get_property_as_float(name)

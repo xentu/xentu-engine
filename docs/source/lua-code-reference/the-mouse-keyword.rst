@@ -5,6 +5,7 @@ The mouse keyword
 A basic input component for reading signals from a plugged in mouse. 
 
 |
+|
 
 mouse.mouse_x
 -------------
@@ -13,6 +14,7 @@ This property tells you where the mouse cursor is on the X axis relative to the
 top left of the game window.
 
 |
+|
 
 mouse.mouse_y
 -------------
@@ -20,6 +22,7 @@ mouse.mouse_y
 This property tells you where the mouse cursor is on the Y axis relative to the
 top left of the game window.
 
+|
 |
 
 mouse.button_down(button_code)
