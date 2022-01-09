@@ -120,12 +120,15 @@ namespace xen
 
 	int AssetManager::lua_load_texture(lua_State* L)
 	{
-		if (lua_gettop(L) != 3) {
-			return luaL_error(L, "expecting exactly 3 arguments");
+		const int arg_count = lua_gettop(L);
+
+		if (arg_count == 0 || arg_count > 3) {
+			return luaL_error(L, "expecting 1,2 or 3 arguments only");
 		}
-		const std::string filename = lua_tostring(L, -3);
-		const unsigned int format = lua_tointeger(L, -2);
-		const unsigned int wrap = lua_tointeger(L, -1);
+
+		const std::string filename = lua_tostring(L, -arg_count);
+		const unsigned int format = arg_count < 3 ? 0 : lua_tointeger(L, -2);
+		const unsigned int wrap = arg_count < 3 ? 0 : lua_tointeger(L, -1);
 		const int id = this->load_texture(filename, format, wrap);
 		lua_pushinteger(L, id);
 		return 1;
@@ -154,11 +157,12 @@ namespace xen
 
 	int AssetManager::lua_load_spritemap(lua_State* L)
 	{
-		if (lua_gettop(L) != 2) {
+		const int arg_count = lua_gettop(L);
+		if (arg_count == 0 || arg_count > 2) {
 			return luaL_error(L, "expecting exactly 2 arguments");
 		}
-		const std::string filename = lua_tostring(L, -2);
-		const unsigned int format = lua_tointeger(L, -1);
+		const std::string filename = lua_tostring(L, -arg_count);
+		const unsigned int format = arg_count < 2 ? 0 : lua_tointeger(L, -1);
 		int id = this->load_spritemap(filename, format);
 		if (id == -1) return luaL_error(L, "Error invalid spritemap format.");
 		if (id == -2) return luaL_error(L, "Error file does not exist.");

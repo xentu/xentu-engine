@@ -58,25 +58,11 @@ on the 3rd of May 2020.
 
 <br />
 
-## Going Forward (as of December 15th)
+## Going Forward (as of January 9th 2022)
 
-The Windows installer now works, and the documentation has been completed to a
-point of basic competence. A lot of work has been done getting the infrastructure
-for the website up and running, and problems where the SDK environment path was 
-not being set has been rectified (if a bit patchy still).
-
-Here is a list of todos going forward:
-
-- Turn the things in this list into GitHub issues.
-- Finish the website, and set the repo as public.
-- The game singleton is called to retrieve the lua_State sometimes when it shouldn't.
-- Not enough validation is carried out when calling native methods via Lua.
-- Reduce the number of times the engine crashes out due to a basic error, things like loading assets.
-- Add a Math library for calculating transforms, this should simplify things.
-- It's currently not possible to send custom information to shaders.
-- Fix the SDK install routine where it sometimes adds too much to the path variable.
-- Create an icon for the SDK, and finish the basic help page.
-- Get a code signing certificate to add trust for the SDK download.
+Most if not all of the todo's mentioned in the previous going forward section have
+now been completed or organised. Final prep before the repo and website go public
+is now the focus, with aim for going live on the 31st Jan 2022!
 
 <br />
 

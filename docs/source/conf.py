@@ -64,7 +64,7 @@ html_css_files = [
 
 
 html_theme_options = {
-	"announcement": "<em>Important:</em> These docs are a work in progress, please check back when the main website goes live!",
+	#"announcement": "<em>Important:</em> These docs are a work in progress, please check back when the main website goes live!",
     "light_logo": "site-logo-dark.png",
     "light_css_variables": {
         "color-brand-primary": "#cc1247",

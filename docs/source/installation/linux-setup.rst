@@ -2,10 +2,6 @@
 Linux/FreeBSD Setup
 ===================
 
-.. raw:: html
-
-    <!--
-
 .. _linux-bsd-setup-apt:
 
 APT Package Manager
@@ -21,24 +17,8 @@ So do this by opening a terminal window, and enter following commands one by one
     echo "deb [arch=amd64] https://files.xentu.net/apt stable main" | sudo tee /etc/apt/sources.list.d/xentu.list
     sudo apt-get update
     sudo apt-get install xentu
-    
-.. _linux-bsd-setup-yum:
 
-YUM Package Manager
--------------------
-
-If you prefer or only have access to use the YUM Package Manager, enter the
-following commands one by one instead into your terminal:
-
-.. code-block:: shell
-
-    sudo yum-config-manager --add-repo https://files.xentu.net/yum/xentu.repo
-    sudo yum-config-manager --enable xentu
-    sudo yum install xentu
-
-.. raw:: html
-
-    -->
+|
 
 .. _linux-bsd-setup-troubleshooting:
 

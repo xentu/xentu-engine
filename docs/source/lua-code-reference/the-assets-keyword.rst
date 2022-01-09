@@ -90,10 +90,11 @@ assets.load_texture(texture_file, color_mode, wrap_mode)
 --------------------------------------------------------
 
 Use this method to load a texture. This method allows you to specify color mode,
-and a wrap mode. The file formats supported by this method are the same that are
-supported by the stb_image library (JPG, PNG, TGA, BMP, GIF, HDR). The result of
-this method is an integer indicating the texture_id that should be stored somewhere
-so that you can use it elsewhere. Here is an example of how to use the method:
+and a wrap mode (of which both arguments are optional). The file formats supported
+by this method are the same that are supported by the stb_image library (JPG, PNG,
+TGA, BMP, GIF, HDR). The result of this method is an integer indicating the
+texture_id that should be stored somewhere so that you can use it elsewhere. Here
+is an example of how to use the method:
 
 .. code-block:: lua
 
@@ -130,7 +131,7 @@ compatible formats. Here is how to use it:
 
 	spriteMap1 = assets.load_spritemap('texture1_sprites.json', SM_DEFAULT)
 
-Here is a list of format codes that you can use with this method:
+The second argument is optional and specifies the format. Here is a list of format codes that you can provide it:
 
 - **SM_DEFAULT** - The built in JSON format, created using a not yet released SpriteMap tool.
 - **SM_ASESPRITE** - Reads a spritemap from a JSON file genereated by the app Aseeprite.

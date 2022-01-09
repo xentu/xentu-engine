@@ -16,6 +16,8 @@ terminal of choice. The SDK allows you to do the following:
 Pick the operating system you are using below, and follow the instructions to
 get setup:
 
+|
+
 Pick Your OS
 ------------
 
@@ -23,6 +25,10 @@ Pick Your OS
     :titlesonly:
     
     installation/windows-setup
+    installation/linux-setup
+    installation/macos-setup
+
+|
 
 Already Installed?
 ------------------

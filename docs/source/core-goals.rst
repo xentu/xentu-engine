@@ -6,6 +6,7 @@ The way you create something is important, especially when you are creating it
 to share with others. The following core goals explain the direction of this
 project. And should act as rules & guidance on how the project should move forward.
 
+|
 
 1. Maintain A Responsible API
 -----------------------------
@@ -16,6 +17,7 @@ web browser, a games console, or a mobile phone, the Lua code you write must wor
 without modification. For this reason, all maintained official ports of the base
 engine must adhere to the API specification.
 
+|
 
 2. Remain Free
 --------------
@@ -25,6 +27,7 @@ that adds restrictions, then we must at earliest convenience replace that librar
 with another that fits this principle, and push for a release ideally before that
 new license comes into effect.
 
+|
 
 3. Be Accessible
 ----------------
@@ -42,6 +45,7 @@ to have the following:
 - Prepare and present talks at game dev events and game jams to introduce people
   and show them how they can use the engine.
 
+|
 
 4. Support Minimum Spec
 -----------------------

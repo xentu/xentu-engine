@@ -10,6 +10,8 @@ To run the SDK on MacOS you will need the Brew package manager. We reccommend
 using MacOS Mojave or later for the best compatibility. The SDK also works with
 Apple Silicon mac's too.
 
+|
+
 .. _macos-setup-brew:
 
 Brew Package Manager
@@ -29,6 +31,8 @@ Next run the following command to install the engine:
 .. code-block:: shell
 
     brew install xentu/xentu-engine-macos
+
+|
 
 .. _macos-setup-troubleshooting:
 

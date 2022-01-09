@@ -14,9 +14,9 @@ player = nil
 
 function init_player()
 	-- load character Turix
-	player_texture = assets.load_texture("assets/textures/player.png", TX_RGBA, TX_REPEAT)
+	player_texture = assets.load_texture("assets/textures/player.png")
 	player = Sprite(player_texture, 20, 20, 64, 64)
-	player.spritemap = assets.load_spritemap("assets/spritemaps/player.json", 0)
+	player.spritemap = assets.load_spritemap("assets/spritemaps/player.json")
 	player.ani_next = function()
 		-- increment the frame index
 		player.ani.frame = player.ani.frame + 1
