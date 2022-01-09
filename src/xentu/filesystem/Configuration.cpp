@@ -90,6 +90,9 @@ namespace xen
 
 	int Configuration::lua_get_string(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		const std::string key = lua_tostring(L, -1);
 		if (m_value.has(key) && m_value.find(key)->is<std::string>()) {
 			const std::string value = m_value.find(key)->as<std::string>();
@@ -102,6 +105,9 @@ namespace xen
 
 	int Configuration::lua_get_integer(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		const std::string key = lua_tostring(L, -1);
 		if (m_value.has(key) && m_value.find(key)->is<int>()) {
 			const int value = m_value.find(key)->as<int>();

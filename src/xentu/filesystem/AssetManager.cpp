@@ -254,6 +254,9 @@ namespace xen
 
 	int AssetManager::lua_load_shader(lua_State* L)
 	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
 		const std::string vertexShaderFile = localize_path( lua_tostring(L, -2) );
 		const std::string vertexShader = xen::Helper::read_text_file(vertexShaderFile);
 		const std::string fragmentShaderFile = localize_path( lua_tostring(L, -1) );
@@ -280,6 +283,9 @@ namespace xen
 
 	int AssetManager::lua_load_tilemap(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		// todo: this isn't tested.
 		const std::string filename = lua_tostring(L, -1);
 		TileMap* tilemap = load_tilemap(L, filename);

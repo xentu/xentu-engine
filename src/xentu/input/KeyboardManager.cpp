@@ -52,6 +52,9 @@ namespace xen
 
 	int KeyboardManager::lua_key_down(lua_State* L)
 	{	
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		int key_code = lua_tointeger(L, -1);
 		bool down = glfwGetKey(m_window, key_code) == GLFW_PRESS;
 		lua_pushboolean(L, down);

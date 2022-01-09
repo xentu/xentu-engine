@@ -364,6 +364,9 @@ namespace xen {
 
 	int TileMapLayer::lua_set_name(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		m_name = lua_tostring(L, -1);
 		return 0;
 	}
@@ -371,6 +374,9 @@ namespace xen {
 
 	int TileMapLayer::lua_set_opacity(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		m_opacity = lua_tonumber(L, -1);
 		return 0;
 	}
@@ -378,6 +384,9 @@ namespace xen {
 
 	int TileMapLayer::lua_set_visible(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		m_visible = lua_toboolean(L, -1);
 		return 0;
 	}

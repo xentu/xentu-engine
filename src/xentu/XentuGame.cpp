@@ -532,6 +532,9 @@ namespace xen
 
 	int XentuGame::lua_require(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		const std::string file = lua_tostring(L, -1);
 		const std::string full_path = this->base_path + '/' + file;
 		if (luaL_dofile(L, full_path.c_str()) == LUA_OK)
@@ -548,6 +551,9 @@ namespace xen
 
 	int XentuGame::lua_trigger(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		const std::string event = lua_tostring(L, -1);
 		this->trigger(L, event);
 		return 0;
@@ -555,6 +561,9 @@ namespace xen
 
 	int XentuGame::lua_trigger_with(lua_State* L)
 	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
 		const std::string event = lua_tostring(L, -2);
 		int functionRef = this->callbacks[event];
 		if (functionRef > 0)
@@ -589,6 +598,9 @@ namespace xen
 
 	int XentuGame::lua_set_scene(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		// deal with double reference evil >:)
 		XentuScene** scene = static_cast<XentuScene**>(lua_touserdata(L, -1));
 		XentuGame* game = XentuGame::get_instance(L);

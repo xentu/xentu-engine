@@ -341,6 +341,9 @@ namespace xen
 
 	int Renderer2D::lua_draw_sprite(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "Invalid Sprite instance passed in arguments");
+		}
 		// make sure the table is on the stack.
 		lua_pushnil(L);
 		// iterate the values to populate an LuaSprite struct.
@@ -376,6 +379,9 @@ namespace xen
 
 	int Renderer2D::lua_draw_rect(lua_State* L)
 	{
+		if (lua_gettop(L) != 4) {
+			return luaL_error(L, "expecting exactly 4 arguments");
+		}
 		const int x = lua_tonumber(L, -4);
 		const int y = lua_tonumber(L, -3);
 		const int width = lua_tonumber(L, -2);
@@ -407,6 +413,9 @@ namespace xen
 
 	int Renderer2D::lua_draw_text(lua_State* L)
 	{
+		if (lua_gettop(L) != 4) {
+			return luaL_error(L, "expecting exactly 4 arguments");
+		}
 		// read the other variables first.
 		const std::string text = lua_tostring(L, -4);
 		const float left = lua_tonumber(L, -3);
@@ -468,6 +477,9 @@ namespace xen
 
 	int Renderer2D::lua_draw_tilemap_layer(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		const XentuGame* game = XentuGame::get_instance(L);
 		TileMapLayer* layer = *static_cast<TileMapLayer**>(lua_touserdata(L, -1));
 		
@@ -634,6 +646,9 @@ namespace xen
 
 	int Renderer2D::lua_set_blend(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		const bool enable = lua_toboolean(L, -1);
 
 		if (enable) {
@@ -648,6 +663,9 @@ namespace xen
 
 	int Renderer2D::lua_set_blend_func(lua_State* L)
 	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
 		const int sfactor = lua_tonumber(L, -2);
 		const int dfactor = lua_tonumber(L, -1);
 		glBlendFunc(sfactor, dfactor);
@@ -656,6 +674,9 @@ namespace xen
 	
 	int Renderer2D::lua_set_clear_color(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		// push nil to get the table data to parse.
 		lua_pushnil(L);
 		const LuaColor f = parse_lua_color(L);
@@ -674,6 +695,9 @@ namespace xen
 
 	int Renderer2D::lua_set_origin(lua_State* L)
 	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
 		m_origin_x = lua_tonumber(L, -2);
 		m_origin_y = lua_tonumber(L, -1);
 		return 0;
@@ -681,6 +705,9 @@ namespace xen
 
 	int Renderer2D::lua_set_position(lua_State* L)
 	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
 		m_pos_x = lua_tonumber(L, -2);
 		m_pos_y = lua_tonumber(L, -1);
 		return 0;
@@ -688,12 +715,18 @@ namespace xen
 
 	int Renderer2D::lua_set_rotation(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		m_rotation = lua_tonumber(L, -1);
 		return 0;
 	}
 
 	int Renderer2D::lua_set_scale(lua_State* L)
 	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
 		m_scale_x = lua_tonumber(L, -2);
 		m_scale_y = lua_tonumber(L, -1);
 		return 0;
@@ -701,6 +734,9 @@ namespace xen
 
 	int Renderer2D::lua_set_shader(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		const XentuGame* game = XentuGame::get_instance(L);
 		int shader_id = lua_isinteger(L, -1) ? lua_tointeger(L, -1) : 0;
 		if (shader_id <= 0) {

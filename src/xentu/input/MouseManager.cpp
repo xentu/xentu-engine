@@ -47,6 +47,9 @@ namespace xen
 
     int MouseManager::lua_button_down(lua_State* L)
     {
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
         int button = lua_tointeger(L, -1);
 		int state = glfwGetMouseButton(m_window, button);
 		lua_pushboolean(L, state == GLFW_PRESS);

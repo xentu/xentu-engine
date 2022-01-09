@@ -105,6 +105,9 @@ namespace xen
 
 	int TileMapObject::lua_set_x(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		x = lua_tonumber(L, -1);
 		return 0;
 	}
@@ -112,6 +115,9 @@ namespace xen
 
 	int TileMapObject::lua_set_y(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		y = lua_tonumber(L, -1);
 		return 0;
 	}
@@ -119,6 +125,9 @@ namespace xen
 
 	int TileMapObject::lua_set_width(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		width = lua_tonumber(L, -1);
 		return 0;
 	}
@@ -126,6 +135,9 @@ namespace xen
 
 	int TileMapObject::lua_set_height(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		height = lua_tonumber(L, -1);
 		return 0;
 	}
@@ -133,6 +145,10 @@ namespace xen
 
 	int TileMapObject::lua_set_point_count(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
+
 		const unsigned int new_point_count = lua_tointeger(L, -1);
 
 		if (new_point_count > MAX_POLYGON_POINTS)
@@ -148,6 +164,10 @@ namespace xen
 
 	int TileMapObject::lua_set_point(lua_State* L)
 	{
+		if (lua_gettop(L) != 3) {
+			return luaL_error(L, "expecting exactly 3 arguments");
+		}
+
 		const int point_index = lua_tointeger(L, -3);
 		const float new_x = lua_tonumber(L, -2);
 		const float new_y = lua_tonumber(L, -1);

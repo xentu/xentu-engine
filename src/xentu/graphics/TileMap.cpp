@@ -71,6 +71,9 @@ namespace xen
 
 	int TileMap::lua_get_layer(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		const int layer_index = lua_tointeger(L, -1);
 		const int max_index = m_layers_count - 1;
 

@@ -158,6 +158,9 @@ namespace xen
 
 	int AudioPlayer::lua_is_playing(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		const int id = lua_tointeger(L, -1);
 		const xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
 		const bool playing = is_playing(sound);
@@ -168,6 +171,9 @@ namespace xen
 
 	int AudioPlayer::lua_play(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		const int id = lua_tointeger(L, -1);
 		xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
 		play(sound);
@@ -176,6 +182,9 @@ namespace xen
 
 
 	int AudioPlayer::lua_set_volume(lua_State* L) {
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
 		const float volume = lua_tonumber(L, -1);
 		const int id = lua_tointeger(L, -2);
 		if (id > 0) {
@@ -193,6 +202,9 @@ namespace xen
 
 	int AudioPlayer::lua_stop(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		const int id = lua_tointeger(L, -1);
 		const xen::Sound* sound = XentuGame::get_instance(L)->assets->get_audio(id);
 		stop(sound);
