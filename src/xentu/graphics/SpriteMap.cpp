@@ -35,11 +35,13 @@ namespace xen
 		for (auto& el : j.items()) {
 			auto en = el.value();
 			if (en.contains("x") && en.contains("y") && en.contains("width") && en.contains("height")) {
-				float x = en["x"];
-				float y = en["y"];
-				float w = en["width"];
-				float h = en["height"];
-				result->add_region(el.key(), new Rect(x, y, w, h));
+				const float w = en["width"];
+				const float h = en["height"];
+				const float x = en["x"];
+				const float raw_y = en["y"];
+				const float y = 1.0f - raw_y - h;
+				const auto reg = el.key();
+				result->add_region(reg, new Rect(x, y, w, h));
 			}
 			else {
 				Advisor::logInfo("Ignored SpriteMap entry: ", el.key(), " : ", el.value());

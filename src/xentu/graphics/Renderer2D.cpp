@@ -361,7 +361,9 @@ namespace xen
 		const SpriteMap* sprite_map = game->assets->get_spritemap(s.spritemap);
 		if (sprite_map != NULL) {
 			const Rect* r = sprite_map->get_region(s.region);
-			m_sprite.m_rect = *r;
+			if (r != NULL) {
+				m_sprite.m_rect = *r;
+			}
 		}
 
 		if (m_sprite.m_texture == NULL)

@@ -120,6 +120,9 @@ namespace xen
 
 	int AssetManager::lua_load_texture(lua_State* L)
 	{
+		if (lua_gettop(L) != 3) {
+			return luaL_error(L, "expecting exactly 3 arguments");
+		}
 		const std::string filename = lua_tostring(L, -3);
 		const unsigned int format = lua_tointeger(L, -2);
 		const unsigned int wrap = lua_tointeger(L, -1);
@@ -132,6 +135,10 @@ namespace xen
 	int AssetManager::load_spritemap(std::string filename_relative, const unsigned int format)
 	{
 		const std::string filename = localize_path(filename_relative);
+
+		if (!xen::Helper::file_exists(filename)) {
+			return -2;
+		}
 
 		if (format == 0) {
 			spritemaps_iter++;
@@ -147,9 +154,14 @@ namespace xen
 
 	int AssetManager::lua_load_spritemap(lua_State* L)
 	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
 		const std::string filename = lua_tostring(L, -2);
 		const unsigned int format = lua_tointeger(L, -1);
 		int id = this->load_spritemap(filename, format);
+		if (id == -1) return luaL_error(L, "Error invalid spritemap format.");
+		if (id == -2) return luaL_error(L, "Error file does not exist.");
 		lua_pushinteger(L, id);
 		return 1;
 	}
@@ -201,6 +213,9 @@ namespace xen
 
 	int AssetManager::lua_load_audio(lua_State* L)
 	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
 		const std::string filename = lua_tostring(L, -1);
 		const int id = this->load_audio(filename);
 		if (id >= 0) {
