@@ -14,7 +14,9 @@
 namespace xen {
 	
 	TileMapLayer::TileMapLayer(lua_State* L)
-		: m_layer(nullptr),
+	    : m_size(tmx::Vector2u(0, 0)),
+		  m_offset(tmx::Vector2i(0, 0)),
+		  m_type(tmx::Layer::Type::Object),
 		  m_tile_count(0),
 		  m_object_count(0),
 		  m_objects{},
@@ -27,7 +29,9 @@ namespace xen {
 
 
 	TileMapLayer::TileMapLayer(lua_State* L, tmx::Map& map, const tmx::Layer::Ptr& layer) 
-		: m_layer(layer),
+		: m_size(layer->getSize()),
+		  m_offset(layer->getOffset()),
+		  m_type(layer->getType()),
 		  m_tile_count(0),
 		  m_object_count(0),
 		  m_objects{},
@@ -110,7 +114,7 @@ namespace xen {
 		}
 		else if (type == tmx::Layer::Type::Tile)
 		{
-			const auto& tiles = this->get_tiles();
+			const auto& tiles = this->get_tiles(layer);
 			
 			unsigned int idx = 0;
 
@@ -196,15 +200,9 @@ namespace xen {
 	}
 
 
-	const tmx::Layer::Ptr& TileMapLayer::get_layer() const
-	{
-		return m_layer;
-	}
-
-
 	const tmx::Vector2u TileMapLayer::get_size() const
 	{
-		return m_layer->getSize();
+		return m_size;
 	}
 
 
@@ -215,16 +213,8 @@ namespace xen {
 
 
 	int TileMapLayer::lua_get_offset(lua_State* L) {
-		if (m_layer == nullptr) {
-			const auto vec2 = m_layer->getOffset();
-			lua_pushinteger(L, 0);
-			lua_pushinteger(L, 0);
-		}
-		else {
-			const auto vec2 = &m_layer->getOffset();
-			lua_pushinteger(L, vec2->x);
-			lua_pushinteger(L, vec2->y);
-		}
+		lua_pushinteger(L, m_offset.x);
+		lua_pushinteger(L, m_offset.y);
 		return 2;
 	}
 
@@ -236,43 +226,30 @@ namespace xen {
 
 
 	int TileMapLayer::lua_get_size(lua_State* L) {
-		if (m_layer == nullptr) {
-			const auto vec2 = m_layer->getSize();
-			lua_pushnumber(L, 0.0f);
-			lua_pushnumber(L, 0.0f);
-		}
-		else {
-			const auto vec2 = m_layer->getSize();
-			lua_pushnumber(L, vec2.x);
-			lua_pushnumber(L, vec2.y);
-		}
+		lua_pushnumber(L, m_size.x);
+		lua_pushnumber(L, m_size.y);
 		return 2;
 	}
 
 
 	int TileMapLayer::lua_get_type(lua_State* L) {
-		if (m_layer == nullptr) {
-			lua_pushstring(L, "");
-		}
-		else {
-			switch (m_layer->getType())
-			{
-				case tmx::Layer::Type::Group:
-					lua_pushstring(L, "Group");
-					break;
-				case tmx::Layer::Type::Image:
-					lua_pushstring(L, "Image");
-					break;
-				case tmx::Layer::Type::Object:
-					lua_pushstring(L, "Object");
-					break;
-				case tmx::Layer::Type::Tile:
-					lua_pushstring(L, "Tile");
-					break;
-				default:
-					lua_pushstring(L, "Unknown");
-					break;
-			}
+		switch (m_type)
+		{
+			case tmx::Layer::Type::Group:
+				lua_pushstring(L, "Group");
+				break;
+			case tmx::Layer::Type::Image:
+				lua_pushstring(L, "Image");
+				break;
+			case tmx::Layer::Type::Object:
+				lua_pushstring(L, "Object");
+				break;
+			case tmx::Layer::Type::Tile:
+				lua_pushstring(L, "Tile");
+				break;
+			default:
+				lua_pushstring(L, "Unknown");
+				break;
 		}
 		return 1;
 	}
@@ -311,7 +288,7 @@ namespace xen {
 	int TileMapLayer::lua_get_property_as_string(lua_State* L)
 	{
 		const std::string s = lua_tostring(L, -1);
-		if (s.length() > 0) {
+		/*if (s.length() > 0) {
 			const auto v = m_layer->getProperties();
 			const auto it = find_if(v.begin(), v.end(), [&s](const tmx::Property& obj) {return obj.getName() == s;});
 			if (it != v.end())
@@ -321,7 +298,7 @@ namespace xen {
 				return 1;
 			}
 		}
-		
+		*/
 		return 0;
 	}
 
@@ -329,7 +306,7 @@ namespace xen {
 	int TileMapLayer::lua_get_property_as_int(lua_State* L)
 	{
 		const std::string s = lua_tostring(L, -1);
-		if (s.length() > 0) {
+		/* if (s.length() > 0) {
 			const auto v = m_layer->getProperties();
 			const auto it = find_if(v.begin(), v.end(), [&s](const tmx::Property& obj) {return obj.getName() == s;});
 			if (it != v.end())
@@ -338,7 +315,7 @@ namespace xen {
 				lua_pushinteger(L, value);
 				return 1;
 			}
-		}
+		} */
 		
 		return 0;
 	}
@@ -347,7 +324,7 @@ namespace xen {
 	int TileMapLayer::lua_get_property_as_float(lua_State* L)
 	{
 		const std::string s = lua_tostring(L, -1);
-		if (s.length() > 0) {
+		/* if (s.length() > 0) {
 			const auto v = m_layer->getProperties();
 			const auto it = find_if(v.begin(), v.end(), [&s](const tmx::Property& obj) {return obj.getName() == s;});
 			if (it != v.end())
@@ -356,7 +333,7 @@ namespace xen {
 				lua_pushnumber(L, value);
 				return 1;
 			}
-		}
+		} */
 		
 		return 0;
 	}
@@ -392,9 +369,9 @@ namespace xen {
 	}
 
 
-	std::vector<tmx::TileLayer::Tile> TileMapLayer::get_tiles() const
+	std::vector<tmx::TileLayer::Tile> TileMapLayer::get_tiles(const tmx::Layer::Ptr& layer) const
 	{
-		tmx::TileLayer& tile_layer = m_layer->getLayerAs<tmx::TileLayer>();
+		tmx::TileLayer& tile_layer = layer->getLayerAs<tmx::TileLayer>();
 		return tile_layer.getTiles();
 	}
 

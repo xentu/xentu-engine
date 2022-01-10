@@ -70,7 +70,7 @@ struct Res ${Name}(void) {
 					\"${Section}\\n\"
 					\".align ${CMAKE_SIZEOF_VOID_P}\\n\"
 					\"${DataWord}: .incbin \\\"${InputAbs}\\\"\\n\"
-					\"{EndDataWord}:\\n\"
+					\"${EndEndWord}:\\n\"
 					\".previous\"
 				)\;
 				extern const char data[]\;

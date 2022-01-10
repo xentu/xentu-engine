@@ -21,8 +21,8 @@
 
 #if defined(__APPLE__)
 #define GLFW_INCLUDE_NONE
-#include "Advisor.h"
 #endif
+#include "Advisor.h"
 
 
 namespace xen

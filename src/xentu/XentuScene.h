@@ -1,6 +1,7 @@
 #ifndef XEN_SCENE_HPP
 #define XEN_SCENE_HPP
 
+#include <string>
 #include <unordered_map>
 #include <luna/luna.hpp>
 

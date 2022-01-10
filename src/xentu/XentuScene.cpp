@@ -1,6 +1,8 @@
 #ifndef XEN_SCENE_CPP
 #define XEN_SCENE_CPP
 
+#include <string>
+
 #include "XentuScene.h"
 
 

@@ -25,9 +25,8 @@ namespace xen
 		TileMapLayer(lua_State* L, tmx::Map& map, const tmx::Layer::Ptr& layer);
 		~TileMapLayer(void);
 
-		const tmx::Layer::Ptr& get_layer() const;
 		const tmx::Vector2u get_size() const;
-		std::vector<tmx::TileLayer::Tile> get_tiles() const;
+		std::vector<tmx::TileLayer::Tile> get_tiles(const tmx::Layer::Ptr& layer) const;
 		const int get_texture_id() const;
 		const int get_object_count() const;
 		const TileMapObject* get_object(const int object_index);
@@ -63,7 +62,11 @@ namespace xen
 		Tile *m_tiles[MAX_OBJECTS_OR_TILES];
 		int m_tile_count;
 	private:
-		const tmx::Layer::Ptr& m_layer;
+		// properties from the old m_layer
+		tmx::Vector2u m_size;
+		tmx::Vector2i m_offset;
+		tmx::Layer::Type m_type;
+
 
 		// object info.
 		TileMapObject *m_objects[MAX_OBJECTS_OR_TILES];
