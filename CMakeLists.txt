@@ -1,7 +1,15 @@
 # Copyright (C) 2021 Kodaloid Soft
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
-project(xentu VERSION 0.0.1)
 
+# read the version.
+file(STRINGS "./version.txt" version_str)
+string(REPLACE "." ";" VERSION_LIST ${version_str})
+list(GET VERSION_LIST 0 MY_PRODUCT_NUMBER)
+list(GET VERSION_LIST 1 MY_PRODUCT_VERSION)
+list(GET VERSION_LIST 2 MY_BUILD_NUMBER)
+
+# xentu project def
+project(xentu VERSION ${version_str})
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if (WIN32)
@@ -9,10 +17,7 @@ if (WIN32)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static")
 endif()
 
-# Setup version info.
-set(MY_PRODUCT_NUMBER 0)
-set(MY_PRODUCT_VERSION 0)
-set(MY_BUILD_NUMBER 1)
+# Setup version product info.
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/xentu/version.rc.in
   ${CMAKE_CURRENT_BINARY_DIR}/version.rc
@@ -199,7 +204,7 @@ target_include_directories(xentu PUBLIC
 )
 
 #set_target_properties(xentu PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32") -- forces 32 bit
-target_compile_definitions(xentu PRIVATE XEN_ENGINE_VERSION="${CMAKE_PROJECT_VERSION}")
+target_compile_definitions(xentu PRIVATE XEN_ENGINE_VERSION="${version_str}")
 
 # Define the link libraries
 target_link_libraries(xentu PRIVATE ${XEN_LIBS})
@@ -209,7 +214,7 @@ target_link_libraries(xentu PRIVATE ${XEN_LIBS})
 
 
 # Define the sdk executable
-project(xentusdk VERSION 0.0.1)
+project(xentusdk VERSION ${version_str})
 
 # source files for sdk
 set(XEN_SDK_FILES
@@ -222,7 +227,7 @@ add_executable(xentusdk ${XEN_SDK_FILES})
 target_include_directories(xentusdk PUBLIC
 	"${CMAKE_SOURCE_DIR}/src/xentusdk/libraries"
 )
-target_compile_definitions(xentusdk PRIVATE XEN_SDK_VERSION="${CMAKE_PROJECT_VERSION}")
+target_compile_definitions(xentusdk PRIVATE XEN_SDK_VERSION="${version_str}")
 
 
 

@@ -46,6 +46,17 @@ string get_sdk_path()
 	GetModuleFileNameA(NULL, buffer, MAX_PATH);
 	string::size_type pos = string(buffer).find_last_of("\\/");
 	return string(buffer).substr(0, pos);
+#elif __linux__
+    #ifdef _DEBUG_
+        char arg1[20];
+        char buffer[PATH_MAX + 1] = {0};
+        sprintf( arg1, "/proc/%d/exe", getpid() );
+        readlink( arg1, buffer, 1024 );
+        string::size_type pos = string(buffer).find_last_of("\\/");
+        return string(buffer).substr(0, pos);
+    #else
+        return "/usr/share/xentusdk";
+    #endif
 #else
     char arg1[20];
     char buffer[PATH_MAX + 1] = {0};
