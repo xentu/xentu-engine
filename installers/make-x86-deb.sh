@@ -34,7 +34,7 @@ echo -e "Package: xentusdk
 Version: $XEN_VERSION
 Architecture: $XEN_ARCH
 Maintainer: Kodaloid<kodaloid@xentu.net>
-Depends: wget
+Depends: wget, libopengl0,libglew2.1,libglfw3,liblua5.3-0
 Homepage: https://xentu.net
 Description: A slim, fast and easy to learn framework for creating 2D games scripted in Lua.
 " >> $XEN_PATH/DEBIAN/control

@@ -207,6 +207,10 @@ namespace xen
 		window = glfwCreateWindow(config->m_screen_width, config->m_screen_height, config->m_game_title.c_str(), NULL, NULL);
 		if (!window)
 		{
+			const char* e_description;
+			int e_code = glfwGetError(&e_description);
+			std::cout << "- glfw error: " << std::to_string(e_code) << " : " << e_description << std::endl;
+
 			glfwTerminate();
 			// export MESA_GL_VERSION_OVERRIDE=3.3
 			Advisor::throwError("Failed to create game window.");
