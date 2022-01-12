@@ -379,7 +379,7 @@ namespace xen
 
 	int Renderer2D::lua_draw_rect(lua_State* L)
 	{
-		if (lua_gettop(L) != 4) {
+		if (lua_gettop(L) != 5) {
 			return luaL_error(L, "expecting exactly 4 arguments");
 		}
 		const int x = lua_tonumber(L, -4);
@@ -413,7 +413,7 @@ namespace xen
 
 	int Renderer2D::lua_draw_text(lua_State* L)
 	{
-		if (lua_gettop(L) != 4) {
+		if (lua_gettop(L) != 5) {
 			return luaL_error(L, "expecting exactly 4 arguments");
 		}
 		// read the other variables first.
