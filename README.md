@@ -10,7 +10,7 @@ open-source libraries, written in C/C++, and very cross-platform friendly.
 
 ## Engine Features
 
-- Works on OpenGL 4.1+ (and ES 3.0+).
+- Works on OpenGL 3.3+ (and ES 3.0+).
 - Game code is written in Lua, no need to recompile every time.
 - Structure using very fast emitter/subscriber events.
 - Organise with the scene system (switch instantly between game parts).
