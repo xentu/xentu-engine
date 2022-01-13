@@ -48,3 +48,6 @@ CMakeCache.txt
 *.svclog
 *.scc
 *.zip
+
+
+.DS_Store

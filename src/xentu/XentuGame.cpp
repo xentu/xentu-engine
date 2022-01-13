@@ -118,13 +118,18 @@ namespace xen
 			Advisor::throwError("Failed to link shader.");
 		}
 
+		// TODO: glBindVertexArray(VAO); should be done before validation to avoid a warning on the next part.
+
 		int valid;
 		glValidateProgram(program);
 		glGetProgramiv(program, GL_VALIDATE_STATUS, &valid);
 		if (valid != GL_TRUE) {
-			Advisor::throwError("Failed to validate linked shader.");
+			GLint length;
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
+			std::vector<char> error(length);
+			glGetProgramInfoLog(program, length, &length, &error[0]);
+			Advisor::throwError(&error[0]);
 		}
-
 
 		glDeleteShader(vs);
 		glDeleteShader(fs);
@@ -187,9 +192,9 @@ namespace xen
 			return -1;
 
 		#ifdef __APPLE__
-			/* We need to explicitly ask for a 3.2 context on OS X */
-			glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 4);
-			glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 1);
+			/* We need to explicitly ask for a 3.3 context on OS X */
+			glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
+			glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 3);
 			glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 			glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		#else
