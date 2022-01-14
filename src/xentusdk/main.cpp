@@ -28,7 +28,17 @@ map<string, string> parsed_args;
 
 int do_help()
 {
-    cout << "TODO: Help page goes here." << endl;
+    cout << "This is the SDK command line interface for the Xentu game engine." << endl;
+    cout << "Visit https://xentu.net for more information." << endl;
+    cout << "" << endl;
+    cout << "  xentusdk [command] --params1 --param2... \"path to file\"" << endl;
+    cout << "" << endl;
+    cout << "  help     Displays this screen." << endl;
+    cout << "  new      Create a new game in the current path (make sure its empty first!)." << endl;
+    cout << "  play     Launch the Xentu engine and begin the game in the current directory." << endl;
+    cout << "  path     See the current path, and the path where the SDK is located." << endl;
+    cout << "  clone    Clone files from a zip file within the sdk/demos folder.." << endl;
+    cout << "  install  Windows Only, appends the SDK location to system PATH" << endl << endl;
     return 0;
 }
 
@@ -111,7 +121,7 @@ int do_clone_game(string template_name) {
     cout << "Destination: " << m_base << endl;
     unzip_template(file, m_base);
 
-    cout << "Game prepared. Type \"xentusdk play\" to startup your game!" << endl;
+    cout << "Files prepared. Type \"xentusdk play\" to startup your game!" << endl;
     return 0;
 }
 
@@ -125,31 +135,33 @@ int do_play_game()
 
 int do_install()
 {
-    cout << "Installing..." << endl;
     #if defined(WIN32) || defined(_WIN32) 
+        cout << "Installing..." << endl;
 
-    const string env_p = get_perm_env_variable("PATH");
-    if (env_p.length() == 0) {
-        cout << "Failed to read environment path variable." << endl;
-        return 0;
-    }
-    const string env_p2 = (string)env_p + ";" + get_sdk_path();
-    set_perm_env_variable("PATH", env_p2.c_str());
-    cout << "Environment path set." << endl;
+        const string env_p = get_perm_env_variable("PATH");
+        if (env_p.length() == 0) {
+            cout << "Failed to read environment path variable." << endl;
+            return 0;
+        }
+        const string env_p2 = (string)env_p + ";" + get_sdk_path();
+        set_perm_env_variable("PATH", env_p2.c_str());
+        cout << "Environment path set." << endl;
     #else
-        cout << "Skipped env set, not on windows." << endl;
+        cout << "Skipped task, there is no need to run this." << endl;
     #endif
     return 0;
 }
 
 
 int main(int arg_count, char* args[]) {
-    cout << rang::fg::reset << "Xentu Game Engine SDK v" << XEN_SDK_VERSION << rang::fg::reset << endl;
+    cout << rang::fg::reset << "\xc9\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xbb" << endl;
+    cout << rang::fg::reset << "\xba Xentu Game Engine - SDK v" << XEN_SDK_VERSION << "   \xba" << endl;
+    cout << rang::fg::reset << "\xc8\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xbc" << endl;
 
     // if no args other than executed path are passed, let the user know how to find more information.
     if (arg_count == 1)
     {
-        cout << rang::fg::red << "Please run xentusdk help for more information." << rang::fg::reset << endl;
+        cout << rang::fg::red << "Please run \"xentusdk help\" for more information." << rang::fg::reset << endl;
         return 0;
     }
 

@@ -2,6 +2,11 @@
 #define APPLICATION_HPP
 #endif
 
+#if _MSC_VER
+// this stops the console window loading when launched in windows.
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#endif
+
 #define LUA_OK 0
 
 #include <iostream>
