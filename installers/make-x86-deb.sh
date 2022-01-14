@@ -6,9 +6,10 @@ echo "---------------------------------"
 
 
 # Setup some constants.
+INST_PATH="$PWD"
 XEN_VERSION=`cat ../version.txt`
 XEN_ARCH="all"
-XEN_BASE="../out/deb"
+XEN_BASE="${INST_PATH}/../out/deb"
 XEN_PATH="${XEN_BASE}/xentusdk_${XEN_VERSION}_${XEN_ARCH}"
 
 
@@ -20,13 +21,21 @@ sudo rm -rf $XEN_BASE
 echo "Making directory structure..."
 mkdir -p $XEN_PATH/DEBIAN
 mkdir -p $XEN_PATH/usr/bin
-mkdir -p $XEN_PATH/usr/share/xentusdk
+mkdir -p $XEN_PATH/usr/share/xentusdk/templates
 
 
 # Copy the engine files into the directories
 cp ../out/build/gcc/xentu $XEN_PATH/usr/bin
 cp ../out/build/gcc/xentusdk $XEN_PATH/usr/bin
 cp ../data/logo.png $XEN_PATH/usr/share/xentusdk
+
+
+# Copy the examples into the build directory
+cd "$INST_PATH/../data/examples/platformer/"; pwd; zip -r $XEN_PATH/usr/share/xentusdk/templates/platformer.zip *
+cd "$INST_PATH/../data/examples/pong/"; pwd; zip -r $XEN_PATH/usr/share/xentusdk/templates/pong.zip *
+cd "$INST_PATH/../data/examples/space-hopper/"; pwd; zip -r $XEN_PATH/usr/share/xentusdk/templates/space-hopper.zip *
+cd "$INST_PATH/../data/examples/top-down/"; pwd; zip -r $XEN_PATH/usr/share/xentusdk/templates/top-down.zip *
+cd "$INST_PATH"
 
 
 # Create the control file.
