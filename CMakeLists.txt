@@ -3,13 +3,14 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 # read the version.
 file(STRINGS "./version.txt" version_str)
+string(REPLACE "-alpha" "" version_str_noalpha ${version_str})
 string(REPLACE "." ";" VERSION_LIST ${version_str})
 list(GET VERSION_LIST 0 MY_PRODUCT_NUMBER)
 list(GET VERSION_LIST 1 MY_PRODUCT_VERSION)
 list(GET VERSION_LIST 2 MY_BUILD_NUMBER)
 
 # xentu project def
-project(xentu VERSION ${version_str})
+project(xentu VERSION ${version_str_noalpha})
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if (WIN32)
@@ -214,7 +215,7 @@ target_link_libraries(xentu PRIVATE ${XEN_LIBS})
 
 
 # Define the sdk executable
-project(xentusdk VERSION ${version_str})
+project(xentusdk VERSION ${version_str_noalpha})
 
 # source files for sdk
 set(XEN_SDK_FILES

@@ -46,7 +46,7 @@ int do_help()
 int do_path()
 {
     cout << "Current path is: " << get_console_path() << endl;
-    cout << "SDK path is: " << get_sdk_path() << endl;
+    cout << "SDK path is: " << get_sdk_path() << endl << endl;
     return 0;
 }
 
@@ -97,21 +97,21 @@ int do_new_game()
     string image_to = m_base + PATH_SEPARATOR + "logo.png";
     copy_file(image_from.c_str(), image_to.c_str());
 
-    cout << "Game prepared. Type \"xentusdk play\" to startup your game!" << endl;
+    cout << "Game prepared. Type \"xentusdk play\" to startup your game!" << endl << endl;
     return 0;
 }
 
 
 int do_clone_game(string template_name) {
     if (template_name.length() == 0) {
-        cout << rang::fg::red << "Error, please provide a valid template name!" << endl;
+        cout << rang::fg::red << "Error, please provide a valid template name!" << endl << endl;
         return -1;
     }
 
     string file = get_sdk_path() + PATH_SEPARATOR + "templates" + PATH_SEPARATOR + template_name + ".zip";
 
     if (!file_exists(file)) {
-        cout << rang::fg::red << "Error, cant load template named " << file << "!" << endl;
+        cout << rang::fg::red << "Error, cant load template named " << file << "!" << endl << endl;
         return -2;
     }
 
@@ -121,7 +121,7 @@ int do_clone_game(string template_name) {
     cout << "Destination: " << m_base << endl;
     unzip_template(file, m_base);
 
-    cout << "Files prepared. Type \"xentusdk play\" to startup your game!" << endl;
+    cout << "Files prepared. Type \"xentusdk play\" to startup your game!" << endl << endl;
     return 0;
 }
 
@@ -145,18 +145,18 @@ int do_install()
         }
         const string env_p2 = (string)env_p + ";" + get_sdk_path();
         set_perm_env_variable("PATH", env_p2.c_str());
-        cout << "Environment path set." << endl;
+        cout << "Environment path set." << endl << endl;
     #else
-        cout << "Skipped task, there is no need to run this." << endl;
+        cout << "Skipped task, there is no need to run this." << endl << endl;
     #endif
     return 0;
 }
 
 
 int main(int arg_count, char* args[]) {
-    cout << rang::fg::reset << "\xc9\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xbb" << endl;
-    cout << rang::fg::reset << "\xba Xentu Game Engine - SDK v" << XEN_SDK_VERSION << "   \xba" << endl;
-    cout << rang::fg::reset << "\xc8\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xbc" << endl;
+    cout << endl << rang::fg::reset << "#########################################" << endl;
+    cout << rang::fg::reset << "#" << rang::fg::yellow << " Xentu Game Engine" << rang::fg::yellow << " - SDK v" << XEN_SDK_VERSION << rang::fg::reset << endl;
+    cout << rang::fg::reset << "#########################################" << rang::fg::reset << endl << endl;
 
     // if no args other than executed path are passed, let the user know how to find more information.
     if (arg_count == 1)
@@ -199,6 +199,6 @@ int main(int arg_count, char* args[]) {
     if (command_arg == "version") return 0;
     
     // default output.
-    cout << rang::fg::yellow << "Error unrecognised command '" << command_arg << "'." << rang::fg::reset << endl;
+    cout << rang::fg::yellow << "Error unrecognised command '" << command_arg << "'." << rang::fg::reset << endl << endl;
     return 0;
 }
