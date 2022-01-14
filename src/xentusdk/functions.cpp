@@ -211,8 +211,11 @@ bool file_exists(const std::string& file) {
 int unzip_template(const std::string zipFile, const std::string dst_folder)
 {
     #if defined(WIN32) || defined(_WIN32)
-    int res = extract_zip_archive(zipFile.c_str(), dst_folder.c_str(), false);
-    std::cout << "Extract Code: " << res << std::endl;
+        int res = extract_zip_archive(zipFile.c_str(), dst_folder.c_str(), false);
+        std::cout << "Extract Code: " << res << std::endl;
+    #else
+        string l_command = "unzip " + zipFile + " -d " + dst_folder;
+        system(l_command.c_str());
     #endif
     
     return 0;
