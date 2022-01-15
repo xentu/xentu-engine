@@ -169,6 +169,11 @@ namespace xen {
 		int lua_debug_stack(lua_State* L);
 
 		/// <summary>
+		/// Get the current game path.
+		/// </summary>
+		int lua_get_path(lua_State* L);
+
+		/// <summary>
 		/// Called when Lua wishes to close.
 		/// </summary>
 		int lua_exit(lua_State* L);

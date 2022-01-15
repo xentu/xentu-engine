@@ -2,12 +2,18 @@
 #define XEN_GAME_CPP
 
 #include <iostream>
+#include <filesystem>
 #include <string>
 
 #include <luna/luna.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "XentuGame.h"
+
+
+extern "C" {
+#include "realpath.h"
+}
 
 
 // Specify a macro for storing information about a class and method name, this needs to go above any class that will be exposed to lua
@@ -361,7 +367,9 @@ namespace xen
 
 	void XentuGame::set_base_path(std::string base_path)
 	{
-		this->base_path = base_path;
+		char resolved_path[512]; 
+        realpath(base_path.c_str(), resolved_path);
+		this->base_path = resolved_path; // std::string( p );
 	}
 
 	std::string XentuGame::get_base_path()
@@ -523,6 +531,15 @@ namespace xen
 		return 0;
 	}
 
+
+	int XentuGame::lua_get_path(lua_State* L)
+	{
+		std::string path = this->get_base_path();
+		lua_pushstring(L, path.c_str());
+		return 1;
+	}
+
+
 	int XentuGame::lua_exit(lua_State* L)
 	{
 		if (m_closing == false) {
@@ -647,6 +664,7 @@ namespace xen
 		{"mouse", &XentuGame::get_mouse, nullptr },
 		{"viewport", &XentuGame::get_viewport, nullptr },
 		{"config", &XentuGame::get_config, nullptr },
+		{"path", &XentuGame::lua_get_path, nullptr },
 		{0,0}
 	};
 

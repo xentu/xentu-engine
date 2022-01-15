@@ -174,5 +174,6 @@ end
 -- Wrap things up.
 game = XentuGame()
 config = game.config
+include = require
 require = game.require
 XentuGame = nil

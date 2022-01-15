@@ -4,20 +4,14 @@
 scenes = {}
 
 
-require('scene.menu.lua')
-
-
 game.on('init', function()
-    print("game loaded")
+    -- load the scenes
+    print("Game Path: " .. game.path)
+
+
+    require('scenes/menu.lua')
+    require('scenes/chapter1.lua')
+
+    -- set the initial scene to use
     game.set_scene(scenes.menu)
-end)
-
-
-game.on('update', function(dt)
-
-end)
-
-
-game.on('draw', function()
-    
 end)
