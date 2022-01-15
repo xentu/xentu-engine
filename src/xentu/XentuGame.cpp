@@ -618,6 +618,17 @@ namespace xen
 	}
 
 
+	int XentuGame::lua_fullscreen(lua_State* L)
+	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
+		bool fs = lua_toboolean(L, -1);
+		this->set_fullscreen(fs);
+		return 0;
+	}
+
+
 #pragma endregion
 
 	const char xen::XentuGame::className[] = "XentuGame";
@@ -641,6 +652,7 @@ namespace xen
 		method(XentuGame, trigger, lua_trigger),
 		method(XentuGame, trigger_with, lua_trigger_with),
 		method(XentuGame, set_scene, lua_set_scene),
+		method(XentuGame, fullscreen, lua_fullscreen),
 		{0,0}
 	};
 }

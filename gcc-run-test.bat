@@ -1,1 +1,0 @@
-start "" "out/build/gcc/xentu.exe" /wait

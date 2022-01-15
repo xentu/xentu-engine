@@ -29,8 +29,6 @@ game.on("init", function()
 	texture2 = assets.load_texture("fonts/arial_20.png", TX_RGBA, TX_CLAMP_TO_BORDER)
 	spritemap2 = assets.load_spritemap("fonts/arial_20.json")
 	font = Font(texture2, spritemap2)
-	font.letter_spacing = 1
-	font.line_height = 24
 	
 
 	-- load some textures

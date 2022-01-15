@@ -200,6 +200,12 @@ namespace xen {
 		/// default only the game global handles these.
 		/// </summary>
 		int lua_set_scene(lua_State* L);
+
+
+		/// <summary>
+		/// Change weather to show in fullscreen.
+		/// </summary>
+		int lua_fullscreen(lua_State* L);
 		
 
 #pragma endregion

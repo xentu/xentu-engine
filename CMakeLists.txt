@@ -8,6 +8,7 @@ string(REPLACE "." ";" VERSION_LIST ${version_str})
 list(GET VERSION_LIST 0 MY_PRODUCT_NUMBER)
 list(GET VERSION_LIST 1 MY_PRODUCT_VERSION)
 list(GET VERSION_LIST 2 MY_BUILD_NUMBER)
+string(REPLACE "-alpha" "" MY_BUILD_NUMBER ${MY_BUILD_NUMBER})
 
 # xentu project def
 project(xentu VERSION ${version_str_noalpha})

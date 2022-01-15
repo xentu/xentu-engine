@@ -8,8 +8,8 @@ namespace xen
 	/** A type used to describe info sent from lua */
 	struct LuaSprite {
 		int texture;
-		int x;
-		int y;
+		float x;
+		float y;
 		int width;
 		int height;
 		int spritemap;

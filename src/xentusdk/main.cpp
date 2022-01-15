@@ -161,7 +161,7 @@ int main(int arg_count, char* args[]) {
     // if no args other than executed path are passed, let the user know how to find more information.
     if (arg_count == 1)
     {
-        cout << rang::fg::red << "Please run \"xentusdk help\" for more information." << rang::fg::reset << endl;
+        cout << rang::fg::red << "Please run \"xentusdk help\" for more information." << rang::fg::reset << endl << endl;
         return 0;
     }
 

@@ -15,7 +15,7 @@
   "StartMenuFolderName": null,
   "IncludeLicensePage": false,
   "License": null,
-  "SourcePath": "\\..\\out\\build\\gcc",
+  "SourcePath": "\\..\\out\\win-gcc",
   "SourceIgnores": "*.pdb\n*.ibf",
   "DesktopShortcutIncludes": null,
   "PrimaryExeFilename": "",

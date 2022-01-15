@@ -232,8 +232,8 @@ namespace xen
 		LuaSprite s;
 		while (lua_next(L, -2)) {
 			std::string key = lua_tostring(L, -2);
-			if (key == "x")         s.x = lua_tointeger(L, -1);
-			if (key == "y")         s.y = lua_tointeger(L, -1);
+			if (key == "x")         s.x = lua_tonumber(L, -1);
+			if (key == "y")         s.y = lua_tonumber(L, -1);
 			if (key == "width")     s.width = lua_tointeger(L, -1);
 			if (key == "height")    s.height = lua_tointeger(L, -1);
 			if (key == "region")    s.region = lua_tostring(L, -1);
