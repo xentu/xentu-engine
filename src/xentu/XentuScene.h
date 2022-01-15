@@ -53,7 +53,14 @@ namespace xen
 		/// </summary>
 		int lua_trigger(lua_State* L);
 
+		/// <summary>
+		/// Get the name of this scene.
+		/// </summary>
 		int lua_get_name(lua_State* L);
+
+		/// <summary>
+		/// Set the name of this scene.
+		/// </summary>
 		int lua_set_name(lua_State* L);
 
         //Class Constants
@@ -65,6 +72,7 @@ namespace xen
 		// List of class methods to make available in Lua
 		static const Luna<XentuScene>::FunctionType methods[];
 
+		bool m_initialized;
     private:
 		std::string m_name;
         /* Store a hashmap of assigned event callbacks. */

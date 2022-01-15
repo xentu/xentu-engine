@@ -433,7 +433,13 @@ namespace xen
 	}
 
 
-	void XentuGame::set_scene(XentuScene* scene) {
+	void XentuGame::set_scene(lua_State* L, XentuScene* scene) {
+		// init a scene if not done already.
+		if (scene->m_initialized == false) {
+			scene->trigger(L, "init");
+			scene->m_initialized = true;
+		}
+		// set the scene.
 		this->m_current_scene = scene;
 	}
 
@@ -613,7 +619,7 @@ namespace xen
 		// deal with double reference evil >:)
 		XentuScene** scene = static_cast<XentuScene**>(lua_touserdata(L, -1));
 		XentuGame* game = XentuGame::get_instance(L);
-		game->set_scene(*scene);
+		game->set_scene(L, *scene);
 		return 0;
 	}
 

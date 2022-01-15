@@ -74,7 +74,17 @@ namespace xen
 	int XentuScene::lua_trigger(lua_State* L)
 	{
 		std::string event = lua_tostring(L, -1);
+
+		if (event == "init" && this->m_initialized == true) {
+			return luaL_error(L, "The init event has already been called once.");
+		}
+
         this->trigger(L, event);
+		
+		// if init is called manually, then set m_initialized
+		if (event == "init") {
+			this->m_initialized = true;
+		}
 		return 0;
 	}
 

@@ -119,7 +119,7 @@ namespace xen {
 		/// <summary>
 		/// Set the currently active scene.
 		/// </summary>
-		void set_scene(XentuScene* scene);
+		void set_scene(lua_State* L, XentuScene* scene);
 
 
 #pragma endregion
