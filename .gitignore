@@ -21,6 +21,7 @@ CMakeCache.txt
 [Ll]ib/
 .vs/
 .vscode/
+**/examples-new/
 
 # Other files
 *_i.c
@@ -48,10 +49,4 @@ CMakeCache.txt
 *.svclog
 *.scc
 *.zip
-
-
-.DS_Store
-
-
-# other excludes
-data/examples-new/
+*.afphoto
