@@ -2,23 +2,19 @@
 Code Reference
 ==============
 
-Xentu games are created using the Lua programming language. On load, the engine
-looks for a file called ``game.lua``, and executes the code in that file
-before starting the game.
+Please follow the topic in this category to understand how to program games using
+the Xentu game engine.
 
-From ``game.lua`` you can require other lua files using the require command like
-so:
+|
 
-.. code-block:: lua
+Main Topics
+===========
 
-    require('another-script.lua')
-
-Most common functions in lua (currently Lua v5.3) work, so for example to output
-some text to the console you can use something like this:
-
-.. code-block:: lua
-
-    print('Hello From Lua!')
+.. toctree::
+    :titlesonly:
+    
+    lua-code-reference/introduction
+    lua-code-reference/coding-concepts
 
 |
 |
@@ -56,7 +52,7 @@ more lightweight Lua objects.
 
 .. toctree::
     :titlesonly:
-    
+
     lua-code-reference/the-color-struct
     lua-code-reference/the-font-struct
     lua-code-reference/the-scene-class

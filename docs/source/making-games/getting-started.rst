@@ -68,6 +68,8 @@ Here is a list of commands that you can use in the ``[general]`` group:
 +==================+===========+===============================================+
 | game_title       | string    | The title of the game window.                 |
 +------------------+-----------+-----------------------------------------------+
+| game_author      | string    | The author of the game.                       |
++------------------+-----------+-----------------------------------------------+
 | screen_width     | integer   | The width of the window in pixels.            |
 +------------------+-----------+-----------------------------------------------+
 | screen_height    | integer   | The height of the window in pixels.           |

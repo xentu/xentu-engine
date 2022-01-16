@@ -16,6 +16,7 @@ namespace xen
 
 		// todo: lots of variables here that should not be public.
 		std::string m_game_title;
+		std::string m_game_author;
 		unsigned int m_screen_width;
 		unsigned int m_screen_height;
 		unsigned int m_update_frequency;

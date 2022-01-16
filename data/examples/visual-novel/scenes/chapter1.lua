@@ -1,7 +1,7 @@
 --[[
 	Chapter 1 Scene
 ]]
-local scene = new_scene()
+local scene = Scene("Chapter 1")
 
 
 scene.on('init', function()
@@ -19,4 +19,4 @@ scene.on('draw', function()
 end)
 
 
-return scene
+scenes.chapter1 = scene

@@ -4,8 +4,8 @@
 -- game global, and overrides the require function with our own smarter one.
 
 
--- A template for defining classes.
-function class(base, init)
+-- A template for defining structures.
+function struct(base, init)
 	local c = {}
 	if not init and type(base) == 'function' then
 		init = base
@@ -45,7 +45,7 @@ end
 
 
 -- A class that holds information about a sprite to draw graphicss.
-Sprite = class(function(inst, texture, x, y, width, height)
+Sprite = struct(function(inst, texture, x, y, width, height)
 	if not (type(texture) == "number") then error("Invalid value for texture passed to the Sprite constructor.") end
 	if not (type(x) == "number") then error("Non-numeric value for x passed to the Sprite constructor.") end
 	if not (type(y) == "number") then error("Non-numeric value for y passed to the Sprite constructor.") end
@@ -62,7 +62,7 @@ end)
 
 
 -- A class that holds information about a font that can be used to draw text.
-Font = class(function(inst, texture, spritemap) 
+Font = struct(function(inst, texture, spritemap) 
 	if not (type(texture) == "number") then error("Invalid value for texture passed to the Font constructor.") end
 	if not (type(spritemap) == "number") then error("Invalid value for spritemap passed to the Font constructor.") end
 	inst.texture = texture
@@ -72,8 +72,8 @@ Font = class(function(inst, texture, spritemap)
 end)
 
 
--- A basic colour utility class.
-Color = class(function(inst, r, g, b, a)
+-- A basic colour utility struct.
+Color = struct(function(inst, r, g, b, a)
 	if not (type(r) == "number") then error("Non-numeric value passed for r value when creating a Color struct instance.") end
 	if not (type(g) == "number") then error("Non-numeric value passed for g value when creating a Color struct instance.") end
 	if not (type(b) == "number") then error("Non-numeric value passed for b value when creating a Color struct instance.") end
@@ -145,8 +145,8 @@ Color.from_hsl = function(h, s, l, a)
 end
 
 
--- A generic class for describing a theoretical entity in the game.
-Entity = class(function(inst)
+-- A generic struct for describing a theoretical entity in the game.
+Entity = struct(function(inst)
 	inst.x = 0
 	inst.y = 0
 	inst.width = 0
@@ -165,9 +165,11 @@ Entity.from_rect = function(x, y, width, height)
 end
 
 
--- Func for creating scene instances
-function new_scene()
-	return XentuScene()
+-- Shorthand for creating scene instances
+function Scene(name)
+	local s = XentuScene()
+	s.name = (name == nil or name == '') and "Untitled" or name
+	return s
 end 
 
 

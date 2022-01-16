@@ -13,9 +13,9 @@ assets.load_audio(file)
 --------------------------
 
 Use this method to load audio files. The file formats supported by this method
-are WAV, MP3 and FLAC. For best results encode in 44,000kHz. The result of this
-method is a sound_id integer reference that should be stored somewhere so that
-you can use it elsewhere. Here is an eample of how to use this method:
+are WAV, MP3 and FLAC. For best results encode in 44,000kHz and in Stereo. The
+return type of this method is an :ref:`Asset Object Type` that should be stored
+somewhere so that you can use it. Here is an eample of how to use this method:
 
 .. code-block:: lua
 
@@ -30,8 +30,9 @@ assets.load_shader(vert_file, frag_file)
 ----------------------------------------
 
 Use this method to load a a shader program. You should pass it a filename for a
-vertex shader, and another for a fragment shader. The result of this method is an
-integer specifying the id of the shader. Here's an example of how to do it:
+vertex shader, and another for a fragment shader. The return type of this method
+is an :ref:`Asset Object Type` that should be stored somewhere so that you can use
+it. Here's an example of how to do it:
 
 .. code-block:: lua
 
@@ -92,9 +93,9 @@ assets.load_texture(texture_file, color_mode, wrap_mode)
 Use this method to load a texture. This method allows you to specify color mode,
 and a wrap mode (of which both arguments are optional). The file formats supported
 by this method are the same that are supported by the stb_image library (JPG, PNG,
-TGA, BMP, GIF, HDR). The result of this method is an integer indicating the
-texture_id that should be stored somewhere so that you can use it elsewhere. Here
-is an example of how to use the method:
+TGA, BMP, GIF, HDR). The return type of this method is an :ref:`Asset Object Type`
+that should be stored somewhere so that you can use it. Here is an example of how
+to use the method:
 
 .. code-block:: lua
 
@@ -125,7 +126,8 @@ assets.load_spritemap(json_file, format)
 A SpriteMap is a loaded resource used as an information source for the Font and
 Sprite structs. It provides a map for a texture letting the engine know where 
 named regions are. This method allows you to load those files from various
-compatible formats. Here is how to use it:
+compatible formats. The return type of this method is an :ref:`Class Object Type`
+that should be stored somewhere so that you can use it. Here is how to use it:
 
 .. code-block:: lua
 
@@ -147,7 +149,8 @@ assets.load_tilemap(tmx_file)
 
 A tile map is a complex object made up of tile set's (similar to sprite map's),
 properties, and a collection of layers of either objects or arranged tiles that can
-be drawn onto the screen.
+be drawn onto the screen. The return type of this method is an :ref:`Class Object Type`
+that should be stored somewhere so that you can use it.
 
 Here is an example of how to load a tilemap:
 

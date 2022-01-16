@@ -19,13 +19,15 @@ structure:
 +------------------+-----------------------------------------------------------+
 | ``logo.png``     | The Xentu logo icon, can be used to test texture loading. |
 +------------------+-----------------------------------------------------------+
-| ``demos/``       | A folder containing a number of demo games contained      |
+| ``templates/``   | A folder containing a number of demo games contained      |
 |                  | within ZIP archives.                                      |
 +------------------+-----------------------------------------------------------+
-| ``glfw3.dll``    | [windows only] A copy of the GLFW3 OpenGL Library.        |
+| ``glfw3.dll``    | [windows only] A copy of the GLFW3 OpenGL Library (32bit).|
 +------------------+-----------------------------------------------------------+
-| ``glew32.dll``   | [windows only] A copy of the GLEW Window Library.         |
+| ``glew32.dll``   | [windows only] A copy of the GLEW Window Library (32bit). |
 +------------------+-----------------------------------------------------------+
 
 Some other files may also appear depending on what method you chose to install
 the engine.
+
+For Linux/FreeBSD and MacOS expect the .exe to be dropped from binaries.

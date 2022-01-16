@@ -1,7 +1,7 @@
 --[[
 	Main Menu Scene
 ]]
-local scene = new_scene()
+local scene = Scene("Main Menu")
 
 
 scene.on('init', function()

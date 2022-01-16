@@ -9,6 +9,13 @@ etc...
 |
 |
 
+game.path
+---------
+This read only property tells you the path from which game.lua was loaded.
+
+|
+|
+
 game.debug_stack()
 ------------------
 This method is used to get a glimpse of what is stored in the lua stack. For The
@@ -54,7 +61,7 @@ The init event
 	    -- do something here
 	end)
 
-The ``init`` event is called when the game is ready to start loading assets For
+The ``init`` event is called when the game is ready to start loading assets for
 your game. At this point the game window has launched, and the sound system has
 initialized.
 
@@ -117,7 +124,7 @@ Here is an example of how it would look:
 
 .. code-block:: lua
 
-	scene1 = new_scene()
+	scene1 = Scene()
 	game.set_scene(scene1)
 
 	scene1.on('update', function()
@@ -156,7 +163,7 @@ something like this:
 
     game.trigger('my_custom_event')
 
-The first argument is the name of the event to trigger. At this time the trigger
+The first argument is the name of the event to trigger. The base trigger
 method does not support passing additional arguments.
 
 |

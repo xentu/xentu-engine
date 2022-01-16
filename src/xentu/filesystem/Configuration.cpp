@@ -19,6 +19,7 @@ namespace xen
 {
 	Configuration::Configuration(lua_State* L) :
 		m_game_title("My Awesome Game!"),
+		m_game_author("Unknown"),
 		m_screen_width(800),
 		m_screen_height(600),
 		m_update_frequency(30),
@@ -50,6 +51,10 @@ namespace xen
 
 		if (v.has("general.game_title") && v.find("general.game_title")->is<std::string>()) {
 			config->m_game_title = v.find("general.game_title")->as<std::string>();
+		}
+
+		if (v.has("general.game_author") && v.find("general.game_author")->is<std::string>()) {
+			config->m_game_author = v.find("general.game_author")->as<std::string>();
 		}
 
 		if (v.has("general.screen_width") && v.find("general.screen_width")->is<int>()) {

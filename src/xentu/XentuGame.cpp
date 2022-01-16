@@ -442,6 +442,10 @@ namespace xen
 
 
 	void XentuGame::set_scene(lua_State* L, XentuScene* scene) {
+		// if there is a previous scene, let it know it's loosing focus.
+		if (this->m_current_scene != nullptr) {
+			this->m_current_scene->trigger(L, "hidden");
+		}
 		// init a scene if not done already.
 		if (scene->m_initialized == false) {
 			scene->trigger(L, "init");
@@ -449,6 +453,10 @@ namespace xen
 		}
 		// set the scene.
 		this->m_current_scene = scene;
+		// let the scene know it's been selected (if not null).
+		if (this->m_current_scene != nullptr) {
+			this->m_current_scene->trigger(L, "shown");
+		}
 	}
 
 
