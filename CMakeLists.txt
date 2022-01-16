@@ -241,3 +241,8 @@ endif()
 # set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 # set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+
+
+# to manually build run
+# cmake --build ./build --config Debug --target all -j 14 --
