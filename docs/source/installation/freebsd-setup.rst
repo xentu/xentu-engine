@@ -2,16 +2,11 @@
 FreeBSD Setup
 =============
 
-.. _bsd-setup:
-
-APT Package Manager
--------------------
-
-FreeBSD support is not yet complete, changes need to be made to the pathing in
-the SDK to make sure that resources can be located correctly, and a RPM script
-needs finishing to allow the installer to work correctly.
-
-.. _bsd-setup-troubleshooting:
+.. warning::
+	Support for FreeBSD is poor at the moment. We don't have a working build yet,
+	and some parts of the engine may need to change to facilitate this getting
+	resolved. If you have luck getting it to work, then kudos! However we
+	reccommend avoiding this version for now.
 
 Make Sure It Works! (FreeBSD)
 -----------------------------------

@@ -26,6 +26,8 @@ Pick Your OS
     
     installation/windows-setup
     installation/linux-setup
+    installation/freebsd-setup
+    installation/haikuos-setup
     installation/macos-setup
 
 |
