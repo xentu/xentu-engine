@@ -2,10 +2,16 @@
 	Main Menu Scene
 ]]
 local scene = Scene("Main Menu")
+local data = {
+    textures = { },
+    sprites = { }
+}
 
 
 scene.on('init', function()
     print("Menu Scene Initialized")
+    data.textures.bg = assets.load_texture("textures/menu-bg1.png")
+    data.sprites.bg = Sprite(data.textures.bg, 0, 0, 800, 600)
 end)
 
 
@@ -20,8 +26,10 @@ end)
 
 
 scene.on('draw', function()
-    -- draw the scene
+    renderer.begin()
+    renderer.draw_sprite(data.sprites.bg)
+    renderer.present()
 end)
 
 
-return scene
+return { handle=scene, data=data }

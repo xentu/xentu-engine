@@ -51,3 +51,7 @@ CMakeCache.txt
 
 
 .DS_Store
+
+
+# other excludes
+data/examples-new/

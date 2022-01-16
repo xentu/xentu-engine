@@ -7,8 +7,8 @@ scenes = {}
 game.on('init', function()
     -- load the scenes
     scenes.menu = include('scenes.menu')
-    scenes.chapter1 = include('scenes/chapter1')
+    scenes.chapter1 = include('scenes.chapter1')
 
     -- set the initial scene to use
-    game.set_scene(scenes.menu)
+    game.set_scene(scenes.menu.handle)
 end)

@@ -2,6 +2,7 @@
 	Chapter 1 Scene
 ]]
 local scene = Scene("Chapter 1")
+local data = { }
 
 
 scene.on('init', function()
@@ -19,4 +20,4 @@ scene.on('draw', function()
 end)
 
 
-return scene
+return { handle=scene, data=data }
