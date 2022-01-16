@@ -9,6 +9,11 @@ scene.on('init', function()
 end)
 
 
+scene.on('shown', function()
+    print("Menu Scene Shown")
+end)
+
+
 scene.on('update', function()
     -- update the scene
 end)
@@ -19,4 +24,4 @@ scene.on('draw', function()
 end)
 
 
-scenes.menu = scene
+return scene

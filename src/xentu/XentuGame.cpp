@@ -435,6 +435,10 @@ namespace xen
 		this->trigger_number(L, "update", delta);
 
 		if (this->m_current_scene != nullptr) {
+			if (this->m_current_scene->m_initialized == false) {
+				this->m_current_scene->trigger(L, "init");
+			}
+
 			this->m_current_scene->trigger_number(L, "update", delta);
 			// TODO: add trigger_integer to scene class.
 		}
@@ -446,14 +450,8 @@ namespace xen
 		if (this->m_current_scene != nullptr) {
 			this->m_current_scene->trigger(L, "hidden");
 		}
-		// init a scene if not done already.
-		if (scene->m_initialized == false) {
-			scene->trigger(L, "init");
-			scene->m_initialized = true;
-		}
 		// set the scene.
 		this->m_current_scene = scene;
-		// let the scene know it's been selected (if not null).
 		if (this->m_current_scene != nullptr) {
 			this->m_current_scene->trigger(L, "shown");
 		}

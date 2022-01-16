@@ -13,7 +13,8 @@
 namespace xen
 {
 	XentuScene::XentuScene(lua_State* L) :
-		m_name("untitled")
+		m_name("untitled"),
+		m_initialized(false)
 	{ }
 	
     XentuScene::~XentuScene()
@@ -27,8 +28,20 @@ namespace xen
 		int functionRef = this->m_callbacks[callbackName];
 		if (functionRef > 0)
 		{
+			bool is_init = callbackName == "init";
+
+			if (is_init && this->m_initialized == true) {
+				// todo: this should probably return a value to the caller.
+				luaL_error(L, "The init event has already been called once.");
+			}
+
 			lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
 			lua_call(L, 0, 0);
+
+			// if init is called manually, then set m_initialized
+			if (is_init) {
+				this->m_initialized = true;
+			}
 		}
 	}
 
@@ -75,16 +88,8 @@ namespace xen
 	{
 		std::string event = lua_tostring(L, -1);
 
-		if (event == "init" && this->m_initialized == true) {
-			return luaL_error(L, "The init event has already been called once.");
-		}
-
         this->trigger(L, event);
 		
-		// if init is called manually, then set m_initialized
-		if (event == "init") {
-			this->m_initialized = true;
-		}
 		return 0;
 	}
 

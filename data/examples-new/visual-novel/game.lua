@@ -6,8 +6,8 @@ scenes = {}
 
 game.on('init', function()
     -- load the scenes
-    require('scenes/menu.lua')
-    require('scenes/chapter1.lua')
+    scenes.menu = include('scenes.menu')
+    scenes.chapter1 = include('scenes/chapter1')
 
     -- set the initial scene to use
     game.set_scene(scenes.menu)

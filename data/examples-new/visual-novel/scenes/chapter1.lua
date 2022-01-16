@@ -19,4 +19,4 @@ scene.on('draw', function()
 end)
 
 
-scenes.chapter1 = scene
+return scene

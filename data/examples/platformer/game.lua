@@ -4,8 +4,8 @@
 
 
 -- load other lua files.
-require('player.lua')
-require('map.lua')
+include('player')
+include('map')
 
 
 -- define variables.
