@@ -86,7 +86,7 @@ This project relies on the following libraries:
 
 The engine is written in C++ 14 standard, and is set-up to be built with CMake.
 Generally if an OS is supported by the dependencies, can compile using CMake,
-and has support for OpenGL 4.1, then you can built it.
+and has support for OpenGL 3.3, then you can built it.
 
 Here is a bare metal checklist for how to build the engine on Windows within VS Code:
 1. Install GCC 8 or higher (mingw in i686 is a good shot: http://mingw-w64.org/).
@@ -132,10 +132,10 @@ URL: https://docs.xentu.net
 
 ## Known Issues
 
-The engine has a resource system where resources are built during CMake config.
-The system uses a assembly trick with switches that should work on most operating
-systems. However only Windows, Linux 64bit and MacOS Catalina have been tested,
-so your milage may vary. The mechanism can be explored in `cmake/FindEmbed.cmake`
+You currently need the SDK installed in order to play games made with the engine.
+If you throw the engine binaries and the dll/so files needed into a zip, that would
+work as stand alone, but it's not clean. I am looking at a pathway to do that via
+an SDK command in the next few days which should solve the problem.
 
 <br />
 

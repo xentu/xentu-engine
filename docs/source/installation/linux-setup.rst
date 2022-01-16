@@ -1,26 +1,17 @@
-===================
-Linux/FreeBSD Setup
-===================
+===============
+Linux/GNU Setup
+===============
 
-.. _linux-bsd-setup-apt:
+Debian Installer
+----------------
 
-APT Package Manager
--------------------
-
-If you are using Ubuntu or a variant like Lubuntu/Mint, you can use the APT Package
-manager that is inststalled on your system. First of all we need to add the repo
-and update apt so it knows where to find the files, then do the actuall install.
-So do this by opening a terminal window, and enter following commands one by one:
-
-.. code-block:: shell
-
-    echo "deb [arch=amd64] https://files.xentu.net/apt stable main" | sudo tee /etc/apt/sources.list.d/xentu.list
-    sudo apt-get update
-    sudo apt-get install xentu
+If you wish to install the SDK the most traditional way, you can `download the
+Xentu SDK here <https://xentu.net/download>`_ which provides a DEB package that
+installs all the nessisary components.
 
 |
 
-.. _linux-bsd-setup-troubleshooting:
+.. _linux-setup-troubleshooting:
 
 Make Sure It Works! (Linux/FreeBSD)
 -----------------------------------
@@ -33,3 +24,16 @@ Open a command line console or terminal, and enter the following command:
 
 If all goes well you should get a message telling you which version you have
 installed.
+
+|
+
+If You Need To Uninstall
+------------------------
+
+The .deb file you download registers with the package manager in your OS when
+you install. So you should navigate to the software manager, and look for installed
+apps. There you will find the Xentu SDK, and it should allow you to remove if
+needed.
+
+|
+|

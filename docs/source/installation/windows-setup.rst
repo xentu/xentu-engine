@@ -38,3 +38,14 @@ If that does not work, then the next thing you can try is to add the path to the
 installed SDK into your PATH system environment variable (press start and type 
 "system environment variable"). After locating and changing the PATH variable,
 restart your console/terminal, and it should work.
+
+|
+
+If You Need To Uninstall
+------------------------
+
+The Windows installer provides a traditional uninstaller that can be accessed by
+the **Add or remove program** tool. 
+
+|
+|
