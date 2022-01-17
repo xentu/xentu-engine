@@ -19,7 +19,7 @@ here is an example of how you'd load those then use this constructor:
 	
 	texture = assets.load_texture("arial_20.png", TX_RGBA, TX_CLAMP_TO_BORDER)
 	spritemap = assets.load_spritemap("arial_20.json")
-    font = Font(texture, spritemap)
+	font = Font(texture, spritemap)
 
 |
 |

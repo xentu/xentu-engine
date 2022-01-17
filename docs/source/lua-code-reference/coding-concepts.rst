@@ -63,12 +63,12 @@ Here is an example of how the Font struct used for rendering text was created:
 
 	-- A class that holds information about a font that can be used to draw text.
 	Font = struct(function(inst, texture, spritemap) 
-		if not (type(texture) == "number") then error("Invalid value for texture.") end
-		if not (type(spritemap) == "number") then error("Invalid value for spritemap.") end
-		inst.texture = texture
-		inst.spritemap = spritemap
-		inst.letter_spacing = 1
-		inst.line_height = 20
+	    if not (type(texture) == "number") then error("Invalid value for texture.") end
+	    if not (type(spritemap) == "number") then error("Invalid value for spritemap.") end
+	    inst.texture = texture
+	    inst.spritemap = spritemap
+	    inst.letter_spacing = 1
+	    inst.line_height = 20
 	end)
 
 You don't have to use the struct system, it's there to help keep your code organised and

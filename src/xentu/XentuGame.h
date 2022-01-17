@@ -210,7 +210,13 @@ namespace xen {
 		/// <summary>
 		/// Change weather to show in fullscreen.
 		/// </summary>
-		int lua_fullscreen(lua_State* L);
+		int lua_set_fullscreen(lua_State* L);
+
+
+		/// <summary>
+		/// Get weather the window is fullscreen.
+		/// </summary>
+		int lua_get_fullscreen(lua_State* L);
 		
 
 #pragma endregion
@@ -261,6 +267,9 @@ namespace xen {
 
 		/* Store a hashmap of assigned event callbacks. */
 		std::unordered_map<std::string, int> callbacks;
+
+		/* true if the window is fullscreen. */
+		bool m_fullscreen;
 	};
 }
 

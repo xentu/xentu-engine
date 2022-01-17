@@ -74,24 +74,14 @@ game.on("update", function(dt)
 	if keyboard.key_down(KB_SPACE) then player:jump() end
 
 	-- deal with full screen toggle
-	if not fs_lock then
-		if keyboard.key_down(KB_ENTER) then
-			fs_lock = true
-			toggle_fullscreen()
-		end
-	else
-		if not keyboard.key_down(KB_ENTER) then
-			fs_lock = false
-		end
-	end
-
-	-- exit key
+	if keyboard.key_clicked(KB_ENTER) then toggle_fullscreen() end
 	if keyboard.key_down(KB_ESCAPE) then game.exit() end
 end)
 
 
 -- the draw event
 game.on("draw", function()
+	renderer.clear()
 	renderer.begin()
 	-- draw the tile map.
 	renderer.set_position(offset.x + 150, offset.y + 150)
@@ -108,20 +98,17 @@ game.on("draw", function()
 
 	-- render debug text
 	renderer.set_position(0, 0)
-	renderer.draw_text(font, debug_text, 5, 6, 400)
+	renderer.draw_text(font, debug_text, 5, 6)
 
 	-- present the image.
 	renderer.present()
 end)
 
 
-fs = false
-fs_lock = false
 function toggle_fullscreen()
-	if not fs then
-		fs = true
-		game.fullscreen(true)
+	if game.fullscreen then
+		game.set_fullscreen(false)
 	else
-		game.fullscreen(false)
+		game.set_fullscreen(true)
 	end
 end

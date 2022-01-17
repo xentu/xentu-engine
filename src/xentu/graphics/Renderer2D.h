@@ -67,6 +67,11 @@ namespace xen
 		/// Begins the sequence for rendering sprites.
 		/// </summary>
 		int lua_begin(lua_State* L);
+
+		/// <summary>
+		/// Clear the buffer.
+		/// </summary>
+		int lua_clear(lua_State* L);
 		
 		/// <summary>
 		/// Called by lua to ensure a sprite object is formatted correctly.

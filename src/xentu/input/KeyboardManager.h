@@ -22,6 +22,12 @@ namespace xen
 		/// </summary>
 		int lua_key_down(lua_State* L);
 
+		/// <summary>
+		/// Check weather a key was pressed the last time it was checked.
+		/// </summary>
+		int lua_key_clicked(lua_State* L);
+
+
 		//Class Constants
 		static const char className[];
 

@@ -6,6 +6,21 @@ A basic input component for reading signals from a plugged in keyboard.
 
 |
 
+keyboard.key_clicked(key_code)
+------------------------------
+This method allows you to detect if the user presses then releases a key on the
+keyboard:
+
+
+.. code-block:: lua
+	
+	if keyboard.key_clicked(KB_ESCAPE) then
+	    print('The escape key was clicked.')
+	    game.exit()
+	end
+
+|
+
 keyboard.key_down(key_code)
 ---------------------------
 This method allows you to detect the pressed state of a key on the keyboard. Here

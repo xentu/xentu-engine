@@ -74,11 +74,13 @@ game.on("update", function(dt)
 	-- handle user input.
 	if keyboard.key_down(KB_UP) and player.y > 8 then player.y = player.y - 8 end
 	if keyboard.key_down(KB_DOWN) and player.y < 492 then player.y = player.y + 8 end
+	if keyboard.key_clicked(KB_ESCAPE) then game.exit() end
 end)
 
 
 -- the draw event
 game.on("draw", function()
+	renderer.clear()
 	renderer.begin()
 	-- draw line down the middle.
 	renderer.draw_rect(colors.white, 399, 0, 2, 600)

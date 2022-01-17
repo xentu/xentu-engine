@@ -36,6 +36,7 @@ namespace xen
 		this->initialized = false;
 		this->m_closing = false;
 		this->m_current_scene = nullptr;
+		this->m_fullscreen = false;
 		this->config = new xen::Configuration(L);
 		this->viewport = new Viewport(320, 240);
 		Advisor::logInfo("Created instance of XentuGame.");
@@ -397,6 +398,7 @@ namespace xen
 		else {
 			glfwSetWindowMonitor(window, nullptr, 0, 0, config->m_screen_width, config->m_screen_height, mode->refreshRate);
 		}
+		m_fullscreen = fullscreen;
 	}
 
 	void XentuGame::trigger(lua_State* L, std::string callbackName)
@@ -435,10 +437,6 @@ namespace xen
 		this->trigger_number(L, "update", delta);
 
 		if (this->m_current_scene != nullptr) {
-			if (this->m_current_scene->m_initialized == false) {
-				this->m_current_scene->trigger(L, "init");
-			}
-
 			this->m_current_scene->trigger_number(L, "update", delta);
 			// TODO: add trigger_integer to scene class.
 		}
@@ -454,6 +452,9 @@ namespace xen
 		this->m_current_scene = scene;
 		if (this->m_current_scene != nullptr) {
 			this->m_current_scene->trigger(L, "shown");
+			if (this->m_current_scene->m_initialized == false) {
+				this->m_current_scene->trigger(L, "init");
+			}
 		}
 	}
 
@@ -647,7 +648,7 @@ namespace xen
 	}
 
 
-	int XentuGame::lua_fullscreen(lua_State* L)
+	int XentuGame::lua_set_fullscreen(lua_State* L)
 	{
 		if (lua_gettop(L) != 1) {
 			return luaL_error(L, "expecting exactly 1 arguments");
@@ -655,6 +656,13 @@ namespace xen
 		bool fs = lua_toboolean(L, -1);
 		this->set_fullscreen(fs);
 		return 0;
+	}
+
+
+	int XentuGame::lua_get_fullscreen(lua_State* L)
+	{
+		lua_pushboolean(L, m_fullscreen);
+		return 1;
 	}
 
 
@@ -671,6 +679,7 @@ namespace xen
 		{"viewport", &XentuGame::get_viewport, nullptr },
 		{"config", &XentuGame::get_config, nullptr },
 		{"path", &XentuGame::lua_get_path, nullptr },
+		{"fullscreen", &XentuGame::lua_get_fullscreen, nullptr },
 		{0,0}
 	};
 
@@ -682,7 +691,7 @@ namespace xen
 		method(XentuGame, trigger, lua_trigger),
 		method(XentuGame, trigger_with, lua_trigger_with),
 		method(XentuGame, set_scene, lua_set_scene),
-		method(XentuGame, fullscreen, lua_fullscreen),
+		method(XentuGame, set_fullscreen, lua_set_fullscreen),
 		{0,0}
 	};
 }

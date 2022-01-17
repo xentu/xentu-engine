@@ -44,7 +44,7 @@ shader:
 
 .. code-block:: glsl
 
-    #version 410
+    #version 330
 
     in vec3 i_position;
     in vec2 i_texcoord;
@@ -66,7 +66,7 @@ Next the fragment shader:
 
 .. code-block:: glsl
 
-    #version 410
+    #version 330
 
     in vec2 v_TexCoord;
     in vec4 v_Color;

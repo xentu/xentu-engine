@@ -129,6 +129,7 @@ example of how this file could look:
 
 	-- the drawing event.
 	game.on("draw", function()
+	   renderer.clear()
 	   renderer.begin()
 	   -- draw a layer [layer, x, y]
 	   renderer.draw_tilemap_layer(layer, 0, 0)

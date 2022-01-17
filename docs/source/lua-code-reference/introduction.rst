@@ -6,18 +6,25 @@ Xentu games are created using the Lua programming language. On load, the engine
 looks for a file called ``game.lua``, and executes the code in that file
 before starting the game.
 
-From ``game.lua`` you can require code from other lua files using the require
+From ``game.lua`` you can include code from other lua files using the include
 command like so:
 
 .. code-block:: lua
 
-    require('another-script.lua')
+    include('another-script.lua')
 
-.. note::
+You can also use the more traditional require function like so:
 
-	Note: The traditional *require* function has been renamed to *include* as
-	it does not handle working within an archive, or over a network. Also the
-	new require function does not yet work with modules.
+.. code-block:: lua
+
+    require('path.to.another-script')
+
+The difference between require and include, is that include uses the engines IO
+system, which will have support in the future for embedded or network resources.
+The require function on the other hand wont, but is preserved to give the ability
+to load Lua modules.
+
+|
 
 Most common functions in lua (currently Lua v5.3) work, so for example to output
 some text to the console you can use something like this:

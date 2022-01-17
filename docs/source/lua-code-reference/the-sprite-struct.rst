@@ -25,6 +25,7 @@ Then in your render event you could draw it like this:
 
 	-- the drawing event.
 	game.on("draw", function()
+		renderer.clear()
 	    renderer.begin()
 	    renderer.draw_sprite(ball_sprite)
 	    renderer.present()

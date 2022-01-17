@@ -25,6 +25,7 @@ here is an example of how to do that:
 	end)
 
 	game.on('draw', function()
+		renderer.clear()
 	    renderer.begin()
 	    renderer.draw_tilemap_layer(layer0)
 	    renderer.present()

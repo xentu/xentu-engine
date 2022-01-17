@@ -22,13 +22,15 @@ file. Here is an example of how you could use it:
 .. code-block:: lua
 	
 	game.on('draw', function(arg)
+	    renderer.clear()
 	    renderer.begin()
 	    renderer.draw_sprite( my_sprite )
 	    renderer.draw_sprite( my_sprite2 )
 	    renderer.present()
 	end)
 
-Notice that we use a ``begin()`` and ``present()`` call surrounding the actual
+Notice that we use a ``clear()`` function before everything which clears the frame
+buffer. Then we call ``begin()`` and ``present()`` call surrounding the actual
 call to draw two sprites. This group constitutes as a single drawing layer. As
 long as you finish a layer with the ``present()`` call, you can begin a new one 
 straight after like so:
@@ -36,6 +38,7 @@ straight after like so:
 .. code-block:: lua
 	
 	game.on('draw', function(arg)
+	    renderer.clear()
 	    -- layer #1
 	    renderer.begin()
 	    renderer.draw_sprite( my_sprite )
@@ -56,6 +59,14 @@ own games, you will understand why this can be so powerful.
 
 Basic drawing
 =============
+
+renderer.clear()
+----------------
+The clear method tells the renderer to clear the frame buffer and should be called
+at the beginning of your draw callback.
+
+|
+|
 
 renderer.begin()
 ----------------
@@ -125,7 +136,7 @@ renderer.draw_text(font, text, x, y, max_width)
 
 This method tells the renderer to queue an instruction in it's buffer to draw 
 text onto the screen. The method requires you provide an instance to a :ref:`Font struct <The Font struct>`
-, some text, an x-y position, and a maximum width before wrapping onto the
+, some text, an x-y position, and an optional maximum width before wrapping onto the
 next line.
 
 |

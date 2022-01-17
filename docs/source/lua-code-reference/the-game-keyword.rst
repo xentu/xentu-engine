@@ -16,6 +16,13 @@ This read only property tells you the path from which game.lua was loaded.
 |
 |
 
+game.fullscreen
+---------------
+This read only property tells you if the game is fullscreen.
+
+|
+|
+
 game.debug_stack()
 ------------------
 This method is used to get a glimpse of what is stored in the lua stack. For The
@@ -31,8 +38,8 @@ Call this method to immediately exit the game.
 |
 |
 
-game.fullscreen(bool)
----------------------
+game.set_fullscreen(bool)
+-------------------------
 Use this method to change the screen to either full screen or windowed mode.
 
 .. note::
@@ -86,6 +93,7 @@ The draw event
 .. code-block:: lua
 	
 	game.on('draw', function()
+		renderer.clear()
 	    renderer.begin()
 	    -- do something here
 	    renderer.present()

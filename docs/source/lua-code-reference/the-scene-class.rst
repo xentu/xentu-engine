@@ -105,6 +105,7 @@ The draw event
 .. code-block:: lua
 	
 	scene.on('draw', function()
+		renderer.clear()
 	    renderer.begin()
 	    -- do something here
 	    renderer.present()

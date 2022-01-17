@@ -104,6 +104,7 @@ namespace xen
 			Advisor::throwOnGLError("setting the 3rd shader attribute pointer");
 
 			// Make sure the attributes are marked as enabled.
+			glEnable(GL_DEPTH_TEST);
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(1);
 			glEnableVertexAttribArray(2);
@@ -311,10 +312,18 @@ namespace xen
 		m_scale_x = 1;
 		m_scale_y = 1;
 		m_rotation = 0;
-		this->clear();
+		//this->clear();
 
 		return 0;
 	}
+
+
+	int Renderer2D::lua_clear(lua_State* L)
+	{
+		this->clear();
+		return 0;
+	}
+
 
 	int Renderer2D::lua_debug_sprite(lua_State* L)
 	{
@@ -348,6 +357,10 @@ namespace xen
 		lua_pushnil(L);
 		// iterate the values to populate an LuaSprite struct.
 		const LuaSprite s = parse_lua_sprite(L);
+
+		// if the values read from the sprite are duff, lets get out of here.
+		if (s.width <= 0 || s.height <= 0) return 0;
+
 		const XentuGame* game = XentuGame::get_instance(L);
 
 		m_sprite.ResetTransform();
@@ -368,13 +381,16 @@ namespace xen
 				m_sprite.m_rect = *r;
 			}
 		}
+		else {
+			m_sprite.m_rect = Rect(0, 0, 1, 1);
+		}
 
 		if (m_sprite.m_texture == NULL)
 			return 0;
 
 		find_batch(m_sprite)->draw(m_sprite);
 
-		return 1;
+		return 0;
 	}
 
 	int Renderer2D::lua_draw_rect(lua_State* L)
@@ -413,14 +429,16 @@ namespace xen
 
 	int Renderer2D::lua_draw_text(lua_State* L)
 	{
-		if (lua_gettop(L) != 5) {
-			return luaL_error(L, "expecting exactly 4 arguments");
+		int arg_count = lua_gettop(L);
+		if (arg_count < 4) {
+			return luaL_error(L, "expecting exactly 4 or 5 arguments");
 		}
+		int offset = arg_count == 4 ? 1 : 0;
 		// read the other variables first.
-		const std::string text = lua_tostring(L, -4);
-		const float left = lua_tonumber(L, -3);
-		const float top = lua_tonumber(L, -2);
-		const float max_width = lua_tonumber(L, -1);
+		const std::string text = lua_tostring(L, -4 + offset);
+		const float left = lua_tonumber(L, -3 + offset);
+		const float top = lua_tonumber(L, -2 + offset);
+		const float max_width = arg_count == 4 ? 10000 : lua_tonumber(L, -1);
 
 		XentuGame* game = XentuGame::get_instance(L);
 
@@ -428,7 +446,9 @@ namespace xen
 		lua_pop(L, 1);
 		lua_pop(L, 1);
 		lua_pop(L, 1);
-		lua_pop(L, 1);
+		if (arg_count == 5) {
+			lua_pop(L, 1);
+		}
 
 		// push nil to get the table data to parse.
 		lua_pushnil(L);
@@ -572,7 +592,7 @@ namespace xen
 		const float g = this->m_clear_color.green;
 		const float b = this->m_clear_color.blue;
 		glClearColor(r, g, b, 1);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 		// draw each of the batches (layers)
@@ -599,7 +619,7 @@ namespace xen
 
 		// clear the screen once more (this time with black).
 		glClearColor(0, 0, 0, 1);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// prepare to draw the render target as a texture.
 		m_sprite.ResetTransform();
@@ -766,6 +786,7 @@ namespace xen
 
 	const Luna<Renderer2D>::FunctionType Renderer2D::methods[] = {
 		method(Renderer2D, begin, lua_begin),
+		method(Renderer2D, clear, lua_clear),
 		method(Renderer2D, debug_sprite, lua_debug_sprite),
 		method(Renderer2D, draw_sprite, lua_draw_sprite),
 		method(Renderer2D, draw_rect, lua_draw_rect),
