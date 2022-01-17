@@ -9,6 +9,8 @@ Home
 This is the documentation for the Xentu Game Engine. If you are looking for the
 main website, please visit `<https://xentu.net/>`_.
 
+These docs were last updated: |today|
+
 Table of contents
 -----------------
 
