@@ -15,7 +15,7 @@
   "StartMenuFolderName": null,
   "IncludeLicensePage": false,
   "License": null,
-  "SourcePath": "\\..\\out\\msvc",
+  "SourcePath": "\\..\\out\\win-msvc",
   "SourceIgnores": "*.pdb\n*.ibf",
   "DesktopShortcutIncludes": null,
   "PrimaryExeFilename": "",
