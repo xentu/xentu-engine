@@ -15,7 +15,7 @@ open-source libraries, written in C/C++, and very cross-platform friendly.
 - Structure using very fast emitter/subscriber events.
 - Organise with the scene system (switch instantly between game parts).
 - Load in textures, sprites, custom shaders, fonts, data etc... using a clever asset manager.
-- Renderer smartly with a system that draws in pre-organised batches for performance.
+- Renderer smartly with a system that draws in organised batches for performance.
 - Move, rotate or scale graphics using the simple built-in transform system.
 - Includes tools for creating, packaging and sharing your games.
 - Compact & portable, with the main exe compiling to 2mb in release mode.
@@ -41,16 +41,11 @@ open-source libraries, written in C/C++, and very cross-platform friendly.
 ## Background
 
 The engine works, but it's still far from a v1.0. Development (with prototyping)
-has taken the best part of 3 years so far, so don't let the commit log fool you.
+has taken the best part of 4 years so far, so don't let the commit log fool you.
 
 Original prototype development started early 2018 on top of the MonoGame framework
 in C# and the NLua bindings. The project lasted till November 2019, where it was
 decided to move to C++ due to wanting more control and performance.
-
-The concern was that the Lua cross-talk (while optimal thanks to NLua) was still
-slow, and hurt performance when tied to the game loop. It was theorised that a
-straight implementation without overhead would alleviate the problem, which it
-did.
 
 The C++ concept prototype was completed in May 2020 showing the implementation was
 much stronger performance wise. And so development of the project began in earnest
@@ -58,11 +53,11 @@ on the 3rd of May 2020.
 
 <br />
 
-## Going Forward (as of January 9th 2022)
+## Roadmap
 
-Most if not all of the todo's mentioned in the previous going forward section have
-now been completed or organised. Final prep before the repo and website go public
-is now the focus, with aim for going live on the 31st Jan 2022!
+While the project was private it was tradition to put something here about what's
+coming. But now that the website is live, please instead refer to the 
+official [https://xentu.net/roadmap](roadmap page) on the main website.
 
 <br />
 
