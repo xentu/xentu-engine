@@ -39,7 +39,7 @@ cd "$INST_PATH"
 
 
 # Create the control file.
-echo -e "Package: xentusdk
+echo "Package: xentusdk
 Version: $XEN_VERSION
 Architecture: $XEN_ARCH
 Maintainer: Kodaloid<kodaloid@xentu.net>
@@ -50,7 +50,7 @@ Description: A slim, fast and easy to learn framework for creating 2D games scri
 
 
 # Create the preinst.sh file.
-echo -e "#!/bin/bash
+echo "#!/bin/bash
 # file name preinst
 # Pre-install script for tera. This removes old versions o tera.
 echo \"Looking for old versions of XentuSDK ...\"
