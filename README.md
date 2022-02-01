@@ -136,7 +136,9 @@ an SDK command in the next few days which should solve the problem.
 
 ## Contribution And Community
 
-To get in touch, please use the Gitter board https://gitter.im/xentu-devs/community
+To get in touch, please join us on discord at https://discord.com/invite/enC7FGvV
+
+We also have a Gitter board https://gitter.im/xentu-devs/community
 
 <br />
 
