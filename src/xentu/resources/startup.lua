@@ -165,6 +165,62 @@ Entity.from_rect = function(x, y, width, height)
 end
 
 
+-- A utility struct for carrying out a sequence of steps.
+StepSequence = struct(function(inst)
+	-- store the steps to execute in sequence.
+	inst.steps = {}
+	-- index of the current step.
+	inst.step_iter = 0
+	-- number of steps stored.
+	inst.step_count = 0
+	-- record how much time has been accumulated.
+	inst.accumulator = 0
+	
+	-- add a step into the sequence.
+	inst.add = function(inst, repeat_count, interval, callback)
+		table.insert(inst.steps, {
+			repeat_count = repeat_count,
+			repeat_iter = 0,
+			interval = interval,
+			callback = callback
+		})
+		inst.step_count = inst.step_count + 1
+	end
+	
+	-- get the current step.
+	inst.current = function(inst)
+		-- return nil if no steps exist
+		if inst.step_count == 0 then return nil end
+		-- get the step at specific index.
+		return inst.steps[inst.step_iter + 1]
+	end
+	
+	-- call this from the update callback to progress the sequence.
+	inst.update = function(inst, dt)
+		-- only do this if we have a step.
+		local step = inst:current()
+		if step == nil then return end
+		-- increment the accumulator
+		inst.accumulator = inst.accumulator + dt
+		-- if accumulator is higher than first step interval.
+		if (inst.accumulator >= step.interval) then
+			-- subtract the interval time to allow for the timer running slow.
+			inst.accumulator = inst.accumulator - step.interval
+			-- trigger the callback associated with the step
+			local c_type = type(step.callback)
+			if c_type == 'function' then step.callback() end
+			if c_type == "string" then game.trigger(step.callback) end
+			-- increment the repeat iter.
+			step.repeat_iter = step.repeat_iter + 1
+			-- if we've repeated enough, move onto the next step.
+			if step.repeat_iter >= step.repeat_count then 
+				inst.step_iter = inst.step_iter + 1
+			end
+		end
+	end
+end)
+
+
 -- Shorthand for creating scene instances
 function Scene(name)
 	local s = XentuScene()
