@@ -1,0 +1,12 @@
+{
+	"configurations": [
+		 {
+			  "name": "Debug with Meson (windows)",
+			  "type": "cppvsdbg",
+			  "request": "launch",
+			  "program": "${workspaceRoot}/build/xentu",
+			  "cwd": "${workspaceRoot}",
+			  "preLaunchTask": "build debug meson"
+		 }
+	]
+}
