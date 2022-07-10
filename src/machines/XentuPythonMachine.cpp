@@ -13,16 +13,18 @@ namespace xen
 	:	XentuMachine::XentuMachine(argc, argv)
 	{
 		// grab program name from the command line arguments.
-		m_program = Py_DecodeLocale(argv[0], NULL);
-		if (m_program == NULL) {
-			fprintf(stderr, "Fatal error: cannot decode argv[0]\n");
-			exit(1);
+		for (int i=0; i<argc && i<MAX_ARGV; i++) {
+			// convert the arguments so that python can read them.
+			arg_values_py[i] = Py_DecodeLocale(argv[i], NULL);
 		}
+		
+		// get a program name from the args.
+		m_program = arg_values_py[0];
 		Py_SetProgramName(m_program);
 
-		// initialize python, passing the command line arguments.
+		// initialize python, passing the args.
 		Py_Initialize();
-		PySys_SetArgv(arg_count, (wchar_t **)argv);
+		PySys_SetArgv(arg_count, (wchar_t **)arg_values_py);
 
 		XEN_LOG("\nCreated XentuPythonMachine");
 	}
@@ -33,7 +35,7 @@ namespace xen
 		XEN_LOG("\nPython machine started!\n");
 
 		// run some python code.
-		PyRun_SimpleString("print('\\nHello from python world!')\n");
+		PyRun_SimpleString("import sys\nprint('test')\nprint(sys.argv)");
 
 		return 0;
 	}

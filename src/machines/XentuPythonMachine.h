@@ -13,8 +13,9 @@ namespace xen
 			int run();
 			void set_global(const std::string name, const std::string value);
 		
-		protected:
-			wchar_t *m_program;
+		private:
+			wchar_t* arg_values_py[MAX_ARGV];
+			wchar_t* m_program;
 	};
 }
 
