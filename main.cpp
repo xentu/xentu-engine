@@ -14,9 +14,6 @@ int main(const int argc, const char *argv[])
     const std::unique_ptr<xen::XentuPythonMachine> 
         machine(new xen::XentuPythonMachine(argc, argv));
 
-    // pass any global variables to the machine like this.
-    machine->set_global("test", "hello");
-
     // startup the machine so that scripts can run. It's upto the script
     // to create a game window in this version of Xentu. The run() command
     // is essentially the game loop.

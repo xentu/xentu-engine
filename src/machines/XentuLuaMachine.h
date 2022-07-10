@@ -10,7 +10,6 @@ namespace xen
 		public:
 				XentuLuaMachine(const int argc, const char *argv[]);
 				~XentuLuaMachine();
-				void set_global(const std::string name, const std::string value);
 	};
 }
 

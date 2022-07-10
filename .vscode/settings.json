@@ -5,7 +5,9 @@
 		"emscripten",
 		"hashlib",
 		"lzma",
+		"numargs",
 		"oobf",
+		"pycompobj",
 		"vfspp",
 		"WINDOWPOS",
 		"Xentu"

@@ -11,7 +11,6 @@ namespace xen
 			XentuPythonMachine(const int argc, const char *argv[]);
 			~XentuPythonMachine();
 			int run();
-			void set_global(const std::string name, const std::string value);
 		
 		private:
 			wchar_t* arg_values_py[MAX_ARGV];

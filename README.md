@@ -3,7 +3,7 @@
 
 
 A slim, fast and easy to learn framework for creating 2D games scripted in Lua,
-Python, Golang or JavaScript (via Ducktape). It's completely free to use, open-source
+Python or JavaScript (via Ducktape). It's completely free to use, open-source
 (under the zlib license), links to other open-source libraries, written in C/C++,
 and very cross-platform friendly.
 
