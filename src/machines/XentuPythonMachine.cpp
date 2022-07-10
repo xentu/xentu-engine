@@ -55,23 +55,37 @@ namespace xen
 		}
 		pyMachine = this;
 
-		// grab program name from the command line arguments.
+		// grab the command line arguments in a format python likes.
 		for (int i=0; i<argc && i<MAX_ARGV; i++) {
-			// convert the arguments so that python can read them.
 			arg_values_py[i] = Py_DecodeLocale(argv[i], NULL);
 		}
-
-		
 		
 		// get a program name from the args.
 		m_program = arg_values_py[0];
 		Py_SetProgramName(m_program);
 
+		// load the xen module.
 		PyImport_AppendInittab("xen", &PyInit_xen_pi);
 
 		// initialize python, passing the args.
 		Py_Initialize();
 		PySys_SetArgv(arg_count, (wchar_t **)arg_values_py);
+
+		// load in our custom import loader.
+		PyRun_SimpleString("import sys, importlib.util, xen\n"
+								 "class XenImporter(object):\n"
+								 "	def find_module(self, module_name, package_path): return self\n"
+								 "	def load_module(self, module_name):\n"
+								 "		_source = xen.read_text_file(\"/\" + module_name.replace(\".py\", \"\") + \".py\")\n"
+								 "		if (len(_source)):\n"
+								 "			_spec = importlib.util.spec_from_loader(module_name, loader=None)\n"
+								 "			_module = importlib.util.module_from_spec(_spec)\n"
+								 "			exec(_source, _module.__dict__)\n"
+								 "			sys.modules[module_name] = _module\n"
+								 "			globals()[module_name] = _module\n"
+								 "			return __import__(module_name)\n"
+								 "		return self\n"
+								 "sys.meta_path.append(XenImporter())\n");
 
 		XEN_LOG("Created XentuPythonMachine\n");
 	}
