@@ -9,7 +9,6 @@
 #include "src/fs/XenVirtualFileSystem.h"
 #include "src/fs/XenFileSystem.h"
 #include "src/fs/XenNativeFileSystem.h"
-#include "src/fs/XenZipFileSystem.h"
 
 namespace xen
 {
@@ -26,14 +25,11 @@ namespace xen
 		
 		// create a native pointing to the current dir (and a test zip endpoint).
 		XenFileSystemPtr root_fs(new XenNativeFileSystem("./assets"));
-		XenFileSystemPtr zip_fs(new XenZipFileSystem("./assets/test.zip", "/"));
     	root_fs->Initialize();
-		zip_fs->Initialize();
 		
 		// add the file systems to the vfs.
 		XenVirtualFileSystemPtr vfs = vfs_get_global();
 		vfs->AddFileSystem("/", root_fs);
-    	vfs->AddFileSystem("/zip/", zip_fs);
 
 		XEN_LOG("Created XentuMachine\n");
 	}

@@ -3,11 +3,13 @@
 		"CENTERED",
 		"Ducktape",
 		"emscripten",
+		"fullscreen",
 		"hashlib",
 		"lzma",
 		"numargs",
 		"oobf",
 		"pycompobj",
+		"pyright",
 		"vfspp",
 		"WINDOWPOS",
 		"Xentu"

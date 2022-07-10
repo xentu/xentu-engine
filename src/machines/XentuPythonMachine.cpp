@@ -2,10 +2,14 @@
 #define XEN_PYTHON_MACHINE_CPP
 
 #define PY_SSIZE_T_CLEAN
-#include <Python.h>
 
+#include <Python.h>
 #include <stdio.h>
 #include "XentuPythonMachine.h"
+
+#include "src/fs/XenVirtualFileSystem.h"
+#include "src/fs/XenFileSystem.h"
+#include "src/fs/XenZipFileSystem.h"
 
 namespace xen
 {
@@ -13,8 +17,14 @@ namespace xen
 	// between the class instance python.
 	static XentuPythonMachine* pyMachine = nullptr;
 
-	/* Return the number of arguments of the application command line */
-	static PyObject* xen_py_read_text_file(PyObject *self, PyObject *args) {
+
+
+	// ------------------ vfs python module ------------------------------------
+
+
+
+	/* Load a text file from the vfs. */
+	static PyObject* vfs_py_read_text_file(PyObject *self, PyObject *args) {
 		char *s;
 		if (!PyArg_ParseTuple(args, "s", &s)) {
 			return NULL;
@@ -29,19 +39,44 @@ namespace xen
 		return PyUnicode_FromString(result.data());
 	}
 
-	static PyMethodDef XenPyMethods[] = {
-		{"read_text_file", xen_py_read_text_file, METH_VARARGS, "Use the xentu vfs to get file."},
+	/* Mount a zip archive to the vfs. */
+	static PyObject* vfs_py_mount(PyObject *self, PyObject *args) {
+		char *s_point;
+		char *s_path;
+		if (!PyArg_ParseTuple(args, "ss", &s_point, &s_path)) {
+			return NULL;
+		}
+
+		// create the file system mount & init.
+		XenFileSystemPtr zip_fs(new XenZipFileSystem(s_path, "/"));
+		zip_fs->Initialize();
+		
+		// add the file systems to the vfs.
+		XenVirtualFileSystemPtr vfs = vfs_get_global();
+    	vfs->AddFileSystem(s_point, zip_fs);
+
+		// return true
+		return PyBool_FromLong(1);
+	}
+
+	static PyMethodDef VfsPyMethods[] = {
+		{"read_text_file", vfs_py_read_text_file, METH_VARARGS, "Use the xentu vfs to get file."},
+		{"mount", vfs_py_mount, METH_VARARGS, "Mount a path or zip archive into the vfs."},
 		{NULL, NULL, 0, NULL}
 	};
 
-	static PyModuleDef XenPyModule = {
-		PyModuleDef_HEAD_INIT, "xen", NULL, -1, XenPyMethods,
+	static PyModuleDef VfsPyModule = {
+		PyModuleDef_HEAD_INIT, "vfs", NULL, -1, VfsPyMethods,
 		NULL, NULL, NULL, NULL
 	};
 
 	static PyObject* PyInit_xen_pi(void) {
-		return PyModule_Create(&XenPyModule);
+		return PyModule_Create(&VfsPyModule);
 	}
+
+
+
+	// ------------------ xen python module ------------------------------------
 
 
 
@@ -65,18 +100,18 @@ namespace xen
 		Py_SetProgramName(m_program);
 
 		// load the xen module.
-		PyImport_AppendInittab("xen", &PyInit_xen_pi);
+		PyImport_AppendInittab("vfs", &PyInit_xen_pi);
 
 		// initialize python, passing the args.
 		Py_Initialize();
 		PySys_SetArgv(arg_count, (wchar_t **)arg_values_py);
 
 		// load in our custom import loader.
-		PyRun_SimpleString("import sys, importlib.util, xen\n"
+		PyRun_SimpleString("import sys, importlib.util, vfs\n"
 								 "class XenImporter(object):\n"
 								 "	def find_module(self, module_name, package_path): return self\n"
 								 "	def load_module(self, module_name):\n"
-								 "		_source = xen.read_text_file(\"/\" + module_name.replace(\".py\", \"\") + \".py\")\n"
+								 "		_source = vfs.read_text_file(\"/\" + module_name.replace(\".py\", \"\") + \".py\")\n"
 								 "		if (len(_source)):\n"
 								 "			_spec = importlib.util.spec_from_loader(module_name, loader=None)\n"
 								 "			_module = importlib.util.module_from_spec(_spec)\n"
@@ -96,12 +131,10 @@ namespace xen
 		XEN_LOG("Python machine started!\n");
 
 		// load some python code.
-		std::string py_code = read_text_file("/test.py") + "\r\n";
+		std::string py_code = read_text_file("/game.py") + "\r\n";
 
 		// run some python code.
-		PyRun_SimpleString(py_code.c_str());
-
-		return 0;
+		return PyRun_SimpleString(py_code.c_str());
 	}
 
 
