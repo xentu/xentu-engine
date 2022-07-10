@@ -82,8 +82,20 @@
 		"xstddef": "cpp",
 		"xtr1common": "cpp",
 		"fstream": "cpp",
-		"set": "cpp"
+		"set": "cpp",
+		"complex": "cpp",
+		"cstdarg": "cpp",
+		"deque": "cpp",
+		"filesystem": "cpp",
+		"numeric": "cpp",
+		"queue": "cpp",
+		"random": "cpp",
+		"typeindex": "cpp",
+		"unordered_set": "cpp",
+		"valarray": "cpp",
+		"variant": "cpp"
 	},
 	"mesonbuild.configureOnOpen": "ask",
-	"mesonbuild.buildFolder": "build"
+	"mesonbuild.buildFolder": "build",
+	"esbonio.sphinx.confDir": ""
 }

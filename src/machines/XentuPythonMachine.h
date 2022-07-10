@@ -8,10 +8,13 @@ namespace xen
 	class XentuPythonMachine : public XentuMachine
 	{
 		public:
-				XentuPythonMachine();
-				~XentuPythonMachine();
-				int run();
-				void set_global(const std::string name, const std::string value);
+			XentuPythonMachine(const int argc, const char *argv[]);
+			~XentuPythonMachine();
+			int run();
+			void set_global(const std::string name, const std::string value);
+		
+		protected:
+			wchar_t *m_program;
 	};
 }
 

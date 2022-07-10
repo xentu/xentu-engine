@@ -1,10 +1,10 @@
 project('xentu_rebuild', 'c', 'cpp',
         default_options: ['default_library=static'])
 
-
 #sdl2_image_dep = dependency('sdl2_image')
 #sdl2_dep = dependency('sdl2')
-incdir = include_directories('lib')
+py_dep = dependency('python3')
+incdir = include_directories(['lib'])
 
 
 project_source_files = files([
@@ -27,5 +27,4 @@ project_source_files = files([
 
 executable('xentu', project_source_files,
            include_directories : incdir,
-           dependencies: [])
-#          dependencies: [sdl2_image_dep, sdl2_dep],
+           dependencies: [py_dep])

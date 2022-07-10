@@ -6,15 +6,18 @@
 
 namespace xen
 {
-	XentuLuaMachine::XentuLuaMachine()
+	XentuLuaMachine::XentuLuaMachine(const int argc, const char *argv[])
+	:	XentuMachine::XentuMachine(argc, argv)
 	{
 		printf("\nCreated XentuLuaMachine");
 	}
+
 
 	void XentuLuaMachine::set_global(const std::string name, const std::string value)
 	{
 		printf("\nLua Set [%s]: %s", name.c_str(), value.c_str());
 	}
+	
 		
 	XentuLuaMachine::~XentuLuaMachine()
 	{
