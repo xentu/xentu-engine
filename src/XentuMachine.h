@@ -14,6 +14,7 @@ namespace xen
 			~XentuMachine();
 			virtual int run();
 			virtual void set_global(const std::string name, const std::string value);
+			std::string read_text_file(std::string file);
 		
 		public:
 			const size_t arg_count;

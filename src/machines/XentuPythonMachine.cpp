@@ -26,16 +26,19 @@ namespace xen
 		Py_Initialize();
 		PySys_SetArgv(arg_count, (wchar_t **)arg_values_py);
 
-		XEN_LOG("\nCreated XentuPythonMachine");
+		XEN_LOG("Created XentuPythonMachine\n");
 	}
 
 
 	int XentuPythonMachine::run()
 	{
-		XEN_LOG("\nPython machine started!\n");
+		XEN_LOG("Python machine started!\n");
+
+		// load some python code.
+		std::string py_code = read_text_file("/test.py");
 
 		// run some python code.
-		PyRun_SimpleString("import sys\nprint('test')\nprint(sys.argv)");
+		PyRun_SimpleString(py_code.c_str());
 
 		return 0;
 	}
@@ -43,7 +46,7 @@ namespace xen
 
 	void XentuPythonMachine::set_global(const std::string name, const std::string value)
 	{
-		printf("\nPython Set [%s]: %s", name.c_str(), value.c_str());
+		printf("Python Set [%s]: %s\n", name.c_str(), value.c_str());
 	}
 
 
@@ -54,7 +57,7 @@ namespace xen
 			exit(120);
 		}
 		PyMem_RawFree(m_program);
-		XEN_LOG("\nDestroyed XentuPythonMachine");
+		XEN_LOG("Destroyed XentuPythonMachine\n");
 	}
 }
 
