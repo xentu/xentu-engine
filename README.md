@@ -1,4 +1,4 @@
-<p align="center"><img width="100" src="assets/logo.png" alt="Xentu logo" /></p>
+<p align="center"><img width="100" src="assets/images/logo.png" alt="Xentu logo" /></p>
 <h1 align="center">Xentu Game Engine (v0.0.2 rebuild)</h1>
 
 
@@ -12,7 +12,7 @@ and very cross-platform friendly.
 ## Engine Features
 
 - Works on OpenGL 3.3+ (and ES 3.0+) or SDL.
-- Game code is written in Lua (or Python/Golang), no need to recompile every time.
+- Game code is written in Lua (or Python/JavaScript), no need to recompile every time.
 - Structure using very fast emitter/subscriber events.
 - Organise with the scene system (switch instantly between game parts).
 - Load in textures, sprites, custom shaders, fonts, data etc... using a clever asset manager.
@@ -28,15 +28,15 @@ and very cross-platform friendly.
 If you want a working engine, see the [master branch](https://github.com/xentu/xentu-engine/tree/master).
 
 For the next Alpha (v0.0.2), I am rebuilding Xentu so that it can use more modern
-tech, add support for other scripting languages (Python, Golang, JavaScript), and
-include support for other projects I have like the Sutori dialog engine. This track
+tech, add support for other scripting languages (Python, JavaScript), and include
+support for other projects I have like the Sutori dialog engine. This track
 will also add support for emscripten so that we finally get browser support.
 
 Project brief:
 - Use meson/ninja instead of CMake. [done]
 - Fix, port & update vfspp so that xentu has a real virtual file system. [done]
-- Make the engine more abstraction orientated allowing for parts to be swapped.
-- Add core functionality to support embedded languages.
+- Make the engine more abstraction orientated allowing for parts to be swapped. [done]
+- Add core functionality to support embedded languages. [done]
 - Add SDL compatibility.
 
 ## Building

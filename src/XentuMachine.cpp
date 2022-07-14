@@ -35,7 +35,7 @@ namespace xen
 	}
 
 
-	int XentuMachine::run()
+	int XentuMachine::run(const std::string entry_point)
 	{
 		// todo: throw error if trying to use the default machine.
 		return -1;

@@ -25,6 +25,7 @@ mkdir -p ./subprojects
 meson wrap install zlib
 meson wrap install libjpeg-turbo
 meson wrap install libpng
+meson wrap install lua
 meson wrap install sdl2_image
 meson wrap install sdl2
 

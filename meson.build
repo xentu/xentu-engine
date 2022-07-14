@@ -4,10 +4,12 @@ project('xentu_rebuild', 'c', 'cpp',
 #sdl2_image_dep = dependency('sdl2_image')
 #sdl2_dep = dependency('sdl2')
 py_dep = dependency('python3')
+lua_dep = dependency('lua-5.4')
 incdir = include_directories(['lib'])
 
 
 project_source_files = files([
+  'lib/ducktape/duktape.c',
   'src/fs/miniz.c',
   'src/fs/XenFileInfo.cpp',
   'src/fs/XenMemoryFile.cpp',
@@ -18,6 +20,7 @@ project_source_files = files([
   'src/fs/XenVirtualFileSystem.cpp',
   'src/fs/XenZipFile.cpp',
   'src/fs/XenZipFileSystem.cpp',
+  'src/machines/XentuJavaScriptMachine.cpp',
   'src/machines/XentuLuaMachine.cpp',
   'src/machines/XentuPythonMachine.cpp',
   'src/XentuMachine.cpp', 
@@ -27,4 +30,4 @@ project_source_files = files([
 
 executable('xentu', project_source_files,
            include_directories : incdir,
-           dependencies: [py_dep])
+           dependencies: [py_dep, lua_dep])

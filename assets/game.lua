@@ -14,7 +14,7 @@ end)
 
 
 game.on('update', function(self, dt)
-	print("update called")
+	print("draw called")
 end)
 
 

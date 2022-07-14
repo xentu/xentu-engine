@@ -1,13 +1,16 @@
 {
 	"cSpell.words": [
 		"CENTERED",
+		"dostring",
 		"Ducktape",
 		"emscripten",
 		"fullscreen",
 		"hashlib",
 		"lzma",
+		"newstate",
 		"numargs",
 		"oobf",
+		"openlibs",
 		"pycompobj",
 		"pyright",
 		"vfspp",

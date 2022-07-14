@@ -10,7 +10,7 @@ namespace xen
 		public:
 			XentuPythonMachine(const int argc, const char *argv[]);
 			~XentuPythonMachine();
-			int run();
+			int run(const std::string entry_point);
 		
 		private:
 			wchar_t* arg_values_py[MAX_ARGV];

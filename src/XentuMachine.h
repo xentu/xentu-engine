@@ -12,7 +12,7 @@ namespace xen
 		public:
 			XentuMachine(const size_t argc, const char *argv[]);
 			~XentuMachine();
-			virtual int run();
+			virtual int run(const std::string entry_point);
 			std::string read_text_file(std::string file);
 		
 		public:

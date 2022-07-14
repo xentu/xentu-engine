@@ -126,12 +126,12 @@ namespace xen
 	}
 
 
-	int XentuPythonMachine::run()
+	int XentuPythonMachine::run(const std::string entry_point)
 	{
 		XEN_LOG("Python machine started!\n");
 
 		// load some python code.
-		std::string py_code = read_text_file("/game.py") + "\r\n";
+		std::string py_code = read_text_file("/test.py") + "\r\n";
 
 		// run some python code.
 		return PyRun_SimpleString(py_code.c_str());

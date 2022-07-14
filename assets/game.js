@@ -14,7 +14,7 @@ class MyGame extends XentuGame {
 	}
 
 	draw(self, dt) {
-		print('update called')
+		print('draw called')
 	}
 }
 
