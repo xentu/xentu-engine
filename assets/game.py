@@ -1,21 +1,21 @@
 from xentu import *
 import vfs
-
-class MyGame(XentuGame):
-	def __init__(self):
-		vfs.mount('/zip', './assets/test.zip')
-		self.set_screen(800, 600, False)
-		self.set_clear_color("#5f78988")
+import game
 
 
-	def update(self, dt):
-		print("update called")
+vfs.mount('/zip', './assets/test.zip')
+#game.set_screen(800, 600, False)
+#game.set_clear_color("#5f78988")
+
+
+def update(dt):
+	print("update called")
 	
 	
-	def draw(self, dt):
-		print('draw called')
-		
+def draw(dt):
+	print('draw called')
 
-game_run(MyGame)
 
- 
+game.on('update', update)
+game.on('draw', draw)
+#game.run(0, 0, 800, 600, False)

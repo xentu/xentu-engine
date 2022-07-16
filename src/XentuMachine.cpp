@@ -42,6 +42,13 @@ namespace xen
 	}
 
 
+	int XentuMachine::trigger(const std::string event_name)
+	{
+		// triggers shouldn't effect the base class.
+		return -1;
+	}
+
+
 	/**
 	 * Read a text file using the vfs. Note the string returned needs to be
 	 * converted to be used properly by Python.

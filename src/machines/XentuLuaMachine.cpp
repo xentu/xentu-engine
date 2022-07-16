@@ -9,9 +9,17 @@ namespace xen
 	XentuLuaMachine::XentuLuaMachine(const int argc, const char *argv[])
 	:	XentuMachine::XentuMachine(argc, argv)
 	{
-		XEN_LOG("\nCreated XentuLuaMachine");
+		// keep a pointer to this instance.
+		if (luaMachine != nullptr) {
+			printf("Error, tried to create more than one XentuLuaMachine!");
+			exit(111);
+		}
+		luaMachine = this;
+
 		L = luaL_newstate();
 		luaL_openlibs(L);
+		
+		XEN_LOG("\nCreated XentuLuaMachine");
 	}
 
 
@@ -20,7 +28,7 @@ namespace xen
 		XEN_LOG("Lua machine started!\n");
 
 		// load some lua code.
-		std::string lua_code = read_text_file("/test.lua") + "\r\n";
+		std::string lua_code = read_text_file(entry_point) + "\r\n";
 
 		// run the lua code.
 		auto ret_startup = luaL_dostring(L, lua_code.c_str());
@@ -34,11 +42,31 @@ namespace xen
 		// finish running.
 		return 0;
 	}
+
+
+	int XentuLuaMachine::trigger(const std::string event_name)
+	{
+		int functionRef = this->callbacks[event_name];
+		if (functionRef > 0)
+		{
+			lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
+			lua_call(L, 0, 0);
+		}
+		return 1;
+	}
+
+
+	int XentuLuaMachine::on(const std::string event_name, const int callback_ref)
+	{
+		this->callbacks.insert(std::make_pair(event_name, callback_ref));
+		return 1;
+	}
 	
 		
 	XentuLuaMachine::~XentuLuaMachine()
 	{
 		lua_close(L);
+		luaMachine = nullptr;
 		XEN_LOG("\nDestroyed XentuLuaMachine");
 	}
 }

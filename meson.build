@@ -20,8 +20,10 @@ project_source_files = files([
   'src/fs/XenVirtualFileSystem.cpp',
   'src/fs/XenZipFile.cpp',
   'src/fs/XenZipFileSystem.cpp',
-  'src/machines/XentuJavaScriptMachine.cpp',
+  #'src/machines/XentuJavaScriptMachineInterop.cpp',
+  #'src/machines/XentuJavaScriptMachine.cpp',
   'src/machines/XentuLuaMachine.cpp',
+  'src/machines/XentuPythonMachineInterop.cpp',
   'src/machines/XentuPythonMachine.cpp',
   'src/XentuMachine.cpp', 
   'main.cpp'
