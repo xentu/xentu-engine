@@ -103,6 +103,7 @@ namespace xen
 		if (Py_FinalizeEx() < 0) {
 			exit(120);
 		}
+		instance = nullptr;
 		PyMem_RawFree(m_program);
 		XEN_LOG("Destroyed XentuPythonMachine\n");
 	}
