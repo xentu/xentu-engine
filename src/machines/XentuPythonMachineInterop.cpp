@@ -14,8 +14,49 @@
 
 namespace xen
 {
-	/* Load a text file from the vfs. */
-	PyObject* py_vfs_read_text_file(PyObject *self, PyObject *args) {
+	/* ---- Python Interop Helpers ------------------------------------------- */
+
+
+	void xen_py_call_func(const char* function_name)
+	{
+		PyObject *pModule = PyImport_ImportModule("__main__");
+		PyObject *pFunc = PyObject_GetAttrString(pModule, function_name);
+		if (pFunc == NULL) {
+			if (PyErr_Occurred()) {
+				PyErr_Print();
+			}
+			Py_DECREF(pModule);
+			return;
+		}
+		PyObject_CallNoArgs(pFunc);
+		Py_DECREF(pFunc);
+		Py_DECREF(pModule);
+	}
+
+
+	void xen_py_call_func(const char* function_name, const char* arg0)
+	{
+		PyObject *pModule = PyImport_ImportModule("__main__");
+		PyObject *pFunc = PyObject_GetAttrString(pModule, function_name);
+		if (pFunc == NULL) {
+			if (PyErr_Occurred()) {
+				PyErr_Print();
+			}
+			Py_DECREF(pModule);
+			return;
+		}
+		PyObject *pArg0 = PyUnicode_FromString(arg0);
+		PyObject_CallOneArg(pFunc, pArg0);
+		Py_DECREF(pArg0);
+		Py_DECREF(pFunc);
+		Py_DECREF(pModule);
+	}
+
+
+	/* ---- VFS Module ------------------------------------------------------- */
+
+	
+	PyObject* xen_py_fn_vfs_read_text_file(PyObject *self, PyObject *args) {
 		char *s;
 		if (!PyArg_ParseTuple(args, "s", &s)) {
 			return NULL;
@@ -27,9 +68,7 @@ namespace xen
 		return PyUnicode_FromString(result.data());
 	}
 
-
-	/* Mount a zip archive to the vfs. */
-	PyObject* py_vfs_mount(PyObject *self, PyObject *args) {
+	PyObject* xen_py_fn_vfs_mount(PyObject *self, PyObject *args) {
 		char *s_point;
 		char *s_path;
 		if (!PyArg_ParseTuple(args, "ss", &s_point, &s_path)) {
@@ -48,9 +87,26 @@ namespace xen
 		return PyBool_FromLong(1);
 	}
 
+	PyMethodDef xen_py_explain_module_vfs[] = {
+		{"read_text_file", xen_py_fn_vfs_read_text_file, METH_VARARGS, "Use the xentu vfs to get file."},
+		{"mount", xen_py_fn_vfs_mount, METH_VARARGS, "Mount a path or zip archive into the vfs."},
+		{NULL, NULL, 0, NULL}
+	};
 
-	/* handle a game event */
-	PyObject* py_game_on(PyObject *self, PyObject *args) {
+	PyModuleDef xen_py_def_module_vfs = {
+		PyModuleDef_HEAD_INIT, "vfs", NULL, -1, xen_py_explain_module_vfs,
+		NULL, NULL, NULL, NULL
+	};
+
+	PyObject* xen_py_init_module_vfs(void) {
+		return PyModule_Create(&xen_py_def_module_vfs);
+	}
+
+
+	/* ---- Game Module ------------------------------------------------------ */
+
+
+	PyObject* xen_py_fn_game_on(PyObject *self, PyObject *args) {
 		char *s_event_name;
 		char *s_callback;
 		if (!PyArg_ParseTuple(args, "ss", &s_event_name, &s_callback)) {
@@ -66,25 +122,7 @@ namespace xen
 		return PyBool_FromLong(1);
 	}
 
-
-	/* call a named python function */
-	void PyTriggerFunc(const char* function_name)
-	{
-		PyObject *pModule = PyImport_ImportModule("__main__");
-		PyObject *pFunc = PyObject_GetAttrString(pModule, function_name);
-		if (pFunc == NULL) {
-			if (PyErr_Occurred()) {
-				PyErr_Print();
-			}
-			return;
-		}
-
-		PyObject_CallObject(pFunc, NULL);
-	}
-
-
-	/* handle a game event */
-	PyObject* py_game_trigger(PyObject *self, PyObject *args) {
+	PyObject* xen_py_fn_game_trigger(PyObject *self, PyObject *args) {
 		char *s_event_name;
 		if (!PyArg_ParseTuple(args, "s", &s_event_name)) {
 			return NULL;
@@ -98,41 +136,23 @@ namespace xen
 		return PyBool_FromLong(1);
 	}
 
-
-	PyMethodDef PyVfsMethods[] = {
-		{"read_text_file", py_vfs_read_text_file, METH_VARARGS, "Use the xentu vfs to get file."},
-		{"mount", py_vfs_mount, METH_VARARGS, "Mount a path or zip archive into the vfs."},
+	PyMethodDef xen_py_explain_module_game[] = {
+		{"on", xen_py_fn_game_on, METH_VARARGS, "Handle an engine or custom event."},
+		{"trigger", xen_py_fn_game_trigger, METH_VARARGS, "Trigger an event."},
 		{NULL, NULL, 0, NULL}
 	};
 
-
-	PyMethodDef PyGameMethods[] = {
-		{"on", py_game_on, METH_VARARGS, "Handle an engine or custom event."},
-		{"trigger", py_game_trigger, METH_VARARGS, "Trigger an event."},
-		{NULL, NULL, 0, NULL}
-	};
-
-
-	PyModuleDef PyVfsModule = {
-		PyModuleDef_HEAD_INIT, "vfs", NULL, -1, PyVfsMethods,
+	PyModuleDef xen_py_def_module_game = {
+		PyModuleDef_HEAD_INIT, "game", NULL, -1, xen_py_explain_module_game,
 		NULL, NULL, NULL, NULL
 	};
 
-
-	PyModuleDef PyGameModule = {
-		PyModuleDef_HEAD_INIT, "game", NULL, -1, PyGameMethods,
-		NULL, NULL, NULL, NULL
-	};
-
-
-	PyObject* PyInit_vfs(void) {
-		return PyModule_Create(&PyVfsModule);
+	PyObject* xen_py_init_module_game(void) {
+		return PyModule_Create(&xen_py_def_module_game);
 	}
 
 
-	PyObject* PyInit_game(void) {
-		return PyModule_Create(&PyGameModule);
-	}
+	/* ---- Game Module ------------------------------------------------------ */
 }
 
 #endif

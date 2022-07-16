@@ -28,8 +28,8 @@ namespace xen
 		Py_SetProgramName(m_program);
 
 		// load the xen module.
-		PyImport_AppendInittab("vfs", &PyInit_vfs);
-		PyImport_AppendInittab("game", &PyInit_game);
+		PyImport_AppendInittab("vfs", &xen_py_init_module_vfs);
+		PyImport_AppendInittab("game", &xen_py_init_module_game);
 
 		// initialize python, passing the args.
 		Py_Initialize();
@@ -83,7 +83,7 @@ namespace xen
 	{
 		auto its = this->callbacks.equal_range(event_name);
 		for (auto it = its.first; it != its.second; ++it) {
-			PyTriggerFunc(it->second.c_str());
+			xen_py_call_func(it->second.c_str());
 		}
 		return 1;
 	}

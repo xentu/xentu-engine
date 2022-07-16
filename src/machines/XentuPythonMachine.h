@@ -27,9 +27,10 @@ namespace xen
 	};
 
 
-	PyObject* PyInit_vfs(void);
-	PyObject* PyInit_game(void);
-	void PyTriggerFunc(const char* function_name);
+	PyObject* xen_py_init_module_vfs(void);
+	PyObject* xen_py_init_module_game(void);
+	void xen_py_call_func(const char* function_name);
+	void xen_py_call_func(const char* function_name, const char* arg0);
 }
 
 #endif

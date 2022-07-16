@@ -6,7 +6,7 @@
 #include "src/machines/XentuLuaMachine.h"
 #include "src/machines/XentuPythonMachine.h"
 
-using MACHINE_PY_PTR = std::unique_ptr<xen::XentuMachine>;
+using MACHINE_PTR = std::unique_ptr<xen::XentuMachine>;
 //using MACHINE_PTR_STR = std::unique_ptr<xen::XentuMachine<std::string>>;
 
 int main(const int argc, const char *argv[])
@@ -14,11 +14,12 @@ int main(const int argc, const char *argv[])
     //const MACHINE_PTR js_machine(new xen::XentuJavaScriptMachine(argc, argv));
     //js_machine->run("/test.js");
 
-    //const MACHINE_PTR_LUA lua_machine(new xen::XentuLuaMachine(argc, argv));
+    //const MACHINE_PTR lua_machine(new xen::XentuLuaMachine(argc, argv));
     //lua_machine->run("/test.lua");
 
-    //const MACHINE_PY_PTR py_machine(new xen::XentuPythonMachine(argc, argv));
-    //py_machine->run("/test.py");
+    const MACHINE_PTR py_machine(new xen::XentuPythonMachine(argc, argv));
+    py_machine->run("/test.py");
+    xen::xen_py_call_func("test2", "oink");
 
     // 3. at this point the game would have ended.
     XEN_LOG("\nEnded with code %i.", res);
