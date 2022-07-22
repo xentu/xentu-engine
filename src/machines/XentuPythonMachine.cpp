@@ -6,6 +6,7 @@
 #include <Python.h>
 #include <stdio.h>
 #include "XentuPythonMachine.h"
+#include "XentuPythonMachineScripts.h"
 
 #include "src/fs/XenVirtualFileSystem.h"
 #include "src/fs/XenFileSystem.h"
@@ -36,20 +37,7 @@ namespace xen
 		PySys_SetArgv(arg_count, (wchar_t **)arg_values_py);
 
 		// load in our custom import loader.
-		PyRun_SimpleString("import sys, importlib.util, vfs\n"
-								 "class XenImporter(object):\n"
-								 "	def find_module(self, module_name, package_path): return self\n"
-								 "	def load_module(self, module_name):\n"
-								 "		_source = vfs.read_text_file(\"/\" + module_name.replace(\".py\", \"\") + \".py\")\n"
-								 "		if (len(_source)):\n"
-								 "			_spec = importlib.util.spec_from_loader(module_name, loader=None)\n"
-								 "			_module = importlib.util.module_from_spec(_spec)\n"
-								 "			exec(_source, _module.__dict__)\n"
-								 "			sys.modules[module_name] = _module\n"
-								 "			globals()[module_name] = _module\n"
-								 "			return __import__(module_name)\n"
-								 "		return self\n"
-								 "sys.meta_path.append(XenImporter())\n");
+		PyRun_SimpleString(xen_py_script_init);
 
 		XEN_LOG("Created XentuPythonMachine\n");
 	}

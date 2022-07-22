@@ -18,8 +18,7 @@ int main(const int argc, const char *argv[])
     //lua_machine->run("/test.lua");
 
     const MACHINE_PTR py_machine(new xen::XentuPythonMachine(argc, argv));
-    py_machine->run("/test.py");
-    xen::xen_py_call_func("test2", "oink");
+    py_machine->run("/scripts/python/test.py");
 
     // 3. at this point the game would have ended.
     XEN_LOG("\nEnded with code %i.", res);

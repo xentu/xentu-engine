@@ -9,8 +9,11 @@ incdir = include_directories(['lib'])
 
 
 project_source_files = files([
+  # libs
   'lib/ducktape/duktape.c',
   'src/fs/miniz.c',
+
+  # filesystem
   'src/fs/XenFileInfo.cpp',
   'src/fs/XenMemoryFile.cpp',
   'src/fs/XenMemoryFileSystem.cpp',
@@ -20,12 +23,16 @@ project_source_files = files([
   'src/fs/XenVirtualFileSystem.cpp',
   'src/fs/XenZipFile.cpp',
   'src/fs/XenZipFileSystem.cpp',
+
+  # machines
   #'src/machines/XentuJavaScriptMachineInterop.cpp',
   #'src/machines/XentuJavaScriptMachine.cpp',
   'src/machines/XentuLuaMachine.cpp',
   'src/machines/XentuPythonMachineInterop.cpp',
   'src/machines/XentuPythonMachine.cpp',
   'src/XentuMachine.cpp', 
+
+  # main
   'main.cpp'
 ])
 
