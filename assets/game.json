@@ -1,0 +1,17 @@
+{
+	"game": {
+		"title": "Hello World",
+		"entry_point": "/scripts/python/test.py",
+		"screen": {
+			"width": 800,
+			"height": 600,
+			"v_sync": true,
+			"fullscreen": false
+		},
+		"viewport": {
+			"width": 800,
+			"height": 600,
+			"mode": 2
+		}
+	}
+}

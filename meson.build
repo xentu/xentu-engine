@@ -11,7 +11,7 @@ incdir = include_directories(['lib'])
 project_source_files = files([
   # libs
   'lib/ducktape/duktape.c',
-  'src/fs/miniz.c',
+  'lib/miniz/miniz.c',
 
   # filesystem
   'src/fs/XenFileInfo.cpp',

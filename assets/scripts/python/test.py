@@ -1,6 +1,5 @@
 from xentu import assets, const, game, geometry
 
-
 print("Hello from python world!\n")
 
 

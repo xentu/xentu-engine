@@ -1,5 +1,5 @@
 #include "XenZipFile.h"
-#include "miniz.h"
+#include <miniz/miniz.h>
 #include <sys/stat.h>
 #include <cstring>
 #include "XenStringUtils.h"

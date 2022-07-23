@@ -1,8 +1,9 @@
 import sys
 from xentu import assets, const, game, geometry, graphics
 
-# create a window & renderer.
+# create a window.
 window = game.create_window("My Game", const.POS_AUTO, const.POS_AUTO, 640, 480, 0)
+# create a renderer that draws onto 
 renderer = graphics.create_renderer(window, -1, const.RM_ACCELERATED, const.RT_IMMEDIATE)
 
 # load a texture.
@@ -20,3 +21,4 @@ def draw_callback(dt):
 
 # hook the draw function.
 game.on('draw', 'draw_callback')
+game.run()
