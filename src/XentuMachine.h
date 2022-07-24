@@ -3,6 +3,7 @@
 
 #include "Xentu.h"
 #include "XentuConfig.h"
+#include "XentuRenderer.h"
 
 namespace xen
 {
@@ -13,6 +14,7 @@ namespace xen
 			~XentuMachine();
 			virtual int run(const std::string entry_point);
 			virtual int trigger(const std::string event_name);
+			XentuRenderer* get_renderer();
 
 		protected:
 			const size_t arg_count;
@@ -20,6 +22,7 @@ namespace xen
 
 		private:
 			const XentuConfig* m_config;
+			XentuRenderer* m_renderer;
 	};
 }
 

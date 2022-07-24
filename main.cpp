@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     // initialize and setup defaults for the vfs.
 	vfs_initialize();
     vfs_default();
-    sdl_test();
+    //sdl_test();
 
     // load the json config.
 	std::string result = vfs_get_global()->ReadAllText("/game.json");

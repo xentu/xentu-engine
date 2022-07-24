@@ -9,6 +9,7 @@
 #include "fs/XenVirtualFileSystem.h"
 #include "fs/XenFileSystem.h"
 #include "fs/XenNativeFileSystem.h"
+#include "renderers/XentuSDLRenderer.h"
 
 namespace xen
 {
@@ -21,6 +22,8 @@ namespace xen
 		}
 
 		m_config = config;
+		m_renderer = new XentuSDLRenderer(config);
+
 		XEN_LOG("Created XentuMachine\n");
 	}
 
@@ -36,6 +39,12 @@ namespace xen
 	{
 		// triggers shouldn't effect the base class.
 		return -1;
+	}
+
+
+	XentuRenderer* XentuMachine::get_renderer()
+	{
+		return m_renderer;
 	}
 
 	

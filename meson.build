@@ -31,6 +31,9 @@ project_source_files = files([
   'src/machines/XentuPythonMachineInterop.cpp',
   'src/machines/XentuPythonMachine.cpp',
   'src/XentuMachine.cpp',
+
+  # renderers
+  'src/renderers/XentuSDLRenderer.cpp',
   'src/XentuRenderer.cpp',
   'src/XentuConfig.cpp',
 

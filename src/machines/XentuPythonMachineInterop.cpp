@@ -3,6 +3,8 @@
 
 #define PY_SSIZE_T_CLEAN
 
+#include "SDL.h"
+
 #include <Python.h>
 #include <stdio.h>
 #include <string>
@@ -135,24 +137,39 @@ namespace xen
 	}
 
 	PyObject* xen_py_fn_game_create_window(PyObject *self, PyObject *args) {
-		char *s_event_name;
-		int x, y, width, height, mode;
-		if (!PyArg_ParseTuple(args, "siiiii", &s_event_name, &x, &y, &width, &height, &mode)) {
+		XentuPythonMachine* m = XentuPythonMachine::get_instance();
+		auto r = m->get_renderer();
+		int window_id = r->create_window();
+		return PyLong_FromLong(window_id);
+	}
+
+	PyObject* xen_py_fn_game_create_window_ex(PyObject *self, PyObject *args) {
+		char *s_title;
+		int s_x, s_y, s_width, s_height, s_mode;
+		if (!PyArg_ParseTuple(args, "siiiii", &s_title, &s_x, &s_y, &s_width, &s_height, &s_mode)) {
 			return NULL;
 		}
 
-		// trigger the event.
-		auto m = XentuPythonMachine::get_instance();
-		//int window_id = m->create_window(x, y, width, height, mode);
-		
-		// return the window id.
-		return PyLong_FromLong(1);
+		XentuPythonMachine* m = XentuPythonMachine::get_instance();
+		auto r = m->get_renderer();
+		auto t = std::string(s_title);
+		int window_id = r->create_window_ex(t, s_x, s_y, s_width, s_height, s_mode);
+		return PyLong_FromLong(window_id);
+	}
+
+	PyObject* xen_py_fn_game_run(PyObject *self, PyObject *args) {
+		XentuPythonMachine* m = XentuPythonMachine::get_instance();
+		auto r = m->get_renderer();
+		r->run();
+		return PyBool_FromLong(1);
 	}
 
 	PyMethodDef xen_py_explain_module_game[] = {
 		{"on", xen_py_fn_game_on, METH_VARARGS, "Handle an engine or custom event."},
 		{"trigger", xen_py_fn_game_trigger, METH_VARARGS, "Trigger an event."},
 		{"create_window", xen_py_fn_game_create_window, METH_VARARGS, "Create a new game window." },
+		{"create_window_ex", xen_py_fn_game_create_window_ex, METH_VARARGS, "Create a new game window." },
+		{"run", xen_py_fn_game_run, METH_VARARGS, "Begin running the game." },
 		{NULL, NULL, 0, NULL}
 	};
 
