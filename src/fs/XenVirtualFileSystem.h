@@ -10,6 +10,7 @@ namespace xen
 	CLASS_PTR(XenFileSystem)
 	CLASS_PTR(XenVirtualFileSystem)
     
+	extern void vfs_default();
 	extern void vfs_initialize();
 	extern void vfs_shutdown();
 	extern XenVirtualFileSystemPtr vfs_get_global();
@@ -69,6 +70,11 @@ namespace xen
 		 * Close opened file if it was opened via OpenFirstFile(..)
 		 */
 		void CloseFile(XenFilePtr file);
+
+		/**
+		 * Read the entire contents of a text file and return it as a string.
+		 */
+		std::string XenVirtualFileSystem::ReadAllText(const std::string filename);
     
 	private:
 		TFileSystemMap m_FileSystem;

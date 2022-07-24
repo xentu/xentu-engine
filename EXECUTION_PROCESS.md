@@ -10,14 +10,14 @@ game in the new version of Xentu:
 - The chosen machine is created, and runs built-in scripts for the language.
 - Machine looks for a game.py (or game.lua, game.js) and runs it.
 
-## Script (python)
+## Script Initialization
 
-- User creates a XentuGame derived class.
-- User instantiates a copy of the class, and passes it to xentu.run().
-- Engine script communicates with c++ to create window/render surface.
-- Game loop begins, calling update() and draw() respectively.
-- Game ends when loop is broken or sys.exit() is called.
+- Create a window and renderer pair (may allow multiple pairs in future).
+- Hook into global events such as update and draw.
+- Call game.run() to start the game loop.
 
-## Script (lua)
+## Game Loop
 
-- User creates
+The game loop is controlled by the initialized machine. It's a closed loop that
+runs as fast as possible, and triggers events based on the timings specified in
+the config.

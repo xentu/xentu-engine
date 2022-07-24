@@ -3,11 +3,12 @@
 
 #include <stdio.h>
 #include "XentuJavaScriptMachine.h"
+#include "../fs/XenVirtualFileSystem.h"
 
 namespace xen
 {
-	XentuJavaScriptMachine::XentuJavaScriptMachine(const int argc, const char *argv[])
-	:	XentuMachine<duk_small_int_t>::XentuMachine(argc, argv)
+	XentuJavaScriptMachine::XentuJavaScriptMachine(const int argc, const char *argv[], const XentuConfig* config)
+	:	XentuMachine::XentuMachine(argc, argv, config)
 	{
 		// keep a pointer to this instance.
 		if (jsMachine != nullptr) {
@@ -30,7 +31,7 @@ namespace xen
 		XEN_LOG("Lua machine started!\n");
 
 		// load some js code.
-		std::string js_code = read_text_file(entry_point) + "\r\n";
+		std::string js_code = vfs_get_global()->ReadAllText(entry_point) + "\r\n";
 
 		// run the js code.
 		duk_eval_string(L, js_code.c_str());

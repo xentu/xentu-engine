@@ -2,16 +2,19 @@
 	"game": {
 		"title": "Hello World",
 		"entry_point": "/scripts/python/test.py",
-		"screen": {
+		"v_sync": true,
+		"fullscreen": false,
+		"update_frequency": 30,
+		"window": {
+			"x": "auto",
+			"y": "auto",
 			"width": 800,
-			"height": 600,
-			"v_sync": true,
-			"fullscreen": false
+			"height": 600
 		},
-		"viewport": {
-			"width": 800,
-			"height": 600,
-			"mode": 2
+		"renderer": {
+			"engine": "sdl2",
+			"accelerated": true,
+			"technique": "immediate"
 		}
 	}
 }

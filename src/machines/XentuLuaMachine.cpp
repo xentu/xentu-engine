@@ -3,11 +3,12 @@
 
 #include <stdio.h>
 #include "XentuLuaMachine.h"
+#include "../fs/XenVirtualFileSystem.h"
 
 namespace xen
 {
-	XentuLuaMachine::XentuLuaMachine(const int argc, const char *argv[])
-	:	XentuMachine::XentuMachine(argc, argv)
+	XentuLuaMachine::XentuLuaMachine(const int argc, const char *argv[], const XentuConfig* config)
+	:	XentuMachine::XentuMachine(argc, argv, config)
 	{
 		// keep a pointer to this instance.
 		if (luaMachine != nullptr) {
@@ -28,7 +29,7 @@ namespace xen
 		XEN_LOG("Lua machine started!\n");
 
 		// load some lua code.
-		std::string lua_code = read_text_file(entry_point) + "\r\n";
+		std::string lua_code = vfs_get_global()->ReadAllText(entry_point) + "\r\n";
 
 		// run the lua code.
 		auto ret_startup = luaL_dostring(L, lua_code.c_str());

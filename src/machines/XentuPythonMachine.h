@@ -12,7 +12,7 @@ namespace xen
 	class XentuPythonMachine : public XentuMachine
 	{
 		public:
-			XentuPythonMachine(const int argc, const char *argv[]);
+			XentuPythonMachine(int argc, char *argv[], const XentuConfig* config);
 			~XentuPythonMachine();
 			static XentuPythonMachine* get_instance();
 			int run(const std::string entry_point);

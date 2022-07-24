@@ -7,10 +7,10 @@
 
 namespace xen
 {
-	class XentuJavaScriptMachine : public XentuMachine<duk_small_int_t>
+	class XentuJavaScriptMachine : public XentuMachine
 	{
 		public:
-			XentuJavaScriptMachine(const int argc, const char *argv[]);
+			XentuJavaScriptMachine(const int argc, const char *argv[], const XentuConfig* config);
 			~XentuJavaScriptMachine();
 			int run(const std::string entry_point);
 			int trigger(const std::string event_name);

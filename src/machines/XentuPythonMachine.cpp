@@ -7,15 +7,12 @@
 #include <stdio.h>
 #include "XentuPythonMachine.h"
 #include "XentuPythonMachineScripts.h"
-
-#include "src/fs/XenVirtualFileSystem.h"
-#include "src/fs/XenFileSystem.h"
-#include "src/fs/XenZipFileSystem.h"
+#include "../fs/XenVirtualFileSystem.h"
 
 namespace xen
 {
-	XentuPythonMachine::XentuPythonMachine(const int argc, const char *argv[])
-	:	XentuMachine::XentuMachine(argc, argv)
+	XentuPythonMachine::XentuPythonMachine(int argc, char *argv[], const XentuConfig* config)
+	:	XentuMachine::XentuMachine(argc, argv, config)
 	{
 		// grab the command line arguments in a format python likes.
 		for (int i=0; i<argc && i<MAX_ARGV; i++) {
@@ -60,7 +57,7 @@ namespace xen
 		XEN_LOG("Python machine started!\n");
 
 		// load some python code.
-		std::string py_code = read_text_file(entry_point) + "\r\n";
+		std::string py_code = vfs_get_global()->ReadAllText(entry_point) + "\r\n";
 
 		// run some python code.
 		return PyRun_SimpleString(py_code.c_str());

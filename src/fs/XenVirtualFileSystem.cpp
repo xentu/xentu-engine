@@ -1,5 +1,6 @@
 #include "XenVirtualFileSystem.h"
 #include "XenStringUtils.h"
+#include "XenNativeFileSystem.h"
 
 namespace xen
 {
@@ -12,6 +13,18 @@ namespace xen
 			return a1.alias.length() > a2.alias.length();
 		}
 	};
+
+
+	void vfs_default()
+	{
+		// create a native pointing to the current dir (and a test zip endpoint).
+		XenFileSystemPtr root_fs(new XenNativeFileSystem("./assets"));
+		root_fs->Initialize();
+			
+		// add the file systems to the vfs.
+		XenVirtualFileSystemPtr vfs = vfs_get_global();
+		vfs->AddFileSystem("/", root_fs);
+	}
 
 
 	void vfs_initialize()
@@ -117,6 +130,21 @@ namespace xen
 		if (it != m_OpenedFiles.end()) {
 			it->second->DoCloseFile(file);
 			m_OpenedFiles.erase(it);
+		}
+	}
+
+
+	std::string XenVirtualFileSystem::ReadAllText(const std::string filename)
+	{
+		xen::XenFilePtr file = this->OpenFile(xen::XenFileInfo(filename), xen::XenFile::In);
+		if (file && file->IsOpened())
+		{
+			uint64_t length = file->Size(); // not always accurate.
+			uint8_t data[4096 * 10]; // create a buffer.
+			uint64_t r_length = file->Read(data, length); // returns true length.
+			auto result = std::string(data, data + r_length);
+			this->CloseFile(file);
+			return result;
 		}
 	}
 }

@@ -62,9 +62,7 @@ namespace xen
 			return NULL;
 		}
 
-		auto m = XentuPythonMachine::get_instance();
-		
-		std::string result = m->read_text_file(s);;
+		std::string result = vfs_get_global()->ReadAllText(s);;
 		return PyUnicode_FromString(result.data());
 	}
 
@@ -136,9 +134,25 @@ namespace xen
 		return PyBool_FromLong(1);
 	}
 
+	PyObject* xen_py_fn_game_create_window(PyObject *self, PyObject *args) {
+		char *s_event_name;
+		int x, y, width, height, mode;
+		if (!PyArg_ParseTuple(args, "siiiii", &s_event_name, &x, &y, &width, &height, &mode)) {
+			return NULL;
+		}
+
+		// trigger the event.
+		auto m = XentuPythonMachine::get_instance();
+		//int window_id = m->create_window(x, y, width, height, mode);
+		
+		// return the window id.
+		return PyLong_FromLong(1);
+	}
+
 	PyMethodDef xen_py_explain_module_game[] = {
 		{"on", xen_py_fn_game_on, METH_VARARGS, "Handle an engine or custom event."},
 		{"trigger", xen_py_fn_game_trigger, METH_VARARGS, "Trigger an event."},
+		{"create_window", xen_py_fn_game_create_window, METH_VARARGS, "Create a new game window." },
 		{NULL, NULL, 0, NULL}
 	};
 
