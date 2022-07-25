@@ -15,7 +15,7 @@ namespace xen
 			XentuPythonMachine(int argc, char *argv[], const XentuConfig* config);
 			~XentuPythonMachine();
 			static XentuPythonMachine* get_instance();
-			int run(const std::string entry_point);
+			int init(const std::string entry_point);
 			int trigger(const std::string event_name);
 			int on(const std::string event_name, const std::string callback_ref);
 

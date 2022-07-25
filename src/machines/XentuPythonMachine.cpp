@@ -52,7 +52,7 @@ namespace xen
 	}
 
 
-	int XentuPythonMachine::run(const std::string entry_point)
+	int XentuPythonMachine::init(const std::string entry_point)
 	{
 		XEN_LOG("Python machine started!\n");
 

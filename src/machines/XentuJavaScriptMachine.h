@@ -12,7 +12,7 @@ namespace xen
 		public:
 			XentuJavaScriptMachine(const int argc, const char *argv[], const XentuConfig* config);
 			~XentuJavaScriptMachine();
-			int run(const std::string entry_point);
+			int init(const std::string entry_point);
 			int trigger(const std::string event_name);
 		
 		private:

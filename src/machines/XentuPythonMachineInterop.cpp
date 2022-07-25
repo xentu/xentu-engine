@@ -159,8 +159,9 @@ namespace xen
 
 	PyObject* xen_py_fn_game_run(PyObject *self, PyObject *args) {
 		XentuPythonMachine* m = XentuPythonMachine::get_instance();
-		auto r = m->get_renderer();
-		r->run();
+		//auto r = m->get_renderer();
+		//r->run();
+		m->run();
 		return PyBool_FromLong(1);
 	}
 

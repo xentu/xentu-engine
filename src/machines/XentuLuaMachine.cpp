@@ -24,7 +24,7 @@ namespace xen
 	}
 
 
-	int XentuLuaMachine::run(const std::string entry_point)
+	int XentuLuaMachine::init(const std::string entry_point)
 	{
 		XEN_LOG("Lua machine started!\n");
 

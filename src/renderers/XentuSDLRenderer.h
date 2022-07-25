@@ -15,8 +15,10 @@ namespace xen
 			~XentuSDLRenderer();
 			int create_window();
 			int create_window_ex(std::string title, int x, int y, int width, int height, int mode);
-			void run();
+			bool is_running();
+			void present();
 			SDL_Window* m_windows[MAX_WINDOW_COUNT];
+			SDL_Renderer* m_renderer[MAX_WINDOW_COUNT];
 			int m_window_count = 0;
 	};
 }

@@ -28,10 +28,19 @@ namespace xen
 	}
 
 
-	int XentuMachine::run(const std::string entry_point)
+	int XentuMachine::init(const std::string entry_point)
 	{
-		// todo: throw error if trying to use the default machine.
 		return -1;
+	}
+
+
+	void XentuMachine::run()
+	{
+		while (m_renderer->is_running()) {
+			this->trigger("update");
+			this->trigger("draw");
+			m_renderer->present();
+		}
 	}
 
 

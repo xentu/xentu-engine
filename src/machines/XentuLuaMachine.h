@@ -19,7 +19,7 @@ namespace xen
 		public:
 			XentuLuaMachine(const int argc, const char *argv[], const XentuConfig* config);
 			~XentuLuaMachine();
-			int run(const std::string entry_point);
+			int init(const std::string entry_point);
 			int trigger(const std::string event_name);
 			int on(const std::string event_name, const int callback_ref);
 		

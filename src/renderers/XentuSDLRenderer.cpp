@@ -22,33 +22,38 @@ namespace xen
 	{
 		if (m_window_count >= MAX_WINDOW_COUNT) return -1;
 		int result_id = m_window_count;
+		Uint32 render_flags = SDL_RENDERER_ACCELERATED;
 		m_windows[result_id] = SDL_CreateWindow("GAME", x, y, width, height, mode);
+		m_renderer[result_id] = SDL_CreateRenderer(m_windows[result_id], -1, render_flags);
 		m_window_count++;
 		return result_id;
 	}
 
 
-	void XentuSDLRenderer::run()
+	bool XentuSDLRenderer::is_running()
 	{
-		Uint32 render_flags = SDL_RENDERER_ACCELERATED;
-		auto win = m_windows[0];
-    	SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
-
-		int close = 0;
-		while (!close) {
-			SDL_Event event;
-         // Events management
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_QUIT:
-                    // handling of close button
-                    close = 1;
-                    break;
-            }
-        }
-        SDL_RenderClear(rend);
-        SDL_Delay(1000 / 30);
+		int running = 1;
+		SDL_Event event;
+		
+		// Events management
+		while (SDL_PollEvent(&event)) {
+			switch (event.type) {
+				case SDL_QUIT:
+					// handling of close button
+					running = 0;
+					break;
+      	}
 		}
+
+		return running;
+	}
+
+
+	void XentuSDLRenderer::present()
+	{
+		SDL_Renderer* rend = m_renderer[0];
+		SDL_RenderClear(rend);
+		SDL_Delay(1000 / 30);
 	}
 	
 	

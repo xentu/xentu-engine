@@ -26,7 +26,7 @@ namespace xen
 	}
 
 
-	int XentuJavaScriptMachine::run(const std::string entry_point)
+	int XentuJavaScriptMachine::init(const std::string entry_point)
 	{
 		XEN_LOG("Lua machine started!\n");
 

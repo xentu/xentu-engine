@@ -26,7 +26,13 @@ namespace xen
 	}
 
 
-	void XentuRenderer::run()
+	bool XentuRenderer::is_running()
+	{
+		return 0;
+	}
+
+
+	void XentuRenderer::present()
 	{
 
 	}

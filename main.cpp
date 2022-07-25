@@ -66,15 +66,15 @@ int main(int argc, char *argv[])
 
     if (config->m_language == "js") {
         //const MACHINE_PTR js_machine(new xen::XentuJavaScriptMachine(argc, argv, config));
-        //js_machine->run("/test.js");
+        //js_machine->init("/test.js");
     }
     else if (config->m_language == "lua") {
         //const MACHINE_PTR lua_machine(new xen::XentuLuaMachine(argc, argv, config));
-        //lua_machine->run("/test.lua");
+        //lua_machine->init("/test.lua");
     }
     else {
         MACHINE_PTR py_machine(new XentuPythonMachine(argc, argv, config));
-        py_machine->run("/scripts/python/test.py");
+        py_machine->init("/scripts/python/test.py");
     }
 
     // shutdown the filesystem.
