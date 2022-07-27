@@ -11,7 +11,7 @@
 #include "src/fs/XenFileSystem.h"
 #include "src/fs/XenNativeFileSystem.h"
 //#include "src/machines/XentuJavaScriptMachine.h"
-//#include "machines/XentuLuaMachine.h"
+#include "src/machines/XentuLuaMachine.h"
 #include "src/machines/XentuPythonMachine.h"
 
 using MACHINE_PTR = const std::unique_ptr<xen::XentuMachine>;
@@ -28,19 +28,19 @@ int main(int argc, char *argv[])
 	std::string result = vfs_get_global()->ReadAllText("/game.json");
 	const XentuConfig *config = new XentuConfig(result.c_str());
     
-    printf("Language: %s", config->m_language.c_str());
+    printf("Language: %s\n", config->language.c_str());
 
-    if (config->m_language == "js") {
+    if (config->language == "js") {
         //const MACHINE_PTR js_machine(new xen::XentuJavaScriptMachine(argc, argv, config));
         //js_machine->init("/test.js");
     }
-    else if (config->m_language == "lua") {
-        //const MACHINE_PTR lua_machine(new xen::XentuLuaMachine(argc, argv, config));
-        //lua_machine->init("/test.lua");
+    else if (config->language == "lua") {
+        MACHINE_PTR lua_machine(new XentuLuaMachine(argc, argv, config));
+        lua_machine->init(config->entry_point.c_str());
     }
     else {
         MACHINE_PTR py_machine(new XentuPythonMachine(argc, argv, config));
-        py_machine->init("/scripts/python/test.py");
+        py_machine->init(config->entry_point.c_str());
     }
 
     // shutdown the filesystem.

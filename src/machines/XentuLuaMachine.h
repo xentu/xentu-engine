@@ -12,12 +12,13 @@ extern "C" {
 #include <lualib.h>
 }
 
+
 namespace xen
 {
 	class XentuLuaMachine : public XentuMachine
 	{
 		public:
-			XentuLuaMachine(const int argc, const char *argv[], const XentuConfig* config);
+			XentuLuaMachine(int argc, char *argv[], const XentuConfig* config);
 			~XentuLuaMachine();
 			int init(const std::string entry_point);
 			int trigger(const std::string event_name);

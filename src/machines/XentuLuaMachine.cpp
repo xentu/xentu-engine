@@ -2,12 +2,16 @@
 #define XEN_LUA_MACHINE_CPP
 
 #include <stdio.h>
+#include "luna/luna.hpp"
+
 #include "XentuLuaMachine.h"
+#include "XentuLuaMachineInterop.h"
+#include "XentuLuaMachineScript.h"
 #include "../fs/XenVirtualFileSystem.h"
 
 namespace xen
 {
-	XentuLuaMachine::XentuLuaMachine(const int argc, const char *argv[], const XentuConfig* config)
+	XentuLuaMachine::XentuLuaMachine(int argc, char *argv[], const XentuConfig* config)
 	:	XentuMachine::XentuMachine(argc, argv, config)
 	{
 		// keep a pointer to this instance.
@@ -19,6 +23,13 @@ namespace xen
 
 		L = luaL_newstate();
 		luaL_openlibs(L);
+
+		// init any classes with luna.
+		Luna<xen::XentuLuaGame>::Register(L, false);
+
+		// load in our custom import loader.
+		luaL_dostring(L, xen_lua_script_init);
+
 		
 		XEN_LOG("\nCreated XentuLuaMachine");
 	}

@@ -15,6 +15,10 @@ def test_event_callback2():
 def test2(text):
 	print("test2: " + text)
 
+tt = 0
+def draw_callback():
+	print("Drawn")
+
 
 game.on("test_event", "test_event_callback")
 game.on("test_event", "test_event_callback2")
@@ -27,4 +31,5 @@ print(rect0.width)
 
 
 window = game.create_window()
+#game.on('draw', 'draw_callback')
 game.run()

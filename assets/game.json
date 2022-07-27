@@ -1,13 +1,14 @@
 {
 	"game": {
 		"title": "Hello World",
-		"entry_point": "/scripts/python/test.py",
+		"language": "lua",
+		"entry_point": "/scripts/lua/test.lua",
 		"v_sync": true,
 		"fullscreen": false,
 		"update_frequency": 30,
 		"window": {
-			"x": "auto",
-			"y": "auto",
+			"x": -1,
+			"y": -1,
 			"width": 800,
 			"height": 600
 		},

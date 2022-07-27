@@ -27,7 +27,8 @@ project_source_files = files([
   # machines
   #'src/machines/XentuJavaScriptMachineInterop.cpp',
   #'src/machines/XentuJavaScriptMachine.cpp',
-  #'src/machines/XentuLuaMachine.cpp',
+  'src/machines/XentuLuaMachineInterop.cpp',
+  'src/machines/XentuLuaMachine.cpp',
   'src/machines/XentuPythonMachineInterop.cpp',
   'src/machines/XentuPythonMachine.cpp',
   'src/XentuMachine.cpp',
