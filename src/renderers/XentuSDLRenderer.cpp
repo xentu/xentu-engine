@@ -14,7 +14,12 @@ namespace xen
 
 	int XentuSDLRenderer::create_window()
 	{
-		return create_window_ex("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, 0);
+		return create_window_ex(
+			m_config->title,
+			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			m_config->window.width,
+			m_config->window.height,
+			0);
 	}
 
 
@@ -52,7 +57,10 @@ namespace xen
 	void XentuSDLRenderer::present()
 	{
 		SDL_Renderer* rend = m_renderer[0];
+		SDL_SetRenderDrawColor(rend, 255, 0, 0, 255);
 		SDL_RenderClear(rend);
+
+		SDL_RenderPresent(rend);
 		SDL_Delay(1000 / 30);
 	}
 	

@@ -15,6 +15,8 @@ namespace xen
 	extern void vfs_shutdown();
 	extern XenVirtualFileSystemPtr vfs_get_global();
 
+	struct VfsBufferResult {uint8_t* buffer; uint64_t length; uint64_t r_length;};
+
 	class XenVirtualFileSystem final
 	{
 	public:
@@ -75,6 +77,11 @@ namespace xen
 		 * Read the entire contents of a text file and return it as a string.
 		 */
 		std::string XenVirtualFileSystem::ReadAllText(const std::string filename);
+
+		/**
+		 * Read the entire contents of a file and return it as a tuple of array,length
+		 */
+		VfsBufferResult ReadAllData(const std::string filename);
     
 	private:
 		TFileSystemMap m_FileSystem;

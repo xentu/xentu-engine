@@ -64,9 +64,28 @@ namespace xen
 			return NULL;
 		}
 
-		std::string result = vfs_get_global()->ReadAllText(s);;
+		std::string result = vfs_get_global()->ReadAllText(s);
 		return PyUnicode_FromString(result.data());
 	}
+
+
+	PyObject* xen_py_fn_vfs_load_texture(PyObject *self, PyObject *args) {
+		char *s;
+		if (!PyArg_ParseTuple(args, "s", &s)) {
+			return NULL;
+		}
+
+		auto m = XentuPythonMachine::get_instance();
+		auto r = m->get_renderer();
+
+		auto res = vfs_get_global()->ReadAllData(s);
+
+		//int texture_id = r->load_texture(buffer, length);
+
+		// todo: take the filename from s and load the texture.
+		return PyLong_FromLong(res.length);
+	}
+
 
 	PyObject* xen_py_fn_vfs_mount(PyObject *self, PyObject *args) {
 		char *s_point;
@@ -89,6 +108,7 @@ namespace xen
 
 	PyMethodDef xen_py_explain_module_vfs[] = {
 		{"read_text_file", xen_py_fn_vfs_read_text_file, METH_VARARGS, "Use the xentu vfs to get file."},
+		{"load_texture", xen_py_fn_vfs_load_texture, METH_VARARGS, "Use the xentu vfs to load a texture."},
 		{"mount", xen_py_fn_vfs_mount, METH_VARARGS, "Mount a path or zip archive into the vfs."},
 		{NULL, NULL, 0, NULL}
 	};

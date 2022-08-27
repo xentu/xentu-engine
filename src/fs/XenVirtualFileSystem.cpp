@@ -104,7 +104,7 @@ namespace xen
 	XenFilePtr XenVirtualFileSystem::OpenFile(const XenFileInfo& filePath, XenFile::FileMode mode)
 	{
 		XenFilePtr file = nullptr;
-    	std::all_of(m_SortedAlias.begin(), m_SortedAlias.end(), [&](const TSortedAliasList::value_type& fs) {
+    	(void)std::all_of(m_SortedAlias.begin(), m_SortedAlias.end(), [&](const TSortedAliasList::value_type& fs) {
 			const std::string& alias = fs.alias;
 			XenFileSystemPtr filesystem = fs.filesystem;
 			if (XenStringUtils::StartsWith(filePath.BasePath(), alias) && filePath.AbsolutePath().length() != alias.length()) {
@@ -146,5 +146,22 @@ namespace xen
 			this->CloseFile(file);
 			return result;
 		}
+		return "";
+	}
+
+
+	VfsBufferResult XenVirtualFileSystem::ReadAllData(const std::string filename)
+	{
+		xen::XenFilePtr file = this->OpenFile(xen::XenFileInfo(filename), xen::XenFile::In);
+		if (file && file->IsOpened())
+		{
+			uint64_t length = file->Size(); // not always accurate.
+			uint8_t data[4096 * 10]; // create a buffer.
+			uint64_t r_length = file->Read(data, length); // returns true length.
+			this->CloseFile(file);
+			return VfsBufferResult { data , length, r_length };
+		}
+		uint8_t r_data[1];
+		return VfsBufferResult { r_data, 0, 0 };
 	}
 }

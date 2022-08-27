@@ -18,7 +18,7 @@ namespace xen
 			virtual bool is_running();
 			virtual void present();
 
-		private:
+		protected:
 			const XentuConfig* m_config;
 			
 	};
