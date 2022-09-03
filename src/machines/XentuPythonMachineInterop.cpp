@@ -78,12 +78,12 @@ namespace xen
 		auto m = XentuPythonMachine::get_instance();
 		auto r = m->get_renderer();
 
-		auto res = vfs_get_global()->ReadAllData(s);
-
-		//int texture_id = r->load_texture(buffer, length);
+		xen::VfsBufferResult res = vfs_get_global()->ReadAllData(s);
+		printf("Bytes read: %s\n", std::to_string(res.length).c_str());
+		int texture_id = r->load_texture(res.buffer, res.length);
 
 		// todo: take the filename from s and load the texture.
-		return PyLong_FromLong(res.length);
+		return PyLong_FromLong(texture_id);
 	}
 
 

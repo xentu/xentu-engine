@@ -35,6 +35,20 @@ namespace xen
 	}
 
 
+	int XentuSDLRenderer::load_texture(uint8_t* buffer, uint64_t length)
+	{
+		auto *rw = SDL_RWFromMem(buffer, length);
+		auto sur = IMG_Load_RW(rw, AUTO_FREE);
+		auto tex = SDL_CreateTextureFromSurface(m_renderer[0], sur);
+		SDL_FreeSurface(sur);
+		
+		m_textures.insert(std::make_pair(m_textures_iter, tex));
+		m_textures_iter++;
+
+		return m_textures_iter - 1;
+	}
+
+
 	bool XentuSDLRenderer::is_running()
 	{
 		int running = 1;
@@ -67,10 +81,17 @@ namespace xen
 	
 	XentuSDLRenderer::~XentuSDLRenderer()
 	{
+		for (auto const& tex : m_textures)
+		{
+			SDL_DestroyTexture(tex.second);
+		}
+		m_textures.clear();
+
 		for (int i=0; i<m_window_count; i++) {
 			SDL_Window* win = m_windows[i];
 			SDL_DestroyWindow(win);
 		}
+
 		XEN_LOG("Destroyed XentuRenderer\n");
 	}
 }

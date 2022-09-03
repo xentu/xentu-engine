@@ -52,7 +52,7 @@ namespace xen
 			/* Returns offset in file */
 			virtual uint64_t Tell() = 0;
 
-			/* Read data from file to buffer */
+			/* Read textual data from file to buffer */
 			virtual uint64_t Read(uint8_t* buffer, uint64_t size) = 0;
 			
 			/* Write buffer data to file */

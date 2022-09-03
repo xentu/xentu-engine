@@ -53,7 +53,7 @@ namespace xen
 		
 		std::ios_base::openmode open_mode = (std::ios_base::openmode)0x00;
 		if (mode & XenFile::In) {
-			open_mode |= std::fstream::in;
+			open_mode |= std::fstream::in | std::ios_base::binary;
 		}
 		if (mode & XenFile::Out) {
 			m_IsReadOnly = false;

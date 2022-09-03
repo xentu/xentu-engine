@@ -26,6 +26,12 @@ namespace xen
 	}
 
 
+	int XentuRenderer::load_texture(uint8_t* buffer, uint64_t length)
+	{
+		return -1;
+	}
+
+
 	bool XentuRenderer::is_running()
 	{
 		return 0;

@@ -1,7 +1,7 @@
 project('xentu_rebuild', 'c', 'cpp',
         default_options: ['default_library=static'])
 
-#sdl2_image_dep = dependency('sdl2_image')
+sdl2_image_dep = dependency('sdl2_image')
 sdl2_dep = dependency('sdl2')
 py_dep = dependency('python3')
 lua_dep = dependency('lua-5.4')
@@ -45,6 +45,6 @@ project_source_files = files([
 
 executable('xentu', project_source_files,
            include_directories : incdir,
-           dependencies: [sdl2_dep, py_dep, lua_dep])
+           dependencies: [sdl2_image_dep, sdl2_dep, py_dep, lua_dep])
            
            # win_subsystem: 'windows',
