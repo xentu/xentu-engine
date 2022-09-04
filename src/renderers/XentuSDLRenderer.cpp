@@ -68,14 +68,32 @@ namespace xen
 	}
 
 
-	void XentuSDLRenderer::present()
+	void XentuSDLRenderer::prepare()
 	{
 		SDL_Renderer* rend = m_renderer[0];
 		SDL_SetRenderDrawColor(rend, 255, 0, 0, 255);
 		SDL_RenderClear(rend);
+	}
 
+
+	void XentuSDLRenderer::present()
+	{
+		SDL_Renderer* rend = m_renderer[0];
 		SDL_RenderPresent(rend);
 		SDL_Delay(1000 / 30);
+	}
+
+
+	void XentuSDLRenderer::draw_texture(int texture_id, int x, int y, int width, int height)
+	{
+		SDL_Renderer* rend = m_renderer[0];
+		SDL_Texture* tex = m_textures[texture_id];
+		SDL_Rect dest;
+		dest.x = x;
+		dest.y = y;
+		dest.w = width;
+		dest.h = height;
+		SDL_RenderCopy(rend, tex, NULL, &dest);
 	}
 	
 	

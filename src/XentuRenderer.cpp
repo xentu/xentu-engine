@@ -38,9 +38,21 @@ namespace xen
 	}
 
 
+	void XentuRenderer::prepare()
+	{
+		
+	}
+
+
 	void XentuRenderer::present()
 	{
 
+	}
+
+
+	void XentuRenderer::draw_texture(int texture_id, int x, int y, int width, int height)
+	{
+		
 	}
 	
 	

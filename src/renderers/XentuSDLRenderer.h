@@ -19,7 +19,9 @@ namespace xen
 			int create_window_ex(std::string title, int x, int y, int width, int height, int mode);
 			int load_texture(uint8_t* buffer, uint64_t length);
 			bool is_running();
+			void prepare();
 			void present();
+			void draw_texture(int texture_id, int x, int y, int width, int height);
 			SDL_Window* m_windows[MAX_WINDOW_COUNT];
 			SDL_Renderer* m_renderer[MAX_WINDOW_COUNT];
 			int m_window_count = 0;

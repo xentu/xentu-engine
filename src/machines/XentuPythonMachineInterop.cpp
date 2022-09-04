@@ -185,12 +185,40 @@ namespace xen
 		return PyBool_FromLong(1);
 	}
 
+
+	int xen_py_read_attr_int(PyObject* obj, char* name) {
+		if (!PyObject_HasAttrString(obj, name)) return NULL;
+		PyObject* a_result = PyObject_GetAttrString(obj, name);
+		return PyLong_AsLong(a_result);
+	}
+
+
+	PyObject* xen_py_fn_game_draw_texture(PyObject *self, PyObject *args) {
+		PyObject* rect;
+		int s_texture;
+		if (!PyArg_ParseTuple(args, "Oi", &rect, &s_texture)) return NULL;
+
+		int s_x = xen_py_read_attr_int(rect, "x");
+		int s_y = xen_py_read_attr_int(rect, "y");
+		int s_width = xen_py_read_attr_int(rect, "width");
+		int s_height = xen_py_read_attr_int(rect, "height");
+
+		XentuPythonMachine* m = XentuPythonMachine::get_instance();
+		auto r = m->get_renderer();
+
+		r->draw_texture(s_texture, s_x, s_y, s_width, s_height);
+
+		return PyBool_FromLong(1);
+	}
+
+
 	PyMethodDef xen_py_explain_module_game[] = {
 		{"on", xen_py_fn_game_on, METH_VARARGS, "Handle an engine or custom event."},
 		{"trigger", xen_py_fn_game_trigger, METH_VARARGS, "Trigger an event."},
 		{"create_window", xen_py_fn_game_create_window, METH_VARARGS, "Create a new game window." },
 		{"create_window_ex", xen_py_fn_game_create_window_ex, METH_VARARGS, "Create a new game window." },
 		{"run", xen_py_fn_game_run, METH_VARARGS, "Begin running the game." },
+		{"draw_texture", xen_py_fn_game_draw_texture, METH_VARARGS, "Draw a texture using a Rect" },
 		{NULL, NULL, 0, NULL}
 	};
 

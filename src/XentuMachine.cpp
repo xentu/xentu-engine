@@ -38,6 +38,7 @@ namespace xen
 	{
 		while (m_renderer->is_running()) {
 			this->trigger("update");
+			m_renderer->prepare();
 			this->trigger("draw");
 			m_renderer->present();
 		}
