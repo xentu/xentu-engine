@@ -20,10 +20,11 @@ namespace xen
 			virtual void prepare();
 			virtual void present();
 			virtual void draw_texture(int texture_id, int x, int y, int width, int height);
+			void set_clear_color(int r, int g, int b);
 
 		protected:
 			const XentuConfig* m_config;
-			
+			int clear_color_r, clear_color_g, clear_color_b;			
 	};
 }
 

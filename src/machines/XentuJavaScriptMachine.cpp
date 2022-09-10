@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "XentuJavaScriptMachine.h"
+#include "XentuJavaScriptMachineScripts.h"
 #include "../fs/XenVirtualFileSystem.h"
 
 namespace xen
@@ -19,8 +20,11 @@ namespace xen
 		}
 		instance = this;
 
+		// load in our custom import loader.
+
 		L = duk_create_heap(NULL, NULL, NULL, NULL, js_error_handler);
 		js_init_interop(L);
+		duk_eval_string(L, xen_js_script_init);
 	}
 
 

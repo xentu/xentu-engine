@@ -71,7 +71,7 @@ namespace xen
 	void XentuSDLRenderer::prepare()
 	{
 		SDL_Renderer* rend = m_renderer[0];
-		SDL_SetRenderDrawColor(rend, 255, 0, 0, 255);
+		SDL_SetRenderDrawColor(rend, clear_color_r, clear_color_g, clear_color_b, 255);
 		SDL_RenderClear(rend);
 	}
 

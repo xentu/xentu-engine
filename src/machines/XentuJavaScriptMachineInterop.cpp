@@ -67,15 +67,6 @@ namespace xen
 		}
 
 		duk_pop(L);
-		/* auto code = s_code.c_str();
-		bool exists = duk_get_global_string(L, code);
-		if (exists) {
-			duk_push_global_object(L);
-			duk_call_method(L, 0nargs); 
-		}
-		else {
-			duk_eval_string_noresult(L, code);
-		} */
 	}
 
 
@@ -83,6 +74,7 @@ namespace xen
 		printf("%s\n", duk_to_string(L, 0));
 		return 0;  /* no return value (= undefined) */
 	}
+
 
 	duk_ret_t js_game_create_window(duk_context *L) {
 		XEN_LOG("game_create_window was called\n");
@@ -92,6 +84,7 @@ namespace xen
 		return window_id;
 	}
 	
+
 	int js_on_iter = 0;
 	duk_ret_t js_game_on(duk_context *L) {
 		XEN_LOG("game_on was called\n");
@@ -164,9 +157,21 @@ namespace xen
 		r->draw_texture(texture_id, x, y, w, h);
 		return 0;
 	}
+
 	
 	duk_ret_t js_renderer_set_clear_color(duk_context *L) {
 		XEN_LOG("renderer_set_clear_color was called\n");
+
+		auto hex = duk_to_string(L, 0);
+		int r, g, b;
+		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
+
+		printf("clear_color: 0x%x, 0x%x, 0x%x (hex %s)", r, g, b, hex);
+
+		auto machine = XentuJavaScriptMachine::get_instance();
+		auto renderer = machine->get_renderer();
+		renderer->set_clear_color(r, g, b);
+
 		return 0;
 	}
 }

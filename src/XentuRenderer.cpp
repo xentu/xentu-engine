@@ -11,6 +11,9 @@ namespace xen
 	: m_config(config)
 	{
 		XEN_LOG("Constructor for XentuRenderer called.\n");
+		clear_color_r = 0;
+		clear_color_g = 0;
+		clear_color_b = 0;
 	}
 
 
@@ -53,6 +56,14 @@ namespace xen
 	void XentuRenderer::draw_texture(int texture_id, int x, int y, int width, int height)
 	{
 		
+	}
+
+
+	void XentuRenderer::set_clear_color(int r, int g, int b)
+	{
+		clear_color_r = r;
+		clear_color_g = g;
+		clear_color_b = b;
 	}
 	
 	
