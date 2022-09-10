@@ -16,6 +16,8 @@ namespace xen
 	XentuMachine::XentuMachine(size_t argc, char *argv[], const XentuConfig* config)
 	: arg_count(argc)
 	{
+		XEN_LOG("Constructor for XentuMachine called.\n");
+
 		// store the startup arguments (upto a maximum count)
 		for (int i = 0; i<argc && i<MAX_ARGV; i++) {
 			arg_values[i] = argv[i];
@@ -23,8 +25,6 @@ namespace xen
 
 		m_config = config;
 		m_renderer = new XentuSDLRenderer(config);
-
-		XEN_LOG("Created XentuMachine\n");
 	}
 
 
@@ -63,7 +63,7 @@ namespace xen
 		// shutdown the file system.
 		xen::vfs_shutdown();
 
-		XEN_LOG("Destroyed XentuMachine\n");
+		XEN_LOG("Destroyed XentuMachine.\n");
 	}
 }
 

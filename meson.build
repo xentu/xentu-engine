@@ -25,8 +25,8 @@ project_source_files = files([
   'src/fs/XenZipFileSystem.cpp',
 
   # machines
-  #'src/machines/XentuJavaScriptMachineInterop.cpp',
-  #'src/machines/XentuJavaScriptMachine.cpp',
+  'src/machines/XentuJavaScriptMachineInterop.cpp',
+  'src/machines/XentuJavaScriptMachine.cpp',
   'src/machines/XentuLuaMachineInterop.cpp',
   'src/machines/XentuLuaMachine.cpp',
   'src/machines/XentuPythonMachineInterop.cpp',

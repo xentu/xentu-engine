@@ -26,6 +26,7 @@ namespace xen
 
 		// init any classes with luna.
 		Luna<xen::XentuLuaGame>::Register(L, false);
+		Luna<xen::XentuLuaAssets>::Register(L, false);
 
 		// load in our custom import loader.
 		luaL_dostring(L, xen_lua_script_init);

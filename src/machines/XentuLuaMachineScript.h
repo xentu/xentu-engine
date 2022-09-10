@@ -8,6 +8,12 @@
 namespace xen { const char * xen_lua_script_init = R"(
 
 game = XentuLuaGame()
+assets = XentuLuaAssets()
+
+geometry = {}
+geometry.create_rect = function(x, y, width, height)
+	return { x, y, width, height }
+end
 
 )"; }
 #endif

@@ -8,7 +8,7 @@ namespace xen
 	XentuSDLRenderer::XentuSDLRenderer(const XentuConfig* config)
 	:	XentuRenderer::XentuRenderer(config)
 	{
-		XEN_LOG("Created XentuRenderer\n");
+		XEN_LOG("Constructor for XentuSDLRenderer called.\n");
 	}
 
 
