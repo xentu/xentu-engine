@@ -13,7 +13,7 @@
 
 namespace xen
 {
-	XentuMachine::XentuMachine(size_t argc, char *argv[], const XentuConfig* config)
+	XentuMachine::XentuMachine(size_t argc, char *argv[], XentuConfig* config)
 	: arg_count(argc)
 	{
 		XEN_LOG("Constructor for XentuMachine called.\n");
@@ -28,7 +28,7 @@ namespace xen
 	}
 
 
-	int XentuMachine::init(const std::string entry_point)
+	int XentuMachine::init()
 	{
 		return -1;
 	}
@@ -49,6 +49,12 @@ namespace xen
 	{
 		// triggers shouldn't effect the base class.
 		return -1;
+	}
+
+
+	XentuConfig* XentuMachine::get_config()
+	{
+		return m_config;
 	}
 
 

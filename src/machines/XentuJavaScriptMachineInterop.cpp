@@ -2,6 +2,7 @@
 #define XEN_JS_MACHINE_INTEROP_CPP
 
 #include <stdio.h>
+#include <string>
 #include "XentuJavaScriptMachine.h"
 
 #include "src/fs/XenVirtualFileSystem.h"
@@ -56,6 +57,24 @@ namespace xen
 
 		duk_push_c_function(L, js_renderer_set_clear_color, 1 /*nargs*/);
 		duk_put_global_string(L, "renderer_set_clear_color");
+
+		duk_push_c_function(L, js_config_get_str, 3 /*nargs*/);
+		duk_put_global_string(L, "config_get_str");
+
+		duk_push_c_function(L, js_config_get_str2, 4 /*nargs*/);
+		duk_put_global_string(L, "config_get_str2");
+
+		duk_push_c_function(L, js_config_get_bool, 3 /*nargs*/);
+		duk_put_global_string(L, "config_get_bool");
+
+		duk_push_c_function(L, js_config_get_bool2, 4 /*nargs*/);
+		duk_put_global_string(L, "config_get_bool2");
+
+		duk_push_c_function(L, js_config_get_int, 3 /*nargs*/);
+		duk_put_global_string(L, "config_get_int");
+
+		duk_push_c_function(L, js_config_get_int2, 4 /*nargs*/);
+		duk_put_global_string(L, "config_get_int2");
 	}
 
 
@@ -173,6 +192,76 @@ namespace xen
 		renderer->set_clear_color(r, g, b);
 
 		return 0;
+	}
+
+
+	duk_ret_t js_config_get_str(duk_context* L) {
+		auto machine = XentuJavaScriptMachine::get_instance();
+		auto config = machine->get_config();
+		const auto m_group = std::string(duk_to_string(L, 0));
+		const auto m_name = std::string(duk_to_string(L, 1));
+		const auto m_default = std::string(duk_to_string(L, 2));
+		const auto result = config->GetSetting(m_group, m_name, m_default);
+		duk_push_string(L, result.c_str());
+		return 1;
+	}
+
+	duk_ret_t js_config_get_str2(duk_context* L) {
+		auto machine = XentuJavaScriptMachine::get_instance();
+		auto config = machine->get_config();
+		const auto m_group = std::string(duk_to_string(L, 0));
+		const auto m_sub_group = std::string(duk_to_string(L, 1));
+		const auto m_name = std::string(duk_to_string(L, 2));
+		const auto m_default = std::string(duk_to_string(L, 3));
+		const auto result = config->GetSetting(m_group, m_sub_group, m_name, m_default);
+		duk_push_string(L, result.c_str());
+		return 1;
+	}
+
+	duk_ret_t js_config_get_bool(duk_context* L) {
+		auto machine = XentuJavaScriptMachine::get_instance();
+		auto config = machine->get_config();
+		const auto m_group = std::string(duk_to_string(L, 0));
+		const auto m_name = std::string(duk_to_string(L, 1));
+		const auto m_default = duk_to_boolean(L, 2);
+		const auto result = config->GetSettingBool(m_group, m_name, m_default);
+		duk_push_boolean(L, result);
+		return 1;
+	}
+
+	duk_ret_t js_config_get_bool2(duk_context* L) {
+		auto machine = XentuJavaScriptMachine::get_instance();
+		auto config = machine->get_config();
+		const auto m_group = std::string(duk_to_string(L, 0));
+		const auto m_sub_group = std::string(duk_to_string(L, 1));
+		const auto m_name = std::string(duk_to_string(L, 2));
+		const auto m_default = duk_to_boolean(L, 3);
+		const auto result = config->GetSettingBool(m_group, m_sub_group, m_name, m_default);
+		duk_push_boolean(L, result);
+		return 1;
+	}
+
+	duk_ret_t js_config_get_int(duk_context* L) {
+		auto machine = XentuJavaScriptMachine::get_instance();
+		auto config = machine->get_config();
+		const auto m_group = std::string(duk_to_string(L, 0));
+		const auto m_name = std::string(duk_to_string(L, 1));
+		const auto m_default = duk_to_int(L, 2);
+		const auto result = config->GetSettingInt(m_group, m_name, m_default);
+		duk_push_int(L, result);
+		return 1;
+	}
+
+	duk_ret_t js_config_get_int2(duk_context* L) {
+		auto machine = XentuJavaScriptMachine::get_instance();
+		auto config = machine->get_config();
+		const auto m_group = std::string(duk_to_string(L, 0));
+		const auto m_sub_group = std::string(duk_to_string(L, 1));
+		const auto m_name = std::string(duk_to_string(L, 2));
+		const auto m_default = duk_to_int(L, 3);
+		const auto result = config->GetSettingInt(m_group, m_sub_group, m_name, m_default);
+		duk_push_int(L, result);
+		return 1;
 	}
 }
 

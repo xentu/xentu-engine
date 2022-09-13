@@ -8,7 +8,7 @@
 
 namespace xen
 {
-	XentuJavaScriptMachine::XentuJavaScriptMachine(int argc, char *argv[], const XentuConfig* config)
+	XentuJavaScriptMachine::XentuJavaScriptMachine(int argc, char *argv[], XentuConfig* config)
 	:	XentuMachine::XentuMachine(argc, argv, config)
 	{
 		XEN_LOG("Constructor for XentuJavaScriptMachine called.\n");
@@ -40,12 +40,13 @@ namespace xen
 	}
 
 
-	int XentuJavaScriptMachine::init(const std::string entry_point)
+	int XentuJavaScriptMachine::init()
 	{
 		XEN_LOG("JavaScript machine started!\n");
 
 		// load some js code.
-		std::string js_code = vfs_get_global()->ReadAllText(entry_point) + "\r\n";
+		auto config = this->get_config();
+		std::string js_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\n";
 
 		// run the js code.
 		duk_eval_string(L, js_code.c_str());

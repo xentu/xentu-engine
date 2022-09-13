@@ -11,7 +11,7 @@
 
 namespace xen
 {
-	XentuPythonMachine::XentuPythonMachine(int argc, char *argv[], const XentuConfig* config)
+	XentuPythonMachine::XentuPythonMachine(int argc, char *argv[], XentuConfig* config)
 	:	XentuMachine::XentuMachine(argc, argv, config)
 	{
 		// grab the command line arguments in a format python likes.
@@ -52,12 +52,13 @@ namespace xen
 	}
 
 
-	int XentuPythonMachine::init(const std::string entry_point)
+	int XentuPythonMachine::init()
 	{
 		XEN_LOG("Python machine started!\n");
 
 		// load some python code.
-		std::string py_code = vfs_get_global()->ReadAllText(entry_point) + "\r\n";
+		auto config = this->get_config();
+		std::string py_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\n";
 
 		// run some python code.
 		return PyRun_SimpleString(py_code.c_str());

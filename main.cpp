@@ -31,24 +31,25 @@ int main(int argc, char *argv[])
 
     // load the json config.
 	std::string result = vfs_get_global()->ReadAllText("/game.json");
-	const XentuConfig *config = new XentuConfig(result.c_str());
+	XentuConfig *config = new XentuConfig(result.c_str());
     
     printf("Language: %s\n", config->language.c_str());
 
     if (config->language == "javascript") {
         JS_MACHINE_PTR js_machine(new xen::XentuJavaScriptMachine(argc, argv, config));
-        res = js_machine->init(config->entry_point.c_str());
+        res = js_machine->init();
     }
     else if (config->language == "lua") {
         LU_MACHINE_PTR lua_machine(new XentuLuaMachine(argc, argv, config));
-        res = lua_machine->init(config->entry_point.c_str());
+        res = lua_machine->init();
     }
     else {
-        MACHINE_PTR py_machine(new XentuPythonMachine(argc, argv, config));
-        res = py_machine->init(config->entry_point.c_str());
+        PY_MACHINE_PTR py_machine(new XentuPythonMachine(argc, argv, config));
+        res = py_machine->init();
     }
 
-    // shutdown the filesystem.
+    // dispose resources.
+    delete config;
     vfs_shutdown();
 
     // 3. at this point the game would have ended.

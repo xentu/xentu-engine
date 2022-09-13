@@ -54,7 +54,7 @@ namespace xen
 	const string XentuConfig::GetSetting(const string group, const string name, const string default_value)
 	{
 		try {
-			auto m_group = this->m_data.at(group);
+			auto m_group = m_data.at(group);
 			return m_group.at(name);
 		}
 		catch (std::exception e)
@@ -66,7 +66,7 @@ namespace xen
 	const bool XentuConfig::GetSettingBool(const string group, const string name, const bool default_value)
 	{
 		try {
-			auto m_group = this->m_data.at(group);
+			auto m_group = m_data.at(group);
 			return m_group.at(name);
 		}
 		catch (std::exception e)
@@ -78,7 +78,7 @@ namespace xen
 	const int XentuConfig::GetSettingInt(const string group, const string name, const int default_value)
 	{
 		try {
-			auto m_group = this->m_data.at(group);
+			auto m_group = m_data.at(group);
 			return m_group.at(name);
 		}
 		catch (std::exception e)
@@ -92,7 +92,7 @@ namespace xen
 	const string XentuConfig::GetSetting(const string group, const string sub_group, const string name, const string default_value)
 	{
 		try {
-			auto m_group = this->m_data.at(group);
+			auto m_group = m_data.at(group);
 			auto m_subgroup = m_group.at(sub_group);
 			return m_subgroup.at(name);
 		}
@@ -105,7 +105,7 @@ namespace xen
 	const bool XentuConfig::GetSettingBool(const string group, const string sub_group, const string name, const bool default_value)
 	{
 		try {
-			auto m_group = this->m_data.at(group);
+			auto m_group = m_data.at(group);
 			auto m_subgroup = m_group.at(sub_group);
 			return m_subgroup.at(name);
 		}

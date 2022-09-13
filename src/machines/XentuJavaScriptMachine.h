@@ -12,10 +12,10 @@ namespace xen
 	class XentuJavaScriptMachine : public XentuMachine
 	{
 		public:
-			XentuJavaScriptMachine(int argc, char *argv[], const XentuConfig* config);
+			XentuJavaScriptMachine(int argc, char *argv[], XentuConfig* config);
 			~XentuJavaScriptMachine();
 			static XentuJavaScriptMachine* get_instance();
-			int init(const std::string entry_point);
+			int init();
 			int trigger(const std::string event_name);
 			int on(const std::string event_name, const std::string callback);
 		
@@ -45,6 +45,13 @@ namespace xen
 	duk_ret_t js_renderer_clear(duk_context *L);
 	duk_ret_t js_renderer_draw_texture(duk_context *L);
 	duk_ret_t js_renderer_set_clear_color(duk_context *L);
+
+	duk_ret_t js_config_get_str(duk_context* L);
+	duk_ret_t js_config_get_str2(duk_context* L);
+	duk_ret_t js_config_get_bool(duk_context* L);
+	duk_ret_t js_config_get_bool2(duk_context* L);
+	duk_ret_t js_config_get_int(duk_context* L);
+	duk_ret_t js_config_get_int2(duk_context* L);
 }
 
 #endif

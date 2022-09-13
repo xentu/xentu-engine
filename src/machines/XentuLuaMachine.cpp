@@ -11,7 +11,7 @@
 
 namespace xen
 {
-	XentuLuaMachine::XentuLuaMachine(int argc, char *argv[], const XentuConfig* config)
+	XentuLuaMachine::XentuLuaMachine(int argc, char *argv[], XentuConfig* config)
 	:	XentuMachine::XentuMachine(argc, argv, config)
 	{
 		// keep a pointer to this instance.
@@ -36,12 +36,13 @@ namespace xen
 	}
 
 
-	int XentuLuaMachine::init(const std::string entry_point)
+	int XentuLuaMachine::init()
 	{
 		XEN_LOG("Lua machine started!\n");
 
 		// load some lua code.
-		std::string lua_code = vfs_get_global()->ReadAllText(entry_point) + "\r\n";
+		auto config = this->get_config();
+		std::string lua_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\n";
 
 		// run the lua code.
 		auto ret_startup = luaL_dostring(L, lua_code.c_str());

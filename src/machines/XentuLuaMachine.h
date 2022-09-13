@@ -18,9 +18,9 @@ namespace xen
 	class XentuLuaMachine : public XentuMachine
 	{
 		public:
-			XentuLuaMachine(int argc, char *argv[], const XentuConfig* config);
+			XentuLuaMachine(int argc, char *argv[], XentuConfig* config);
 			~XentuLuaMachine();
-			int init(const std::string entry_point);
+			int init();
 			int trigger(const std::string event_name);
 			int on(const std::string event_name, const int callback_ref);
 		

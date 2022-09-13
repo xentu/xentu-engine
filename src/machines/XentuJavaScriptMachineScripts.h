@@ -14,6 +14,14 @@ namespace xen { const char * xen_js_script_init = R"(
 	const assets = {}
 	assets.load_texture = assets_load_texture;
 
+	const config = {}
+	config.get_str = config_get_str;
+	config.get_str2 = config_get_str2;
+	config.get_bool = config_get_bool;
+	config.get_bool2 = config_get_bool2;
+	config.get_int = config_get_int;
+	config.get_int2 = config_get_int2;
+
 	const renderer = {}
 	renderer.clear = renderer_clear;
 	renderer.draw_texture = renderer_draw_texture;

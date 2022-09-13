@@ -30,6 +30,7 @@ namespace xen
 		Uint32 render_flags = SDL_RENDERER_ACCELERATED;
 		m_windows[result_id] = SDL_CreateWindow("GAME", x, y, width, height, mode);
 		m_renderer[result_id] = SDL_CreateRenderer(m_windows[result_id], -1, render_flags);
+		
 		m_window_count++;
 		return result_id;
 	}
@@ -80,7 +81,7 @@ namespace xen
 	{
 		SDL_Renderer* rend = m_renderer[0];
 		SDL_RenderPresent(rend);
-		SDL_Delay(1000 / 30);
+		SDL_Delay(1000 / 60);
 	}
 
 

@@ -5,7 +5,7 @@
 		"entry_point": "/scripts/javascript/test.js",
 		"v_sync": true,
 		"fullscreen": false,
-		"update_frequency": 30,
+		"update_frequency": 60,
 		"window": {
 			"width": 800,
 			"height": 600
