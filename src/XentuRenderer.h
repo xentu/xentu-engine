@@ -16,6 +16,7 @@ namespace xen
 			virtual int create_window();
 			virtual int create_window_ex(std::string title, int x, int y, int width, int height, int mode);
 			virtual int load_texture(uint8_t* buffer, uint64_t length);
+			virtual int load_font(uint8_t* buffer, uint64_t length, int font_size);
 			virtual bool is_running();
 			virtual void prepare();
 			virtual void present();

@@ -42,6 +42,7 @@ namespace xen
 	duk_ret_t js_assets_mount(duk_context *L);
 	duk_ret_t js_assets_read_text_file(duk_context *L);
 	duk_ret_t js_assets_load_texture(duk_context *L);
+	duk_ret_t js_assets_load_font(duk_context *L);
 	duk_ret_t js_renderer_clear(duk_context *L);
 	duk_ret_t js_renderer_draw_texture(duk_context *L);
 	duk_ret_t js_renderer_set_clear_color(duk_context *L);

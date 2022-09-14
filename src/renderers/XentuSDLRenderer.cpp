@@ -9,6 +9,7 @@ namespace xen
 	:	XentuRenderer::XentuRenderer(config)
 	{
 		XEN_LOG("Constructor for XentuSDLRenderer called.\n");
+		TTF_Init();
 	}
 
 
@@ -47,6 +48,17 @@ namespace xen
 		m_textures_iter++;
 
 		return m_textures_iter - 1;
+	}
+
+	int XentuSDLRenderer::load_font(uint8_t* buffer, uint64_t length, int font_size)
+	{
+		auto *rw = SDL_RWFromMem(buffer, length);
+		auto font = TTF_OpenFontRW(rw, 1 /* free RWops resource once open */, font_size);
+
+		m_fonts.insert(std::make_pair(m_fonts_iter, font));
+		m_fonts_iter++;
+
+		return m_fonts_iter - 1;
 	}
 
 
@@ -105,6 +117,10 @@ namespace xen
 			SDL_DestroyTexture(tex.second);
 		}
 		m_textures.clear();
+
+		// no need to delete fonts.
+		m_fonts.clear();
+		TTF_Quit();
 
 		for (int i=0; i<m_window_count; i++) {
 			SDL_Window* win = m_windows[i];

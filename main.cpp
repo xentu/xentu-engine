@@ -17,7 +17,6 @@
 using JS_MACHINE_PTR = const std::unique_ptr<xen::XentuJavaScriptMachine>;
 using LU_MACHINE_PTR = const std::unique_ptr<xen::XentuLuaMachine>;
 using PY_MACHINE_PTR = const std::unique_ptr<xen::XentuPythonMachine>;
-using MACHINE_PTR = const std::unique_ptr<xen::XentuMachine>;
 
 using namespace xen;
 

@@ -35,6 +35,12 @@ namespace xen
 	}
 
 
+	int XentuRenderer::load_font(uint8_t* buffer, uint64_t length, int font_size)
+	{
+		return -1;
+	}
+
+
 	bool XentuRenderer::is_running()
 	{
 		return 0;

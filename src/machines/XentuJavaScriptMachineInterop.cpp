@@ -48,6 +48,9 @@ namespace xen
 
 		duk_push_c_function(L, js_assets_load_texture, 1 /*nargs*/);
 		duk_put_global_string(L, "assets_load_texture");
+
+		duk_push_c_function(L, js_assets_load_font, 2 /*nargs*/);
+		duk_put_global_string(L, "assets_load_font");
       
 		duk_push_c_function(L, js_renderer_clear, 0 /*nargs*/);
 		duk_put_global_string(L, "renderer_clear");
@@ -156,6 +159,19 @@ namespace xen
 		printf("Bytes read: %s\n", std::to_string(res.length).c_str());
 		int texture_id = r->load_texture(res.buffer, res.length);
 		duk_push_int(L, texture_id);
+		return 1;
+	}
+
+	duk_ret_t js_assets_load_font(duk_context *L) {
+		XEN_LOG("assets_load_font was called\n");
+		auto path = duk_to_string(L, 0);
+		int font_size = duk_to_int(L, 1);
+		auto m = XentuJavaScriptMachine::get_instance();
+		auto r = m->get_renderer();
+		auto res = vfs_get_global()->ReadAllData(path);
+		printf("Bytes read: %s\n", std::to_string(res.length).c_str());
+		int font_id = r->load_font(res.buffer, res.length, font_size);
+		duk_push_int(L, font_id);
 		return 1;
 	}
 	
