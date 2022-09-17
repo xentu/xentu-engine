@@ -43,9 +43,12 @@ namespace xen
 	duk_ret_t js_assets_read_text_file(duk_context *L);
 	duk_ret_t js_assets_load_texture(duk_context *L);
 	duk_ret_t js_assets_load_font(duk_context *L);
-	duk_ret_t js_renderer_clear(duk_context *L);
+	duk_ret_t js_assets_create_textbox(duk_context *L);
+	duk_ret_t js_renderer_begin(duk_context *L);
+	duk_ret_t js_renderer_present(duk_context *L);
 	duk_ret_t js_renderer_draw_texture(duk_context *L);
-	duk_ret_t js_renderer_set_clear_color(duk_context *L);
+	duk_ret_t js_renderer_draw_textbox(duk_context *L);
+	duk_ret_t js_renderer_set_background(duk_context *L);
 
 	duk_ret_t js_config_get_str(duk_context* L);
 	duk_ret_t js_config_get_str2(duk_context* L);
@@ -53,6 +56,8 @@ namespace xen
 	duk_ret_t js_config_get_bool2(duk_context* L);
 	duk_ret_t js_config_get_int(duk_context* L);
 	duk_ret_t js_config_get_int2(duk_context* L);
+
+	duk_ret_t js_textbox_set_text(duk_context* L);
 }
 
 #endif

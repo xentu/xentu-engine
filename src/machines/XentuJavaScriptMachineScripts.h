@@ -13,6 +13,8 @@ namespace xen { const char * xen_js_script_init = R"(
 
 	const assets = {}
 	assets.load_texture = assets_load_texture;
+	assets.load_font = assets_load_font;
+	assets.create_textbox = assets_create_textbox;
 
 	const config = {}
 	config.get_str = config_get_str;
@@ -23,11 +25,16 @@ namespace xen { const char * xen_js_script_init = R"(
 	config.get_int2 = config_get_int2;
 
 	const renderer = {}
-	renderer.clear = renderer_clear;
+	renderer.begin = renderer_begin;
 	renderer.draw_texture = renderer_draw_texture;
-	renderer.set_clear_color = function(hex) {
-		renderer_set_clear_color(hex.replace('#', ''));
+	renderer.set_background = function(hex) {
+		renderer_set_background(hex.replace('#', ''));
 	};
+	renderer.present = renderer_present;
+	renderer.draw_textbox = renderer_draw_textbox;
+
+	const textbox = {}
+	textbox.set_text = textbox_set_text;
 
 	const geometry = {
 		create_rect: function(x, y, w, h) {
@@ -48,6 +55,8 @@ namespace xen { const char * xen_js_script_init = R"(
 		}
 	}
 
+	game.create_window();
 
+	// vfs.mount('/zip', './assets/test.zip');
 )"; }
 #endif

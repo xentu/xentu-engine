@@ -2,6 +2,7 @@
 #define XEN_RENDERER_SDL_CPP
 
 #include "XentuSDLRenderer.h"
+#include "XentuSDLTextBox.h"
 
 namespace xen
 {
@@ -62,6 +63,15 @@ namespace xen
 	}
 
 
+	int XentuSDLRenderer::create_textbox(int x, int y, int width, int height)
+	{
+		auto textbox = new XentuSDLTextBox(m_renderer[0], x, y, width, height);
+		m_textboxes.insert(std::make_pair(m_textboxes_iter, textbox));
+		m_textboxes_iter++;
+		return m_textboxes_iter - 1;
+	}
+
+
 	bool XentuSDLRenderer::is_running()
 	{
 		int running = 1;
@@ -108,13 +118,36 @@ namespace xen
 		dest.h = height;
 		SDL_RenderCopy(rend, tex, NULL, &dest);
 	}
+
+
+	void XentuSDLRenderer::draw_textbox(int textbox_id)
+	{
+		auto textbox = m_textboxes[textbox_id];
+		SDL_Renderer* rend = m_renderer[0];
+		SDL_Texture* tex = textbox->texture;
+		SDL_RenderCopy(rend, tex, NULL, &textbox->position);
+	}
 	
+
+	void XentuSDLRenderer::set_textbox_text(int textbox_id, int font_id, const char* text)
+	{
+		auto textbox = m_textboxes[textbox_id];
+		auto font = m_fonts[font_id];
+		textbox->SetText(font, text);
+	}
+
 	
 	XentuSDLRenderer::~XentuSDLRenderer()
 	{
 		for (auto const& tex : m_textures)
 		{
 			SDL_DestroyTexture(tex.second);
+		}
+		m_textures.clear();
+
+		for (auto const& tb : m_textboxes)
+		{
+			delete tb.second;
 		}
 		m_textures.clear();
 

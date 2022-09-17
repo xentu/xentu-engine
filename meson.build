@@ -36,6 +36,7 @@ project_source_files = files([
 
   # renderers
   'src/renderers/XentuSDLRenderer.cpp',
+  'src/renderers/XentuSDLTextBox.cpp',
   'src/XentuRenderer.cpp',
   'src/XentuConfig.cpp',
 

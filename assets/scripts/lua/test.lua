@@ -4,6 +4,7 @@
 print("\nHello from lua world!")
 
 game.create_window()
+-- vfs.mount('/zip', './assets/test.zip')
 
 -- const white = game.colorFromHex('#ffffff')
 texture0 = assets.load_texture("/images/test.png")

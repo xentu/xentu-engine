@@ -29,18 +29,6 @@ namespace xen
 	}
 
 
-	int XentuRenderer::load_texture(uint8_t* buffer, uint64_t length)
-	{
-		return -1;
-	}
-
-
-	int XentuRenderer::load_font(uint8_t* buffer, uint64_t length, int font_size)
-	{
-		return -1;
-	}
-
-
 	bool XentuRenderer::is_running()
 	{
 		return 0;
@@ -62,6 +50,18 @@ namespace xen
 	void XentuRenderer::draw_texture(int texture_id, int x, int y, int width, int height)
 	{
 		
+	}
+
+
+	void XentuRenderer::draw_textbox(int textbox_id)
+	{
+		
+	}
+
+
+	void XentuRenderer::set_textbox_text(int textbox_id, int font_id, const char* text)
+	{
+
 	}
 
 

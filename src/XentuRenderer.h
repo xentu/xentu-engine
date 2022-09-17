@@ -15,12 +15,15 @@ namespace xen
 			~XentuRenderer();
 			virtual int create_window();
 			virtual int create_window_ex(std::string title, int x, int y, int width, int height, int mode);
-			virtual int load_texture(uint8_t* buffer, uint64_t length);
-			virtual int load_font(uint8_t* buffer, uint64_t length, int font_size);
+			virtual int load_texture(uint8_t* buffer, uint64_t length) = 0;
+			virtual int load_font(uint8_t* buffer, uint64_t length, int font_size) = 0;
+			virtual int create_textbox(int x, int y, int width, int height) = 0;
 			virtual bool is_running();
 			virtual void prepare();
 			virtual void present();
 			virtual void draw_texture(int texture_id, int x, int y, int width, int height);
+			virtual void draw_textbox(int textbox_id) = 0;
+			virtual void set_textbox_text(int textbox_id, int font_id, const char* text);
 			void set_clear_color(int r, int g, int b);
 
 		protected:

@@ -156,10 +156,22 @@ namespace xen
 		if (file && file->IsOpened())
 		{
 			uint64_t length = file->Size(); // not always accurate.
-			uint8_t data[4096 * 10]; // create a buffer.
-			uint64_t r_length = file->Read(data, length); // returns true length.
-			this->CloseFile(file);
-			return VfsBufferResult { data , length, r_length };
+			size_t data_len = 8096 * 10;
+			if (length > data_len) 
+			{
+				uint8_t data[8096 * 100]; // create a 4mb buffer.
+				uint64_t r_length = file->Read(data, length); // returns true length.
+				this->CloseFile(file);
+				return VfsBufferResult { data , length, r_length };
+			}
+			else
+			{
+				uint8_t data[8096 * 10]; // create a buffer.
+				uint64_t r_length = file->Read(data, length); // returns true length.
+				this->CloseFile(file);
+				return VfsBufferResult { data , length, r_length };
+			}
+			
 		}
 		uint8_t r_data[1];
 		return VfsBufferResult { r_data, 0, 0 };

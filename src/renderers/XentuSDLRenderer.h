@@ -8,6 +8,7 @@
 #include "SDL_image.h"
 #include "SDL_ttf.h"
 #include "../XentuRenderer.h"
+#include "XentuSDLTextBox.h"
 
 namespace xen
 {
@@ -20,10 +21,13 @@ namespace xen
 			int create_window_ex(std::string title, int x, int y, int width, int height, int mode);
 			int load_texture(uint8_t* buffer, uint64_t length);
 			int load_font(uint8_t* buffer, uint64_t length, int font_size);
+			int create_textbox(int x, int y, int width, int height);
 			bool is_running();
 			void prepare();
 			void present();
 			void draw_texture(int texture_id, int x, int y, int width, int height);
+			void draw_textbox(int textbox_id);
+			void set_textbox_text(int textbox_id, int font_id, const char* text);
 			SDL_Window* m_windows[MAX_WINDOW_COUNT];
 			SDL_Renderer* m_renderer[MAX_WINDOW_COUNT];
 			int m_window_count = 0;
@@ -34,6 +38,9 @@ namespace xen
 
 			std::map<int, TTF_Font*> m_fonts;
 			int m_fonts_iter = 0;
+
+			std::map<int, XentuSDLTextBox*> m_textboxes;
+			int m_textboxes_iter = 0;
 	};
 }
 
