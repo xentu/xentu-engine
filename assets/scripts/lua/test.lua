@@ -1,20 +1,37 @@
-
-
-
-print("\nHello from lua world!")
+print("\nHello from lua!")
 
 game.create_window()
--- vfs.mount('/zip', './assets/test.zip')
 
--- const white = game.colorFromHex('#ffffff')
+-- load resources.
 texture0 = assets.load_texture("/images/test.png")
-rect0 = geometry.create_rect(5, 10, 200, 200)
+font0 = assets.load_font("/fonts/Roboto-Regular.ttf", 20)
+text0 = assets.create_textbox(10, 10, 680, 40)
 
-print("Texture was assigned the id #" + texture0)
+print("\nHello from lua2!")
 
-game.on("draw", function(dt)
-	-- game.clear(white)
-	game.draw_texture(rect0, texture0)
+-- setup variables.
+renderer.set_background('#000000') -- set the clear color.
+textbox.set_text(text0, font0, "Hello World") -- set the text on text0.
+x = 0
+x_speed = 2
+
+-- handle the update event.
+game.on("update", function()
+	if x_speed > 0 and x + 5 > 690 then x_speed = -2 end
+	if x_speed < 0 and x - 5 < 10 then x_speed = 2 end
+	x = x + x_speed
+	if keyboard.key_down(KB_ESCAPE) then game.exit() end
 end)
 
+-- handle the draw event
+game.on("draw", function()
+	renderer.begin()
+	renderer.draw_texture(texture0, x, 10, 100, 100)
+	-- renderer.draw_sub_texture(texture0, x, 10, 100, 100, 0, 0, 20, 20)
+	renderer.draw_textbox(text0)
+	renderer.present()
+end)
+
+-- we've finished preparing, so run the game.
 game.run()
+print("\nHello from lua3!")

@@ -153,7 +153,7 @@ namespace xen
 		XEN_LOG("- Called game_run\n");
 		auto m = XentuJavaScriptMachine::GetInstance();
 		m->Run();
-		return 1;
+		return 0;
 	}
 
 	duk_ret_t js_game_exit(duk_context *L) {
@@ -205,7 +205,7 @@ namespace xen
 	}
 	
 	duk_ret_t js_assets_create_textbox(duk_context *L) {
-		XEN_LOG("- Called assets_load_font.\n");
+		XEN_LOG("- Called assets_create_textbox.\n");
 		auto x = duk_to_int(L, 0);
 		auto y = duk_to_int(L, 1);
 		auto w = duk_to_int(L, 2);

@@ -12,13 +12,10 @@ var x = 0, x_speed = 2;
 
 // handle the update event.
 game.on('update', function() {
-	if (x_speed > 0 && x + 5 > 690) x_speed = -5;
-	if (x_speed < 0 && x - 5 < 10) x_speed = 5;
+	if (x_speed > 0 && x + 5 > 690) x_speed = -2;
+	if (x_speed < 0 && x - 5 < 10) x_speed = 2;
 	x += x_speed;
-
-	if (keyboard.key_down(KB_ESCAPE)) {
-		game.exit();
-	}
+	if (keyboard.key_down(KB_ESCAPE)) game.exit();
 });
 
 // handle the draw event

@@ -15,24 +15,33 @@ namespace xen
 	:	XentuMachine::XentuMachine(argc, argv, config)
 	{
 		// keep a pointer to this instance.
-		if (luaMachine != nullptr) {
+		if (instance != nullptr) {
 			printf("Error, tried to create more than one XentuLuaMachine!");
 			exit(111);
 		}
-		luaMachine = this;
+		instance = this;
 
 		L = luaL_newstate();
 		luaL_openlibs(L);
 
 		// init any classes with luna.
-		Luna<xen::XentuLuaGame>::Register(L, false);
-		Luna<xen::XentuLuaAssets>::Register(L, false);
+		Luna<xen::XentuLuaMachineInterop>::Register(L, false);
 
 		// load in our custom import loader.
 		luaL_dostring(L, xen_lua_script_init);
-
-		
 		XEN_LOG("- Created XentuLuaMachine\n");
+	}
+
+
+	XentuLuaMachine* XentuLuaMachine::instance = 0;
+	XentuLuaMachine* XentuLuaMachine::GetInstance()
+	{
+		if (instance == 0)
+		{
+			printf("ERROR");
+			exit(123);
+		}
+		return instance;
 	}
 
 
@@ -81,7 +90,7 @@ namespace xen
 	XentuLuaMachine::~XentuLuaMachine()
 	{
 		lua_close(L);
-		luaMachine = nullptr;
+		instance = nullptr;
 		XEN_LOG("- Destroyed XentuLuaMachine\n");
 	}
 }
