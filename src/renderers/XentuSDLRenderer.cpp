@@ -74,20 +74,42 @@ namespace xen
 
 	bool XentuSDLRenderer::is_running()
 	{
-		int running = 1;
+		bool running = true;
 		SDL_Event event;
+
+		m_keyboard_events_iter = 0;
 		
 		// Events management
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 				case SDL_QUIT:
 					// handling of close button
-					running = 0;
+					running = false;
+					break;
+				case SDL_KEYDOWN:
+					m_keyboard_events[m_keyboard_events_iter] = event.key.keysym;
+					m_keyboard_events_iter++;
 					break;
       	}
 		}
 
-		return running;
+		return running && !m_exiting;
+	}
+
+
+	void XentuSDLRenderer::exit()
+	{
+		m_exiting = true;
+	}
+
+
+	bool XentuSDLRenderer::KeyDown(int key_code)
+	{
+		for (int i=0; i<m_keyboard_events_iter; i++) {
+			auto evt = m_keyboard_events[i];
+			if (evt.scancode == key_code) return true;
+		}
+		return false;
 	}
 
 
@@ -117,6 +139,24 @@ namespace xen
 		dest.w = width;
 		dest.h = height;
 		SDL_RenderCopy(rend, tex, NULL, &dest);
+	}
+
+
+	void XentuSDLRenderer::draw_sub_texture(int texture_id, int x, int y, int w, int h, int sx, int sy, int sw, int sh)
+	{
+		SDL_Renderer* rend = m_renderer[0];
+		SDL_Texture* tex = m_textures[texture_id];
+		SDL_Rect dest;
+		dest.x = x;
+		dest.y = y;
+		dest.w = w;
+		dest.h = h;
+		SDL_Rect src;
+		src.x = sx;
+		src.y = sy;
+		src.w = sw;
+		src.h = sh;
+		SDL_RenderCopy(rend, tex, &src, &dest);
 	}
 
 

@@ -38,6 +38,7 @@ namespace xen
 	duk_ret_t js_game_on(duk_context *L);
 	duk_ret_t js_game_trigger(duk_context *L);
 	duk_ret_t js_game_run(duk_context *L);
+	duk_ret_t js_game_exit(duk_context *L);
 	duk_ret_t js_geometry_create_rect(duk_context *L);
 	duk_ret_t js_assets_mount(duk_context *L);
 	duk_ret_t js_assets_read_text_file(duk_context *L);
@@ -47,6 +48,7 @@ namespace xen
 	duk_ret_t js_renderer_begin(duk_context *L);
 	duk_ret_t js_renderer_present(duk_context *L);
 	duk_ret_t js_renderer_draw_texture(duk_context *L);
+	duk_ret_t js_renderer_draw_sub_texture(duk_context *L);
 	duk_ret_t js_renderer_draw_textbox(duk_context *L);
 	duk_ret_t js_renderer_set_background(duk_context *L);
 
@@ -58,6 +60,8 @@ namespace xen
 	duk_ret_t js_config_get_int2(duk_context* L);
 
 	duk_ret_t js_textbox_set_text(duk_context* L);
+
+	duk_ret_t js_keyboard_key_down(duk_context* L);
 }
 
 #endif

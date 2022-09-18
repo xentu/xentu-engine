@@ -50,7 +50,6 @@ namespace xen
 		}
 	}
 
-
 	const string XentuConfig::GetSetting(const string group, const string name, const string default_value)
 	{
 		try {
@@ -87,7 +86,6 @@ namespace xen
 		}
 		return default_value;
 	}
-
 
 	const string XentuConfig::GetSetting(const string group, const string sub_group, const string name, const string default_value)
 	{
@@ -128,7 +126,6 @@ namespace xen
 		}
 		return default_value;
 	}
-
 	
 	XentuConfig::~XentuConfig()
 	{

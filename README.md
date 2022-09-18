@@ -82,12 +82,12 @@ this is how things are loaded into the game. Currently it works like this:
 
 - Core scripts/shaders etc.. are embedded into the executable via CMake. 
 - An asset manager on the C++ side can load in files from the filesystem.
-- The Lua interpreter can speak to the filesystem to require other lua files.
+- The Lua interpreter can speak to the filesystem to require other Lua files.
 
 That all sounds fine until you realise from a programmers perspective it's highly
 unmaintainable. As a result I was never able to provide a way to wrap a games
 assets into a bundle like other games do, and I also had to write an alternative
-include lua function to get around Lua's strange include system.
+include Lua function to get around Lua's strange include system.
 
 ### CMake Issues
 
@@ -121,13 +121,13 @@ but embedded languages usually have no equivalent, unless the host application
 requires the user to also install the needed package manager.
 
 Due to this, it's actually quite important for the language being embedded to
-provide everything that you'll need ot of the box. For the Xentu alpha, Lua did
+provide everything that you'll need out of the box. For the Xentu alpha, Lua did
 provide most of what I needed, but there were some noticeable gaps that caused
 a few problems. For example when I had to load XML in C++ instead of Lua when 
 loading Tiled TMX files.
 
 Recently whilst working on another project called Sutori, a dialog engine for the
-likes of quizzes and visual novels (which is primarily a javascript endeavour) I
+likes of quizzes and visual novels (which is primarily a JavaScript endeavour) I
 began writing ports to other languages. Ports for .NET, and Python were as simple
 as you can imagine, however when I went to write a port for Lua (I obviously wanted
 it to work with Xentu) I realised that I'd have to do the whole Tiled TMX thing
@@ -139,10 +139,10 @@ engine. But for this track it will take a slight back seat to allow for me to
 implement a core set of libraries in c++ that allows Lua (and other interpreters)
 to have the same out of the box functionality that Python has.
 
-Here's a list of libraries that should be getting added to the oobf list:
+Here's a list of libraries that should be featured in the out of the box list:
 
-- Serializer/Deserializer's for: XML, JSON, TOML, CSV
-- Encoder/Decoders for base16, base32, base64
+- Serializer/Deserializer for: XML, JSON, TOML, CSV
+- Encoder/Decoder for base16, base32, base64
 - Compression library for: zip, bzip2, gzip, lzma, zlib
 - Hashing library like [hashlib](https://docs.python.org/3/library/hashlib.html)
 - Logging library.
@@ -150,8 +150,8 @@ Here's a list of libraries that should be getting added to the oobf list:
 
 If you have any suggestions for further libraries, please let me know.
 
-## Whats Next
+## What's Next
 
 All the pieces needed to get this done are easily available, and the vfs is already
 fully working. If everything goes to plan, this alpha will be complete by the end
-of september 2022, and may end up as the beta if everything goes well.
+of September 2022, and may end up as the beta if everything goes well.

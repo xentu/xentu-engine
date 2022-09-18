@@ -37,6 +37,9 @@ namespace xen
 		duk_push_c_function(L, js_game_run, 0 /*nargs*/);
 		duk_put_global_string(L, "game_run");
 
+		duk_push_c_function(L, js_game_exit, 0 /* nargs */);
+		duk_put_global_string(L, "game_exit");
+
 		duk_push_c_function(L, js_geometry_create_rect, 4 /*nargs*/);
 		duk_put_global_string(L, "geometry_create_rect");
       
@@ -64,6 +67,9 @@ namespace xen
 		duk_push_c_function(L, js_renderer_draw_texture, 5 /*nargs*/);
 		duk_put_global_string(L, "renderer_draw_texture");
 
+		duk_push_c_function(L, js_renderer_draw_sub_texture, 9 /*nargs*/);
+		duk_put_global_string(L, "renderer_draw_sub_texture");
+
 		duk_push_c_function(L, js_renderer_draw_textbox, 1 /*nargs*/);
 		duk_put_global_string(L, "renderer_draw_textbox");
 
@@ -90,6 +96,9 @@ namespace xen
 
 		duk_push_c_function(L, js_textbox_set_text, 3 /*nargs*/);
 		duk_put_global_string(L, "textbox_set_text");
+
+		duk_push_c_function(L, js_keyboard_key_down, 1 /*nargs*/);
+		duk_put_global_string(L, "keyboard_key_down");
 	}
 
 
@@ -145,6 +154,13 @@ namespace xen
 		auto m = XentuJavaScriptMachine::get_instance();
 		m->run();
 		return 1;
+	}
+
+	duk_ret_t js_game_exit(duk_context *L) {
+		auto m = XentuJavaScriptMachine::get_instance();
+		auto r = m->get_renderer();
+		r->exit();
+		return 0;
 	}
 
 	duk_ret_t js_geometry_create_rect(duk_context *L) {
@@ -221,6 +237,23 @@ namespace xen
 		auto m = XentuJavaScriptMachine::get_instance();
 		auto r = m->get_renderer();
 		r->draw_texture(texture_id, x, y, w, h);
+		return 0;
+	}
+
+	duk_ret_t js_renderer_draw_sub_texture(duk_context *L) {
+		XEN_LOG("- Called renderer_draw_texture\n");
+		int texture_id = duk_to_int(L, 0);
+		int x = duk_to_int(L, 1);
+		int y = duk_to_int(L, 2);
+		int w = duk_to_int(L, 3);
+		int h = duk_to_int(L, 4);
+		int sx = duk_to_int(L, 5);
+		int sy = duk_to_int(L, 6);
+		int sw = duk_to_int(L, 7);
+		int sh = duk_to_int(L, 8);
+		auto m = XentuJavaScriptMachine::get_instance();
+		auto r = m->get_renderer();
+		r->draw_sub_texture(texture_id, x, y, w, h, sx, sy, sw, sh);
 		return 0;
 	}
 
@@ -326,6 +359,15 @@ namespace xen
 		auto r = m->get_renderer();
 		r->set_textbox_text(textbox_id, font_id, text);		
 		return 0;
+	}
+
+	duk_ret_t js_keyboard_key_down(duk_context* L) {
+		auto key_code = duk_to_int(L, 0);
+		auto m = XentuJavaScriptMachine::get_instance();
+		auto r = m->get_renderer();
+		bool down = r->KeyDown(key_code);
+		duk_push_boolean(L, down);
+		return 1;
 	}
 }
 

@@ -28,12 +28,6 @@ namespace xen
 	}
 
 
-	int XentuMachine::init()
-	{
-		return -1;
-	}
-
-
 	void XentuMachine::run()
 	{
 		while (m_renderer->is_running()) {
@@ -42,13 +36,6 @@ namespace xen
 			this->trigger("draw");
 			m_renderer->present();
 		}
-	}
-
-
-	int XentuMachine::trigger(const std::string event_name)
-	{
-		// triggers shouldn't effect the base class.
-		return -1;
 	}
 
 

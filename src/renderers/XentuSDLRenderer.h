@@ -25,9 +25,14 @@ namespace xen
 			bool is_running();
 			void prepare();
 			void present();
+			void exit();
 			void draw_texture(int texture_id, int x, int y, int width, int height);
+			void draw_sub_texture(int texture_id, int x, int y, int w, int h, int sx, int sy, int sw, int sh);
 			void draw_textbox(int textbox_id);
 			void set_textbox_text(int textbox_id, int font_id, const char* text);
+			bool KeyDown(int key_code);
+
+		public:			
 			SDL_Window* m_windows[MAX_WINDOW_COUNT];
 			SDL_Renderer* m_renderer[MAX_WINDOW_COUNT];
 			int m_window_count = 0;
@@ -41,6 +46,11 @@ namespace xen
 
 			std::map<int, XentuSDLTextBox*> m_textboxes;
 			int m_textboxes_iter = 0;
+
+			SDL_Keysym m_keyboard_events[40];
+			int m_keyboard_events_iter = 0;
+
+			bool m_exiting = false;
 	};
 }
 

@@ -17,54 +17,6 @@ namespace xen
 	}
 
 
-	int XentuRenderer::create_window()
-	{
-		return create_window_ex("Test", 0, 0, 800, 600, 0);
-	}
-
-
-	int XentuRenderer::create_window_ex(std::string title, int x, int y, int width, int height, int mode)
-	{
-		return -1;
-	}
-
-
-	bool XentuRenderer::is_running()
-	{
-		return 0;
-	}
-
-
-	void XentuRenderer::prepare()
-	{
-		
-	}
-
-
-	void XentuRenderer::present()
-	{
-
-	}
-
-
-	void XentuRenderer::draw_texture(int texture_id, int x, int y, int width, int height)
-	{
-		
-	}
-
-
-	void XentuRenderer::draw_textbox(int textbox_id)
-	{
-		
-	}
-
-
-	void XentuRenderer::set_textbox_text(int textbox_id, int font_id, const char* text)
-	{
-
-	}
-
-
 	void XentuRenderer::set_clear_color(int r, int g, int b)
 	{
 		clear_color_r = r;
