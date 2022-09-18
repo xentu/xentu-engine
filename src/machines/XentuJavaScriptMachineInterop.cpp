@@ -1,6 +1,3 @@
-#ifndef XEN_JS_MACHINE_INTEROP_CPP
-#define XEN_JS_MACHINE_INTEROP_CPP
-
 #include <stdio.h>
 #include <string>
 #include "XentuJavaScriptMachine.h"
@@ -370,5 +367,3 @@ namespace xen
 		return 1;
 	}
 }
-
-#endif

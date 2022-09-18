@@ -1,7 +1,3 @@
-#ifndef XEN_LUA_MACHINE_INTEROP_CPP
-#define XEN_LUA_MACHINE_INTEROP_CPP
-
-
 #include "luna/luna.hpp"
 
 #include "XentuLuaMachine.h"
@@ -331,6 +327,3 @@ namespace xen
 		{0,0}
 	};
 }
-
-
-#endif

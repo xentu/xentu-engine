@@ -1,8 +1,4 @@
-#ifndef XEN_CONFIG_CPP
-#define XEN_CONFIG_CPP
-
 #include <string>
-
 #include "Xentu.h"
 #include "XentuConfig.h"
 
@@ -132,5 +128,3 @@ namespace xen
 		XEN_LOG("- Destroyed XentuConfig.\n");
 	}
 }
-
-#endif

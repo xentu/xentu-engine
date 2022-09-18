@@ -1,6 +1,3 @@
-#ifndef XEN_GAME_CPP
-#define XEN_GAME_CPP
-
 #include "XentuGame.h"
 
 namespace xen
@@ -11,5 +8,3 @@ namespace xen
 	XentuGame::~XentuGame()
 	{ }
 }
-
-#endif

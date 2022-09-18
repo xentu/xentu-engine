@@ -1,6 +1,3 @@
-#ifndef XEN_PYTHON_MACHINE_INTEROP_CPP
-#define XEN_PYTHON_MACHINE_INTEROP_CPP
-
 #define PY_SSIZE_T_CLEAN
 
 #include "SDL.h"
@@ -243,5 +240,3 @@ namespace xen
 
 	/* ---- Game Module ------------------------------------------------------ */
 }
-
-#endif

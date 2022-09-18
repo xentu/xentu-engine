@@ -1,6 +1,3 @@
-#ifndef XENTU_CPP
-#define XENTU_CPP
-
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -30,6 +27,3 @@ int XEN_ERROR(const char *format, ...)
 	// todo: write to error log file or something.
 	return -3;
 }
-
-
-#endif

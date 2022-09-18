@@ -1,6 +1,3 @@
-#ifndef XEN_ENVIRONMENT_CPP
-#define XEN_ENVIRONMENT_CPP
-
 #include <stdio.h>
 #include <string>
 
@@ -61,5 +58,3 @@ namespace xen
 		XEN_LOG("- Destroyed XentuMachine.\n");
 	}
 }
-
-#endif

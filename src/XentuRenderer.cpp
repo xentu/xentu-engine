@@ -1,6 +1,3 @@
-#ifndef XEN_RENDERER_CPP
-#define XEN_RENDERER_CPP
-
 #include "Xentu.h"
 #include "XentuConfig.h"
 #include "XentuRenderer.h"
@@ -30,5 +27,3 @@ namespace xen
 		XEN_LOG("- Destroyed XentuRenderer\n");
 	}
 }
-
-#endif

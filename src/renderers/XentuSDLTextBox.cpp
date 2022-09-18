@@ -1,6 +1,3 @@
-#ifndef XENTU_SDL_TEXTBOX_CPP
-#define XENTU_SDL_TEXTBOX_CPP
-
 #include "../Xentu.h"
 #include "XentuSDLTextBox.h"
 
@@ -38,5 +35,3 @@ namespace xen
 		SDL_FreeSurface(surface);
 	}
 }
-
-#endif

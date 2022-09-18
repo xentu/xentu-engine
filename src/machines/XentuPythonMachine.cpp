@@ -1,6 +1,3 @@
-#ifndef XEN_PYTHON_MACHINE_CPP
-#define XEN_PYTHON_MACHINE_CPP
-
 #define PY_SSIZE_T_CLEAN
 
 #include <Python.h>
@@ -94,5 +91,3 @@ namespace xen
 		XEN_LOG("- Destroyed XentuPythonMachine\n");
 	}
 }
-
-#endif

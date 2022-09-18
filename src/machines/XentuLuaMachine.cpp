@@ -1,6 +1,3 @@
-#ifndef XEN_LUA_MACHINE_CPP
-#define XEN_LUA_MACHINE_CPP
-
 #include <stdio.h>
 #include "luna/luna.hpp"
 
@@ -94,5 +91,3 @@ namespace xen
 		XEN_LOG("- Destroyed XentuLuaMachine\n");
 	}
 }
-
-#endif

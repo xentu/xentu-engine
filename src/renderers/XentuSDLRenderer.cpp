@@ -1,6 +1,3 @@
-#ifndef XEN_RENDERER_SDL_CPP
-#define XEN_RENDERER_SDL_CPP
-
 #include "XentuSDLRenderer.h"
 #include "XentuSDLTextBox.h"
 
@@ -204,5 +201,3 @@ namespace xen
 		XEN_LOG("- Destroyed XentuSDLRenderer\n");
 	}
 }
-
-#endif

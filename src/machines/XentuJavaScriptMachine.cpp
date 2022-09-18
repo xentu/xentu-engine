@@ -1,6 +1,3 @@
-#ifndef XEN_JS_MACHINE_CPP
-#define XEN_JS_MACHINE_CPP
-
 #include <stdio.h>
 #include "XentuJavaScriptMachine.h"
 #include "XentuJavaScriptMachineScripts.h"
@@ -82,5 +79,3 @@ namespace xen
 		XEN_LOG("- Destroyed XentuJavaScriptMachine.\n");
 	}
 }
-
-#endif
