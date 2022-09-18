@@ -41,6 +41,7 @@ project_source_files = files([
   'src/XentuConfig.cpp',
 
   # main
+  'src/Xentu.cpp',
   'main.cpp'
 ])
 

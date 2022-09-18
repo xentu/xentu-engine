@@ -3,7 +3,7 @@
 
 
 #define MAX_ARGV 12
-#define XEN_LOG_ENABLED 1
+//#define XEN_LOG_ENABLED 1
 
 
 #ifndef XEN_LOG_ENABLED
@@ -11,6 +11,11 @@
 #else
 #   define XEN_LOG(...) printf(__VA_ARGS__)
 #endif
+
+
+void XEN_WARN(char *format, ...);
+
+void XEN_ERROR(char *format, ...);
 
 
 #endif
