@@ -1,6 +1,7 @@
 #include "XenVirtualFileSystem.h"
 #include "XenStringUtils.h"
 #include "XenNativeFileSystem.h"
+#include "../XentuExceptions.h"
 
 namespace xen
 {
@@ -146,6 +147,8 @@ namespace xen
 			this->CloseFile(file);
 			return result;
 		}
+
+		throw XentuNotFoundException(filename.c_str());
 		return "";
 	}
 

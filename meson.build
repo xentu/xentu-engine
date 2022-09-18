@@ -38,10 +38,13 @@ project_source_files = files([
   'src/renderers/XentuSDLRenderer.cpp',
   'src/renderers/XentuSDLTextBox.cpp',
   'src/XentuRenderer.cpp',
+
+  # other
+  'src/Xentu.cpp',
   'src/XentuConfig.cpp',
+  # 'src/XentuExceptions.cpp',
 
   # main
-  'src/Xentu.cpp',
   'main.cpp'
 ])
 

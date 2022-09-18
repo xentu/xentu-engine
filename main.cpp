@@ -7,6 +7,7 @@
 #include "SDL_timer.h"
 
 #include "src/Xentu.h"
+#include "src/XentuExceptions.h"
 #include "src/fs/XenVirtualFileSystem.h"
 #include "src/fs/XenFileSystem.h"
 #include "src/fs/XenNativeFileSystem.h"
@@ -27,7 +28,16 @@ int main(int argc, char *argv[])
     vfs_default();
 
     // load the json config.
-	std::string result = vfs_get_global()->ReadAllText("/game.json");
+    std::string result;
+
+    try {
+	    result = vfs_get_global()->ReadAllText("/game.json");
+    }
+    catch (XentuNotFoundException e) {
+        vfs_shutdown();
+        return XEN_ERROR("- Error unable to locate %s\n", e.what());
+    }
+
 	XentuConfig *config = new XentuConfig(result.c_str());
     
     printf("Language: %s\n", config->language.c_str());

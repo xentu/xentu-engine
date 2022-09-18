@@ -13,9 +13,9 @@
 #endif
 
 
-void XEN_WARN(char *format, ...);
+int XEN_WARN(const char *format, ...);
 
-void XEN_ERROR(char *format, ...);
+int XEN_ERROR(const char *format, ...);
 
 
 #endif
