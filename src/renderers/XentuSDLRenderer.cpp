@@ -24,14 +24,10 @@ namespace xen
 
 	int XentuSDLRenderer::CreateWindowEx(std::string title, int x, int y, int width, int height, int mode)
 	{
-		if (m_window_count >= MAX_WINDOW_COUNT) return -1;
-		int result_id = m_window_count;
 		Uint32 render_flags = SDL_RENDERER_ACCELERATED;
-		m_windows[result_id] = SDL_CreateWindow("GAME", x, y, width, height, mode);
-		m_renderer[result_id] = SDL_CreateRenderer(m_windows[result_id], -1, render_flags);
-		
-		m_window_count++;
-		return result_id;
+		m_window = SDL_CreateWindow("GAME", x, y, width, height, mode);
+		m_renderer = SDL_CreateRenderer(m_window, -1, render_flags);
+		return 0;
 	}
 
 
@@ -39,7 +35,7 @@ namespace xen
 	{
 		auto *rw = SDL_RWFromMem(buffer, length);
 		auto sur = IMG_Load_RW(rw, AUTO_FREE);
-		auto tex = SDL_CreateTextureFromSurface(m_renderer[0], sur);
+		auto tex = SDL_CreateTextureFromSurface(m_renderer, sur);
 		SDL_FreeSurface(sur);
 		
 		m_textures.insert(std::make_pair(m_textures_iter, tex));
@@ -63,7 +59,7 @@ namespace xen
 
 	int XentuSDLRenderer::CreateTextBox(int x, int y, int width, int height)
 	{
-		auto textbox = new XentuSDLTextBox(m_renderer[0], x, y, width, height);
+		auto textbox = new XentuSDLTextBox(m_renderer, x, y, width, height);
 		m_textboxes.insert(std::make_pair(m_textboxes_iter, textbox));
 		m_textboxes_iter++;
 		return m_textboxes_iter - 1;
@@ -113,36 +109,32 @@ namespace xen
 
 	void XentuSDLRenderer::Prepare()
 	{
-		SDL_Renderer* rend = m_renderer[0];
-		SDL_SetRenderDrawColor(rend, clear_color_r, clear_color_g, clear_color_b, 255);
-		SDL_RenderClear(rend);
+		SDL_SetRenderDrawColor(m_renderer, clear_color_r, clear_color_g, clear_color_b, 255);
+		SDL_RenderClear(m_renderer);
 	}
 
 
 	void XentuSDLRenderer::Present()
 	{
-		SDL_Renderer* rend = m_renderer[0];
-		SDL_RenderPresent(rend);
+		SDL_RenderPresent(m_renderer);
 		SDL_Delay(1000 / 60);
 	}
 
 
 	void XentuSDLRenderer::DrawTexture(int texture_id, int x, int y, int width, int height)
 	{
-		SDL_Renderer* rend = m_renderer[0];
 		SDL_Texture* tex = m_textures[texture_id];
 		SDL_Rect dest;
 		dest.x = x;
 		dest.y = y;
 		dest.w = width;
 		dest.h = height;
-		SDL_RenderCopy(rend, tex, NULL, &dest);
+		SDL_RenderCopy(m_renderer, tex, NULL, &dest);
 	}
 
 
 	void XentuSDLRenderer::DrawSubTexture(int texture_id, int x, int y, int w, int h, int sx, int sy, int sw, int sh)
 	{
-		SDL_Renderer* rend = m_renderer[0];
 		SDL_Texture* tex = m_textures[texture_id];
 		SDL_Rect dest;
 		dest.x = x;
@@ -154,16 +146,15 @@ namespace xen
 		src.y = sy;
 		src.w = sw;
 		src.h = sh;
-		SDL_RenderCopy(rend, tex, &src, &dest);
+		SDL_RenderCopy(m_renderer, tex, &src, &dest);
 	}
 
 
 	void XentuSDLRenderer::DrawTextBox(int textbox_id)
 	{
 		auto textbox = m_textboxes[textbox_id];
-		SDL_Renderer* rend = m_renderer[0];
 		SDL_Texture* tex = textbox->texture;
-		SDL_RenderCopy(rend, tex, NULL, &textbox->position);
+		SDL_RenderCopy(m_renderer, tex, NULL, &textbox->position);
 	}
 	
 
@@ -192,12 +183,7 @@ namespace xen
 		// no need to delete fonts.
 		m_fonts.clear();
 		TTF_Quit();
-
-		for (int i=0; i<m_window_count; i++) {
-			SDL_Window* win = m_windows[i];
-			SDL_DestroyWindow(win);
-		}
-
+		SDL_DestroyWindow(m_window);
 		XEN_LOG("- Destroyed XentuSDLRenderer\n");
 	}
 }

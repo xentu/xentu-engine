@@ -33,9 +33,8 @@ namespace xen
 			bool KeyDown(int key_code);
 
 		public:			
-			SDL_Window* m_windows[MAX_WINDOW_COUNT];
-			SDL_Renderer* m_renderer[MAX_WINDOW_COUNT];
-			int m_window_count = 0;
+			SDL_Window* m_window;
+			SDL_Renderer* m_renderer;
 
 		private:
 			std::map<int, SDL_Texture*> m_textures;
