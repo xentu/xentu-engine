@@ -36,12 +36,12 @@ namespace xen
 	}
 
 
-	int XentuLuaMachine::init()
+	int XentuLuaMachine::Init()
 	{
 		XEN_LOG("- Started LuaMachine.\n");
 
 		// load some lua code.
-		auto config = this->get_config();
+		auto config = this->GetConfig();
 		std::string lua_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\n";
 
 		// run the lua code.
@@ -59,7 +59,7 @@ namespace xen
 	}
 
 
-	int XentuLuaMachine::trigger(const std::string event_name)
+	int XentuLuaMachine::Trigger(const std::string event_name)
 	{
 		int functionRef = this->callbacks[event_name];
 		if (functionRef > 0)
@@ -71,7 +71,7 @@ namespace xen
 	}
 
 
-	int XentuLuaMachine::on(const std::string event_name, const int callback_ref)
+	int XentuLuaMachine::On(const std::string event_name, const int callback_ref)
 	{
 		this->callbacks.insert(std::make_pair(event_name, callback_ref));
 		return 1;

@@ -13,15 +13,15 @@ namespace xen
 			XentuMachine(size_t argc, char *argv[], XentuConfig* config);
 			virtual ~XentuMachine();
 			// initialize the machine, which runs the initial game script.
-			virtual int init() = 0;
+			virtual int Init() = 0;
 			// triggers a game wide event.
-			virtual int trigger(const std::string event_name) = 0;
+			virtual int Trigger(const std::string event_name) = 0;
 			// called by game code to begin the tight events loop.
-			void run();
+			void Run();
 			// call this to retrieve the loaded config.
-			XentuConfig* get_config();
+			XentuConfig* GetConfig();
 			// call this to retrieve the loaded renderer.
-			XentuRenderer* get_renderer();
+			XentuRenderer* GetRenderer();
 
 		protected:
 			const size_t arg_count;

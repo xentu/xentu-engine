@@ -14,10 +14,10 @@ namespace xen
 		public:
 			XentuJavaScriptMachine(int argc, char *argv[], XentuConfig* config);
 			~XentuJavaScriptMachine();
-			static XentuJavaScriptMachine* get_instance();
-			int init();
-			int trigger(const std::string event_name);
-			int on(const std::string event_name, const std::string callback);
+			static XentuJavaScriptMachine* GetInstance();
+			int Init();
+			int Trigger(const std::string event_name);
+			int On(const std::string event_name, const std::string callback);
 		
 		private:
 			std::unordered_multimap<std::string, std::string> callbacks;

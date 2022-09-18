@@ -121,9 +121,9 @@ namespace xen
 
 	duk_ret_t js_game_create_window(duk_context *L) {
 		XEN_LOG("- Called game_create_window\n");
-		XentuJavaScriptMachine* m = XentuJavaScriptMachine::get_instance();
-		auto r = m->get_renderer();
-		int window_id = r->create_window();
+		XentuJavaScriptMachine* m = XentuJavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		int window_id = r->CreateWindow();
 		return window_id;
 	}
 	
@@ -139,8 +139,8 @@ namespace xen
 		duk_dup(L, 1);
 		duk_put_global_string(L, callback_name.c_str());
 
-		auto m = XentuJavaScriptMachine::get_instance();
-		m->on(event_name, callback_name);
+		auto m = XentuJavaScriptMachine::GetInstance();
+		m->On(event_name, callback_name);
 		return 0;
 	}
 	
@@ -151,15 +151,15 @@ namespace xen
 	
 	duk_ret_t js_game_run(duk_context *L) {
 		XEN_LOG("- Called game_run\n");
-		auto m = XentuJavaScriptMachine::get_instance();
-		m->run();
+		auto m = XentuJavaScriptMachine::GetInstance();
+		m->Run();
 		return 1;
 	}
 
 	duk_ret_t js_game_exit(duk_context *L) {
-		auto m = XentuJavaScriptMachine::get_instance();
-		auto r = m->get_renderer();
-		r->exit();
+		auto m = XentuJavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->Exit();
 		return 0;
 	}
 
@@ -181,11 +181,11 @@ namespace xen
 	duk_ret_t js_assets_load_texture(duk_context *L) {
 		XEN_LOG("- Called assets_load_texture\n");
 		auto path = duk_to_string(L, 0);
-		auto m = XentuJavaScriptMachine::get_instance();
-		auto r = m->get_renderer();
+		auto m = XentuJavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
 		auto res = vfs_get_global()->ReadAllData(path);
 		XEN_LOG("- Bytes read: %s\n", std::to_string(res.length).c_str());
-		int texture_id = r->load_texture(res.buffer, res.length);
+		int texture_id = r->LoadTexture(res.buffer, res.length);
 		duk_push_int(L, texture_id);
 		return 1;
 	}
@@ -195,11 +195,11 @@ namespace xen
 		auto path = duk_to_string(L, 0);
 		XEN_LOG("- Attempting to read font %s\n", path);
 		int font_size = duk_to_int(L, 1);
-		auto m = XentuJavaScriptMachine::get_instance();
-		auto r = m->get_renderer();
+		auto m = XentuJavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
 		auto res = vfs_get_global()->ReadAllData(path);
 		XEN_LOG("- Font bytes read: %s\n", std::to_string(res.length).c_str());
-		int font_id = r->load_font(res.buffer, res.length, font_size);
+		int font_id = r->LoadFont(res.buffer, res.length, font_size);
 		duk_push_int(L, font_id);
 		return 1;
 	}
@@ -210,9 +210,9 @@ namespace xen
 		auto y = duk_to_int(L, 1);
 		auto w = duk_to_int(L, 2);
 		auto h = duk_to_int(L, 3);
-		auto m = XentuJavaScriptMachine::get_instance();
-		auto r = m->get_renderer();
-		int textbox_id = r->create_textbox(x, y, w, h);
+		auto m = XentuJavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		int textbox_id = r->CreateTextBox(x, y, w, h);
 		duk_push_int(L, textbox_id);
 		return 1;
 	}
@@ -234,9 +234,9 @@ namespace xen
 		int y = duk_to_int(L, 2);
 		int w = duk_to_int(L, 3);
 		int h = duk_to_int(L, 4);
-		auto m = XentuJavaScriptMachine::get_instance();
-		auto r = m->get_renderer();
-		r->draw_texture(texture_id, x, y, w, h);
+		auto m = XentuJavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->DrawTexture(texture_id, x, y, w, h);
 		return 0;
 	}
 
@@ -251,18 +251,18 @@ namespace xen
 		int sy = duk_to_int(L, 6);
 		int sw = duk_to_int(L, 7);
 		int sh = duk_to_int(L, 8);
-		auto m = XentuJavaScriptMachine::get_instance();
-		auto r = m->get_renderer();
-		r->draw_sub_texture(texture_id, x, y, w, h, sx, sy, sw, sh);
+		auto m = XentuJavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->DrawSubTexture(texture_id, x, y, w, h, sx, sy, sw, sh);
 		return 0;
 	}
 
 	duk_ret_t js_renderer_draw_textbox(duk_context *L) {
 		XEN_LOG("- Called renderer_draw_texbox\n");
 		int textbox_id = duk_to_int(L, 0);
-		auto m = XentuJavaScriptMachine::get_instance();
-		auto r = m->get_renderer();
-		r->draw_textbox(textbox_id);
+		auto m = XentuJavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->DrawTextBox(textbox_id);
 		return 0;
 	}
 
@@ -275,16 +275,16 @@ namespace xen
 
 		printf("clear_color: 0x%x, 0x%x, 0x%x (hex %s)", r, g, b, hex);
 
-		auto machine = XentuJavaScriptMachine::get_instance();
-		auto renderer = machine->get_renderer();
-		renderer->set_clear_color(r, g, b);
+		auto machine = XentuJavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetClearColor(r, g, b);
 
 		return 0;
 	}
 
 	duk_ret_t js_config_get_str(duk_context* L) {
-		auto machine = XentuJavaScriptMachine::get_instance();
-		auto config = machine->get_config();
+		auto machine = XentuJavaScriptMachine::GetInstance();
+		auto config = machine->GetConfig();
 		const auto m_group = std::string(duk_to_string(L, 0));
 		const auto m_name = std::string(duk_to_string(L, 1));
 		const auto m_default = std::string(duk_to_string(L, 2));
@@ -294,8 +294,8 @@ namespace xen
 	}
 
 	duk_ret_t js_config_get_str2(duk_context* L) {
-		auto machine = XentuJavaScriptMachine::get_instance();
-		auto config = machine->get_config();
+		auto machine = XentuJavaScriptMachine::GetInstance();
+		auto config = machine->GetConfig();
 		const auto m_group = std::string(duk_to_string(L, 0));
 		const auto m_sub_group = std::string(duk_to_string(L, 1));
 		const auto m_name = std::string(duk_to_string(L, 2));
@@ -306,8 +306,8 @@ namespace xen
 	}
 
 	duk_ret_t js_config_get_bool(duk_context* L) {
-		auto machine = XentuJavaScriptMachine::get_instance();
-		auto config = machine->get_config();
+		auto machine = XentuJavaScriptMachine::GetInstance();
+		auto config = machine->GetConfig();
 		const auto m_group = std::string(duk_to_string(L, 0));
 		const auto m_name = std::string(duk_to_string(L, 1));
 		const auto m_default = duk_to_boolean(L, 2);
@@ -317,8 +317,8 @@ namespace xen
 	}
 
 	duk_ret_t js_config_get_bool2(duk_context* L) {
-		auto machine = XentuJavaScriptMachine::get_instance();
-		auto config = machine->get_config();
+		auto machine = XentuJavaScriptMachine::GetInstance();
+		auto config = machine->GetConfig();
 		const auto m_group = std::string(duk_to_string(L, 0));
 		const auto m_sub_group = std::string(duk_to_string(L, 1));
 		const auto m_name = std::string(duk_to_string(L, 2));
@@ -329,8 +329,8 @@ namespace xen
 	}
 
 	duk_ret_t js_config_get_int(duk_context* L) {
-		auto machine = XentuJavaScriptMachine::get_instance();
-		auto config = machine->get_config();
+		auto machine = XentuJavaScriptMachine::GetInstance();
+		auto config = machine->GetConfig();
 		const auto m_group = std::string(duk_to_string(L, 0));
 		const auto m_name = std::string(duk_to_string(L, 1));
 		const auto m_default = duk_to_int(L, 2);
@@ -340,8 +340,8 @@ namespace xen
 	}
 
 	duk_ret_t js_config_get_int2(duk_context* L) {
-		auto machine = XentuJavaScriptMachine::get_instance();
-		auto config = machine->get_config();
+		auto machine = XentuJavaScriptMachine::GetInstance();
+		auto config = machine->GetConfig();
 		const auto m_group = std::string(duk_to_string(L, 0));
 		const auto m_sub_group = std::string(duk_to_string(L, 1));
 		const auto m_name = std::string(duk_to_string(L, 2));
@@ -355,16 +355,16 @@ namespace xen
 		auto textbox_id = duk_to_int(L, 0);
 		auto font_id = duk_to_int(L, 1);
 		const char* text = duk_to_string(L, 2);
-		auto m = XentuJavaScriptMachine::get_instance();
-		auto r = m->get_renderer();
-		r->set_textbox_text(textbox_id, font_id, text);		
+		auto m = XentuJavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->SetTextBoxText(textbox_id, font_id, text);		
 		return 0;
 	}
 
 	duk_ret_t js_keyboard_key_down(duk_context* L) {
 		auto key_code = duk_to_int(L, 0);
-		auto m = XentuJavaScriptMachine::get_instance();
-		auto r = m->get_renderer();
+		auto m = XentuJavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
 		bool down = r->KeyDown(key_code);
 		duk_push_boolean(L, down);
 		return 1;

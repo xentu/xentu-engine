@@ -75,12 +75,12 @@ namespace xen
 			return NULL;
 		}
 
-		auto m = XentuPythonMachine::get_instance();
-		auto r = m->get_renderer();
+		auto m = XentuPythonMachine::GetInstance();
+		auto r = m->GetRenderer();
 
 		xen::VfsBufferResult res = vfs_get_global()->ReadAllData(s);
 		printf("Bytes read: %s\n", std::to_string(res.length).c_str());
-		int texture_id = r->load_texture(res.buffer, res.length);
+		int texture_id = r->LoadTexture(res.buffer, res.length);
 
 		// todo: take the filename from s and load the texture.
 		return PyLong_FromLong(texture_id);
@@ -106,6 +106,7 @@ namespace xen
 		return PyBool_FromLong(1);
 	}
 
+
 	PyMethodDef xen_py_explain_module_vfs[] = {
 		{"read_text_file", xen_py_fn_vfs_read_text_file, METH_VARARGS, "Use the xentu vfs to get file."},
 		{"load_texture", xen_py_fn_vfs_load_texture, METH_VARARGS, "Use the xentu vfs to load a texture."},
@@ -113,10 +114,12 @@ namespace xen
 		{NULL, NULL, 0, NULL}
 	};
 
+
 	PyModuleDef xen_py_def_module_vfs = {
 		PyModuleDef_HEAD_INIT, "vfs", NULL, -1, xen_py_explain_module_vfs,
 		NULL, NULL, NULL, NULL
 	};
+
 
 	PyObject* xen_py_init_module_vfs(void) {
 		return PyModule_Create(&xen_py_def_module_vfs);
@@ -135,12 +138,13 @@ namespace xen
 
 		printf("game.on was called passing the event named %s -> %s\n", s_event_name, s_callback);
 
-		auto m = XentuPythonMachine::get_instance();
-		m->on(s_event_name, s_callback);
+		auto m = XentuPythonMachine::GetInstance();
+		m->On(s_event_name, s_callback);
 
 		// return true
 		return PyBool_FromLong(1);
 	}
+
 
 	PyObject* xen_py_fn_game_trigger(PyObject *self, PyObject *args) {
 		char *s_event_name;
@@ -149,19 +153,21 @@ namespace xen
 		}
 
 		// trigger the event.
-		auto m = XentuPythonMachine::get_instance();
-		m->trigger(s_event_name);
+		auto m = XentuPythonMachine::GetInstance();
+		m->Trigger(s_event_name);
 
 		// return true
 		return PyBool_FromLong(1);
 	}
 
+
 	PyObject* xen_py_fn_game_create_window(PyObject *self, PyObject *args) {
-		XentuPythonMachine* m = XentuPythonMachine::get_instance();
-		auto r = m->get_renderer();
-		int window_id = r->create_window();
+		XentuPythonMachine* m = XentuPythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		int window_id = r->CreateWindow();
 		return PyLong_FromLong(window_id);
 	}
+
 
 	PyObject* xen_py_fn_game_create_window_ex(PyObject *self, PyObject *args) {
 		char *s_title;
@@ -170,18 +176,19 @@ namespace xen
 			return NULL;
 		}
 
-		XentuPythonMachine* m = XentuPythonMachine::get_instance();
-		auto r = m->get_renderer();
+		XentuPythonMachine* m = XentuPythonMachine::GetInstance();
+		auto r = m->GetRenderer();
 		auto t = std::string(s_title);
-		int window_id = r->create_window_ex(t, s_x, s_y, s_width, s_height, s_mode);
+		int window_id = r->CreateWindowEx(t, s_x, s_y, s_width, s_height, s_mode);
 		return PyLong_FromLong(window_id);
 	}
 
+
 	PyObject* xen_py_fn_game_run(PyObject *self, PyObject *args) {
-		XentuPythonMachine* m = XentuPythonMachine::get_instance();
-		//auto r = m->get_renderer();
+		XentuPythonMachine* m = XentuPythonMachine::GetInstance();
+		//auto r = m->GetRenderer();
 		//r->run();
-		m->run();
+		m->Run();
 		return PyBool_FromLong(1);
 	}
 
@@ -203,10 +210,10 @@ namespace xen
 		int s_width = xen_py_read_attr_int(rect, "width");
 		int s_height = xen_py_read_attr_int(rect, "height");
 
-		XentuPythonMachine* m = XentuPythonMachine::get_instance();
-		auto r = m->get_renderer();
+		XentuPythonMachine* m = XentuPythonMachine::GetInstance();
+		auto r = m->GetRenderer();
 
-		r->draw_texture(s_texture, s_x, s_y, s_width, s_height);
+		r->DrawTexture(s_texture, s_x, s_y, s_width, s_height);
 
 		return PyBool_FromLong(1);
 	}
@@ -222,10 +229,12 @@ namespace xen
 		{NULL, NULL, 0, NULL}
 	};
 
+
 	PyModuleDef xen_py_def_module_game = {
 		PyModuleDef_HEAD_INIT, "game", NULL, -1, xen_py_explain_module_game,
 		NULL, NULL, NULL, NULL
 	};
+
 
 	PyObject* xen_py_init_module_game(void) {
 		return PyModule_Create(&xen_py_def_module_game);

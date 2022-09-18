@@ -41,7 +41,7 @@ namespace xen
 
 
 	XentuPythonMachine* XentuPythonMachine::instance = 0;
-	XentuPythonMachine* XentuPythonMachine::get_instance()
+	XentuPythonMachine* XentuPythonMachine::GetInstance()
 	{
 		if (instance == 0)
 		{
@@ -52,12 +52,12 @@ namespace xen
 	}
 
 
-	int XentuPythonMachine::init()
+	int XentuPythonMachine::Init()
 	{
 		XEN_LOG("- Python machine started!\n");
 
 		// load some python code.
-		auto config = this->get_config();
+		auto config = this->GetConfig();
 		std::string py_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\n";
 
 		// run some python code.
@@ -65,7 +65,7 @@ namespace xen
 	}
 
 
-	int XentuPythonMachine::trigger(const std::string event_name)
+	int XentuPythonMachine::Trigger(const std::string event_name)
 	{
 		auto its = this->callbacks.equal_range(event_name);
 		for (auto it = its.first; it != its.second; ++it) {
@@ -75,7 +75,7 @@ namespace xen
 	}
 
 
-	int XentuPythonMachine::on(const std::string event_name, const std::string callback_ref)
+	int XentuPythonMachine::On(const std::string event_name, const std::string callback_ref)
 	{
 		auto pair = std::make_pair(event_name, callback_ref);
 		this->callbacks.insert(pair);

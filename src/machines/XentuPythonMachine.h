@@ -14,10 +14,10 @@ namespace xen
 		public:
 			XentuPythonMachine(int argc, char *argv[], XentuConfig* config);
 			~XentuPythonMachine();
-			static XentuPythonMachine* get_instance();
-			int init();
-			int trigger(const std::string event_name);
-			int on(const std::string event_name, const std::string callback_ref);
+			static XentuPythonMachine* GetInstance();
+			int Init();
+			int Trigger(const std::string event_name);
+			int On(const std::string event_name, const std::string callback_ref);
 
 		private:
 			std::unordered_multimap<std::string, std::string> callbacks;

@@ -20,7 +20,7 @@ namespace xen
 		public:
 			XentuLuaGame(lua_State* L);
 			~XentuLuaGame();
-			int create_window(lua_State* L);
+			int CreateWindow(lua_State* L);
 
 		public:
 			//Class Constants

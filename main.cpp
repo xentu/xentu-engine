@@ -44,15 +44,15 @@ int main(int argc, char *argv[])
 
     if (config->language == "javascript") {
         MACHINE_PTR js_machine(new xen::XentuJavaScriptMachine(argc, argv, config));
-        res = js_machine->init();
+        res = js_machine->Init();
     }
     else if (config->language == "lua") {
         MACHINE_PTR lua_machine(new XentuLuaMachine(argc, argv, config));
-        res = lua_machine->init();
+        res = lua_machine->Init();
     }
     else {
         MACHINE_PTR py_machine(new XentuPythonMachine(argc, argv, config));
-        res = py_machine->init();
+        res = py_machine->Init();
     }
 
     // dispose resources.

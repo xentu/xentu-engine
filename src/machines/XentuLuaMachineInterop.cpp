@@ -28,7 +28,7 @@ namespace xen
 	}
 
 
-	int XentuLuaGame::create_window(lua_State* L)
+	int XentuLuaGame::CreateWindow(lua_State* L)
 	{
 		printf("XentuLuaGame::create_window called\n");
 		return 0;
@@ -42,7 +42,7 @@ namespace xen
 	};
 
 	const Luna<XentuLuaGame>::FunctionType XentuLuaGame::methods[] = {
-		method(XentuLuaGame, create_window, create_window),
+		method(XentuLuaGame, create_window, CreateWindow),
 		{0,0}
 	};
 

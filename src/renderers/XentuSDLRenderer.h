@@ -17,19 +17,19 @@ namespace xen
 		public:
 			XentuSDLRenderer(const XentuConfig* config);
 			~XentuSDLRenderer();
-			int create_window();
-			int create_window_ex(std::string title, int x, int y, int width, int height, int mode);
-			int load_texture(uint8_t* buffer, uint64_t length);
-			int load_font(uint8_t* buffer, uint64_t length, int font_size);
-			int create_textbox(int x, int y, int width, int height);
-			bool is_running();
-			void prepare();
-			void present();
-			void exit();
-			void draw_texture(int texture_id, int x, int y, int width, int height);
-			void draw_sub_texture(int texture_id, int x, int y, int w, int h, int sx, int sy, int sw, int sh);
-			void draw_textbox(int textbox_id);
-			void set_textbox_text(int textbox_id, int font_id, const char* text);
+			int CreateWindow();
+			int CreateWindowEx(std::string title, int x, int y, int width, int height, int mode);
+			int LoadTexture(uint8_t* buffer, uint64_t length);
+			int LoadFont(uint8_t* buffer, uint64_t length, int font_size);
+			int CreateTextBox(int x, int y, int width, int height);
+			bool IsRunning();
+			void Prepare();
+			void Present();
+			void Exit();
+			void DrawTexture(int texture_id, int x, int y, int width, int height);
+			void DrawSubTexture(int texture_id, int x, int y, int w, int h, int sx, int sy, int sw, int sh);
+			void DrawTextBox(int textbox_id);
+			void SetTextBoxText(int textbox_id, int font_id, const char* text);
 			bool KeyDown(int key_code);
 
 		public:			

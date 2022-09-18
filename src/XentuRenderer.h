@@ -13,21 +13,21 @@ namespace xen
 		public:
 			XentuRenderer(const XentuConfig* config);
 			virtual ~XentuRenderer();
-			virtual int create_window() = 0;
-			virtual int create_window_ex(std::string title, int x, int y, int width, int height, int mode) = 0;
-			virtual int load_texture(uint8_t* buffer, uint64_t length) = 0;
-			virtual int load_font(uint8_t* buffer, uint64_t length, int font_size) = 0;
-			virtual int create_textbox(int x, int y, int width, int height) = 0;
-			virtual bool is_running() = 0;
-			virtual void prepare() = 0;
-			virtual void present() = 0;
-			virtual void exit() = 0;
-			virtual void draw_texture(int texture_id, int x, int y, int width, int height) = 0;
-			virtual void draw_sub_texture(int texture_id, int x, int y, int w, int h, int sx, int sy, int sw, int sh) = 0;
-			virtual void draw_textbox(int textbox_id) = 0;
-			virtual void set_textbox_text(int textbox_id, int font_id, const char* text) = 0;
+			virtual int CreateWindow() = 0;
+			virtual int CreateWindowEx(std::string title, int x, int y, int width, int height, int mode) = 0;
+			virtual int LoadTexture(uint8_t* buffer, uint64_t length) = 0;
+			virtual int LoadFont(uint8_t* buffer, uint64_t length, int font_size) = 0;
+			virtual int CreateTextBox(int x, int y, int width, int height) = 0;
+			virtual bool IsRunning() = 0;
+			virtual void Prepare() = 0;
+			virtual void Present() = 0;
+			virtual void Exit() = 0;
+			virtual void DrawTexture(int texture_id, int x, int y, int width, int height) = 0;
+			virtual void DrawSubTexture(int texture_id, int x, int y, int w, int h, int sx, int sy, int sw, int sh) = 0;
+			virtual void DrawTextBox(int textbox_id) = 0;
+			virtual void SetTextBoxText(int textbox_id, int font_id, const char* text) = 0;
 			virtual bool KeyDown(int key_code) = 0;
-			void set_clear_color(int r, int g, int b);
+			void SetClearColor(int r, int g, int b);
 
 		protected:
 			const XentuConfig* m_config;

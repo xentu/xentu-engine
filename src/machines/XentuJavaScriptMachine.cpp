@@ -29,7 +29,7 @@ namespace xen
 
 
 	XentuJavaScriptMachine* XentuJavaScriptMachine::instance = 0;
-	XentuJavaScriptMachine* XentuJavaScriptMachine::get_instance()
+	XentuJavaScriptMachine* XentuJavaScriptMachine::GetInstance()
 	{
 		if (instance == 0)
 		{
@@ -40,12 +40,12 @@ namespace xen
 	}
 
 
-	int XentuJavaScriptMachine::init()
+	int XentuJavaScriptMachine::Init()
 	{
 		XEN_LOG("- Started JavaScriptMachine.\n");
 
 		// load some js code.
-		auto config = this->get_config();
+		auto config = this->GetConfig();
 		std::string js_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\n";
 
 		// run the js code.
@@ -56,7 +56,7 @@ namespace xen
 	}
 
 
-	int XentuJavaScriptMachine::trigger(const std::string event_name)
+	int XentuJavaScriptMachine::Trigger(const std::string event_name)
 	{
 		// todo: not implemented.
 		auto its = this->callbacks.equal_range(event_name);
@@ -67,7 +67,7 @@ namespace xen
 	}
 
 
-	int XentuJavaScriptMachine::on(const std::string event_name, const std::string callback)
+	int XentuJavaScriptMachine::On(const std::string event_name, const std::string callback)
 	{
 		auto pair = std::make_pair(event_name, callback);
 		this->callbacks.insert(pair);

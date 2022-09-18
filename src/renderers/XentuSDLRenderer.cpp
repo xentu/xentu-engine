@@ -14,9 +14,9 @@ namespace xen
 	}
 
 
-	int XentuSDLRenderer::create_window()
+	int XentuSDLRenderer::CreateWindow()
 	{
-		return create_window_ex(
+		return CreateWindowEx(
 			m_config->title,
 			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 			m_config->window.width,
@@ -25,7 +25,7 @@ namespace xen
 	}
 
 
-	int XentuSDLRenderer::create_window_ex(std::string title, int x, int y, int width, int height, int mode)
+	int XentuSDLRenderer::CreateWindowEx(std::string title, int x, int y, int width, int height, int mode)
 	{
 		if (m_window_count >= MAX_WINDOW_COUNT) return -1;
 		int result_id = m_window_count;
@@ -38,7 +38,7 @@ namespace xen
 	}
 
 
-	int XentuSDLRenderer::load_texture(uint8_t* buffer, uint64_t length)
+	int XentuSDLRenderer::LoadTexture(uint8_t* buffer, uint64_t length)
 	{
 		auto *rw = SDL_RWFromMem(buffer, length);
 		auto sur = IMG_Load_RW(rw, AUTO_FREE);
@@ -51,7 +51,8 @@ namespace xen
 		return m_textures_iter - 1;
 	}
 
-	int XentuSDLRenderer::load_font(uint8_t* buffer, uint64_t length, int font_size)
+
+	int XentuSDLRenderer::LoadFont(uint8_t* buffer, uint64_t length, int font_size)
 	{
 		auto *rw = SDL_RWFromMem(buffer, length);
 		auto font = TTF_OpenFontRW(rw, 1 /* free RWops resource once open */, font_size);
@@ -63,7 +64,7 @@ namespace xen
 	}
 
 
-	int XentuSDLRenderer::create_textbox(int x, int y, int width, int height)
+	int XentuSDLRenderer::CreateTextBox(int x, int y, int width, int height)
 	{
 		auto textbox = new XentuSDLTextBox(m_renderer[0], x, y, width, height);
 		m_textboxes.insert(std::make_pair(m_textboxes_iter, textbox));
@@ -72,7 +73,7 @@ namespace xen
 	}
 
 
-	bool XentuSDLRenderer::is_running()
+	bool XentuSDLRenderer::IsRunning()
 	{
 		bool running = true;
 		SDL_Event event;
@@ -97,7 +98,7 @@ namespace xen
 	}
 
 
-	void XentuSDLRenderer::exit()
+	void XentuSDLRenderer::Exit()
 	{
 		m_exiting = true;
 	}
@@ -113,7 +114,7 @@ namespace xen
 	}
 
 
-	void XentuSDLRenderer::prepare()
+	void XentuSDLRenderer::Prepare()
 	{
 		SDL_Renderer* rend = m_renderer[0];
 		SDL_SetRenderDrawColor(rend, clear_color_r, clear_color_g, clear_color_b, 255);
@@ -121,7 +122,7 @@ namespace xen
 	}
 
 
-	void XentuSDLRenderer::present()
+	void XentuSDLRenderer::Present()
 	{
 		SDL_Renderer* rend = m_renderer[0];
 		SDL_RenderPresent(rend);
@@ -129,7 +130,7 @@ namespace xen
 	}
 
 
-	void XentuSDLRenderer::draw_texture(int texture_id, int x, int y, int width, int height)
+	void XentuSDLRenderer::DrawTexture(int texture_id, int x, int y, int width, int height)
 	{
 		SDL_Renderer* rend = m_renderer[0];
 		SDL_Texture* tex = m_textures[texture_id];
@@ -142,7 +143,7 @@ namespace xen
 	}
 
 
-	void XentuSDLRenderer::draw_sub_texture(int texture_id, int x, int y, int w, int h, int sx, int sy, int sw, int sh)
+	void XentuSDLRenderer::DrawSubTexture(int texture_id, int x, int y, int w, int h, int sx, int sy, int sw, int sh)
 	{
 		SDL_Renderer* rend = m_renderer[0];
 		SDL_Texture* tex = m_textures[texture_id];
@@ -160,7 +161,7 @@ namespace xen
 	}
 
 
-	void XentuSDLRenderer::draw_textbox(int textbox_id)
+	void XentuSDLRenderer::DrawTextBox(int textbox_id)
 	{
 		auto textbox = m_textboxes[textbox_id];
 		SDL_Renderer* rend = m_renderer[0];
@@ -169,7 +170,7 @@ namespace xen
 	}
 	
 
-	void XentuSDLRenderer::set_textbox_text(int textbox_id, int font_id, const char* text)
+	void XentuSDLRenderer::SetTextBoxText(int textbox_id, int font_id, const char* text)
 	{
 		auto textbox = m_textboxes[textbox_id];
 		auto font = m_fonts[font_id];

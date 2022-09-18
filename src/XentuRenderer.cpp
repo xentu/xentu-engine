@@ -17,7 +17,7 @@ namespace xen
 	}
 
 
-	void XentuRenderer::set_clear_color(int r, int g, int b)
+	void XentuRenderer::SetClearColor(int r, int g, int b)
 	{
 		clear_color_r = r;
 		clear_color_g = g;

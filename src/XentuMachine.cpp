@@ -28,24 +28,24 @@ namespace xen
 	}
 
 
-	void XentuMachine::run()
+	void XentuMachine::Run()
 	{
-		while (m_renderer->is_running()) {
-			this->trigger("update");
-			m_renderer->prepare();
-			this->trigger("draw");
-			m_renderer->present();
+		while (m_renderer->IsRunning()) {
+			this->Trigger("update");
+			m_renderer->Prepare();
+			this->Trigger("draw");
+			m_renderer->Present();
 		}
 	}
 
 
-	XentuConfig* XentuMachine::get_config()
+	XentuConfig* XentuMachine::GetConfig()
 	{
 		return m_config;
 	}
 
 
-	XentuRenderer* XentuMachine::get_renderer()
+	XentuRenderer* XentuMachine::GetRenderer()
 	{
 		return m_renderer;
 	}

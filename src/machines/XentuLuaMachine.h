@@ -20,9 +20,9 @@ namespace xen
 		public:
 			XentuLuaMachine(int argc, char *argv[], XentuConfig* config);
 			~XentuLuaMachine();
-			int init();
-			int trigger(const std::string event_name);
-			int on(const std::string event_name, const int callback_ref);
+			int Init();
+			int Trigger(const std::string event_name);
+			int On(const std::string event_name, const int callback_ref);
 		
 		private:
 			lua_State* L;
