@@ -1,13 +1,9 @@
 print("\nHello from lua!")
 
-game.create_window()
-
 -- load resources.
 texture0 = assets.load_texture("/images/test.png")
 font0 = assets.load_font("/fonts/Roboto-Regular.ttf", 20)
 text0 = assets.create_textbox(10, 10, 680, 40)
-
-print("\nHello from lua2!")
 
 -- setup variables.
 renderer.set_background('#000000') -- set the clear color.
@@ -34,4 +30,3 @@ end)
 
 -- we've finished preparing, so run the game.
 game.run()
-print("\nHello from lua3!")
