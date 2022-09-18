@@ -12,7 +12,7 @@ namespace xen
 	{
 		public:
 			XentuRenderer(const XentuConfig* config);
-			~XentuRenderer();
+			virtual ~XentuRenderer();
 			virtual int create_window();
 			virtual int create_window_ex(std::string title, int x, int y, int width, int height, int mode);
 			virtual int load_texture(uint8_t* buffer, uint64_t length) = 0;

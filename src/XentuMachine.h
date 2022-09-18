@@ -11,7 +11,7 @@ namespace xen
 	{
 		public:
 			XentuMachine(size_t argc, char *argv[], XentuConfig* config);
-			~XentuMachine();
+			virtual ~XentuMachine();
 			// initialize the machine, which runs the initial game script.
 			virtual int init();
 			// called by game code to begin the tight events loop.

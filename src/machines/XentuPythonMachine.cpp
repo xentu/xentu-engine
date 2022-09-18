@@ -36,7 +36,7 @@ namespace xen
 		// load in our custom import loader.
 		PyRun_SimpleString(xen_py_script_init);
 
-		XEN_LOG("Created XentuPythonMachine\n");
+		XEN_LOG("- Created XentuPythonMachine\n");
 	}
 
 
@@ -54,7 +54,7 @@ namespace xen
 
 	int XentuPythonMachine::init()
 	{
-		XEN_LOG("Python machine started!\n");
+		XEN_LOG("- Python machine started!\n");
 
 		// load some python code.
 		auto config = this->get_config();
@@ -91,7 +91,7 @@ namespace xen
 		}
 		instance = nullptr;
 		PyMem_RawFree(m_program);
-		XEN_LOG("Destroyed XentuPythonMachine\n");
+		XEN_LOG("- Destroyed XentuPythonMachine\n");
 	}
 }
 

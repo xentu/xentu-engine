@@ -111,7 +111,7 @@ namespace xen
 
 
 	duk_ret_t js_game_create_window(duk_context *L) {
-		XEN_LOG("game_create_window was called\n");
+		XEN_LOG("- Called game_create_window\n");
 		XentuJavaScriptMachine* m = XentuJavaScriptMachine::get_instance();
 		auto r = m->get_renderer();
 		int window_id = r->create_window();
@@ -121,7 +121,7 @@ namespace xen
 
 	int js_on_iter = 0;
 	duk_ret_t js_game_on(duk_context *L) {
-		XEN_LOG("game_on was called\n");
+		XEN_LOG("- Called game_on\n");
 		auto event_name = duk_to_string(L, 0);
 		
 		std::string callback_name = "xen_callback" + std::to_string(js_on_iter);
@@ -136,60 +136,60 @@ namespace xen
 	}
 	
 	duk_ret_t js_game_trigger(duk_context *L) {
-		XEN_LOG("game_trigger was called\n");
+		XEN_LOG("- Called game_trigger\n");
 		return 0;
 	}
 	
 	duk_ret_t js_game_run(duk_context *L) {
-		XEN_LOG("game_run was called\n");
+		XEN_LOG("- Called game_run\n");
 		auto m = XentuJavaScriptMachine::get_instance();
 		m->run();
 		return 1;
 	}
 
 	duk_ret_t js_geometry_create_rect(duk_context *L) {
-		XEN_LOG("geometry_create_rect was called\n");
+		XEN_LOG("- Called geometry_create_rect\n");
 		return 0;
 	}
 	
 	duk_ret_t js_assets_mount(duk_context *L) {
-		XEN_LOG("assets_mount was called\n");
+		XEN_LOG("- Called assets_mount\n");
 		return 0;
 	}
 	
 	duk_ret_t js_assets_read_text_file(duk_context *L) {
-		XEN_LOG("assets_read_text_file was called\n");
+		XEN_LOG("- Called assets_read_text_file\n");
 		return 0;
 	}
 	
 	duk_ret_t js_assets_load_texture(duk_context *L) {
-		XEN_LOG("assets_load_texture was called\n");
+		XEN_LOG("- Called assets_load_texture\n");
 		auto path = duk_to_string(L, 0);
 		auto m = XentuJavaScriptMachine::get_instance();
 		auto r = m->get_renderer();
 		auto res = vfs_get_global()->ReadAllData(path);
-		printf("Bytes read: %s\n", std::to_string(res.length).c_str());
+		XEN_LOG("- Bytes read: %s\n", std::to_string(res.length).c_str());
 		int texture_id = r->load_texture(res.buffer, res.length);
 		duk_push_int(L, texture_id);
 		return 1;
 	}
 
 	duk_ret_t js_assets_load_font(duk_context *L) {
-		XEN_LOG("assets_load_font was called\n");
+		XEN_LOG("- Called assets_load_font.\n");
 		auto path = duk_to_string(L, 0);
-		printf("Attempting to read font %s", path);
+		XEN_LOG("- Attempting to read font %s\n", path);
 		int font_size = duk_to_int(L, 1);
 		auto m = XentuJavaScriptMachine::get_instance();
 		auto r = m->get_renderer();
 		auto res = vfs_get_global()->ReadAllData(path);
-		printf("Font bytes read: %s\n", std::to_string(res.length).c_str());
+		XEN_LOG("- Font bytes read: %s\n", std::to_string(res.length).c_str());
 		int font_id = r->load_font(res.buffer, res.length, font_size);
 		duk_push_int(L, font_id);
 		return 1;
 	}
 	
 	duk_ret_t js_assets_create_textbox(duk_context *L) {
-		XEN_LOG("assets_load_font was called\n");
+		XEN_LOG("- Called assets_load_font.\n");
 		auto x = duk_to_int(L, 0);
 		auto y = duk_to_int(L, 1);
 		auto w = duk_to_int(L, 2);
@@ -202,17 +202,17 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_begin(duk_context *L) {
-		XEN_LOG("renderer_begin was called\n");
+		XEN_LOG("- Called renderer_begin\n");
 		return 0;
 	}
 
 	duk_ret_t js_renderer_present(duk_context *L) {
-		XEN_LOG("renderer_present was called\n");
+		XEN_LOG("- Called renderer_present\n");
 		return 0;
 	}
 	
 	duk_ret_t js_renderer_draw_texture(duk_context *L) {
-		XEN_LOG("renderer_draw_texture was called\n");
+		XEN_LOG("- Called renderer_draw_texture\n");
 		int texture_id = duk_to_int(L, 0);
 		int x = duk_to_int(L, 1);
 		int y = duk_to_int(L, 2);
@@ -225,7 +225,7 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_draw_textbox(duk_context *L) {
-		XEN_LOG("renderer_draw_texbox was called\n");
+		XEN_LOG("- Called renderer_draw_texbox\n");
 		int textbox_id = duk_to_int(L, 0);
 		auto m = XentuJavaScriptMachine::get_instance();
 		auto r = m->get_renderer();
@@ -234,7 +234,7 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_set_background(duk_context *L) {
-		XEN_LOG("renderer_set_clear_color was called\n");
+		XEN_LOG("- Called renderer_set_background\n");
 
 		auto hex = duk_to_string(L, 0);
 		int r, g, b;

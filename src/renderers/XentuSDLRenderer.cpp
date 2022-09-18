@@ -9,7 +9,7 @@ namespace xen
 	XentuSDLRenderer::XentuSDLRenderer(const XentuConfig* config)
 	:	XentuRenderer::XentuRenderer(config)
 	{
-		XEN_LOG("Constructor for XentuSDLRenderer called.\n");
+		XEN_LOG("- Created XentuSDLRenderer.\n");
 		TTF_Init();
 	}
 
@@ -160,7 +160,7 @@ namespace xen
 			SDL_DestroyWindow(win);
 		}
 
-		XEN_LOG("Destroyed XentuRenderer\n");
+		XEN_LOG("- Destroyed XentuSDLRenderer\n");
 	}
 }
 

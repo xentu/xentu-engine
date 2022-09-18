@@ -10,7 +10,7 @@ namespace xen
 	XentuRenderer::XentuRenderer(const XentuConfig* config)
 	: m_config(config)
 	{
-		XEN_LOG("Constructor for XentuRenderer called.\n");
+		XEN_LOG("- Created XentuRenderer.\n");
 		clear_color_r = 0;
 		clear_color_g = 0;
 		clear_color_b = 0;
@@ -75,7 +75,7 @@ namespace xen
 	
 	XentuRenderer::~XentuRenderer()
 	{
-		XEN_LOG("Destroyed XentuRenderer\n");
+		XEN_LOG("- Destroyed XentuRenderer\n");
 	}
 }
 

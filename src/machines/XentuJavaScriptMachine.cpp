@@ -11,7 +11,7 @@ namespace xen
 	XentuJavaScriptMachine::XentuJavaScriptMachine(int argc, char *argv[], XentuConfig* config)
 	:	XentuMachine::XentuMachine(argc, argv, config)
 	{
-		XEN_LOG("Constructor for XentuJavaScriptMachine called.\n");
+		XEN_LOG("- Created XentuJavaScriptMachine.\n");
 
 		// keep a pointer to this instance.
 		if (instance != nullptr) {
@@ -42,7 +42,7 @@ namespace xen
 
 	int XentuJavaScriptMachine::init()
 	{
-		XEN_LOG("JavaScript machine started!\n");
+		XEN_LOG("- Started JavaScriptMachine.\n");
 
 		// load some js code.
 		auto config = this->get_config();
@@ -79,7 +79,7 @@ namespace xen
 	{
 		duk_destroy_heap(L);
 		instance = nullptr;
-		XEN_LOG("Destroyed XentuJavaScriptMachine.\n");
+		XEN_LOG("- Destroyed XentuJavaScriptMachine.\n");
 	}
 }
 

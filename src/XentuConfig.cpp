@@ -59,7 +59,7 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_LOG("Config warning: GetSetting [%s.%s] missing.\n", group.c_str(), name.c_str());
+			XEN_LOG("- Config warning: GetSetting [%s.%s] missing.\n", group.c_str(), name.c_str());
 		}
 		return default_value;
 	}
@@ -71,7 +71,7 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_LOG("Config warning: SetSetting [%s.%s] missing.\n", group.c_str(), name.c_str());
+			XEN_LOG("- Config warning: SetSetting [%s.%s] missing.\n", group.c_str(), name.c_str());
 		}
 		return default_value;
 	}
@@ -83,7 +83,7 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_LOG("Config warning: GetSettingInt [%s.%s] missing.\n", group.c_str(), name.c_str());
+			XEN_LOG("- Config warning: GetSettingInt [%s.%s] missing.\n", group.c_str(), name.c_str());
 		}
 		return default_value;
 	}
@@ -98,7 +98,7 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_LOG("Config warning: GetSetting [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
+			XEN_LOG("- Config warning: GetSetting [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
 		}
 		return default_value;
 	}
@@ -111,7 +111,7 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_LOG("Config warning: GetSettingBool [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
+			XEN_LOG("- Config warning: GetSettingBool [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
 		}
 		return default_value;
 	}
@@ -124,7 +124,7 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_LOG("Config warning: GetSettingInt [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
+			XEN_LOG("- Config warning: GetSettingInt [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
 		}
 		return default_value;
 	}
@@ -132,7 +132,7 @@ namespace xen
 	
 	XentuConfig::~XentuConfig()
 	{
-		
+		XEN_LOG("- Destroyed XentuConfig.\n");
 	}
 }
 

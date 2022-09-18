@@ -8,7 +8,7 @@ const text0 = assets.create_textbox(10, 10, 680, 40);
 // setup variables.
 renderer.set_background('#000000'); // set the clear color.
 textbox.set_text(text0, font0, "Hello World"); // set the text on text0.
-var x = 0, x_speed = 5;
+var x = 0, x_speed = 1;
 
 // handle the update event.
 game.on('update', function() {

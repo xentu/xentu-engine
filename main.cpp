@@ -14,9 +14,7 @@
 #include "src/machines/XentuLuaMachine.h"
 #include "src/machines/XentuPythonMachine.h"
 
-using JS_MACHINE_PTR = const std::unique_ptr<xen::XentuJavaScriptMachine>;
-using LU_MACHINE_PTR = const std::unique_ptr<xen::XentuLuaMachine>;
-using PY_MACHINE_PTR = const std::unique_ptr<xen::XentuPythonMachine>;
+using MACHINE_PTR = const std::unique_ptr<xen::XentuMachine>;
 
 using namespace xen;
 
@@ -35,15 +33,15 @@ int main(int argc, char *argv[])
     printf("Language: %s\n", config->language.c_str());
 
     if (config->language == "javascript") {
-        JS_MACHINE_PTR js_machine(new xen::XentuJavaScriptMachine(argc, argv, config));
+        MACHINE_PTR js_machine(new xen::XentuJavaScriptMachine(argc, argv, config));
         res = js_machine->init();
     }
     else if (config->language == "lua") {
-        LU_MACHINE_PTR lua_machine(new XentuLuaMachine(argc, argv, config));
+        MACHINE_PTR lua_machine(new XentuLuaMachine(argc, argv, config));
         res = lua_machine->init();
     }
     else {
-        PY_MACHINE_PTR py_machine(new XentuPythonMachine(argc, argv, config));
+        MACHINE_PTR py_machine(new XentuPythonMachine(argc, argv, config));
         res = py_machine->init();
     }
 

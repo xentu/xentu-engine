@@ -1,6 +1,7 @@
 #ifndef XENTU_SDL_TEXTBOX_CPP
 #define XENTU_SDL_TEXTBOX_CPP
 
+#include "../Xentu.h"
 #include "XentuSDLTextBox.h"
 
 namespace xen
@@ -19,6 +20,7 @@ namespace xen
 	XentuSDLTextBox::~XentuSDLTextBox()
 	{
 		SDL_DestroyTexture(texture);
+		XEN_LOG("- Destroyed XentuTextBox\n");
 	}
 
 	void XentuSDLTextBox::SetText(TTF_Font* font, const char* text)
@@ -28,7 +30,7 @@ namespace xen
 		SDL_DestroyTexture(texture);
 		SDL_Surface* surface = TTF_RenderText_Solid(font, text, color);
 		if (surface==NULL) {
-			printf("Failed to render text: %s", SDL_GetError());            
+			XEN_LOG("- Failed to render text: %s", SDL_GetError());
 		}
 		position.w = surface->w;
 		position.h = surface->h;

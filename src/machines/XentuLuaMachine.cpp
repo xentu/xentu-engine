@@ -32,13 +32,13 @@ namespace xen
 		luaL_dostring(L, xen_lua_script_init);
 
 		
-		XEN_LOG("\nCreated XentuLuaMachine");
+		XEN_LOG("- Created XentuLuaMachine\n");
 	}
 
 
 	int XentuLuaMachine::init()
 	{
-		XEN_LOG("Lua machine started!\n");
+		XEN_LOG("- Started LuaMachine.\n");
 
 		// load some lua code.
 		auto config = this->get_config();
@@ -47,8 +47,9 @@ namespace xen
 		// run the lua code.
 		auto ret_startup = luaL_dostring(L, lua_code.c_str());
 		if (ret_startup != LUA_OK) {
-			XEN_LOG("One of the startup Lua components failed: ");
+			XEN_LOG("- Error, One of the startup Lua components failed: ");
 			XEN_LOG(lua_tostring(L, -1));
+			XEN_LOG("\n");
 			lua_pop(L, 1); // pop error message
 			return 0;
 		}
@@ -81,7 +82,7 @@ namespace xen
 	{
 		lua_close(L);
 		luaMachine = nullptr;
-		XEN_LOG("\nDestroyed XentuLuaMachine");
+		XEN_LOG("- Destroyed XentuLuaMachine\n");
 	}
 }
 
