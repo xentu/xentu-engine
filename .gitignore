@@ -4,10 +4,16 @@
 !.vscode/settings.json
 !.vscode/tasks.json
 
+# .vs folder
+.vs/**/*
+!.vs/ProjectSettings.json
+!.vs/VSWorkspaceState.json
+
 __pycache__
 
 #test
 newFile.txt
+python310_d.lib
 
 # folders
 build

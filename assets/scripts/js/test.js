@@ -11,7 +11,8 @@ textbox.set_text(text0, font0, "Hello World"); // set the text on text0.
 var x = 0, x_speed = 2;
 
 // handle the update event.
-game.on('update', function() {
+game.on('update', function(dt) {
+	// print("Delta: " + dt);
 	if (x_speed > 0 && x + 5 > 690) x_speed = -2;
 	if (x_speed < 0 && x - 5 < 10) x_speed = 2;
 	x += x_speed;
@@ -19,7 +20,7 @@ game.on('update', function() {
 });
 
 // handle the draw event
-game.on("draw", function() {
+game.on("draw", function(dt) {
 	renderer.begin();
 	renderer.draw_texture(texture0, x, 10, 100, 100);
 	//renderer.draw_sub_texture(texture0, x, 10, 100, 100, 0, 0, 20, 20);

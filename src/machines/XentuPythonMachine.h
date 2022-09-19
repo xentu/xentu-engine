@@ -18,6 +18,9 @@ namespace xen
 			static XentuPythonMachine* GetInstance();
 			int Init();
 			int Trigger(const string event_name);
+			int Trigger(const string event_name, const string arg0);
+			int Trigger(const string event_name, const int arg0);
+			int Trigger(const string event_name, const float arg0);
 			int On(const string event_name, const string callback_ref);
 
 		private:
@@ -28,8 +31,9 @@ namespace xen
 	};
 
 
-	PyObject* xen_py_init_module_vfs(void);
-	PyObject* xen_py_init_module_game(void);
+	PyObject* xen_py_init_interop(void);
 	void xen_py_call_func(const char* function_name);
-	void xen_py_call_func(const char* function_name, const char* arg0);
+	void xen_py_call_func(const char* function_name, const string arg0);
+	void xen_py_call_func(const char* function_name, const int arg0);
+	void xen_py_call_func(const char* function_name, const float arg0);
 }

@@ -7,8 +7,8 @@ int XEN_WARN(const char *format, ...)
 	// only print to the console if XEN_LOG is enabled.
 	va_list args;
 	va_start(args, format);
-   vprintf(format, args);
-   va_end(args);
+	vprintf(format, args);
+	va_end(args);
 	#endif
 	
 	// todo: write to error log file or something.
@@ -21,8 +21,8 @@ int XEN_ERROR(const char *format, ...)
 	// errors always output to the console.
 	va_list args;
 	va_start(args, format);
-   vprintf(format, args);
-   va_end(args);
+	vprintf(format, args);
+	va_end(args);
 	
 	// todo: write to error log file or something.
 	return -3;

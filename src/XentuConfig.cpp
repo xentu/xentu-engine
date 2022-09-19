@@ -38,7 +38,6 @@ namespace xen
 			renderer = { ren_engine, ren_teq, ren_acc };
 
 			printf("Entry point: %s\n", entry_point.c_str());
-
 		}
 		catch (std::exception e)
 		{

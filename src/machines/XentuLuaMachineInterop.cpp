@@ -20,7 +20,7 @@ namespace xen
 {
 	XentuLuaMachineInterop::XentuLuaMachineInterop(lua_State* L)
 	{
-		printf("XentuLuaGame::XentuLuaGame called");
+		printf("XentuLuaGame::XentuLuaGame called\n");
 	}
 
 

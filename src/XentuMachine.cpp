@@ -1,3 +1,5 @@
+#include <chrono>
+
 #include "Xentu.h"
 #include "XentuRenderer.h"
 #include "renderers/XentuSDLRenderer.h"
@@ -5,6 +7,8 @@
 #include "fs/XenFileSystem.h"
 #include "fs/XenNativeFileSystem.h"
 #include "XentuMachine.h"
+
+using namespace std::chrono_literals;
 
 namespace xen
 {
@@ -25,10 +29,19 @@ namespace xen
 
 	void XentuMachine::Run()
 	{
+		using clock = std::chrono::high_resolution_clock;
+		auto time_start = clock::now();
+		auto time_elapsed(0ns);
+
 		while (m_renderer->IsRunning()) {
-			this->Trigger("update");
+			// calculate delta.
+			auto now = clock::now();
+			auto delta_time = std::chrono::duration<float>(now - time_start);
+			auto delta_ms = delta_time.count();
+			time_start = now;
+			this->Trigger("update", delta_ms);
 			m_renderer->Prepare();
-			this->Trigger("draw");
+			this->Trigger("draw", delta_ms);
 			m_renderer->Present();
 		}
 	}

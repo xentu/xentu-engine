@@ -108,6 +108,39 @@ namespace xen
 		if (t) {
 			duk_int_t rc = rc = duk_pcall(L, 0);
 		}
+		duk_pop(L);
+	}
+
+
+	void js_call_func(duk_context *L, std::string callback, std::string arg0)
+	{
+		bool t = duk_get_global_string(L, callback.c_str());
+		if (t) {
+			duk_push_string(L, arg0.c_str());
+			duk_int_t rc = rc = duk_pcall(L, 1);
+		}
+		duk_pop(L);
+	}
+
+
+	void js_call_func(duk_context *L, std::string callback, int arg0)
+	{
+		bool t = duk_get_global_string(L, callback.c_str());
+		if (t) {
+			duk_push_int(L, arg0);
+			duk_int_t rc = rc = duk_pcall(L, 1);
+		}
+		duk_pop(L);
+	}
+
+
+	void js_call_func(duk_context *L, std::string callback, float arg0)
+	{
+		bool t = duk_get_global_string(L, callback.c_str());
+		if (t) {
+			duk_push_number(L, arg0);
+			duk_int_t rc = rc = duk_pcall(L, 1);
+		}
 
 		duk_pop(L);
 	}

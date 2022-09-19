@@ -7,6 +7,81 @@
 
 namespace xen
 {
+	#pragma region Static Utility Methods
+
+	// Compiles an individual vertex or fragment shader.
+	static unsigned int compile_shader(unsigned int type, const std::string& source)
+	{
+		unsigned int id = glCreateShader(type);
+		const char* src = source.c_str();
+		glShaderSource(id, 1, &src, nullptr);
+		glCompileShader(id);
+
+		/* handle errors */
+		int result;
+		glGetShaderiv(id, GL_COMPILE_STATUS, &result);
+		if (result == GL_FALSE)
+		{
+			int length;
+			glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+			#if defined(WIN32) || defined(_WIN32) 
+			char* message = (char*)_malloca(length * sizeof(char));
+			#else
+			char* message = (char*)alloca(length * sizeof(char));
+			#endif
+			//
+			glGetShaderInfoLog(id, length, &length, message);
+			XEN_ERROR("Failed to compile ", (type == GL_VERTEX_SHADER ? "vertex" : "fragment"), " shader\n", message);
+			glDeleteShader(id);
+			return 0;
+		}
+
+		return id;
+	}
+
+	// Links and attaches a vertex and fragment shader pair.
+	static unsigned int create_shader(const std::string& vertexShader, const std::string& fragmentShader)
+	{
+		unsigned int program = glCreateProgram();
+		unsigned int vs = compile_shader(GL_VERTEX_SHADER, vertexShader);
+		unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, fragmentShader);
+
+		glAttachShader(program, vs);
+		glBindAttribLocation(program, 0, "i_position");
+		glBindAttribLocation(program, 1, "i_texcoord");
+		glBindAttribLocation(program, 2, "i_color");
+
+		glAttachShader(program, fs);
+		glLinkProgram(program);
+
+		int linked;
+		glGetProgramiv(program, GL_LINK_STATUS, &linked);
+		if (linked != GL_TRUE) {
+			XEN_ERROR("Failed to link shader.");
+		}
+
+		// TODO: glBindVertexArray(VAO); should be done before validation to avoid a warning on the next part.
+
+		int valid;
+		glValidateProgram(program);
+		glGetProgramiv(program, GL_VALIDATE_STATUS, &valid);
+		if (valid != GL_TRUE) {
+			GLint length;
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
+			std::vector<char> error(length);
+			glGetProgramInfoLog(program, length, &length, &error[0]);
+			XEN_ERROR(&error[0]);
+		}
+
+		glDeleteShader(vs);
+		glDeleteShader(fs);
+
+		return program;
+	}
+
+	#pragma endregion
+
+
 	XentuSDLRenderer::XentuSDLRenderer(const XentuConfig* config)
 	:	XentuRenderer::XentuRenderer(config)
 	{
@@ -63,6 +138,8 @@ namespace xen
 
 			printf("- OpenGL Version: %s\n", glGetString(GL_VERSION));
 
+			m_shader = create_shader(xen_gl_default_vertex_shader, xen_gl_default_fragment_shader);
+			glUseProgram(m_shader);
 			//Initialize OpenGL
 			/* if(!initGL()) {
 				XEN_ERROR( "Unable to initialize OpenGL!\n" );

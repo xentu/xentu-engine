@@ -43,6 +43,7 @@ namespace xen
 			SDL_Window* m_window;
 			SDL_Renderer* m_renderer;
 			SDL_GLContext m_gl_context = NULL;
+			unsigned int m_shader;
 
 			map<int, SDL_Texture*> m_textures;
 			int m_textures_iter = 0;

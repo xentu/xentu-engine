@@ -24,8 +24,7 @@ namespace xen
 		Py_SetProgramName(m_program);
 
 		// load the xen module.
-		PyImport_AppendInittab("vfs", &xen_py_init_module_vfs);
-		PyImport_AppendInittab("game", &xen_py_init_module_game);
+		PyImport_AppendInittab("xentu", &xen_py_init_interop);
 
 		// initialize python, passing the args.
 		Py_Initialize();
@@ -69,7 +68,37 @@ namespace xen
 		for (auto it = its.first; it != its.second; ++it) {
 			xen_py_call_func(it->second.c_str());
 		}
-		return 1;
+		return 0;
+	}
+
+
+	int XentuPythonMachine::Trigger(const string event_name, const string arg0)
+	{
+		auto its = this->callbacks.equal_range(event_name);
+		for (auto it = its.first; it != its.second; ++it) {
+			xen_py_call_func(it->second.c_str(), arg0);
+		}
+		return 0;
+	}
+
+
+	int XentuPythonMachine::Trigger(const string event_name, const int arg0)
+	{
+		auto its = this->callbacks.equal_range(event_name);
+		for (auto it = its.first; it != its.second; ++it) {
+			xen_py_call_func(it->second.c_str(), arg0);
+		}
+		return 0;
+	}
+
+	
+	int XentuPythonMachine::Trigger(const string event_name, const float arg0)
+	{
+		auto its = this->callbacks.equal_range(event_name);
+		for (auto it = its.first; it != its.second; ++it) {
+			xen_py_call_func(it->second.c_str(), arg0);
+		}
+		return 0;
 	}
 
 

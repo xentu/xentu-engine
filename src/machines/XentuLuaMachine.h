@@ -21,6 +21,9 @@ namespace xen
 			static XentuLuaMachine* GetInstance();
 			int Init();
 			int Trigger(const string event_name);
+			int Trigger(const string event_name, const string arg0);
+			int Trigger(const string event_name, const int arg0);
+			int Trigger(const string event_name, const float arg0);
 			int On(const string event_name, const int callback_ref);
 		
 		private:

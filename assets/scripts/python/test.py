@@ -1,6 +1,8 @@
-from xentu import assets, const, game, renderer, textbox, keyboard
+import game, assets, const, renderer, textbox, keyboard
 
-print("Hello from python world!\n")
+print("Hello from python!\n")
+
+game.create_window()
 
 # load resources.
 texture0 = assets.load_texture("/images/test.png")
@@ -14,22 +16,24 @@ x = 0
 x_speed = 2
 
 # handle the update event.
-def update_callback():
-	if (x_speed > 0 and x + 5 > 690): x_speed = -5
-	if (x_speed < 0 and x - 5 < 10):	x_speed = 5
+def update_callback(dt):
+	global x_speed, x
+	# print("Delta: ", dt)
+	if (x_speed > 0 and x + 2 > 690): x_speed = -2
+	if (x_speed < 0 and x - 2 < 10):	x_speed = 2
 	x += x_speed
-	if (keyboard.key_down(KB_ESCAPE)): game.exit()
+	if (keyboard.key_down(const.KB_ESCAPE)): game.exit()
 
 #handle the draw event
-def draw_callback():
+def draw_callback(dt):
+	global x
 	renderer.begin()
 	renderer.draw_texture(texture0, x, 10, 100, 100)
 	# renderer.draw_sub_texture(texture0, x, 10, 100, 100, 0, 0, 20, 20)
 	renderer.draw_textbox(text0)
 	renderer.present()
 
-# attach events
+# attach events & run game.
 game.on("update", "update_callback")
 game.on("draw", "draw_callback")
-# we've finished preparing, so run the game.
 game.run()

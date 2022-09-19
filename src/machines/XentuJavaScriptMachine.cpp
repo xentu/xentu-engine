@@ -66,6 +66,37 @@ namespace xen
 	}
 
 
+	int XentuJavaScriptMachine::Trigger(const string event_name, const string arg0)
+	{
+		// todo: not implemented.
+		auto its = this->callbacks.equal_range(event_name);
+		for (auto it = its.first; it != its.second; ++it) {
+			js_call_func(L, it->second.c_str(), arg0);
+		}
+		return 1;
+	}
+
+	int XentuJavaScriptMachine::Trigger(const string event_name, const int arg0)
+	{
+		// todo: not implemented.
+		auto its = this->callbacks.equal_range(event_name);
+		for (auto it = its.first; it != its.second; ++it) {
+			js_call_func(L, it->second.c_str(), arg0);
+		}
+		return 1;
+	}
+
+	int XentuJavaScriptMachine::Trigger(const string event_name, const float arg0)
+	{
+		// todo: not implemented.
+		auto its = this->callbacks.equal_range(event_name);
+		for (auto it = its.first; it != its.second; ++it) {
+			js_call_func(L, it->second.c_str(), arg0);
+		}
+		return 1;
+	}
+
+
 	int XentuJavaScriptMachine::On(const std::string event_name, const std::string callback)
 	{
 		auto pair = std::make_pair(event_name, callback);

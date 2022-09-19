@@ -15,6 +15,9 @@ namespace xen
 			static XentuJavaScriptMachine* GetInstance();
 			int Init();
 			int Trigger(const string event_name);
+			int Trigger(const string event_name, const string arg0);
+			int Trigger(const string event_name, const int arg0);
+			int Trigger(const string event_name, const float arg0);
 			int On(const string event_name, const string callback);
 		
 		private:
@@ -29,6 +32,9 @@ namespace xen
 	// called to initialize the native engine functions available to js.
 	void js_init_interop(duk_context *L);
 	void js_call_func(duk_context *L, string func_name);
+	void js_call_func(duk_context *L, string func_name, string arg0);
+	void js_call_func(duk_context *L, string func_name, int arg0);
+	void js_call_func(duk_context *L, string func_name, float arg0);
 
 
 	duk_ret_t js_native_print(duk_context* ctx);
