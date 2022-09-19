@@ -1,5 +1,4 @@
-#ifndef XEN_EXCEPTIONS
-#define XEN_EXCEPTIONS
+#pragma once
 
 #include <iostream>
 #include <exception>
@@ -21,5 +20,3 @@ namespace xen
 			const char * what() { return m_file; }
 	};
 }
-
-#endif

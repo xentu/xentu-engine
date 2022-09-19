@@ -1,5 +1,4 @@
-#ifndef XEN_GAME
-#define XEN_GAME
+#pragma once
 
 namespace xen
 {
@@ -10,5 +9,3 @@ namespace xen
 			~XentuGame(void);
 	};
 }
-
-#endif

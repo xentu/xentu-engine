@@ -1,11 +1,12 @@
-#ifndef XEN_PYTHON_MACHINE
-#define XEN_PYTHON_MACHINE
+#pragma once
 
 #include <Python.h>
 #include <string>
 #include <unordered_map>
 
 #include "../XentuMachine.h"
+
+using namespace std;
 
 namespace xen
 {
@@ -16,12 +17,12 @@ namespace xen
 			~XentuPythonMachine();
 			static XentuPythonMachine* GetInstance();
 			int Init();
-			int Trigger(const std::string event_name);
-			int On(const std::string event_name, const std::string callback_ref);
+			int Trigger(const string event_name);
+			int On(const string event_name, const string callback_ref);
 
 		private:
-			std::unordered_multimap<std::string, std::string> callbacks;
-			wchar_t* arg_values_py[MAX_ARGV];
+			unordered_multimap<string, string> callbacks;
+			wchar_t* arg_values_py[12];
 			wchar_t* m_program;
 			static XentuPythonMachine* instance;
 	};
@@ -32,5 +33,3 @@ namespace xen
 	void xen_py_call_func(const char* function_name);
 	void xen_py_call_func(const char* function_name, const char* arg0);
 }
-
-#endif

@@ -1,10 +1,10 @@
-#ifndef XEN_RENDERER
-#define XEN_RENDERER
+#pragma once
 
 #include <string>
-
-#include "Xentu.h"
 #include "XentuConfig.h"
+
+using namespace std;
+
 
 namespace xen
 {
@@ -13,8 +13,8 @@ namespace xen
 		public:
 			XentuRenderer(const XentuConfig* config);
 			virtual ~XentuRenderer();
-			virtual int CreateWindow() = 0;
-			virtual int CreateWindowEx(std::string title, int x, int y, int width, int height, int mode) = 0;
+			virtual bool Init() = 0;
+			virtual bool InitEx(string title, int x, int y, int width, int height, int mode) = 0;
 			virtual int LoadTexture(uint8_t* buffer, uint64_t length) = 0;
 			virtual int LoadFont(uint8_t* buffer, uint64_t length, int font_size) = 0;
 			virtual int CreateTextBox(int x, int y, int width, int height) = 0;
@@ -34,5 +34,3 @@ namespace xen
 			int clear_color_r, clear_color_g, clear_color_b;
 	};
 }
-
-#endif

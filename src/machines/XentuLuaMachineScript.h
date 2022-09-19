@@ -1,5 +1,4 @@
-#ifndef XEN_LUA_MACHINE_SCRIPTS_H
-#define XEN_LUA_MACHINE_SCRIPTS_H
+#pragma once
 /**
  * This file holds the lua code to be executed when a lua engine is loaded
  * by the user. The file does the following:
@@ -179,4 +178,3 @@ KB_MENU					= 257
 
 
 )"; }
-#endif

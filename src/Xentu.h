@@ -1,5 +1,4 @@
-#ifndef XENTU
-#define XENTU
+#pragma once
 
 
 #define MAX_ARGV 12
@@ -16,6 +15,3 @@
 int XEN_WARN(const char *format, ...);
 
 int XEN_ERROR(const char *format, ...);
-
-
-#endif

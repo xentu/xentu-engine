@@ -1,6 +1,7 @@
 project('xentu_rebuild', 'c', 'cpp',
         default_options: ['default_library=static'])
 
+glew = dependency('glew')
 sdl2_image_dep = dependency('sdl2_image')
 sdl2_ttf_dep = dependency('sdl2_ttf')
 sdl2_dep = dependency('sdl2')
@@ -50,6 +51,6 @@ project_source_files = files([
 
 executable('xentu', project_source_files,
            include_directories : incdir,
-           dependencies: [sdl2_image_dep, sdl2_ttf_dep, sdl2_dep, py_dep, lua_dep])
+           dependencies: [glew, sdl2_image_dep, sdl2_ttf_dep, sdl2_dep, py_dep, lua_dep])
            
            # win_subsystem: 'windows',

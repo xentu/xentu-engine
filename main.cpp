@@ -3,10 +3,12 @@
 
 //#define SDL_MAIN_HANDLED
 
-#include "SDL.h"
-#include "SDL_timer.h"
+#include <SDL.h>
+#include <SDL_timer.h>
 
 #include "src/Xentu.h"
+#include "src/XentuConfig.h"
+#include "src/XentuMachine.h"
 #include "src/XentuExceptions.h"
 #include "src/fs/XenVirtualFileSystem.h"
 #include "src/fs/XenFileSystem.h"

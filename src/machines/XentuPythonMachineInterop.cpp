@@ -1,15 +1,14 @@
 #define PY_SSIZE_T_CLEAN
 
-#include "SDL.h"
-
+#include <SDL.h>
 #include <Python.h>
 #include <stdio.h>
 #include <string>
-#include "XentuPythonMachine.h"
 
-#include "src/fs/XenVirtualFileSystem.h"
-#include "src/fs/XenFileSystem.h"
-#include "src/fs/XenZipFileSystem.h"
+#include "../fs/XenVirtualFileSystem.h"
+#include "../fs/XenFileSystem.h"
+#include "../fs/XenZipFileSystem.h"
+#include "XentuPythonMachine.h"
 
 namespace xen
 {
@@ -161,7 +160,7 @@ namespace xen
 	PyObject* xen_py_fn_game_create_window(PyObject *self, PyObject *args) {
 		XentuPythonMachine* m = XentuPythonMachine::GetInstance();
 		auto r = m->GetRenderer();
-		int window_id = r->CreateWindow();
+		int window_id = r->Init();
 		return PyLong_FromLong(window_id);
 	}
 
@@ -176,7 +175,7 @@ namespace xen
 		XentuPythonMachine* m = XentuPythonMachine::GetInstance();
 		auto r = m->GetRenderer();
 		auto t = std::string(s_title);
-		int window_id = r->CreateWindowEx(t, s_x, s_y, s_width, s_height, s_mode);
+		int window_id = r->InitEx(t, s_x, s_y, s_width, s_height, s_mode);
 		return PyLong_FromLong(window_id);
 	}
 

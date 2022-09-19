@@ -1,5 +1,4 @@
-#ifndef XEN_PYTHON_MACHINE_SCRIPTS_H
-#define XEN_PYTHON_MACHINE_SCRIPTS_H
+#pragma once
 /**
  * This file holds the python code to be executed when a python engine is loaded
  * by the user. The file does the following:
@@ -66,4 +65,3 @@ globals()['xentu.game'] = sys.modules['xentu.game'] = game
 
 
 )"; }
-#endif

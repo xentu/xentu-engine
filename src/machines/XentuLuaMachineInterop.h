@@ -1,17 +1,4 @@
-#ifndef XEN_LUA_MACHINE_INTEROP_H
-#define XEN_LUA_MACHINE_INTEROP_H
-
-
-#include "luna/luna.hpp"
-
-#include "../XentuMachine.h"
-
-extern "C" {
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
-}
-
+#pragma once
 
 namespace xen
 {
@@ -60,6 +47,3 @@ namespace xen
 			static const Luna<XentuLuaMachineInterop>::FunctionType methods[];
 	};
 }
-
-
-#endif

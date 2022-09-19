@@ -1,7 +1,7 @@
-#ifndef XENTU_SDL_TEXTBOX
-#define XENTU_SDL_TEXTBOX
+#pragma once
 
 #include <string>
+#include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
@@ -25,5 +25,3 @@ namespace xen
 			string text;
 	};
 }
-
-#endif

@@ -1,10 +1,7 @@
-#ifndef XEN_LUA_MACHINE
-#define XEN_LUA_MACHINE
+#pragma once
 
-#include <unordered_map>
 #include <string>
-
-#include "../XentuMachine.h"
+#include <unordered_map>
 
 extern "C" {
 #include <lua.h>
@@ -12,6 +9,7 @@ extern "C" {
 #include <lualib.h>
 }
 
+using namespace std;
 
 namespace xen
 {
@@ -22,14 +20,12 @@ namespace xen
 			~XentuLuaMachine();
 			static XentuLuaMachine* GetInstance();
 			int Init();
-			int Trigger(const std::string event_name);
-			int On(const std::string event_name, const int callback_ref);
+			int Trigger(const string event_name);
+			int On(const string event_name, const int callback_ref);
 		
 		private:
 			lua_State* L;
-			std::unordered_map<std::string, int> callbacks;
+			unordered_map<string, int> callbacks;
 			static XentuLuaMachine* instance;
 	};
 }
-
-#endif

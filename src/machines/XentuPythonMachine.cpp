@@ -1,10 +1,11 @@
 #define PY_SSIZE_T_CLEAN
 
-#include <Python.h>
-#include <stdio.h>
+#include "../Xentu.h"
+#include "../XentuConfig.h"
+#include "../XentuMachine.h"
+#include "../fs/XenVirtualFileSystem.h"
 #include "XentuPythonMachine.h"
 #include "XentuPythonMachineScripts.h"
-#include "../fs/XenVirtualFileSystem.h"
 
 namespace xen
 {

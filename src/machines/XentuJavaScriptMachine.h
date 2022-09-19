@@ -1,8 +1,6 @@
-#ifndef XEN_JS_MACHINE
-#define XEN_JS_MACHINE
+#pragma once
 
-#include "../XentuMachine.h"
-
+#include <stdio.h>
 #include <ducktape/duktape.h>
 #include <string>
 #include <unordered_map>
@@ -16,11 +14,11 @@ namespace xen
 			~XentuJavaScriptMachine();
 			static XentuJavaScriptMachine* GetInstance();
 			int Init();
-			int Trigger(const std::string event_name);
-			int On(const std::string event_name, const std::string callback);
+			int Trigger(const string event_name);
+			int On(const string event_name, const string callback);
 		
 		private:
-			std::unordered_multimap<std::string, std::string> callbacks;
+			unordered_multimap<string, string> callbacks;
 			duk_context* L;
 			static XentuJavaScriptMachine* instance;
 	};
@@ -30,7 +28,7 @@ namespace xen
 
 	// called to initialize the native engine functions available to js.
 	void js_init_interop(duk_context *L);
-	void js_call_func(duk_context *L, std::string func_name);
+	void js_call_func(duk_context *L, string func_name);
 
 
 	duk_ret_t js_native_print(duk_context* ctx);
@@ -63,5 +61,3 @@ namespace xen
 
 	duk_ret_t js_keyboard_key_down(duk_context* L);
 }
-
-#endif

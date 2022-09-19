@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <string>
-#include "XentuJavaScriptMachine.h"
+#include <ducktape/duktape.h>
 
-#include "src/fs/XenVirtualFileSystem.h"
-#include "src/fs/XenFileSystem.h"
-#include "src/fs/XenZipFileSystem.h"
+#include "../Xentu.h"
+#include "../XentuMachine.h"
+#include "../fs/XenVirtualFileSystem.h"
+#include "../fs/XenFileSystem.h"
+#include "../fs/XenZipFileSystem.h"
+#include "XentuJavaScriptMachine.h"
 
 namespace xen
 {
@@ -120,7 +123,7 @@ namespace xen
 		XEN_LOG("- Called game_create_window\n");
 		XentuJavaScriptMachine* m = XentuJavaScriptMachine::GetInstance();
 		auto r = m->GetRenderer();
-		int window_id = r->CreateWindow();
+		int window_id = r->Init();
 		return window_id;
 	}
 	

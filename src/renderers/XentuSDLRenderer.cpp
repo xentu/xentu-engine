@@ -1,33 +1,75 @@
-#include "XentuSDLRenderer.h"
+#include "../Xentu.h"
+#include "../XentuConfig.h"
+#include "../XentuRenderer.h"
 #include "XentuSDLTextBox.h"
+#include "XentuSDLRenderer.h"
+#include "XentuSDLRendererAssets.h"
 
 namespace xen
 {
 	XentuSDLRenderer::XentuSDLRenderer(const XentuConfig* config)
 	:	XentuRenderer::XentuRenderer(config)
 	{
-		XEN_LOG("- Created XentuSDLRenderer.\n");
 		TTF_Init();
+		XEN_LOG("- Created XentuSDLRenderer.\n");
 	}
 
 
-	int XentuSDLRenderer::CreateWindow()
+	bool XentuSDLRenderer::Init()
 	{
-		return CreateWindowEx(
+		return InitEx(
 			m_config->title,
 			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 			m_config->window.width,
 			m_config->window.height,
-			0);
+			SDL_WINDOW_OPENGL);
 	}
 
 
-	int XentuSDLRenderer::CreateWindowEx(std::string title, int x, int y, int width, int height, int mode)
+	bool XentuSDLRenderer::InitEx(std::string title, int x, int y, int width, int height, int mode)
 	{
 		Uint32 render_flags = SDL_RENDERER_ACCELERATED;
-		m_window = SDL_CreateWindow("GAME", x, y, width, height, mode);
+
+		//Use OpenGL 3.1 core
+      SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
+      SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 );
+      SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
+		#ifdef __APPLE__
+		SDL_GL_SetAttribute( SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+		#endif
+
+		m_window = SDL_CreateWindow(title.c_str(), x, y, width, height, mode);
 		m_renderer = SDL_CreateRenderer(m_window, -1, render_flags);
-		return 0;
+		m_gl_context = SDL_GL_CreateContext(m_window);
+
+		if(m_gl_context == NULL) {
+			XEN_ERROR("OpenGL context could not be created! SDL Error: %s\n", SDL_GetError());
+			return false;
+		}
+		else {
+			//Initialize GLEW
+			glewExperimental = GL_TRUE;
+			GLenum glewError = glewInit();
+			if(glewError != GLEW_OK)
+			{
+				XEN_ERROR( "Error initializing GLEW! %s\n", glewGetErrorString( glewError ) );
+				return false;
+			}
+
+			//Use V-Sync
+			if (SDL_GL_SetSwapInterval( 1 ) < 0) {
+				XEN_WARN( "Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError() );
+			}
+
+			printf("- OpenGL Version: %s\n", glGetString(GL_VERSION));
+
+			//Initialize OpenGL
+			/* if(!initGL()) {
+				XEN_ERROR( "Unable to initialize OpenGL!\n" );
+				return false;
+			} */
+		}
+		return true;
 	}
 
 

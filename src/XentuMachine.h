@@ -1,7 +1,8 @@
-#ifndef XEN_MACHINE
-#define XEN_MACHINE
+#pragma once
 
-#include "Xentu.h"
+#include <stdio.h>
+#include <string>
+
 #include "XentuConfig.h"
 #include "XentuRenderer.h"
 
@@ -15,7 +16,7 @@ namespace xen
 			// initialize the machine, which runs the initial game script.
 			virtual int Init() = 0;
 			// triggers a game wide event.
-			virtual int Trigger(const std::string event_name) = 0;
+			virtual int Trigger(const string event_name) = 0;
 			// called by game code to begin the tight events loop.
 			void Run();
 			// call this to retrieve the loaded config.
@@ -25,12 +26,10 @@ namespace xen
 
 		protected:
 			const size_t arg_count;
-			const char* arg_values[MAX_ARGV];
+			const char* arg_values[12];
 
 		private:
 			XentuConfig* m_config;
 			XentuRenderer* m_renderer;
 	};
 }
-
-#endif

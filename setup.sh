@@ -30,6 +30,7 @@ meson wrap install lua
 meson wrap install sdl2_image
 meson wrap install sdl2_ttf
 meson wrap install sdl2
+meson wrap install glew
 
 
 # ask meson to prepare the build

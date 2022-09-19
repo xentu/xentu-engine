@@ -1,8 +1,6 @@
-#ifndef XEN_CONFIG
-#define XEN_CONFIG
+#pragma once
 
 #include <string>
-#include <exception>
 #include <json/json.hpp>
 
 using namespace std;
@@ -55,5 +53,3 @@ namespace xen
 			nlohmann::json m_data;
 	};
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef XEN_JS_MACHINE_SCRIPTS_H
-#define XEN_JS_MACHINE_SCRIPTS_H
+#pragma once
 /**
  * This file holds the javascript code to be executed when a js engine is
  * loaded by the user.
@@ -189,4 +188,3 @@ namespace xen { const char * xen_js_script_init = R"(
 	// vfs.mount('/zip', './assets/test.zip');
 
 )"; }
-#endif

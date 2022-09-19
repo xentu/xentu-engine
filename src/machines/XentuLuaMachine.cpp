@@ -1,10 +1,15 @@
 #include <stdio.h>
-#include "luna/luna.hpp"
+#include <unordered_map>
+#include <string>
+#include <luna/luna.hpp>
 
+#include "../Xentu.h"
+#include "../XentuConfig.h"
+#include "../XentuMachine.h"
+#include "../fs/XenVirtualFileSystem.h"
 #include "XentuLuaMachine.h"
 #include "XentuLuaMachineInterop.h"
 #include "XentuLuaMachineScript.h"
-#include "../fs/XenVirtualFileSystem.h"
 
 namespace xen
 {

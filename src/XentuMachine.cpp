@@ -1,12 +1,10 @@
-#include <stdio.h>
-#include <string>
-
 #include "Xentu.h"
-#include "XentuMachine.h"
+#include "XentuRenderer.h"
+#include "renderers/XentuSDLRenderer.h"
 #include "fs/XenVirtualFileSystem.h"
 #include "fs/XenFileSystem.h"
 #include "fs/XenNativeFileSystem.h"
-#include "renderers/XentuSDLRenderer.h"
+#include "XentuMachine.h"
 
 namespace xen
 {

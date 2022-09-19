@@ -6,6 +6,7 @@
 		"emscripten",
 		"fullscreen",
 		"furo",
+		"GLEW",
 		"hashlib",
 		"importlib",
 		"keysym",

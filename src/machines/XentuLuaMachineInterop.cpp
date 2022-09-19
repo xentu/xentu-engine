@@ -1,11 +1,12 @@
-#include "luna/luna.hpp"
+#include <luna/luna.hpp>
 
+#include "../Xentu.h"
+#include "../XentuMachine.h"
+#include "../fs/XenVirtualFileSystem.h"
+#include "../fs/XenFileSystem.h"
+#include "../fs/XenZipFileSystem.h"
 #include "XentuLuaMachine.h"
 #include "XentuLuaMachineInterop.h"
-
-#include "src/fs/XenVirtualFileSystem.h"
-#include "src/fs/XenFileSystem.h"
-#include "src/fs/XenZipFileSystem.h"
 
 extern "C" {
 #include <lua.h>
@@ -41,7 +42,7 @@ namespace xen
 		XEN_LOG("- Called game_create_window\n");
 		XentuLuaMachine* m = XentuLuaMachine::GetInstance();
 		auto r = m->GetRenderer();
-		int window_id = r->CreateWindow();
+		int window_id = r->Init();
 		lua_pushinteger(L, 1);
 		return 1;
 	}

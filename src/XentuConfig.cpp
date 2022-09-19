@@ -1,4 +1,5 @@
-#include <string>
+#include <exception>
+
 #include "Xentu.h"
 #include "XentuConfig.h"
 

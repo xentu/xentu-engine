@@ -1,14 +1,21 @@
-#ifndef XEN_RENDERER_SDL
-#define XEN_RENDERER_SDL
+#pragma once
 
 #define MAX_WINDOW_COUNT 1
 #define AUTO_FREE 1
 
-#include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_ttf.h"
+#include <string>
+#include <map>
+#include <SDL.h>
+#include <gl/glew.h>
+#include <SDL_opengl.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <gl/glu.h>
+
 #include "../XentuRenderer.h"
 #include "XentuSDLTextBox.h"
+
+using namespace std;
 
 namespace xen
 {
@@ -17,8 +24,8 @@ namespace xen
 		public:
 			XentuSDLRenderer(const XentuConfig* config);
 			~XentuSDLRenderer();
-			int CreateWindow();
-			int CreateWindowEx(std::string title, int x, int y, int width, int height, int mode);
+			bool Init();
+			bool InitEx(string title, int x, int y, int width, int height, int mode);
 			int LoadTexture(uint8_t* buffer, uint64_t length);
 			int LoadFont(uint8_t* buffer, uint64_t length, int font_size);
 			int CreateTextBox(int x, int y, int width, int height);
@@ -32,18 +39,18 @@ namespace xen
 			void SetTextBoxText(int textbox_id, int font_id, const char* text);
 			bool KeyDown(int key_code);
 
-		public:			
+		private:
 			SDL_Window* m_window;
 			SDL_Renderer* m_renderer;
+			SDL_GLContext m_gl_context = NULL;
 
-		private:
-			std::map<int, SDL_Texture*> m_textures;
+			map<int, SDL_Texture*> m_textures;
 			int m_textures_iter = 0;
 
-			std::map<int, TTF_Font*> m_fonts;
+			map<int, TTF_Font*> m_fonts;
 			int m_fonts_iter = 0;
 
-			std::map<int, XentuSDLTextBox*> m_textboxes;
+			map<int, XentuSDLTextBox*> m_textboxes;
 			int m_textboxes_iter = 0;
 
 			SDL_Keysym m_keyboard_events[40];
@@ -52,5 +59,3 @@ namespace xen
 			bool m_exiting = false;
 	};
 }
-
-#endif

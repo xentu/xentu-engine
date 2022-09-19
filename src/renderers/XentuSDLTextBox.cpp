@@ -1,6 +1,10 @@
 #include "../Xentu.h"
 #include "XentuSDLTextBox.h"
 
+#include <string>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+
 namespace xen
 {
 	XentuSDLTextBox::XentuSDLTextBox(SDL_Renderer* renderer, int x=0, int y=0, int w=100, int h=30)
@@ -25,7 +29,7 @@ namespace xen
 		if (this->text == text) return;
       this->text = text;
 		SDL_DestroyTexture(texture);
-		SDL_Surface* surface = TTF_RenderText_Solid(font, text, color);
+		SDL_Surface* surface = TTF_RenderUTF8_Blended(font, text, color);
 		if (surface==NULL) {
 			XEN_LOG("- Failed to render text: %s", SDL_GetError());
 		}
