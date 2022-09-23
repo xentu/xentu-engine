@@ -6,16 +6,16 @@
 #include <SDL.h>
 #include <SDL_timer.h>
 
-#include "src/Xentu.h"
-#include "src/XentuConfig.h"
-#include "src/XentuMachine.h"
-#include "src/XentuExceptions.h"
-#include "src/fs/XenVirtualFileSystem.h"
-#include "src/fs/XenFileSystem.h"
-#include "src/fs/XenNativeFileSystem.h"
-#include "src/machines/XentuJavaScriptMachine.h"
-#include "src/machines/XentuLuaMachine.h"
-#include "src/machines/XentuPythonMachine.h"
+#include "src/Globals.h"
+#include "src/Config.h"
+#include "src/Machine.h"
+#include "src/Exceptions.h"
+#include "src/vfs/XenVirtualFileSystem.h"
+#include "src/vfs/XenFileSystem.h"
+#include "src/vfs/XenNativeFileSystem.h"
+#include "src/machines/JavaScriptMachine.h"
+#include "src/machines/LuaMachine.h"
+#include "src/machines/PythonMachine.h"
 
 using MACHINE_PTR = const std::unique_ptr<xen::XentuMachine>;
 
@@ -45,15 +45,15 @@ int main(int argc, char *argv[])
     printf("Language: %s\n", config->language.c_str());
 
     if (config->language == "javascript") {
-        MACHINE_PTR js_machine(new xen::XentuJavaScriptMachine(argc, argv, config));
+        MACHINE_PTR js_machine(new xen::JavaScriptMachine(argc, argv, config));
         res = js_machine->Init();
     }
     else if (config->language == "lua") {
-        MACHINE_PTR lua_machine(new XentuLuaMachine(argc, argv, config));
+        MACHINE_PTR lua_machine(new LuaMachine(argc, argv, config));
         res = lua_machine->Init();
     }
     else {
-        MACHINE_PTR py_machine(new XentuPythonMachine(argc, argv, config));
+        MACHINE_PTR py_machine(new PythonMachine(argc, argv, config));
         res = py_machine->Init();
     }
 

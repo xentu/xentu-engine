@@ -16,33 +16,42 @@ project_source_files = files([
   'lib/miniz/miniz.c',
 
   # filesystem
-  'src/fs/XenFileInfo.cpp',
-  'src/fs/XenMemoryFile.cpp',
-  'src/fs/XenMemoryFileSystem.cpp',
-  'src/fs/XenNativeFile.cpp',
-  'src/fs/XenNativeFileSystem.cpp',
-  'src/fs/XenStringUtils.cpp',
-  'src/fs/XenVirtualFileSystem.cpp',
-  'src/fs/XenZipFile.cpp',
-  'src/fs/XenZipFileSystem.cpp',
+  'src/vfs/XenFileInfo.cpp',
+  'src/vfs/XenMemoryFile.cpp',
+  'src/vfs/XenMemoryFileSystem.cpp',
+  'src/vfs/XenNativeFile.cpp',
+  'src/vfs/XenNativeFileSystem.cpp',
+  'src/vfs/XenStringUtils.cpp',
+  'src/vfs/XenVirtualFileSystem.cpp',
+  'src/vfs/XenZipFile.cpp',
+  'src/vfs/XenZipFileSystem.cpp',
 
   # machines
-  'src/machines/XentuJavaScriptMachineInterop.cpp',
-  'src/machines/XentuJavaScriptMachine.cpp',
-  'src/machines/XentuLuaMachineInterop.cpp',
-  'src/machines/XentuLuaMachine.cpp',
-  'src/machines/XentuPythonMachineInterop.cpp',
-  'src/machines/XentuPythonMachine.cpp',
-  'src/XentuMachine.cpp',
+  'src/machines/JavaScriptMachineInterop.cpp',
+  'src/machines/JavaScriptMachine.cpp',
+  'src/machines/LuaMachineInterop.cpp',
+  'src/machines/LuaMachine.cpp',
+  'src/machines/PythonMachineInterop.cpp',
+  'src/machines/PythonMachine.cpp',
+  'src/Machine.cpp',
 
   # renderers
-  'src/renderers/XentuSDLRenderer.cpp',
-  'src/renderers/XentuSDLTextBox.cpp',
-  'src/XentuRenderer.cpp',
+  'src/renderers/DefaultRenderer.cpp',
+  'src/renderers/DefaultTextBox.cpp',
+  'src/Renderer.cpp',
+
+  # graphics
+  'src/graphics/Rect.cpp',
+  'src/graphics/Sprite.cpp',
+  'src/graphics/SpriteMap.cpp',
+  'src/graphics/Texture.cpp',
+  'src/graphics/Transform.cpp',
+  'src/graphics/Transformable.cpp',
+  'src/graphics/Vertex.cpp',
 
   # other
-  'src/Xentu.cpp',
-  'src/XentuConfig.cpp',
+  'src/Globals.cpp',
+  'src/Config.cpp',
 
   # main
   'main.cpp'
