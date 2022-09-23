@@ -12,7 +12,7 @@ using namespace std::chrono_literals;
 
 namespace xen
 {
-	XentuMachine::XentuMachine(size_t argc, char *argv[], XentuConfig* config)
+	Machine::Machine(size_t argc, char *argv[], Config* config)
 	: arg_count(argc)
 	{
 		XEN_LOG("- Created XentuMachine.\n");
@@ -27,7 +27,7 @@ namespace xen
 	}
 
 
-	void XentuMachine::Run()
+	void Machine::Run()
 	{
 		using clock = std::chrono::high_resolution_clock;
 		auto time_start = clock::now();
@@ -47,19 +47,19 @@ namespace xen
 	}
 
 
-	XentuConfig* XentuMachine::GetConfig()
+	Config* Machine::GetConfig()
 	{
 		return m_config;
 	}
 
 
-	XentuRenderer* XentuMachine::GetRenderer()
+	Renderer* Machine::GetRenderer()
 	{
 		return m_renderer;
 	}
 
 	
-	XentuMachine::~XentuMachine()
+	Machine::~Machine()
 	{
 		// shutdown the file system.
 		xen::vfs_shutdown();

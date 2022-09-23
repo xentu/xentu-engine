@@ -8,11 +8,11 @@
 
 namespace xen
 {
-	class XentuMachine
+	class Machine
 	{
 		public:
-			XentuMachine(size_t argc, char *argv[], XentuConfig* config);
-			virtual ~XentuMachine();
+			Machine(size_t argc, char *argv[], Config* config);
+			virtual ~Machine();
 			// initialize the machine, which runs the initial game script.
 			virtual int Init() = 0;
 			// triggers a game wide event.
@@ -26,16 +26,16 @@ namespace xen
 			// called by game code to begin the tight events loop.
 			void Run();
 			// call this to retrieve the loaded config.
-			XentuConfig* GetConfig();
+			Config* GetConfig();
 			// call this to retrieve the loaded renderer.
-			XentuRenderer* GetRenderer();
+			Renderer* GetRenderer();
 
 		protected:
 			const size_t arg_count;
 			const char* arg_values[12];
 
 		private:
-			XentuConfig* m_config;
-			XentuRenderer* m_renderer;
+			Config* m_config;
+			Renderer* m_renderer;
 	};
 }

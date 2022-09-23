@@ -13,8 +13,8 @@
 
 namespace xen
 {
-	LuaMachine::LuaMachine(int argc, char *argv[], XentuConfig* config)
-	:	XentuMachine::XentuMachine(argc, argv, config)
+	LuaMachine::LuaMachine(int argc, char *argv[], Config* config)
+	:	Machine::Machine(argc, argv, config)
 	{
 		// keep a pointer to this instance.
 		if (instance != nullptr) {

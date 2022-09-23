@@ -19,10 +19,10 @@ using namespace std;
 
 namespace xen
 {
-	class DefaultRenderer : public XentuRenderer
+	class DefaultRenderer : public Renderer
 	{
 		public:
-			DefaultRenderer(const XentuConfig* config);
+			DefaultRenderer(const Config* config);
 			~DefaultRenderer();
 			bool Init();
 			bool InitEx(string title, int x, int y, int width, int height, int mode);

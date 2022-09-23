@@ -7,8 +7,8 @@
 
 namespace xen
 {
-	JavaScriptMachine::JavaScriptMachine(int argc, char *argv[], XentuConfig* config)
-	:	XentuMachine::XentuMachine(argc, argv, config)
+	JavaScriptMachine::JavaScriptMachine(int argc, char *argv[], Config* config)
+	:	Machine::Machine(argc, argv, config)
 	{
 		XEN_LOG("- Created XentuJavaScriptMachine.\n");
 

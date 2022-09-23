@@ -8,11 +8,11 @@ using namespace std;
 
 namespace xen
 {
-	class XentuRenderer
+	class Renderer
 	{
 		public:
-			XentuRenderer(const XentuConfig* config);
-			virtual ~XentuRenderer();
+			Renderer(const Config* config);
+			virtual ~Renderer();
 			virtual bool Init() = 0;
 			virtual bool InitEx(string title, int x, int y, int width, int height, int mode) = 0;
 			virtual int LoadTexture(uint8_t* buffer, uint64_t length) = 0;
@@ -30,7 +30,7 @@ namespace xen
 			void SetClearColor(int r, int g, int b);
 
 		protected:
-			const XentuConfig* m_config;
+			const Config* m_config;
 			int clear_color_r, clear_color_g, clear_color_b;
 	};
 }

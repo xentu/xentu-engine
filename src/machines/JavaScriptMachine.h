@@ -7,10 +7,10 @@
 
 namespace xen
 {
-	class JavaScriptMachine : public XentuMachine
+	class JavaScriptMachine : public Machine
 	{
 		public:
-			JavaScriptMachine(int argc, char *argv[], XentuConfig* config);
+			JavaScriptMachine(int argc, char *argv[], Config* config);
 			~JavaScriptMachine();
 			static JavaScriptMachine* GetInstance();
 			int Init();

@@ -17,7 +17,7 @@
 #include "src/machines/LuaMachine.h"
 #include "src/machines/PythonMachine.h"
 
-using MACHINE_PTR = const std::unique_ptr<xen::XentuMachine>;
+using MACHINE_PTR = const std::unique_ptr<xen::Machine>;
 
 using namespace xen;
 
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
         return XEN_ERROR("- Error unable to locate %s\n", e.what());
     }
 
-	XentuConfig *config = new XentuConfig(result.c_str());
+	Config *config = new Config(result.c_str());
     
     printf("Language: %s\n", config->language.c_str());
 

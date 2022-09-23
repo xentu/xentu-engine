@@ -13,10 +13,10 @@ using namespace std;
 
 namespace xen
 {
-	class LuaMachine : public XentuMachine
+	class LuaMachine : public Machine
 	{
 		public:
-			LuaMachine(int argc, char *argv[], XentuConfig* config);
+			LuaMachine(int argc, char *argv[], Config* config);
 			~LuaMachine();
 			static LuaMachine* GetInstance();
 			int Init();

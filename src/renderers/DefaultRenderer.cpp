@@ -82,8 +82,8 @@ namespace xen
 	#pragma endregion
 
 
-	DefaultRenderer::DefaultRenderer(const XentuConfig* config)
-	:	XentuRenderer::XentuRenderer(config)
+	DefaultRenderer::DefaultRenderer(const Config* config)
+	:	Renderer::Renderer(config)
 	{
 		TTF_Init();
 		XEN_LOG("- Created DefaultRenderer.\n");

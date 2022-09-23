@@ -7,29 +7,29 @@ using namespace std;
 
 namespace xen
 {
-	enum class XentuRenderEngine { sdl2, xna, open_tk };
-	enum class XentuRenderTechnique { immediate, deferred };
+	enum class RenderEngine { sdl2, xna, open_tk };
+	enum class RenderTechnique { immediate, deferred };
 
 
-	struct XentuConfigWindow
+	struct ConfigWindow
 	{
 		int x, y, width, height; 
 	};
 
 
-	struct XentuConfigRenderer
+	struct ConfigRenderer
 	{
-		XentuRenderEngine engine;
-		XentuRenderTechnique technique;
+		RenderEngine engine;
+		RenderTechnique technique;
 		bool accelerated;
 	};
 
 
-	class XentuConfig
+	class Config
 	{
 		public:
-			XentuConfig(const char* filename);
-			~XentuConfig(void);
+			Config(const char* filename);
+			~Config(void);
 
 			const string GetSetting(const string group, const string name, const string default_value);
 			const bool GetSettingBool(const string group, const string name, const bool default_value);
@@ -46,8 +46,8 @@ namespace xen
 			bool v_sync;
 			bool fullscreen;
 			int update_frequency;
-			XentuConfigWindow window;
-			XentuConfigRenderer renderer;
+			ConfigWindow window;
+			ConfigRenderer renderer;
 
 		private:
 			nlohmann::json m_data;

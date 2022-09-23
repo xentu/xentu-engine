@@ -9,8 +9,8 @@
 
 namespace xen
 {
-	PythonMachine::PythonMachine(int argc, char *argv[], XentuConfig* config)
-	:	XentuMachine::XentuMachine(argc, argv, config)
+	PythonMachine::PythonMachine(int argc, char *argv[], Config* config)
+	:	Machine::Machine(argc, argv, config)
 	{
 		// grab the command line arguments in a format python likes.
 		for (int i=0; i<argc && i<MAX_ARGV; i++) {

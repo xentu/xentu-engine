@@ -10,10 +10,10 @@ using namespace std;
 
 namespace xen
 {
-	class PythonMachine : public XentuMachine
+	class PythonMachine : public Machine
 	{
 		public:
-			PythonMachine(int argc, char *argv[], XentuConfig* config);
+			PythonMachine(int argc, char *argv[], Config* config);
 			~PythonMachine();
 			static PythonMachine* GetInstance();
 			int Init();

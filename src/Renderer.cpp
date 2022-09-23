@@ -4,7 +4,7 @@
 
 namespace xen
 {
-	XentuRenderer::XentuRenderer(const XentuConfig* config)
+	Renderer::Renderer(const Config* config)
 	: m_config(config)
 	{
 		XEN_LOG("- Created XentuRenderer.\n");
@@ -14,7 +14,7 @@ namespace xen
 	}
 
 
-	void XentuRenderer::SetClearColor(int r, int g, int b)
+	void Renderer::SetClearColor(int r, int g, int b)
 	{
 		clear_color_r = r;
 		clear_color_g = g;
@@ -22,7 +22,7 @@ namespace xen
 	}
 	
 	
-	XentuRenderer::~XentuRenderer()
+	Renderer::~Renderer()
 	{
 		XEN_LOG("- Destroyed XentuRenderer\n");
 	}

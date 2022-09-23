@@ -7,7 +7,7 @@ using namespace std;
 
 namespace xen
 {
-	XentuConfig::XentuConfig(const char* json)
+	Config::Config(const char* json)
 	{
 		m_data = nlohmann::json::parse(json);
 		try {
@@ -28,12 +28,12 @@ namespace xen
 			window = { win_x, win_y, win_w, win_h };
 
 			string ren_engine_s = this->GetSetting("game", "renderer", "engine", "sdl2");
-			XentuRenderEngine ren_engine = XentuRenderEngine::sdl2;
-			if (ren_engine_s == "xna") ren_engine = XentuRenderEngine::xna;
-			if (ren_engine_s == "open_tk") ren_engine = XentuRenderEngine::open_tk;
+			RenderEngine ren_engine = RenderEngine::sdl2;
+			if (ren_engine_s == "xna") ren_engine = RenderEngine::xna;
+			if (ren_engine_s == "open_tk") ren_engine = RenderEngine::open_tk;
 			string ren_teq_s = this->GetSetting("game", "renderer", "technique", "immediate");
-			XentuRenderTechnique ren_teq = XentuRenderTechnique::immediate;
-			if (ren_engine_s == "deferred") ren_teq = XentuRenderTechnique::deferred;
+			RenderTechnique ren_teq = RenderTechnique::immediate;
+			if (ren_engine_s == "deferred") ren_teq = RenderTechnique::deferred;
 			bool ren_acc = this->GetSettingBool("game", "renderer", "accelerated", true);
 			renderer = { ren_engine, ren_teq, ren_acc };
 
@@ -46,7 +46,7 @@ namespace xen
 		}
 	}
 
-	const string XentuConfig::GetSetting(const string group, const string name, const string default_value)
+	const string Config::GetSetting(const string group, const string name, const string default_value)
 	{
 		try {
 			auto m_group = m_data.at(group);
@@ -58,7 +58,7 @@ namespace xen
 		}
 		return default_value;
 	}
-	const bool XentuConfig::GetSettingBool(const string group, const string name, const bool default_value)
+	const bool Config::GetSettingBool(const string group, const string name, const bool default_value)
 	{
 		try {
 			auto m_group = m_data.at(group);
@@ -70,7 +70,7 @@ namespace xen
 		}
 		return default_value;
 	}
-	const int XentuConfig::GetSettingInt(const string group, const string name, const int default_value)
+	const int Config::GetSettingInt(const string group, const string name, const int default_value)
 	{
 		try {
 			auto m_group = m_data.at(group);
@@ -83,7 +83,7 @@ namespace xen
 		return default_value;
 	}
 
-	const string XentuConfig::GetSetting(const string group, const string sub_group, const string name, const string default_value)
+	const string Config::GetSetting(const string group, const string sub_group, const string name, const string default_value)
 	{
 		try {
 			auto m_group = m_data.at(group);
@@ -96,7 +96,7 @@ namespace xen
 		}
 		return default_value;
 	}
-	const bool XentuConfig::GetSettingBool(const string group, const string sub_group, const string name, const bool default_value)
+	const bool Config::GetSettingBool(const string group, const string sub_group, const string name, const bool default_value)
 	{
 		try {
 			auto m_group = m_data.at(group);
@@ -109,7 +109,7 @@ namespace xen
 		}
 		return default_value;
 	}
-	const int XentuConfig::GetSettingInt(const string group, const string sub_group, const string name, const int default_value)
+	const int Config::GetSettingInt(const string group, const string sub_group, const string name, const int default_value)
 	{
 		try {
 			auto m_group = this->m_data.at(group);
@@ -123,8 +123,8 @@ namespace xen
 		return default_value;
 	}
 	
-	XentuConfig::~XentuConfig()
+	Config::~Config()
 	{
-		XEN_LOG("- Destroyed XentuConfig.\n");
+		XEN_LOG("- Destroyed Config.\n");
 	}
 }
