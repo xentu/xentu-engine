@@ -15,6 +15,7 @@
 
 #include "graphics/TextBox.h"
 #include "graphics/Batch.h"
+#include "graphics/Viewport.h"
 
 using namespace std;
 
@@ -34,7 +35,7 @@ namespace xen
 			/**
 			 * Initialize the renderer.
 			 */
-			bool InitEx(string title, int x, int y, int width, int height, int mode);
+			bool InitEx(string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode);
 
 			/**
 			 * Load a texture into memory, and return it's asset id.
@@ -120,15 +121,22 @@ namespace xen
 			 */
 			Batch* find_batch(const Sprite& sprite);
 
+			/**
+			 * Sort the buffered batches by layer order.
+			 */
+			void sort_batches();
+
 
 		private:
 			const Config* m_config;
+			Viewport m_viewport;
 			GLclampf clear_color_r, clear_color_g, clear_color_b;
 
 			/* sdl variables */
 			SDL_Window* m_window;
 			SDL_Renderer* m_renderer;
 			SDL_GLContext m_gl_context = NULL;
+
 
 			/* state information */
 			std::vector<Batch*> m_batches; // the collection of batches.
@@ -174,7 +182,7 @@ namespace xen
 			/* screen/viewport variables */
 			Batch* view_batch;
 			glm::mat4 view_proj;
-			int vp_mode;
+			glm::mat4 screen_proj;
 
 			/* flags */
 			bool m_exiting = false;

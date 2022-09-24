@@ -13,7 +13,7 @@ x = 0; x_speed = 2
 -- handle the update event.
 game.on("update", function(dt)
 	-- print("Delta: " .. dt)
-	if x_speed > 0 and x + 5 > 690 then x_speed = -2 end
+	if x_speed > 0 and x + 5 > 390 then x_speed = -2 end
 	if x_speed < 0 and x - 5 < 10 then x_speed = 2 end
 	x = x + x_speed
 	if keyboard.key_down(KB_ESCAPE) then game.exit() end

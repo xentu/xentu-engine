@@ -45,6 +45,7 @@ project_source_files = files([
   'src/graphics/Transform.cpp',
   'src/graphics/Transformable.cpp',
   'src/graphics/Vertex.cpp',
+  'src/graphics/Viewport.cpp',
 
   # other
   'src/Globals.cpp',

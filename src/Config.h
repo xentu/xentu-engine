@@ -17,6 +17,12 @@ namespace xen
 	};
 
 
+	struct ConfigViewport
+	{
+		int width, height, mode;
+	};
+
+
 	struct ConfigRenderer
 	{
 		RenderEngine engine;
@@ -48,6 +54,7 @@ namespace xen
 			int update_frequency;
 			ConfigWindow window;
 			ConfigRenderer renderer;
+			ConfigViewport viewport;
 
 		private:
 			nlohmann::json m_data;

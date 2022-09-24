@@ -27,6 +27,11 @@ namespace xen
 			int win_h = this->GetSettingInt("game", "window", "height", 480);
 			window = { win_x, win_y, win_w, win_h };
 
+			int vp_w = this->GetSettingInt("game", "viewport", "width", 640);
+			int vp_h = this->GetSettingInt("game", "viewport", "height", 480);
+			int vp_m = this->GetSettingInt("game", "viewport", "mode", 0);
+			viewport = { vp_w, vp_h, vp_m };
+
 			string ren_engine_s = this->GetSetting("game", "renderer", "engine", "sdl2");
 			RenderEngine ren_engine = RenderEngine::sdl2;
 			if (ren_engine_s == "xna") ren_engine = RenderEngine::xna;

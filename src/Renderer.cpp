@@ -126,6 +126,7 @@ namespace xen
 
 	DefaultRenderer::DefaultRenderer(const Config* config)
 	: m_config(config),
+		m_viewport(640, 480, 2),
 		m_rotation(0),
 		m_origin_x(0),
 		m_origin_y(0),
@@ -152,13 +153,18 @@ namespace xen
 			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 			m_config->window.width,
 			m_config->window.height,
-			SDL_WINDOW_OPENGL);
+			SDL_WINDOW_OPENGL,
+			m_config->viewport.width,
+			m_config->viewport.height,
+			m_config->viewport.mode);
 	}
 
 
-	bool DefaultRenderer::InitEx(std::string title, int x, int y, int width, int height, int mode)
+	bool DefaultRenderer::InitEx(std::string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode)
 	{
 		Uint32 render_flags = SDL_RENDERER_ACCELERATED;
+
+		m_viewport = Viewport(vp_width, vp_height, vp_mode);
 
 		//Use OpenGL 3.1 core
       SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
@@ -205,8 +211,9 @@ namespace xen
 			white_texture = new Texture(wt_ref, 10, 10, 4);
 
 			/* calculate the projection matrices */
-			glViewport(0, 0, width, height);
-			this->view_proj = glm::ortho(0.0f, (float)width, (float)height, 0.0f);
+			glViewport(0, 0, m_viewport.width, m_viewport.height);
+			this->view_proj = glm::ortho(0.0f, (float)m_viewport.width, (float)m_viewport.height, 0.0f);
+			this->screen_proj = glm::ortho(0.0f, (float)width, (float)height, 0.0f);
 
 			/* get the uniform locations */
 			m_shader = create_shader(xen_gl_default_vertex_shader, xen_gl_default_fragment_shader);
@@ -242,7 +249,7 @@ namespace xen
 			// prepare frame buffer texture.
 			glGenTextures(1, &m_fbo_texture);
 			glBindTexture(GL_TEXTURE_2D, m_fbo_texture);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_viewport.width, m_viewport.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_fbo_texture, 0);
@@ -265,7 +272,7 @@ namespace xen
 			}
 
 			// create a texture for our generated fbo.
-			m_fbo_texture_inst = new Texture(m_fbo_texture, width, height, 4);
+			m_fbo_texture_inst = new Texture(m_fbo_texture, m_viewport.width, m_viewport.height, 4);
 			view_batch = new Batch();
 			view_batch->m_texture = m_fbo_texture_inst->gl_texture_id;
 
@@ -415,17 +422,14 @@ namespace xen
 	{
 		const size_t vertex_size = sizeof(Vertex) * 4; // 4 vertices per quad.
 		const size_t element_size = sizeof(unsigned int) * 6; // 6 indices per quad.
-		int w = m_config->window.width;
-		float wf = static_cast<float>(w);
-		int h = m_config->window.height;
-		float hf = static_cast<float>(h);
-
+		int vp_w = m_viewport.width;
+		int vp_h = m_viewport.height;
 
 		// assign the frame buffer.
 		glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 
 		// setup the camera.
-		glViewport(0, 0, w, h);
+		glViewport(0, 0, vp_w, vp_h);
 		glUniformMatrix4fv(m_shader_transform_loc, 1, false, &view_proj[0][0]);
 
 		// clear the screen.
@@ -449,6 +453,10 @@ namespace xen
 
 		// unbind the frame buffer.
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		int sc_w = m_config->window.width;
+		int sc_h = m_config->window.height;
+		glViewport(0, 0, sc_w, sc_h);
+		glUniformMatrix4fv(m_shader_transform_loc, 1, false, &screen_proj[0][0]);
 
 		// clear the screen once more (this time with black).
 		glClearColor(0, 0, 0, 1);
@@ -460,18 +468,18 @@ namespace xen
 		m_sprite.set_scale(1, 1);
 
 		// choose the viewport mode.
-		if (vp_mode == 2) {
+		if (m_viewport.mode == 2) {
 			// stretch
-			m_sprite.m_width = wf;
-			m_sprite.m_height = hf;
+			m_sprite.m_width = sc_w;
+			m_sprite.m_height = sc_h;
 		}
-		else if (vp_mode == 1) {
+		else if (m_viewport.mode == 1) {
 			// centre
 			m_sprite.m_width = static_cast<float>(m_fbo_texture_inst->width);
 			m_sprite.m_height = static_cast<float>(m_fbo_texture_inst->height);
-			const float hx = (wf / 2.0) - (wf / 2.0);
-			const float hy = (hf / 2.0) - (hf / 2.0);
-			m_sprite.set_position(hx, hy); 
+			const float hx = (sc_w / 2.0) - (vp_w / 2.0);
+			const float hy = (sc_h / 2.0) - (vp_h / 2.0);
+			m_sprite.set_position(hx, hy);
 		}
 		else {
 			// none
@@ -625,5 +633,18 @@ namespace xen
 
 		m_batches.push_back(batch);
 		return m_batches.back();
+	}
+	
+
+	void DefaultRenderer::sort_batches()
+	{
+		// Sort the batches
+		std::sort(m_batches.begin(), m_batches.end(), [&](const Batch* a_batch, const Batch* b_batch)
+			{
+				if (a_batch->m_layer == b_batch->m_layer)
+					return a_batch->m_texture < b_batch->m_texture;
+
+				return false; //a_batch->m_layer < a_batch->m_layer;
+			});
 	}
 }

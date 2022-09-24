@@ -19,7 +19,7 @@ x_speed = 2
 def update_callback(dt):
 	global x_speed, x
 	# print("Delta: ", dt)
-	if (x_speed > 0 and x + 2 > 690): x_speed = -2
+	if (x_speed > 0 and x + 2 > 390): x_speed = -2
 	if (x_speed < 0 and x - 2 < 10):	x_speed = 2
 	x += x_speed
 	if (keyboard.key_down(const.KB_ESCAPE)): game.exit()
