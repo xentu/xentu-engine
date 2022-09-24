@@ -231,7 +231,7 @@ namespace xen
 		auto m = PythonMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->Clear();
-		return PyLong_FromLong(1);
+		return PyBool_FromLong(1);
 	}
 	
 	PyObject* xen_py_interop_renderer_present(PyObject *self, PyObject *args)
@@ -239,7 +239,7 @@ namespace xen
 		auto m = PythonMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->Present();
-		return PyLong_FromLong(1);
+		return PyBool_FromLong(1);
 	}
 	
 	PyObject* xen_py_interop_renderer_draw_texture(PyObject *self, PyObject *args)
@@ -302,6 +302,54 @@ namespace xen
 		auto r = m->GetRenderer();
 		r->SetWindowMode(static_cast<XenWindowMode>(mode));
 
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_renderer_set_position(PyObject *self, PyObject *args)
+	{
+		float x, y;
+		if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
+			return NULL;
+		}
+		auto m = PythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->SetPosition(x, y);
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_renderer_set_origin(PyObject *self, PyObject *args)
+	{
+		float x, y;
+		if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
+			return NULL;
+		}
+		auto m = PythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->SetOrigin(x, y);
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_renderer_set_rotation(PyObject *self, PyObject *args)
+	{
+		float angle;
+		if (!PyArg_ParseTuple(args, "f", &angle)) {
+			return NULL;
+		}
+		auto m = PythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->SetRotation(angle);
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_renderer_set_scale(PyObject *self, PyObject *args)
+	{
+		float x, y;
+		if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
+			return NULL;
+		}
+		auto m = PythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->SetScale(x, y);
 		return PyBool_FromLong(1);
 	}
 	
@@ -378,6 +426,10 @@ namespace xen
 		{"renderer_draw_textbox",		xen_py_interop_renderer_draw_textbox, METH_VARARGS, "Draw a textbox."},
 		{"renderer_set_background", 	xen_py_interop_renderer_set_background, METH_VARARGS, "Set the background color."},
 		{"renderer_set_window_mode", 	xen_py_interop_renderer_set_window_mode, METH_VARARGS, "Set the window mode (fullscreen, windowed etc..)."},
+		{"renderer_set_position", 		xen_py_interop_renderer_set_position, METH_VARARGS, "Set the current transform position (translation)."},
+		{"renderer_set_origin",			xen_py_interop_renderer_set_origin, METH_VARARGS, "Set the current transform origin."},
+		{"renderer_set_rotation",		xen_py_interop_renderer_set_rotation, METH_VARARGS, "Set the current transform rotation (in degrees)."},
+		{"renderer_set_scale",			xen_py_interop_renderer_set_scale, METH_VARARGS, "Set the current transform scale (fractional)."},
 		{"config_get_str",				xen_py_interop_config_get_str, METH_VARARGS, "Get a string setting"},
 		{"config_get_str2",				xen_py_interop_config_get_str2, METH_VARARGS, "Get a string sub setting"},
 		{"config_get_bool",				xen_py_interop_config_get_bool, METH_VARARGS, "Get a boolean setting"},

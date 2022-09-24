@@ -57,6 +57,10 @@ namespace xen
 	duk_ret_t js_renderer_draw_textbox(duk_context *L);
 	duk_ret_t js_renderer_set_background(duk_context *L);
 	duk_ret_t js_renderer_set_window_mode(duk_context *L);
+	duk_ret_t js_renderer_set_position(duk_context *L);
+	duk_ret_t js_renderer_set_origin(duk_context *L);
+	duk_ret_t js_renderer_set_rotation(duk_context *L);
+	duk_ret_t js_renderer_set_scale(duk_context *L);
 	
 
 	duk_ret_t js_config_get_str(duk_context* L);

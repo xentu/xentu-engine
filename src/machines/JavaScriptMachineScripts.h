@@ -35,6 +35,10 @@ namespace xen { const char * xen_js_script_init = R"(
 	renderer.set_window_mode = renderer_set_window_mode;
 	renderer.present = renderer_present;
 	renderer.draw_textbox = renderer_draw_textbox;
+	renderer.set_position = renderer_set_position;
+	renderer.set_origin = renderer_set_origin;
+	renderer.set_rotation = renderer_set_rotation;
+	renderer.set_scale = renderer_set_scale;
 
 	const textbox = {}
 	textbox.set_text = textbox_set_text;

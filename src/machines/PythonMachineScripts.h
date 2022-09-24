@@ -54,6 +54,10 @@ renderer.draw_texture = xentu.renderer_draw_texture
 renderer.draw_textbox = xentu.renderer_draw_textbox
 renderer.draw_sub_texture = xentu.renderer_draw_sub_texture
 renderer.set_window_mode = xentu.renderer_set_window_mode
+renderer.set_position = xentu.renderer_set_position
+renderer.set_origin = xentu.renderer_set_origin
+renderer.set_rotation = xentu.renderer_set_rotation
+renderer.set_scale = xentu.renderer_set_scale
 
 
 # masquerade a new module for config

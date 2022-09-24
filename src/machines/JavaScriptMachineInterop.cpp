@@ -82,6 +82,18 @@ namespace xen
 		duk_push_c_function(L, js_renderer_set_window_mode, 1 /*nargs*/);
 		duk_put_global_string(L, "renderer_set_window_mode");
 
+		duk_push_c_function(L, js_renderer_set_position, 2 /*nargs*/);
+		duk_put_global_string(L, "renderer_set_position");
+
+		duk_push_c_function(L, js_renderer_set_origin, 2 /*nargs*/);
+		duk_put_global_string(L, "renderer_set_origin");
+
+		duk_push_c_function(L, js_renderer_set_rotation, 1 /*nargs*/);
+		duk_put_global_string(L, "renderer_set_rotation");
+
+		duk_push_c_function(L, js_renderer_set_scale, 2 /*nargs*/);
+		duk_put_global_string(L, "renderer_set_scale");
+
 		duk_push_c_function(L, js_config_get_str, 3 /*nargs*/);
 		duk_put_global_string(L, "config_get_str");
 
@@ -341,6 +353,41 @@ namespace xen
 		auto renderer = machine->GetRenderer();
 		renderer->SetWindowMode(static_cast<XenWindowMode>(mode));
 
+		return 0;
+	}
+
+	duk_ret_t js_renderer_set_position(duk_context *L) { 
+		float x = duk_to_number(L, 0);
+		float y = duk_to_number(L, 1);
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetPosition(x, y);
+		return 0;
+	}
+
+	duk_ret_t js_renderer_set_origin(duk_context *L) { 
+		float x = duk_to_number(L, 0);
+		float y = duk_to_number(L, 1);
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetOrigin(x, y);
+		return 0;
+	}
+	
+	duk_ret_t js_renderer_set_rotation(duk_context *L) {
+		float angle = duk_to_number(L, 0);
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetRotation(angle);
+		return 0;	
+	}
+
+	duk_ret_t js_renderer_set_scale(duk_context *L) {
+		float x = duk_to_number(L, 0);
+		float y = duk_to_number(L, 1);
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetScale(x, y);
 		return 0;
 	}
 

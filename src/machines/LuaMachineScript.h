@@ -40,6 +40,10 @@ renderer.set_background = function(hex)
 	interop.renderer_set_background(hex2)
 end
 renderer.set_window_mode = function(mode) interop.renderer_set_window_mode(mode) end
+renderer.set_position = function(x,y) interop.renderer_set_position(x,y) end
+renderer.set_origin = function(x,y) interop.renderer_set_origin(x,y) end
+renderer.set_rotation = function(angle) interop.renderer_set_rotation(angle) end
+renderer.set_scale = function(x,y) interop.renderer_set_scale(x,y) end
 
 config = {}
 config.get_str = function(a,b,c) return interop.config_get_str(a,b,c) end

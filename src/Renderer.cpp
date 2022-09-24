@@ -609,6 +609,32 @@ namespace xen
 	}
 
 
+	void DefaultRenderer::SetPosition(float x, float y)
+	{
+		m_pos_x = x;
+		m_pos_y = y;
+	}
+
+
+	void DefaultRenderer::SetOrigin(float x, float y)
+	{
+		m_origin_x = x;
+		m_origin_y = y;
+	}
+
+
+	void DefaultRenderer::SetRotation(float angle)
+	{
+		m_rotation = angle;
+	}
+
+	void DefaultRenderer::SetScale(float x, float y)
+	{
+		m_scale_x = x;
+		m_scale_y = y;
+	}
+
+
 	Batch* DefaultRenderer::find_batch(const Sprite& sprite)
 	{
 		for (Batch* batch : m_batches)

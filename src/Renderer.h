@@ -66,9 +66,7 @@ namespace xen
 			void NewFrame();
 
 			/**
-			 * Called by a machine to begin a new rendering batch. Begin should
-			 * not be called again until Present is called. Multiple Begin/Present
-			 * pairs in one draw call is counted as a batch.
+			 * Begin a new batch of graphics to draw, also resets the global transform.
 			 */
 			void Begin();
 
@@ -121,6 +119,26 @@ namespace xen
 			 * Set the window mode.
 			 */ 
 			void SetWindowMode(XenWindowMode mode);
+
+			/**
+			 * Set the global transform translation.
+			 */
+			void SetPosition(float x, float y);
+
+			/**
+			 * Set the global transform origin.
+			 */
+			void SetOrigin(float x, float y);
+
+			/**
+			 * Set the global transform rotation.
+			 */
+			void SetRotation(float angle);
+
+			/**
+			 * Set the global transform scale.
+			 */
+			void SetScale(float x, float y);
 
 
 		private:

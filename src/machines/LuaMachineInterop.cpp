@@ -260,6 +260,49 @@ namespace xen
 		return 0;
 	}
 
+	int XentuLuaMachineInterop::renderer_set_position(lua_State* L)
+	{
+		XEN_LOG("- Called renderer_set_origin\n");
+		float x = lua_tonumber(L, -2);
+		float y = lua_tonumber(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetPosition(x, y);
+		return 0;
+	}
+
+	int XentuLuaMachineInterop::renderer_set_origin(lua_State* L)
+	{
+		XEN_LOG("- Called renderer_set_origin\n");
+		float x = lua_tonumber(L, -2);
+		float y = lua_tonumber(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetOrigin(x, y);
+		return 0;
+	}
+
+	int XentuLuaMachineInterop::renderer_set_rotation(lua_State* L)
+	{
+		XEN_LOG("- Called renderer_set_rotation\n");
+		float angle = lua_tonumber(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetRotation(angle);
+		return 0;
+	}
+
+	int XentuLuaMachineInterop::renderer_set_scale(lua_State* L)
+	{
+		XEN_LOG("- Called renderer_set_scale\n");
+		float x = lua_tonumber(L, -2);
+		float y = lua_tonumber(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetScale(x, y);
+		return 0;
+	}
+
 	int XentuLuaMachineInterop::config_get_str(lua_State* L)
 	{
 		return 0;
@@ -358,6 +401,10 @@ namespace xen
 		method(XentuLuaMachineInterop, renderer_draw_textbox, renderer_draw_textbox),
 		method(XentuLuaMachineInterop, renderer_set_background, renderer_set_background),
 		method(XentuLuaMachineInterop, renderer_set_window_mode, renderer_set_window_mode),
+		method(XentuLuaMachineInterop, renderer_set_position, renderer_set_position),
+		method(XentuLuaMachineInterop, renderer_set_origin, renderer_set_origin),
+		method(XentuLuaMachineInterop, renderer_set_rotation, renderer_set_rotation),
+		method(XentuLuaMachineInterop, renderer_set_scale, renderer_set_scale),
 		method(XentuLuaMachineInterop, config_get_str, config_get_str),
 		method(XentuLuaMachineInterop, config_get_str2, config_get_str2),
 		method(XentuLuaMachineInterop, config_get_bool, config_get_bool),
