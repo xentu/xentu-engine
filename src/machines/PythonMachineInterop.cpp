@@ -218,9 +218,29 @@ namespace xen
 		return PyLong_FromLong(textbox_id);
 	}
 	
-	PyObject* xen_py_interop_renderer_begin(PyObject *self, PyObject *args) { return PyLong_FromLong(1); }
+	PyObject* xen_py_interop_renderer_begin(PyObject *self, PyObject *args)
+	{
+		auto m = PythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->Begin();
+		return PyLong_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_renderer_clear(PyObject *self, PyObject *args)
+	{
+		auto m = PythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->Clear();
+		return PyLong_FromLong(1);
+	}
 	
-	PyObject* xen_py_interop_renderer_present(PyObject *self, PyObject *args) { return PyLong_FromLong(1); }
+	PyObject* xen_py_interop_renderer_present(PyObject *self, PyObject *args)
+	{
+		auto m = PythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->Present();
+		return PyLong_FromLong(1);
+	}
 	
 	PyObject* xen_py_interop_renderer_draw_texture(PyObject *self, PyObject *args)
 	{
@@ -326,6 +346,7 @@ namespace xen
 		{"assets_load_font",				xen_py_interop_assets_load_font, METH_VARARGS, "Load a font."},
 		{"assets_create_textbox",  	xen_py_interop_assets_create_textbox, METH_VARARGS, "Create a textbox."},
 		{"renderer_begin",				xen_py_interop_renderer_begin, METH_VARARGS, "Begin a render cycle."},
+		{"renderer_clear",				xen_py_interop_renderer_clear, METH_VARARGS, "Clear the current render buffer."},
 		{"renderer_present",				xen_py_interop_renderer_present, METH_VARARGS, "Present the current render cycle."},
 		{"renderer_draw_texture",		xen_py_interop_renderer_draw_texture, METH_VARARGS, "Draw a texture."},
 		{"renderer_draw_sub_texture", xen_py_interop_renderer_draw_sub_texture, METH_VARARGS, "Draw part of a texture."},

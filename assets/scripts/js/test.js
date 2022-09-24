@@ -21,9 +21,10 @@ game.on('update', function(dt) {
 
 // handle the draw event
 game.on("draw", function(dt) {
+	renderer.clear();
 	renderer.begin();
 	renderer.draw_texture(texture0, x, 10, 100, 100);
-	//renderer.draw_sub_texture(texture0, x, 10, 100, 100, 0, 0, 20, 20);
+	//renderer.draw_sub_texture(texture0, x, 10, 100, 100, 0, 0, 50, 50);
 	renderer.draw_textbox(text0);
 	renderer.present();
 });

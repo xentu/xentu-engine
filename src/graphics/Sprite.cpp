@@ -4,7 +4,7 @@ namespace xen
 {
 	Sprite::Sprite()
 	{
-		m_texture = nullptr;
+		m_texture = NULL;
 		m_color = Vector4f(1, 1, 1, 1);
 		m_layer = 0;
 		m_rect = Rect(0, 0, 1, 1);
@@ -12,9 +12,9 @@ namespace xen
 
 
 
-	Sprite::Sprite(const Texture& texture, float width, float height, Vector4f color, int layer)
+	Sprite::Sprite(GLuint texture, float width, float height, Vector4f color, int layer)
 	{
-		m_texture = &texture;
+		m_texture = texture;
 		m_width = 0;
 		m_height = 0;
 		m_layer = layer;

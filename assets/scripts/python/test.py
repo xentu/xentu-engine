@@ -28,6 +28,7 @@ def update_callback(dt):
 def draw_callback(dt):
 	global x
 	renderer.begin()
+	renderer.clear()
 	renderer.draw_texture(texture0, x, 10, 100, 100)
 	# renderer.draw_sub_texture(texture0, x, 10, 100, 100, 0, 0, 20, 20)
 	renderer.draw_textbox(text0)

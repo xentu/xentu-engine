@@ -35,15 +35,12 @@ project_source_files = files([
   'src/machines/PythonMachine.cpp',
   'src/Machine.cpp',
 
-  # renderers
-  'src/renderers/DefaultRenderer.cpp',
-  'src/renderers/DefaultTextBox.cpp',
-  'src/Renderer.cpp',
-
   # graphics
+  'src/Renderer.cpp',
   'src/graphics/Rect.cpp',
   'src/graphics/Sprite.cpp',
   'src/graphics/SpriteMap.cpp',
+  'src/graphics/TextBox.cpp',
   'src/graphics/Texture.cpp',
   'src/graphics/Transform.cpp',
   'src/graphics/Transformable.cpp',

@@ -61,6 +61,9 @@ namespace xen
 		duk_push_c_function(L, js_renderer_begin, 0 /*nargs*/);
 		duk_put_global_string(L, "renderer_begin");
 
+		duk_push_c_function(L, js_renderer_clear, 0 /*nargs*/);
+		duk_put_global_string(L, "renderer_clear");
+
 		duk_push_c_function(L, js_renderer_present, 0 /*nargs*/);
 		duk_put_global_string(L, "renderer_present");
 
@@ -251,12 +254,23 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_begin(duk_context *L) {
-		XEN_LOG("- Called renderer_begin\n");
+		auto m = JavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->Begin();
+		return 0;
+	}
+
+	duk_ret_t js_renderer_clear(duk_context *L) {
+		auto m = JavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->Clear();
 		return 0;
 	}
 
 	duk_ret_t js_renderer_present(duk_context *L) {
-		XEN_LOG("- Called renderer_present\n");
+		auto m = JavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->Present();
 		return 0;
 	}
 	

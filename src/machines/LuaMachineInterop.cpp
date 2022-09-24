@@ -130,7 +130,7 @@ namespace xen
 			return luaL_error(L, "expecting exactly 2 arguments");
 		}
 		const std::string path = lua_tostring(L, -2);
-		XEN_LOG("- Attempting to read font %s\n", path);
+		XEN_LOG("- Attempting to read font %s\n", path.c_str());
 		auto font_size = lua_tointeger(L, -1);
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
@@ -161,12 +161,27 @@ namespace xen
 	int XentuLuaMachineInterop::renderer_begin(lua_State* L)
 	{
 		XEN_LOG("- Called renderer_begin\n");
+		auto m = LuaMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->Begin();
+		return 0;
+	}
+
+	int XentuLuaMachineInterop::renderer_clear(lua_State* L)
+	{
+		XEN_LOG("- Called renderer_clear\n");
+		auto m = LuaMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->Clear();
 		return 0;
 	}
 
 	int XentuLuaMachineInterop::renderer_present(lua_State* L)
 	{
 		XEN_LOG("- Called renderer_present\n");
+		auto m = LuaMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->Present();
 		return 0;
 	}
 
@@ -312,6 +327,7 @@ namespace xen
 		method(XentuLuaMachineInterop, assets_load_font, assets_load_font),
 		method(XentuLuaMachineInterop, assets_create_textbox, assets_create_textbox),
 		method(XentuLuaMachineInterop, renderer_begin, renderer_begin),
+		method(XentuLuaMachineInterop, renderer_clear, renderer_clear),
 		method(XentuLuaMachineInterop, renderer_present, renderer_present),
 		method(XentuLuaMachineInterop, renderer_draw_texture, renderer_draw_texture),
 		method(XentuLuaMachineInterop, renderer_draw_sub_texture, renderer_draw_sub_texture),

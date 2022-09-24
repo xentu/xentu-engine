@@ -21,6 +21,7 @@ namespace xen
 			int assets_load_font(lua_State* L);
 			int assets_create_textbox(lua_State* L);
 			int renderer_begin(lua_State* L);
+			int renderer_clear(lua_State* L);
 			int renderer_present(lua_State* L);
 			int renderer_draw_texture(lua_State* L);
 			int renderer_draw_sub_texture(lua_State* L);

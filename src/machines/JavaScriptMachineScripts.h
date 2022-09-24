@@ -26,6 +26,7 @@ namespace xen { const char * xen_js_script_init = R"(
 
 	const renderer = {}
 	renderer.begin = renderer_begin;
+	renderer.clear = renderer_clear;
 	renderer.draw_texture = renderer_draw_texture;
 	renderer.draw_sub_texture = renderer_draw_sub_texture;
 	renderer.set_background = function(hex) {

@@ -43,6 +43,7 @@ def renderer_set_background_shim(hex):
 # masquerade a new module for renderer
 renderer = XenDummyObject('renderer')
 renderer.begin = xentu.renderer_begin
+renderer.clear = xentu.renderer_clear
 renderer.present = xentu.renderer_present
 renderer.draw_texture = xentu.renderer_draw_texture
 renderer.draw_textbox = xentu.renderer_draw_textbox

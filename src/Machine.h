@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string>
 
+#include "Globals.h"
 #include "Config.h"
 #include "Renderer.h"
 
@@ -28,7 +29,7 @@ namespace xen
 			// call this to retrieve the loaded config.
 			Config* GetConfig();
 			// call this to retrieve the loaded renderer.
-			Renderer* GetRenderer();
+			DefaultRenderer* GetRenderer();
 
 		protected:
 			const size_t arg_count;
@@ -36,6 +37,6 @@ namespace xen
 
 		private:
 			Config* m_config;
-			Renderer* m_renderer;
+			DefaultRenderer* m_renderer;
 	};
 }

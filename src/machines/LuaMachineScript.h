@@ -30,6 +30,7 @@ assets.create_textbox = function(a, b, c, d) return interop.assets_create_textbo
 
 renderer = {}
 renderer.begin = function() interop.renderer_begin() end
+renderer.clear = function() interop.renderer_clear() end
 renderer.present = function() interop.renderer_present() end
 renderer.draw_texture = function(a, b, c, d, e) interop.renderer_draw_texture(a, b, c, d, e) end
 renderer.draw_sub_texture = function(a, b,c,d,e, f,g,h,i) interop.renderer_draw_sub_texture(a, b,c,d,e, f,g,h,i) end

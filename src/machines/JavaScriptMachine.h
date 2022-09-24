@@ -50,6 +50,7 @@ namespace xen
 	duk_ret_t js_assets_load_font(duk_context *L);
 	duk_ret_t js_assets_create_textbox(duk_context *L);
 	duk_ret_t js_renderer_begin(duk_context *L);
+	duk_ret_t js_renderer_clear(duk_context *L);
 	duk_ret_t js_renderer_present(duk_context *L);
 	duk_ret_t js_renderer_draw_texture(duk_context *L);
 	duk_ret_t js_renderer_draw_sub_texture(duk_context *L);

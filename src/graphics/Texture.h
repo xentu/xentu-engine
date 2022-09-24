@@ -1,5 +1,7 @@
 #pragma once
 
+#include <gl/glew.h>
+#include <iostream>
 #include <map>
 #include <string>
 
@@ -9,14 +11,14 @@ namespace xen
 	{
 	public:
 		Texture();
-		Texture(unsigned int texture, int width, int height, int channels);
+		Texture(GLuint texture, int width, int height, int mode);
 		~Texture();
 
 		void unload();
 
-		unsigned int gl_texture_id;
+		GLuint gl_texture_id;
 		int width;
 		int height;
-		int channels;
+		int mode;
 	};
 }

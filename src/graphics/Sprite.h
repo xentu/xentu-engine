@@ -11,10 +11,10 @@ namespace xen
 	struct Sprite : public Transformable
 	{
 		Sprite();
-		Sprite(const Texture& texture, float width, float height, Vector4f color, int layer = 0);
+		Sprite(GLuint texture, float width, float height, Vector4f color, int layer = 0);
 		void ResetTexCoords();
 
-		const Texture* m_texture;
+		GLuint m_texture;
 		Vector4f m_color;
 		float m_width;
 		float m_height;

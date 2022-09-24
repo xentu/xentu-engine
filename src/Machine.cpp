@@ -1,8 +1,5 @@
 #include <chrono>
 
-#include "Globals.h"
-#include "Renderer.h"
-#include "renderers/DefaultRenderer.h"
 #include "vfs/XenVirtualFileSystem.h"
 #include "vfs/XenFileSystem.h"
 #include "vfs/XenNativeFileSystem.h"
@@ -39,10 +36,9 @@ namespace xen
 			auto delta_time = std::chrono::duration<float>(now - time_start);
 			auto delta_ms = delta_time.count();
 			time_start = now;
+			m_renderer->NewFrame();
 			this->Trigger("update", delta_ms);
-			m_renderer->Prepare();
 			this->Trigger("draw", delta_ms);
-			m_renderer->Present();
 		}
 	}
 
@@ -53,7 +49,7 @@ namespace xen
 	}
 
 
-	Renderer* Machine::GetRenderer()
+	DefaultRenderer* Machine::GetRenderer()
 	{
 		return m_renderer;
 	}
