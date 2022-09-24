@@ -115,6 +115,9 @@ namespace xen
 		duk_push_c_function(L, js_textbox_set_text, 3 /*nargs*/);
 		duk_put_global_string(L, "textbox_set_text");
 
+		duk_push_c_function(L, js_textbox_set_color, 3 /*nargs*/);
+		duk_put_global_string(L, "textbox_set_color");
+
 		duk_push_c_function(L, js_keyboard_key_down, 1 /*nargs*/);
 		duk_put_global_string(L, "keyboard_key_down");
 
@@ -338,7 +341,7 @@ namespace xen
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
 
-		printf("clear_color: 0x%x, 0x%x, 0x%x (hex %s)", r, g, b, hex);
+		printf("clear_color: %i,%i,%i (hex %s)\n", r, g, b, hex);
 
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -467,6 +470,20 @@ namespace xen
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->SetTextBoxText(textbox_id, font_id, text);		
+		return 0;
+	}
+
+	duk_ret_t js_textbox_set_color(duk_context* L) {
+		XEN_LOG("- Called js_textbox_set_color\n");
+		auto textbox_id = duk_to_int(L, 0);
+		auto font_id = duk_to_int(L, 1);
+		auto hex = duk_to_string(L, 2);
+		int r, g, b;
+		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
+		printf("text_color: %i,%i,%i (hex %s)\n", r, g, b, hex);
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetTextBoxColor(textbox_id, font_id, r, g, b);
 		return 0;
 	}
 

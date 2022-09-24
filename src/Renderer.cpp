@@ -564,6 +564,14 @@ namespace xen
 		textbox->SetText(font, text);
 	}
 
+
+	void DefaultRenderer::SetTextBoxColor(int textbox_id, int font_id, int r, int g, int b)
+	{
+		auto textbox = m_textboxes[textbox_id];
+		auto font = m_fonts[font_id];
+		textbox->SetColor(font, r, g, b);
+	}
+
 	
 	DefaultRenderer::~DefaultRenderer()
 	{

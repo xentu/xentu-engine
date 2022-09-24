@@ -111,6 +111,11 @@ namespace xen
 			void SetTextBoxText(int textbox_id, int font_id, const char* text);
 
 			/**
+			 * Set the foreground color of a textbox (updates an underlying texture, can be expensive).
+			 */ 
+			void SetTextBoxColor(int textbox_id, int font_id, int r, int g, int b);
+
+			/**
 			 * Set the color used to clear the buffer.
 			 */ 
 			void SetClearColor(int r, int g, int b);

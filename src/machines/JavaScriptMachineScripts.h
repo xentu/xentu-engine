@@ -42,6 +42,9 @@ namespace xen { const char * xen_js_script_init = R"(
 
 	const textbox = {}
 	textbox.set_text = textbox_set_text;
+	textbox.set_color = function(a, b, hex) {
+		textbox_set_color(a, b, hex.replace('#', ''));
+	};
 
 	const keyboard = {}
 	keyboard.key_down = keyboard_key_down;

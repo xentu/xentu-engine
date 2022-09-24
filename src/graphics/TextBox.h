@@ -11,6 +11,9 @@ namespace xen
 {
 	class TextBox
 	{
+		private:
+			void Regenerate(TTF_Font* font);
+
 		public: 
 			/**
 			 * Create a new textbox, 
@@ -18,6 +21,7 @@ namespace xen
 			TextBox(int x, int y, int w, int h);
 			~TextBox(void);
 			void SetText(TTF_Font* font, const char* text);
+			void SetColor(TTF_Font* font, int r, int g, int b);
 
 		public:
 			bool m_text_set;

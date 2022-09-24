@@ -8,7 +8,7 @@ text0 = assets.create_textbox(10, 10, 680, 40)
 -- setup variables.
 renderer.set_background('#444444') -- set the clear color.
 textbox.set_text(text0, font0, "Hello World") -- set the text on text0.
---textbox.set_color(text0, '#ff0000')
+textbox.set_color(text0, font0, "#FFFF00") -- set the text to yellow.
 x = 0; x_speed = 2; rot = 0
 fullscreen = false
 

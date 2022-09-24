@@ -71,6 +71,7 @@ namespace xen
 	duk_ret_t js_config_get_int2(duk_context* L);
 
 	duk_ret_t js_textbox_set_text(duk_context* L);
+	duk_ret_t js_textbox_set_color(duk_context* L);
 
 	duk_ret_t js_keyboard_key_down(duk_context* L);
 	duk_ret_t js_keyboard_key_clicked(duk_context* L);

@@ -241,7 +241,7 @@ namespace xen
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
 
-		printf("clear_color: 0x%x, 0x%x, 0x%x (hex %s)", r, g, b, hex);
+		printf("clear_color: %i,%i,%i (hex %s)", r, g, b, hex);
 
 		auto machine = LuaMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -347,6 +347,25 @@ namespace xen
 		return 0;
 	}
 
+	int XentuLuaMachineInterop::textbox_set_color(lua_State* L)
+	{
+		if (lua_gettop(L) != 3) {
+			return luaL_error(L, "expecting exactly 3 arguments");
+		}
+		auto textbox_id = lua_tointeger(L, -3);
+		auto font_id = lua_tointeger(L, -2);
+		auto hex = lua_tostring(L, -1);
+
+		int rr, g, b;
+		sscanf(hex, "%02x%02x%02x", &rr, &g, &b);
+		printf("font_color: %i,%i,%i (hex %s)", rr, g, b, hex);
+
+		auto m = LuaMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->SetTextBoxColor(textbox_id, font_id, rr, g, b);
+		return 0;
+	}
+
 	int XentuLuaMachineInterop::keyboard_key_down(lua_State* L)
 	{
 		if (lua_gettop(L) != 1) {
@@ -412,6 +431,7 @@ namespace xen
 		method(XentuLuaMachineInterop, config_get_int, config_get_int),
 		method(XentuLuaMachineInterop, config_get_int2, config_get_int2),
 		method(XentuLuaMachineInterop, textbox_set_text, textbox_set_text),
+		method(XentuLuaMachineInterop, textbox_set_color, textbox_set_color),
 		method(XentuLuaMachineInterop, keyboard_key_down, keyboard_key_down),
 		method(XentuLuaMachineInterop, keyboard_key_clicked, keyboard_key_clicked),
 		{0,0}

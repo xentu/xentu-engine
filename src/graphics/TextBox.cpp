@@ -37,8 +37,13 @@ namespace xen
 
 		if (m_text == text) return;
       m_text = text;
-		
-		SDL_Surface* sur = TTF_RenderUTF8_Blended(font, text, m_color);
+		Regenerate(font);
+	}
+
+
+	void TextBox::Regenerate(TTF_Font* font)
+	{
+		SDL_Surface* sur = TTF_RenderUTF8_Blended(font, m_text.c_str(), m_color);
 		if (sur==NULL) {
 			XEN_LOG("- Failed to render text: %s", SDL_GetError());
 		}
@@ -65,5 +70,14 @@ namespace xen
  		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		SDL_FreeSurface(sur);
+	}
+
+
+	void TextBox::SetColor(TTF_Font* font, int r, int g, int b)
+	{
+		m_color.r = static_cast<unsigned char>(b);
+		m_color.g = static_cast<unsigned char>(g);
+		m_color.b = static_cast<unsigned char>(r);
+		Regenerate(font);
 	}
 }

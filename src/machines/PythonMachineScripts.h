@@ -71,7 +71,11 @@ config.get_int2 = xentu.config_get_int2
 
 
 # masquerade a new module for textbox
-textbox = XenDummyObject('textbox')
+class XenTextBoxObject(ModuleType):
+	def set_color(self, textbox_id, font_id, hex):
+		xentu.textbox_set_color(textbox_id, font_id, hex.replace('#', ''))
+
+textbox = XenTextBoxObject('textbox')
 textbox.set_text = xentu.textbox_set_text
 
 

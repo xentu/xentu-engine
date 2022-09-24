@@ -12,7 +12,7 @@ text0 = assets.create_textbox(10, 10, 680, 40)
 # setup variables.
 renderer.set_background('#444444') # set the clear color (94, 186, 125).
 textbox.set_text(text0, font0, "Hello World") # set the text on text0.
-#textbox.set_color(text0, '#ff0000')
+textbox.set_color(text0, font0, "#FFFF00") # set the text to yellow.
 x = 0
 x_speed = 2
 fullscreen = False
@@ -42,7 +42,6 @@ def draw_callback(dt):
 	rot = rot + x_speed
 	renderer.draw_texture(texture0, x + 10, 60, 100, 100)
 	renderer.begin()
-	renderer.set_position(100, 100)
 	renderer.draw_textbox(text0)
 	renderer.present()
 

@@ -55,6 +55,10 @@ config.get_int2 = function(a,b,c,d) return interop.config_get_int2(a,b,c,d) end
 
 textbox = {}
 textbox.set_text = function(a,b,c) interop.textbox_set_text(a,b,c) end
+textbox.set_color = function(a,b,hex)
+	hex2 = hex:gsub("#", "")
+	interop.textbox_set_color(a,b,hex2)
+end
 
 keyboard = {}
 keyboard.key_down = function(a) return interop.keyboard_key_down(a) end

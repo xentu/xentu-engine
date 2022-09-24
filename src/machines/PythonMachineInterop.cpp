@@ -379,6 +379,25 @@ namespace xen
 		return PyBool_FromLong(1);
 	}
 
+	PyObject* xen_py_interop_textbox_set_color(PyObject *self, PyObject *args)
+	{
+		int textbox_id, font_id;
+		char *hex;
+		if (!PyArg_ParseTuple(args, "iis", &textbox_id, &font_id, &hex)) {
+			return NULL;
+		}
+
+		int rr, g, b;
+		sscanf(hex, "%02x%02x%02x", &rr, &g, &b);
+		printf("font_color: %i,%i,%i (hex %s)", rr, g, b, hex);
+
+		auto m = PythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->SetTextBoxColor(textbox_id, font_id, rr, g, b);
+
+		return PyBool_FromLong(1);
+	}
+
 	PyObject* xen_py_interop_keyboard_key_down(PyObject *self, PyObject *args)
 	{
 		int key_code;
@@ -437,6 +456,7 @@ namespace xen
 		{"config_get_int",				xen_py_interop_config_get_int, METH_VARARGS, "Get a integer setting"},
 		{"config_get_int2",				xen_py_interop_config_get_int2, METH_VARARGS, "Get a integer sub setting"},
 		{"textbox_set_text",				xen_py_interop_textbox_set_text, METH_VARARGS, "Set text for a textbox."},
+		{"textbox_set_color",			xen_py_interop_textbox_set_color, METH_VARARGS, "Set the color for a textbox."},
 		{"keyboard_key_down",         xen_py_interop_keyboard_key_down, METH_VARARGS, "Check if a keyboard key is down."},
 		{"keyboard_key_clicked",      xen_py_interop_keyboard_key_clicked, METH_VARARGS, "Check if a keyboard key is clicked."},
 		{NULL, NULL, 0, NULL}
