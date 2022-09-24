@@ -21,6 +21,7 @@ namespace xen
 
 		m_config = config;
 		m_renderer = new DefaultRenderer(config);
+		m_input = new InputManager();
 	}
 
 
@@ -29,16 +30,25 @@ namespace xen
 		using clock = std::chrono::high_resolution_clock;
 		auto time_start = clock::now();
 		auto time_elapsed(0ns);
+		
+		bool running = true;
 
-		while (m_renderer->IsRunning()) {
+		while (running) {
 			// calculate delta.
 			auto now = clock::now();
 			auto delta_time = std::chrono::duration<float>(now - time_start);
 			auto delta_ms = delta_time.count();
 			time_start = now;
-			m_renderer->NewFrame();
-			this->Trigger("update", delta_ms);
-			this->Trigger("draw", delta_ms);
+
+			m_input->PollEvents();
+			if (m_input->IsRunning() == false || m_renderer->IsRunning() == false) {
+				running = false;
+			}
+			else {
+				m_renderer->NewFrame();
+				this->Trigger("update", delta_ms);
+				this->Trigger("draw", delta_ms);
+			}
 		}
 	}
 
@@ -53,6 +63,13 @@ namespace xen
 	{
 		return m_renderer;
 	}
+
+
+	InputManager* Machine::GetInput()
+	{
+		return m_input;
+	}
+
 
 	
 	Machine::~Machine()

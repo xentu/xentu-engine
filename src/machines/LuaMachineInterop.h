@@ -27,6 +27,7 @@ namespace xen
 			int renderer_draw_sub_texture(lua_State* L);
 			int renderer_draw_textbox(lua_State* L);
 			int renderer_set_background(lua_State* L);
+			int renderer_set_window_mode(lua_State* L);
 			int config_get_str(lua_State* L);
 			int config_get_str2(lua_State* L);
 			int config_get_bool(lua_State* L);
@@ -35,6 +36,7 @@ namespace xen
 			int config_get_int2(lua_State* L);
 			int textbox_set_text(lua_State* L);
 			int keyboard_key_down(lua_State* L);
+			int keyboard_key_clicked(lua_State* L);
 
 
 		public:

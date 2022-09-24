@@ -21,6 +21,14 @@ using namespace std;
 
 namespace xen
 {
+	enum XenWindowMode
+	{
+		Windowed = 0,
+		Fullscreen = 1,
+		FullscreenWindowed = 2
+	};
+
+
 	class DefaultRenderer
 	{
 		public:
@@ -35,7 +43,7 @@ namespace xen
 			/**
 			 * Initialize the renderer.
 			 */
-			bool InitEx(string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode);
+			bool Init(string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode);
 
 			/**
 			 * Load a texture into memory, and return it's asset id.
@@ -51,11 +59,6 @@ namespace xen
 			 * Create a textbox with specific dimensions, and return it's asset id.
 			 */
 			int CreateTextBox(int x, int y, int width, int height);
-
-			/**
-			 * Check to see if the renderers window/context is still running.
-			 */
-			bool IsRunning();
 
 			/**
 			 * Called at the beginning of each new frame.
@@ -78,6 +81,11 @@ namespace xen
 			 * Present the current draw buffer to the screen.
 			 */
 			void Present();
+
+			/**
+			 * Check if the renderer is running.
+			 */
+			bool IsRunning();
 
 			/**
 			 * Tell the underlying window/context to close.
@@ -105,14 +113,14 @@ namespace xen
 			void SetTextBoxText(int textbox_id, int font_id, const char* text);
 
 			/**
-			 * Check to see if a keyboard key is down.
-			 */
-			bool KeyDown(int key_code);
-
-			/**
 			 * Set the color used to clear the buffer.
 			 */ 
 			void SetClearColor(int r, int g, int b);
+
+			/**
+			 * Set the window mode.
+			 */ 
+			void SetWindowMode(XenWindowMode mode);
 
 
 		private:
@@ -134,7 +142,6 @@ namespace xen
 
 			/* sdl variables */
 			SDL_Window* m_window;
-			SDL_Renderer* m_renderer;
 			SDL_GLContext m_gl_context = NULL;
 
 
@@ -175,16 +182,12 @@ namespace xen
 			map<int, TextBox*> m_textboxes;
 			int m_textboxes_iter = 0;
 
-			/* keyboard event buffer */
-			SDL_Keysym m_keyboard_events[40];
-			int m_keyboard_events_iter = 0;
-
 			/* screen/viewport variables */
 			Batch* view_batch;
 			glm::mat4 view_proj;
 			glm::mat4 screen_proj;
 
 			/* flags */
-			bool m_exiting = false;
+			bool m_running;
 	};
 }

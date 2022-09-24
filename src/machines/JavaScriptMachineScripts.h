@@ -32,6 +32,7 @@ namespace xen { const char * xen_js_script_init = R"(
 	renderer.set_background = function(hex) {
 		renderer_set_background(hex.replace('#', ''));
 	};
+	renderer.set_window_mode = renderer_set_window_mode;
 	renderer.present = renderer_present;
 	renderer.draw_textbox = renderer_draw_textbox;
 
@@ -40,6 +41,7 @@ namespace xen { const char * xen_js_script_init = R"(
 
 	const keyboard = {}
 	keyboard.key_down = keyboard_key_down;
+	keyboard.key_clicked = keyboard_key_clicked;
 
 	const geometry = {
 		create_rect: function(x, y, w, h) {

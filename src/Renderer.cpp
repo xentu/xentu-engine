@@ -14,6 +14,9 @@
 
 namespace xen
 {
+	#pragma region Default Shader Test
+
+
 	const char * xen_gl_default_vertex_shader = 
 	R"(#version 330
 		in vec3 i_position;
@@ -44,6 +47,9 @@ namespace xen
 			frag_colour = texColor * v_Color;
 		}
 	)";
+
+
+	#pragma endregion
 
 
 	#pragma region Static Utility Methods
@@ -136,7 +142,8 @@ namespace xen
 		m_scale_y(1),
 		m_ibo(-1),
 		m_vbo(-1),
-		m_sprite()
+		m_sprite(),
+		m_running(true)
 	{
 		TTF_Init();
 		XEN_LOG("- Created DefaultRenderer.\n");
@@ -148,7 +155,7 @@ namespace xen
 
 	bool DefaultRenderer::Init()
 	{
-		return InitEx(
+		return Init(
 			m_config->title,
 			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 			m_config->window.width,
@@ -160,7 +167,7 @@ namespace xen
 	}
 
 
-	bool DefaultRenderer::InitEx(std::string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode)
+	bool DefaultRenderer::Init(std::string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode)
 	{
 		Uint32 render_flags = SDL_RENDERER_ACCELERATED;
 
@@ -344,42 +351,13 @@ namespace xen
 
 	bool DefaultRenderer::IsRunning()
 	{
-		bool running = true;
-		SDL_Event event;
-
-		m_keyboard_events_iter = 0;
-		
-		// Events management
-		while (SDL_PollEvent(&event)) {
-			switch (event.type) {
-				case SDL_QUIT:
-					// handling of close button
-					running = false;
-					break;
-				case SDL_KEYDOWN:
-					m_keyboard_events[m_keyboard_events_iter] = event.key.keysym;
-					m_keyboard_events_iter++;
-					break;
-      	}
-		}
-
-		return running && !m_exiting;
+		return m_running;
 	}
 
 
 	void DefaultRenderer::Exit()
 	{
-		m_exiting = true;
-	}
-
-
-	bool DefaultRenderer::KeyDown(int key_code)
-	{
-		for (int i=0; i<m_keyboard_events_iter; i++) {
-			auto evt = m_keyboard_events[i];
-			if (evt.scancode == key_code) return true;
-		}
-		return false;
+		m_running = false;
 	}
 
 
@@ -611,9 +589,23 @@ namespace xen
 
 	void DefaultRenderer::SetClearColor(int r, int g, int b)
 	{
-		clear_color_r = static_cast<GLclampf>(r);
-		clear_color_g = static_cast<GLclampf>(g);
-		clear_color_b = static_cast<GLclampf>(b);
+		clear_color_r = static_cast<GLclampf>(r) / 255.0f;
+		clear_color_g = static_cast<GLclampf>(g) / 255.0f;
+		clear_color_b = static_cast<GLclampf>(b) / 255.0f;
+	}
+
+
+	void DefaultRenderer::SetWindowMode(XenWindowMode mode)
+	{
+		int gl_mode = 0;
+		if (mode == XenWindowMode::Fullscreen) {
+			gl_mode = SDL_WINDOW_FULLSCREEN;
+		}
+		else if (mode == XenWindowMode::FullscreenWindowed) {
+			gl_mode = SDL_WINDOW_FULLSCREEN_DESKTOP;
+		}
+
+		SDL_SetWindowFullscreen(m_window, gl_mode);
 	}
 
 

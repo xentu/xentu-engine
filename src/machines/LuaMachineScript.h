@@ -39,6 +39,7 @@ renderer.set_background = function(hex)
 	hex2 = hex:gsub("#", "")
 	interop.renderer_set_background(hex2)
 end
+renderer.set_window_mode = function(mode) interop.renderer_set_window_mode(mode) end
 
 config = {}
 config.get_str = function(a,b,c) return interop.config_get_str(a,b,c) end
@@ -53,6 +54,7 @@ textbox.set_text = function(a,b,c) interop.textbox_set_text(a,b,c) end
 
 keyboard = {}
 keyboard.key_down = function(a) return interop.keyboard_key_down(a) end
+keyboard.key_clicked = function(a) return interop.keyboard_key_clicked(a) end
 
 game.create_window()
 

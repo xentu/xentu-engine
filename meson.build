@@ -47,6 +47,9 @@ project_source_files = files([
   'src/graphics/Vertex.cpp',
   'src/graphics/Viewport.cpp',
 
+  #input
+  'src/InputManager.cpp',
+
   # other
   'src/Globals.cpp',
   'src/Config.cpp',

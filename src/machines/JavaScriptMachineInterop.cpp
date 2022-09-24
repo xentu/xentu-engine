@@ -79,6 +79,9 @@ namespace xen
 		duk_push_c_function(L, js_renderer_set_background, 1 /*nargs*/);
 		duk_put_global_string(L, "renderer_set_background");
 
+		duk_push_c_function(L, js_renderer_set_window_mode, 1 /*nargs*/);
+		duk_put_global_string(L, "renderer_set_window_mode");
+
 		duk_push_c_function(L, js_config_get_str, 3 /*nargs*/);
 		duk_put_global_string(L, "config_get_str");
 
@@ -102,6 +105,9 @@ namespace xen
 
 		duk_push_c_function(L, js_keyboard_key_down, 1 /*nargs*/);
 		duk_put_global_string(L, "keyboard_key_down");
+
+		duk_push_c_function(L, js_keyboard_key_clicked, 1 /*nargs*/);
+		duk_put_global_string(L, "keyboard_key_clicked");
 	}
 
 
@@ -329,6 +335,15 @@ namespace xen
 		return 0;
 	}
 
+	duk_ret_t js_renderer_set_window_mode(duk_context *L) {
+		int mode = duk_to_int(L, 0);
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetWindowMode(static_cast<XenWindowMode>(mode));
+
+		return 0;
+	}
+
 	duk_ret_t js_config_get_str(duk_context* L) {
 		auto machine = JavaScriptMachine::GetInstance();
 		auto config = machine->GetConfig();
@@ -411,8 +426,18 @@ namespace xen
 	duk_ret_t js_keyboard_key_down(duk_context* L) {
 		auto key_code = duk_to_int(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
-		auto r = m->GetRenderer();
-		bool down = r->KeyDown(key_code);
+		auto i = m->GetInput();
+		bool down = i->KeyDown(key_code);
+		duk_push_boolean(L, down);
+		return 1;
+	}
+
+
+	duk_ret_t js_keyboard_key_clicked(duk_context* L) {
+		auto key_code = duk_to_int(L, 0);
+		auto m = JavaScriptMachine::GetInstance();
+		auto i = m->GetInput();
+		bool down = i->KeyUp(key_code);
 		duk_push_boolean(L, down);
 		return 1;
 	}

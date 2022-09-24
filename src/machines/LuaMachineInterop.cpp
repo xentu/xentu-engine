@@ -237,6 +237,7 @@ namespace xen
 	{
 		XEN_LOG("- Called renderer_set_background\n");
 		auto hex = lua_tostring(L, -1);
+
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
 
@@ -246,6 +247,16 @@ namespace xen
 		auto renderer = machine->GetRenderer();
 		renderer->SetClearColor(r, g, b);
 
+		return 0;
+	}
+
+	int XentuLuaMachineInterop::renderer_set_window_mode(lua_State* L)
+	{
+		XEN_LOG("- Called renderer_set_window_mode\n");
+		int mode = lua_tointeger(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetWindowMode(static_cast<XenWindowMode>(mode));
 		return 0;
 	}
 
@@ -300,8 +311,21 @@ namespace xen
 		}
 		auto key_code = lua_tointeger(L, -1);
 		auto m = LuaMachine::GetInstance();
-		auto r = m->GetRenderer();
-		bool down = r->KeyDown(key_code);
+		auto i = m->GetInput();
+		bool down = i->KeyDown(key_code);
+		lua_pushboolean(L, down);
+		return 1;
+	}
+
+	int XentuLuaMachineInterop::keyboard_key_clicked(lua_State* L)
+	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
+		auto key_code = lua_tointeger(L, -1);
+		auto m = LuaMachine::GetInstance();
+		auto i = m->GetInput();
+		bool down = i->KeyUp(key_code);
 		lua_pushboolean(L, down);
 		return 1;
 	}
@@ -333,6 +357,7 @@ namespace xen
 		method(XentuLuaMachineInterop, renderer_draw_sub_texture, renderer_draw_sub_texture),
 		method(XentuLuaMachineInterop, renderer_draw_textbox, renderer_draw_textbox),
 		method(XentuLuaMachineInterop, renderer_set_background, renderer_set_background),
+		method(XentuLuaMachineInterop, renderer_set_window_mode, renderer_set_window_mode),
 		method(XentuLuaMachineInterop, config_get_str, config_get_str),
 		method(XentuLuaMachineInterop, config_get_str2, config_get_str2),
 		method(XentuLuaMachineInterop, config_get_bool, config_get_bool),
@@ -341,6 +366,7 @@ namespace xen
 		method(XentuLuaMachineInterop, config_get_int2, config_get_int2),
 		method(XentuLuaMachineInterop, textbox_set_text, textbox_set_text),
 		method(XentuLuaMachineInterop, keyboard_key_down, keyboard_key_down),
+		method(XentuLuaMachineInterop, keyboard_key_clicked, keyboard_key_clicked),
 		{0,0}
 	};
 }

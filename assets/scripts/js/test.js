@@ -9,6 +9,7 @@ const text0 = assets.create_textbox(10, 10, 680, 40);
 renderer.set_background('#00FFFF'); // set the clear color.
 textbox.set_text(text0, font0, "Hello World"); // set the text on text0.
 var x = 0, x_speed = 2;
+var fullscreen = false;
 
 // handle the update event.
 game.on('update', function(dt) {
@@ -16,7 +17,13 @@ game.on('update', function(dt) {
 	if (x_speed > 0 && x + 5 > 390) x_speed = -2;
 	if (x_speed < 0 && x - 5 < 10) x_speed = 2;
 	x += x_speed;
-	if (keyboard.key_down(KB_ESCAPE)) game.exit();
+
+	if (keyboard.key_clicked(KB_ESCAPE)) game.exit();
+	if (keyboard.key_clicked(KB_F)) {
+		fullscreen = !fullscreen;
+		renderer.set_window_mode(fullscreen ? 1 : 0);
+		print(fullscreen ? "window_mode: fullscreen" : "window_mode: window");
+	}
 });
 
 // handle the draw event

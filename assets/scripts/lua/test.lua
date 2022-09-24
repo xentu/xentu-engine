@@ -6,9 +6,10 @@ font0 = assets.load_font("/fonts/Roboto-Regular.ttf", 20)
 text0 = assets.create_textbox(10, 10, 680, 40)
 
 -- setup variables.
-renderer.set_background('#000000') -- set the clear color.
+renderer.set_background('#00FFFF') -- set the clear color.
 textbox.set_text(text0, font0, "Hello World") -- set the text on text0.
 x = 0; x_speed = 2
+fullscreen = false
 
 -- handle the update event.
 game.on("update", function(dt)
@@ -16,7 +17,12 @@ game.on("update", function(dt)
 	if x_speed > 0 and x + 5 > 390 then x_speed = -2 end
 	if x_speed < 0 and x - 5 < 10 then x_speed = 2 end
 	x = x + x_speed
-	if keyboard.key_down(KB_ESCAPE) then game.exit() end
+	if keyboard.key_clicked(KB_ESCAPE) then game.exit() end
+	if keyboard.key_clicked(KB_F) then
+		fullscreen = not fullscreen
+		renderer.set_window_mode(fullscreen and 1 or 0)
+		print(fullscreen and "window_mode: fullscreen" or "window_mode: window")
+	end
 end)
 
 -- handle the draw event

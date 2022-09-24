@@ -284,10 +284,23 @@ namespace xen
 
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
-		printf("clear_color: 0x%x, 0x%x, 0x%x (hex %s)\n", r, g, b, hex);
+		printf("clear_color: %i,%i,%i (hex %s)\n", r, g, b, hex);
 		auto machine = PythonMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
 		renderer->SetClearColor(r, g, b);
+
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_renderer_set_window_mode(PyObject *self, PyObject *args)
+	{
+		int mode;
+		if (!PyArg_ParseTuple(args, "i", &mode)) {
+			return NULL;
+		}
+		auto m = PythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->SetWindowMode(static_cast<XenWindowMode>(mode));
 
 		return PyBool_FromLong(1);
 	}
@@ -325,8 +338,20 @@ namespace xen
 			return NULL;
 		}
 		auto m = PythonMachine::GetInstance();
-		auto r = m->GetRenderer();
-		bool down = r->KeyDown(key_code);
+		auto i = m->GetInput();
+		bool down = i->KeyDown(key_code);
+		return PyBool_FromLong(down);
+	}
+
+	PyObject* xen_py_interop_keyboard_key_clicked(PyObject *self, PyObject *args)
+	{
+		int key_code;
+		if (!PyArg_ParseTuple(args, "i", &key_code)) {
+			return NULL;
+		}
+		auto m = PythonMachine::GetInstance();
+		auto i = m->GetInput();
+		bool down = i->KeyUp(key_code);
 		return PyBool_FromLong(down);
 	}
 
@@ -352,6 +377,7 @@ namespace xen
 		{"renderer_draw_sub_texture", xen_py_interop_renderer_draw_sub_texture, METH_VARARGS, "Draw part of a texture."},
 		{"renderer_draw_textbox",		xen_py_interop_renderer_draw_textbox, METH_VARARGS, "Draw a textbox."},
 		{"renderer_set_background", 	xen_py_interop_renderer_set_background, METH_VARARGS, "Set the background color."},
+		{"renderer_set_window_mode", 	xen_py_interop_renderer_set_window_mode, METH_VARARGS, "Set the window mode (fullscreen, windowed etc..)."},
 		{"config_get_str",				xen_py_interop_config_get_str, METH_VARARGS, "Get a string setting"},
 		{"config_get_str2",				xen_py_interop_config_get_str2, METH_VARARGS, "Get a string sub setting"},
 		{"config_get_bool",				xen_py_interop_config_get_bool, METH_VARARGS, "Get a boolean setting"},
@@ -360,6 +386,7 @@ namespace xen
 		{"config_get_int2",				xen_py_interop_config_get_int2, METH_VARARGS, "Get a integer sub setting"},
 		{"textbox_set_text",				xen_py_interop_textbox_set_text, METH_VARARGS, "Set text for a textbox."},
 		{"keyboard_key_down",         xen_py_interop_keyboard_key_down, METH_VARARGS, "Check if a keyboard key is down."},
+		{"keyboard_key_clicked",      xen_py_interop_keyboard_key_clicked, METH_VARARGS, "Check if a keyboard key is clicked."},
 		{NULL, NULL, 0, NULL}
 	};
 

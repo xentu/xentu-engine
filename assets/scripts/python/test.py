@@ -1,4 +1,4 @@
-import game, assets, const, renderer, textbox, keyboard
+import game, assets, const, renderer, textbox, keyboard, operator
 
 print("Hello from python!\n")
 
@@ -10,10 +10,11 @@ font0 = assets.load_font("/fonts/Roboto-Regular.ttf", 20)
 text0 = assets.create_textbox(10, 10, 680, 40)
 
 # setup variables.
-renderer.set_background('#000000') # set the clear color.
+renderer.set_background('#5eba7d') # set the clear color (94, 186, 125).
 textbox.set_text(text0, font0, "Hello World") # set the text on text0.
 x = 0
 x_speed = 2
+fullscreen = False
 
 # handle the update event.
 def update_callback(dt):
@@ -22,7 +23,12 @@ def update_callback(dt):
 	if (x_speed > 0 and x + 2 > 390): x_speed = -2
 	if (x_speed < 0 and x - 2 < 10):	x_speed = 2
 	x += x_speed
-	if (keyboard.key_down(const.KB_ESCAPE)): game.exit()
+	if (keyboard.key_clicked(const.KB_ESCAPE)): game.exit()
+	if (keyboard.key_clicked(const.KB_F)):
+		global fullscreen
+		fullscreen = not fullscreen
+		renderer.set_window_mode(fullscreen if 1 else 0)
+		print(fullscreen if "window_mode: fullscreen" else "window_mode: window")
 
 #handle the draw event
 def draw_callback(dt):

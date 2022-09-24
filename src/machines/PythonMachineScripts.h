@@ -41,14 +41,19 @@ def renderer_set_background_shim(hex):
 
 
 # masquerade a new module for renderer
-renderer = XenDummyObject('renderer')
+
+class XenRendererObject(ModuleType):
+	def set_background(self, hex):
+		xentu.renderer_set_background(hex.replace('#', ''))
+
+renderer = XenRendererObject('renderer')
 renderer.begin = xentu.renderer_begin
 renderer.clear = xentu.renderer_clear
 renderer.present = xentu.renderer_present
 renderer.draw_texture = xentu.renderer_draw_texture
 renderer.draw_textbox = xentu.renderer_draw_textbox
 renderer.draw_sub_texture = xentu.renderer_draw_sub_texture
-renderer.set_background = renderer_set_background_shim
+renderer.set_window_mode = xentu.renderer_set_window_mode
 
 
 # masquerade a new module for config
@@ -69,6 +74,7 @@ textbox.set_text = xentu.textbox_set_text
 # masquerade a new module for keyboard
 keyboard = XenDummyObject('key_down')
 keyboard.key_down = xentu.keyboard_key_down
+keyboard.key_clicked = xentu.keyboard_key_clicked
 
 
 # masquerade a new module for const

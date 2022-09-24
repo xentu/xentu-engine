@@ -6,6 +6,7 @@
 #include "Globals.h"
 #include "Config.h"
 #include "Renderer.h"
+#include "InputManager.h"
 
 namespace xen
 {
@@ -30,6 +31,8 @@ namespace xen
 			Config* GetConfig();
 			// call this to retrieve the loaded renderer.
 			DefaultRenderer* GetRenderer();
+			// call this to retrieve the keyboard manager.
+			InputManager* GetInput();
 
 		protected:
 			const size_t arg_count;
@@ -38,5 +41,6 @@ namespace xen
 		private:
 			Config* m_config;
 			DefaultRenderer* m_renderer;
+			InputManager* m_input;
 	};
 }
