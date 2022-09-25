@@ -115,7 +115,7 @@ namespace xen
 		}
 		auto path = lua_tostring(L, -1);
 		auto m = LuaMachine::GetInstance();
-		auto r = m->GetRenderer();
+		auto r = AssetManager::GetInstance();
 		auto res = vfs_get_global()->ReadAllData(path);
 		XEN_LOG("- Bytes read: %s\n", std::to_string(res.length).c_str());
 		int texture_id = r->LoadTexture(res.buffer, res.length);
@@ -133,7 +133,7 @@ namespace xen
 		XEN_LOG("- Attempting to read font %s\n", path.c_str());
 		auto font_size = lua_tointeger(L, -1);
 		auto m = LuaMachine::GetInstance();
-		auto r = m->GetRenderer();
+		auto r = AssetManager::GetInstance();
 		auto res = vfs_get_global()->ReadAllData(path);
 		XEN_LOG("- Bytes read: %s\n", std::to_string(res.length).c_str());
 		int font_id = r->LoadFont(res.buffer, res.length, font_size);
@@ -152,7 +152,7 @@ namespace xen
 		auto w = lua_tointeger(L, -2);
 		auto h = lua_tointeger(L, -1);
 		auto m = LuaMachine::GetInstance();
-		auto r = m->GetRenderer();
+		auto r = AssetManager::GetInstance();
 		int textbox_id = r->CreateTextBox(x, y, w, h);
 		lua_pushinteger(L, textbox_id);
 		return 1;
@@ -223,6 +223,22 @@ namespace xen
 		return 0;
 	}
 
+	int XentuLuaMachineInterop::renderer_draw_rectangle(lua_State* L)
+	{
+		XEN_LOG("- Called renderer_draw_rectangle\n");
+		if (lua_gettop(L) != 4) {
+			return luaL_error(L, "expecting exactly 4 arguments");
+		}
+		int x = lua_tointeger(L, -4);
+		int y = lua_tointeger(L, -3);
+		int w = lua_tointeger(L, -2);
+		int h = lua_tointeger(L, -1);
+		auto m = LuaMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->DrawRectangle(x, y, w, h);
+		return 0;
+	}
+
 	int XentuLuaMachineInterop::renderer_draw_textbox(lua_State* L)
 	{
 		XEN_LOG("- Called renderer_draw_texbox\n");
@@ -241,12 +257,24 @@ namespace xen
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
 
-		printf("clear_color: %i,%i,%i (hex %s)", r, g, b, hex);
+		printf("clear_color: %i,%i,%i (hex %s)\n", r, g, b, hex);
 
 		auto machine = LuaMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
 		renderer->SetClearColor(r, g, b);
 
+		return 0;
+	}
+
+	int XentuLuaMachineInterop::renderer_set_foreground(lua_State* L)
+	{
+		XEN_LOG("- Called renderer_set_foreground\n");
+		auto hex = lua_tostring(L, -1);
+		int r, g, b;
+		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetForegroundColor(r, g, b);
 		return 0;
 	}
 
@@ -358,7 +386,7 @@ namespace xen
 
 		int rr, g, b;
 		sscanf(hex, "%02x%02x%02x", &rr, &g, &b);
-		printf("font_color: %i,%i,%i (hex %s)", rr, g, b, hex);
+		printf("font_color: %i,%i,%i (hex %s)\n", rr, g, b, hex);
 
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
@@ -417,8 +445,10 @@ namespace xen
 		method(XentuLuaMachineInterop, renderer_present, renderer_present),
 		method(XentuLuaMachineInterop, renderer_draw_texture, renderer_draw_texture),
 		method(XentuLuaMachineInterop, renderer_draw_sub_texture, renderer_draw_sub_texture),
+		method(XentuLuaMachineInterop, renderer_draw_rectangle, renderer_draw_rectangle),
 		method(XentuLuaMachineInterop, renderer_draw_textbox, renderer_draw_textbox),
 		method(XentuLuaMachineInterop, renderer_set_background, renderer_set_background),
+		method(XentuLuaMachineInterop, renderer_set_foreground, renderer_set_foreground),
 		method(XentuLuaMachineInterop, renderer_set_window_mode, renderer_set_window_mode),
 		method(XentuLuaMachineInterop, renderer_set_position, renderer_set_position),
 		method(XentuLuaMachineInterop, renderer_set_origin, renderer_set_origin),

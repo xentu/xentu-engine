@@ -29,8 +29,12 @@ namespace xen { const char * xen_js_script_init = R"(
 	renderer.clear = renderer_clear;
 	renderer.draw_texture = renderer_draw_texture;
 	renderer.draw_sub_texture = renderer_draw_sub_texture;
+	renderer.draw_rectangle = renderer_draw_rectangle;
 	renderer.set_background = function(hex) {
 		renderer_set_background(hex.replace('#', ''));
+	};
+	renderer.set_foreground = function(hex) {
+		renderer_set_foreground(hex.replace('#', ''));
 	};
 	renderer.set_window_mode = renderer_set_window_mode;
 	renderer.present = renderer_present;

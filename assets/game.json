@@ -1,8 +1,8 @@
 {
 	"game": {
 		"title": "Hello World",
-		"language": "python",
-		"entry_point": "/scripts/python/test.py",
+		"language": "javascript",
+		"entry_point": "/scripts/js/test.js",
 		"v_sync": true,
 		"fullscreen": false,
 		"update_frequency": 60,

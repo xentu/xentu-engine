@@ -45,6 +45,8 @@ def renderer_set_background_shim(hex):
 class XenRendererObject(ModuleType):
 	def set_background(self, hex):
 		xentu.renderer_set_background(hex.replace('#', ''))
+	def set_foreground(self, hex):
+		xentu.renderer_set_foreground(hex.replace('#', ''))
 
 renderer = XenRendererObject('renderer')
 renderer.begin = xentu.renderer_begin
@@ -53,6 +55,7 @@ renderer.present = xentu.renderer_present
 renderer.draw_texture = xentu.renderer_draw_texture
 renderer.draw_textbox = xentu.renderer_draw_textbox
 renderer.draw_sub_texture = xentu.renderer_draw_sub_texture
+renderer.draw_rectangle = xentu.renderer_draw_rectangle
 renderer.set_window_mode = xentu.renderer_set_window_mode
 renderer.set_position = xentu.renderer_set_position
 renderer.set_origin = xentu.renderer_set_origin

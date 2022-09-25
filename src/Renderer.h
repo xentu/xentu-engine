@@ -1,8 +1,5 @@
 #pragma once
 
-#define MAX_WINDOW_COUNT 1
-#define AUTO_FREE 1
-
 #include <string>
 #include <map>
 #include <SDL.h>
@@ -14,6 +11,7 @@
 #include <lib/glm/glm.hpp>
 
 #include "graphics/TextBox.h"
+#include "graphics/Texture.h"
 #include "graphics/Batch.h"
 #include "graphics/Viewport.h"
 
@@ -29,11 +27,11 @@ namespace xen
 	};
 
 
-	class DefaultRenderer
+	class Renderer
 	{
 		public:
-			DefaultRenderer(const Config* config);
-			~DefaultRenderer();
+			Renderer(const Config* config);
+			~Renderer();
 
 			/**
 			 * Initialize the renderer with default title size, position and mode.
@@ -44,21 +42,6 @@ namespace xen
 			 * Initialize the renderer.
 			 */
 			bool Init(string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode);
-
-			/**
-			 * Load a texture into memory, and return it's asset id.
-			 */
-			int LoadTexture(uint8_t* buffer, uint64_t length);
-
-			/**
-			 * Load a ttf font into memory, and return it's asset id.
-			 */
-			int LoadFont(uint8_t* buffer, uint64_t length, int font_size);
-
-			/**
-			 * Create a textbox with specific dimensions, and return it's asset id.
-			 */
-			int CreateTextBox(int x, int y, int width, int height);
 
 			/**
 			 * Called at the beginning of each new frame.
@@ -101,6 +84,11 @@ namespace xen
 			void DrawSubTexture(int texture_id, int x, int y, int w, int h, int sx, int sy, int sw, int sh);
 
 			/**
+			 * Draw a rectangle.
+			 */
+			void DrawRectangle(int x, int y, int width, int height);
+
+			/**
 			 * Draw a textbox onto the current buffer.
 			 */
 			void DrawTextBox(int textbox_id);
@@ -119,6 +107,11 @@ namespace xen
 			 * Set the color used to clear the buffer.
 			 */ 
 			void SetClearColor(int r, int g, int b);
+
+			/**
+			 * Set the color used to clear the buffer.
+			 */ 
+			void SetForegroundColor(int r, int g, int b);
 
 			/**
 			 * Set the window mode.
@@ -192,18 +185,6 @@ namespace xen
 			unsigned int m_shader;
 			unsigned int m_shader_transform_loc;
 			unsigned int m_shader_tex_loc;
-
-			/* textures */
-			map<int, Texture*> m_textures;
-			int m_textures_iter = 0;
-
-			/* fonts */
-			map<int, TTF_Font*> m_fonts;
-			int m_fonts_iter = 0;
-
-			/* textboxes */
-			map<int, TextBox*> m_textboxes;
-			int m_textboxes_iter = 0;
 
 			/* screen/viewport variables */
 			Batch* view_batch;

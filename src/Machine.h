@@ -6,7 +6,8 @@
 #include "Globals.h"
 #include "Config.h"
 #include "Renderer.h"
-#include "InputManager.h"
+#include "assets/AssetManager.h"
+#include "input/InputManager.h"
 
 namespace xen
 {
@@ -30,7 +31,7 @@ namespace xen
 			// call this to retrieve the loaded config.
 			Config* GetConfig();
 			// call this to retrieve the loaded renderer.
-			DefaultRenderer* GetRenderer();
+			Renderer* GetRenderer();
 			// call this to retrieve the keyboard manager.
 			InputManager* GetInput();
 
@@ -40,7 +41,8 @@ namespace xen
 
 		private:
 			Config* m_config;
-			DefaultRenderer* m_renderer;
+			AssetManager* m_assets;
+			Renderer* m_renderer;
 			InputManager* m_input;
 	};
 }

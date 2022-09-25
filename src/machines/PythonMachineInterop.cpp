@@ -184,7 +184,7 @@ namespace xen
 			return NULL;
 		}
 		auto m = PythonMachine::GetInstance();
-		auto r = m->GetRenderer();
+		auto r = AssetManager::GetInstance();
 		xen::VfsBufferResult res = vfs_get_global()->ReadAllData(s);
 		printf("Bytes read: %s\n", std::to_string(res.length).c_str());
 		int texture_id = r->LoadTexture(res.buffer, res.length);
@@ -200,7 +200,7 @@ namespace xen
 			return NULL;
 		}
 		auto m = PythonMachine::GetInstance();
-		auto r = m->GetRenderer();
+		auto r = AssetManager::GetInstance();
 		xen::VfsBufferResult res = vfs_get_global()->ReadAllData(s);
 		printf("Bytes read: %s\n", std::to_string(res.length).c_str());
 		int font_id = r->LoadFont(res.buffer, res.length, font_size);
@@ -213,7 +213,7 @@ namespace xen
 		int x,y,w,h;
 		if (!PyArg_ParseTuple(args, "iiii", &x, &y, &w, &h)) return NULL;
 		auto m = PythonMachine::GetInstance();
-		auto r = m->GetRenderer();
+		auto r = AssetManager::GetInstance();
 		int textbox_id = r->CreateTextBox(x, y, w, h);
 		return PyLong_FromLong(textbox_id);
 	}
@@ -264,6 +264,17 @@ namespace xen
 		return PyBool_FromLong(1);
 	}
 
+	PyObject* xen_py_interop_renderer_draw_rectangle(PyObject *self, PyObject *args)
+	{
+		PyObject* rect;
+		int x, y, w, h;
+		if (!PyArg_ParseTuple(args, "iiii", &x, &y, &w, &h)) return NULL;
+		PythonMachine* m = PythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->DrawRectangle(x, y, w, h);
+		return PyBool_FromLong(1);
+	}
+
 	PyObject* xen_py_interop_renderer_draw_textbox(PyObject *self, PyObject *args)
 	{
 		PyObject* rect;
@@ -281,13 +292,27 @@ namespace xen
 		if (!PyArg_ParseTuple(args, "s", &hex)) {
 			return NULL;
 		}
-
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
 		printf("clear_color: %i,%i,%i (hex %s)\n", r, g, b, hex);
 		auto machine = PythonMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
 		renderer->SetClearColor(r, g, b);
+
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_renderer_set_foreground(PyObject *self, PyObject *args)
+	{
+		char *hex;
+		if (!PyArg_ParseTuple(args, "s", &hex)) {
+			return NULL;
+		}
+		int r, g, b;
+		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
+		auto machine = PythonMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetForegroundColor(r, g, b);
 
 		return PyBool_FromLong(1);
 	}
@@ -442,8 +467,10 @@ namespace xen
 		{"renderer_present",				xen_py_interop_renderer_present, METH_VARARGS, "Present the current render cycle."},
 		{"renderer_draw_texture",		xen_py_interop_renderer_draw_texture, METH_VARARGS, "Draw a texture."},
 		{"renderer_draw_sub_texture", xen_py_interop_renderer_draw_sub_texture, METH_VARARGS, "Draw part of a texture."},
+		{"renderer_draw_rectangle",   xen_py_interop_renderer_draw_rectangle, METH_VARARGS, "Draw a rectangle."},
 		{"renderer_draw_textbox",		xen_py_interop_renderer_draw_textbox, METH_VARARGS, "Draw a textbox."},
 		{"renderer_set_background", 	xen_py_interop_renderer_set_background, METH_VARARGS, "Set the background color."},
+		{"renderer_set_foreground", 	xen_py_interop_renderer_set_foreground, METH_VARARGS, "Set the foreground color."},
 		{"renderer_set_window_mode", 	xen_py_interop_renderer_set_window_mode, METH_VARARGS, "Set the window mode (fullscreen, windowed etc..)."},
 		{"renderer_set_position", 		xen_py_interop_renderer_set_position, METH_VARARGS, "Set the current transform position (translation)."},
 		{"renderer_set_origin",			xen_py_interop_renderer_set_origin, METH_VARARGS, "Set the current transform origin."},

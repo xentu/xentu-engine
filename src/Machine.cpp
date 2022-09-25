@@ -20,7 +20,7 @@ namespace xen
 		}
 
 		m_config = config;
-		m_renderer = new DefaultRenderer(config);
+		m_renderer = new Renderer(config);
 		m_input = new InputManager();
 	}
 
@@ -59,7 +59,7 @@ namespace xen
 	}
 
 
-	DefaultRenderer* Machine::GetRenderer()
+	Renderer* Machine::GetRenderer()
 	{
 		return m_renderer;
 	}

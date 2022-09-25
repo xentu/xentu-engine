@@ -7,6 +7,8 @@ const text0 = assets.create_textbox(10, 10, 680, 40);
 
 // setup variables.
 renderer.set_background('#444444'); // set the clear color.
+renderer.set_foreground("#00FFFF");
+
 textbox.set_text(text0, font0, "Hello World"); // set the text on text0.
 textbox.set_color(text0, font0, "#FFFF00"); // set the text to yellow.
 var x = 0, x_speed = 2, rot = 0;
@@ -29,11 +31,11 @@ game.on('update', function(dt) {
 
 // handle the draw event
 game.on("draw", function(dt) {
+	rot += x_speed;
 	renderer.clear();
 	renderer.begin();
 	renderer.set_origin(50, 50);
 	renderer.set_rotation(rot);
-	rot += x_speed;
 	renderer.draw_texture(texture0, x + 50, 60, 100, 100);
 	renderer.begin();
 	renderer.draw_textbox(text0);

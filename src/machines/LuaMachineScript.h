@@ -34,10 +34,15 @@ renderer.clear = function() interop.renderer_clear() end
 renderer.present = function() interop.renderer_present() end
 renderer.draw_texture = function(a, b, c, d, e) interop.renderer_draw_texture(a, b, c, d, e) end
 renderer.draw_sub_texture = function(a, b,c,d,e, f,g,h,i) interop.renderer_draw_sub_texture(a, b,c,d,e, f,g,h,i) end
+renderer.draw_rectangle = function(a,b,c,d) interop.renderer_draw_rectangle(a,b,c,d) end
 renderer.draw_textbox = function(a) interop.renderer_draw_textbox(a) end
 renderer.set_background = function(hex)
 	hex2 = hex:gsub("#", "")
 	interop.renderer_set_background(hex2)
+end
+renderer.set_foreground = function(hex)
+	hex2 = hex:gsub("#", "")
+	interop.renderer_set_foreground(hex2)
 end
 renderer.set_window_mode = function(mode) interop.renderer_set_window_mode(mode) end
 renderer.set_position = function(x,y) interop.renderer_set_position(x,y) end

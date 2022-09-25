@@ -1,9 +1,9 @@
 #pragma once
 
+#include <gl/glew.h>
 #include <string>
 #include "Vector4.h"
 #include "Rect.h"
-#include "Texture.h"
 #include "Transformable.h"
 
 namespace xen

@@ -73,11 +73,17 @@ namespace xen
 		duk_push_c_function(L, js_renderer_draw_sub_texture, 9 /*nargs*/);
 		duk_put_global_string(L, "renderer_draw_sub_texture");
 
+		duk_push_c_function(L, js_renderer_draw_rectangle, 4 /*nargs*/);
+		duk_put_global_string(L, "renderer_draw_rectangle");
+
 		duk_push_c_function(L, js_renderer_draw_textbox, 1 /*nargs*/);
 		duk_put_global_string(L, "renderer_draw_textbox");
 
 		duk_push_c_function(L, js_renderer_set_background, 1 /*nargs*/);
 		duk_put_global_string(L, "renderer_set_background");
+
+		duk_push_c_function(L, js_renderer_set_foreground, 1 /*nargs*/);
+		duk_put_global_string(L, "renderer_set_foreground");
 
 		duk_push_c_function(L, js_renderer_set_window_mode, 1 /*nargs*/);
 		duk_put_global_string(L, "renderer_set_window_mode");
@@ -239,7 +245,7 @@ namespace xen
 		XEN_LOG("- Called assets_load_texture\n");
 		auto path = duk_to_string(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
-		auto r = m->GetRenderer();
+		auto r = AssetManager::GetInstance();
 		auto res = vfs_get_global()->ReadAllData(path);
 		XEN_LOG("- Bytes read: %s\n", std::to_string(res.length).c_str());
 		int texture_id = r->LoadTexture(res.buffer, res.length);
@@ -253,7 +259,7 @@ namespace xen
 		XEN_LOG("- Attempting to read font %s\n", path);
 		int font_size = duk_to_int(L, 1);
 		auto m = JavaScriptMachine::GetInstance();
-		auto r = m->GetRenderer();
+		auto r = AssetManager::GetInstance();
 		auto res = vfs_get_global()->ReadAllData(path);
 		XEN_LOG("- Font bytes read: %s\n", std::to_string(res.length).c_str());
 		int font_id = r->LoadFont(res.buffer, res.length, font_size);
@@ -268,7 +274,7 @@ namespace xen
 		auto w = duk_to_int(L, 2);
 		auto h = duk_to_int(L, 3);
 		auto m = JavaScriptMachine::GetInstance();
-		auto r = m->GetRenderer();
+		auto r = AssetManager::GetInstance();
 		int textbox_id = r->CreateTextBox(x, y, w, h);
 		duk_push_int(L, textbox_id);
 		return 1;
@@ -325,6 +331,18 @@ namespace xen
 		return 0;
 	}
 
+	duk_ret_t js_renderer_draw_rectangle(duk_context *L) {
+		XEN_LOG("- Called renderer_draw_texture\n");
+		int x = duk_to_int(L, 0);
+		int y = duk_to_int(L, 1);
+		int w = duk_to_int(L, 2);
+		int h = duk_to_int(L, 3);
+		auto m = JavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->DrawRectangle(x, y, w, h);
+		return 0;
+	}
+
 	duk_ret_t js_renderer_draw_textbox(duk_context *L) {
 		XEN_LOG("- Called renderer_draw_texbox\n");
 		int textbox_id = duk_to_int(L, 0);
@@ -346,6 +364,18 @@ namespace xen
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
 		renderer->SetClearColor(r, g, b);
+
+		return 0;
+	}
+
+	duk_ret_t js_renderer_set_foreground(duk_context *L) {
+		XEN_LOG("- Called renderer_set_foreground\n");
+		auto hex = duk_to_string(L, 0);
+		int r, g, b;
+		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetForegroundColor(r, g, b);
 
 		return 0;
 	}

@@ -15,6 +15,9 @@ project_source_files = files([
   'lib/ducktape/duktape.c',
   'lib/miniz/miniz.c',
 
+  # assets
+  'src/assets/AssetManager.cpp',
+
   # filesystem
   'src/vfs/XenFileInfo.cpp',
   'src/vfs/XenMemoryFile.cpp',
@@ -48,11 +51,11 @@ project_source_files = files([
   'src/graphics/Viewport.cpp',
 
   #input
-  'src/InputManager.cpp',
+  'src/input/InputManager.cpp',
 
   # other
   'src/Globals.cpp',
-  'src/Config.cpp',
+  'src/Config.cpp', 
 
   # main
   'main.cpp'

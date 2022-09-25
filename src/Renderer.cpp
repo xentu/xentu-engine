@@ -5,7 +5,8 @@
 #include "Globals.h"
 #include "Config.h"
 #include "Renderer.h"
-//#include "DefaultRendererAssets.h"
+#include "assets/AssetManager.h"
+//#include "RendererAssets.h"
 
 
 // macro for calculating the byte offset of vertex information.
@@ -130,8 +131,8 @@ namespace xen
 	#pragma endregion
 
 
-	DefaultRenderer::DefaultRenderer(const Config* config)
-	: m_config(config),
+	Renderer::Renderer(const Config* config)
+	:  m_config(config),
 		m_viewport(640, 480, 2),
 		m_rotation(0),
 		m_origin_x(0),
@@ -145,15 +146,14 @@ namespace xen
 		m_sprite(),
 		m_running(true)
 	{
-		TTF_Init();
-		XEN_LOG("- Created DefaultRenderer.\n");
+		XEN_LOG("- Created Renderer.\n");
 		clear_color_r = 0;
 		clear_color_g = 0;
 		clear_color_b = 0;
 	}
 
 
-	bool DefaultRenderer::Init()
+	bool Renderer::Init()
 	{
 		return Init(
 			m_config->title,
@@ -167,7 +167,7 @@ namespace xen
 	}
 
 
-	bool DefaultRenderer::Init(std::string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode)
+	bool Renderer::Init(std::string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode)
 	{
 		Uint32 render_flags = SDL_RENDERER_ACCELERATED;
 
@@ -299,75 +299,25 @@ namespace xen
 	}
 
 
-	int DefaultRenderer::LoadTexture(uint8_t* buffer, uint64_t length)
-	{
-		auto *rw = SDL_RWFromMem(buffer, length);
-		auto sur = IMG_Load_RW(rw, AUTO_FREE);
-
-		GLuint texture_id = 0;
-		glGenTextures(1, &texture_id);
-		glBindTexture(GL_TEXTURE_2D, texture_id);
-
-		auto mode = GL_RGB;
-		if (sur->format->BytesPerPixel == 4) {
-			mode = GL_RGBA;
-		}
-
-		glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur->pixels);
- 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		SDL_FreeSurface(sur);
-
-		Texture* texture = new Texture(texture_id, sur->w, sur->h, mode);
-		
-		m_textures.insert(std::make_pair(m_textures_iter, texture));
-		m_textures_iter++;
-
-		return m_textures_iter - 1;
-	}
-
-
-	int DefaultRenderer::LoadFont(uint8_t* buffer, uint64_t length, int font_size)
-	{
-		auto *rw = SDL_RWFromMem(buffer, length);
-		auto font = TTF_OpenFontRW(rw, 1 /* free RWops resource once open */, font_size);
-
-		m_fonts.insert(std::make_pair(m_fonts_iter, font));
-		m_fonts_iter++;
-
-		return m_fonts_iter - 1;
-	}
-
-
-	int DefaultRenderer::CreateTextBox(int x, int y, int width, int height)
-	{
-		auto textbox = new TextBox(x, y, width, height);
-		m_textboxes.insert(std::make_pair(m_textboxes_iter, textbox));
-		m_textboxes_iter++;
-		return m_textboxes_iter - 1;
-	}
-
-
-	bool DefaultRenderer::IsRunning()
+	bool Renderer::IsRunning()
 	{
 		return m_running;
 	}
 
 
-	void DefaultRenderer::Exit()
+	void Renderer::Exit()
 	{
 		m_running = false;
 	}
 
 
-	void DefaultRenderer::NewFrame()
+	void Renderer::NewFrame()
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
 
-	void DefaultRenderer::Begin()
+	void Renderer::Begin()
 	{
 		m_origin_x = 0;
 		m_origin_y = 0;
@@ -379,7 +329,7 @@ namespace xen
 	}
 
 
-	void DefaultRenderer::Clear()
+	void Renderer::Clear()
 	{
 		for (unsigned int i = 0; i < m_batches.size(); i++)
 		{
@@ -396,7 +346,7 @@ namespace xen
 	}
 
 
-	void DefaultRenderer::Present()
+	void Renderer::Present()
 	{
 		const size_t vertex_size = sizeof(Vertex) * 4; // 4 vertices per quad.
 		const size_t element_size = sizeof(unsigned int) * 6; // 6 indices per quad.
@@ -448,8 +398,8 @@ namespace xen
 		// choose the viewport mode.
 		if (m_viewport.mode == 2) {
 			// stretch
-			m_sprite.m_width = sc_w;
-			m_sprite.m_height = sc_h;
+			m_sprite.m_width = static_cast<float>(sc_w);
+			m_sprite.m_height = static_cast<float>(sc_h);
 		}
 		else if (m_viewport.mode == 1) {
 			// centre
@@ -486,7 +436,7 @@ namespace xen
 	}
 
 
-	void DefaultRenderer::DrawTexture(int texture_id, int x, int y, int width, int height)
+	void Renderer::DrawTexture(int texture_id, int x, int y, int width, int height)
 	{
 		m_sprite.ResetTransform();
 		m_sprite.set_position(m_pos_x + x, m_pos_y + y);
@@ -497,7 +447,7 @@ namespace xen
 		m_sprite.m_color = Vector4f(1, 1, 1, 1); // TODO: fix this.
 		m_sprite.m_width = static_cast<float>(width);
 		m_sprite.m_height = static_cast<float>(height);
-		m_sprite.m_texture = m_textures[texture_id]->gl_texture_id;
+		m_sprite.m_texture = AssetManager::GetInstance()->GetTexture(texture_id)->gl_texture_id;
 		m_sprite.m_rect = Rect(0, 0, 1, 1);
 
 		if (m_sprite.m_texture == NULL)
@@ -507,7 +457,7 @@ namespace xen
 	}
 
 
-	void DefaultRenderer::DrawSubTexture(int texture_id, int x, int y, int w, int h, int sx, int sy, int sw, int sh)
+	void Renderer::DrawSubTexture(int texture_id, int x, int y, int w, int h, int sx, int sy, int sw, int sh)
 	{
 		m_sprite.ResetTransform();
 		m_sprite.set_position(m_pos_x + x, m_pos_y + y);
@@ -518,7 +468,7 @@ namespace xen
 		m_sprite.m_color = Vector4f(1, 1, 1, 1); // TODO: fix this.
 		m_sprite.m_width = static_cast<float>(w);
 		m_sprite.m_height = static_cast<float>(h);
-		m_sprite.m_texture = m_textures[texture_id]->gl_texture_id;
+		m_sprite.m_texture = AssetManager::GetInstance()->GetTexture(texture_id)->gl_texture_id;
 
 		// calculate the sub-rect.
 		float sx_p = (float)sx / m_sprite.m_width;
@@ -534,9 +484,25 @@ namespace xen
 	}
 
 
-	void DefaultRenderer::DrawTextBox(int textbox_id)
+	void Renderer::DrawRectangle(int x, int y, int width, int height)
 	{
-		auto textbox = m_textboxes[textbox_id];
+		m_sprite.ResetTransform();
+		m_sprite.set_position(m_pos_x + x, m_pos_y + y);
+		m_sprite.set_origin(m_origin_x, m_origin_y);
+		m_sprite.set_rotation(m_rotation);
+		m_sprite.set_scale(m_scale_x, m_scale_y);
+		
+		m_sprite.m_width = (float)width;
+		m_sprite.m_height = (float)height;
+		m_sprite.m_texture = white_texture->gl_texture_id;
+		m_sprite.m_rect = Rect(0, 0, 10, 10);
+		find_batch(m_sprite)->draw(m_sprite);
+	}
+
+
+	void Renderer::DrawTextBox(int textbox_id)
+	{
+		auto textbox = AssetManager::GetInstance()->GetTextBox(textbox_id);
 
 		m_sprite.ResetTransform();
 		m_sprite.set_position(m_pos_x + textbox->m_position.x, m_pos_y + textbox->m_position.y);
@@ -557,53 +523,51 @@ namespace xen
 	}
 	
 
-	void DefaultRenderer::SetTextBoxText(int textbox_id, int font_id, const char* text)
+	void Renderer::SetTextBoxText(int textbox_id, int font_id, const char* text)
 	{
-		auto textbox = m_textboxes[textbox_id];
-		auto font = m_fonts[font_id];
+		auto assets = AssetManager::GetInstance();
+		auto textbox = assets->GetTextBox(textbox_id);
+		auto font = assets->GetFont(font_id);
 		textbox->SetText(font, text);
 	}
 
 
-	void DefaultRenderer::SetTextBoxColor(int textbox_id, int font_id, int r, int g, int b)
+	void Renderer::SetTextBoxColor(int textbox_id, int font_id, int r, int g, int b)
 	{
-		auto textbox = m_textboxes[textbox_id];
-		auto font = m_fonts[font_id];
+		auto assets = AssetManager::GetInstance();
+		auto textbox = assets->GetTextBox(textbox_id);
+		auto font = assets->GetFont(font_id);
 		textbox->SetColor(font, r, g, b);
 	}
 
 	
-	DefaultRenderer::~DefaultRenderer()
+	Renderer::~Renderer()
 	{
-		for (auto const& tex : m_textures)
-		{
-			delete tex.second;
-		}
-		m_textures.clear();
-
-		for (auto const& tb : m_textboxes)
-		{
-			delete tb.second;
-		}
-		m_textures.clear();
-
-		// no need to delete fonts.
-		m_fonts.clear();
-		TTF_Quit();
 		SDL_DestroyWindow(m_window);
-		XEN_LOG("- Destroyed DefaultRenderer\n");
+		XEN_LOG("- Destroyed Renderer\n");
 	}
 
 
-	void DefaultRenderer::SetClearColor(int r, int g, int b)
+	void Renderer::SetClearColor(int r, int g, int b)
 	{
 		clear_color_r = static_cast<GLclampf>(r) / 255.0f;
 		clear_color_g = static_cast<GLclampf>(g) / 255.0f;
 		clear_color_b = static_cast<GLclampf>(b) / 255.0f;
 	}
 
+	
+	void Renderer::SetForegroundColor(int r, int g, int b)
+	{
+		m_sprite.m_color = {
+			static_cast<GLclampf>(r) / 255.0f,
+			static_cast<GLclampf>(g) / 255.0f,
+			static_cast<GLclampf>(b) / 255.0f,
+			1.0f
+		};
+	}
 
-	void DefaultRenderer::SetWindowMode(XenWindowMode mode)
+
+	void Renderer::SetWindowMode(XenWindowMode mode)
 	{
 		int gl_mode = 0;
 		if (mode == XenWindowMode::Fullscreen) {
@@ -617,33 +581,33 @@ namespace xen
 	}
 
 
-	void DefaultRenderer::SetPosition(float x, float y)
+	void Renderer::SetPosition(float x, float y)
 	{
 		m_pos_x = x;
 		m_pos_y = y;
 	}
 
 
-	void DefaultRenderer::SetOrigin(float x, float y)
+	void Renderer::SetOrigin(float x, float y)
 	{
 		m_origin_x = x;
 		m_origin_y = y;
 	}
 
 
-	void DefaultRenderer::SetRotation(float angle)
+	void Renderer::SetRotation(float angle)
 	{
 		m_rotation = angle;
 	}
 
-	void DefaultRenderer::SetScale(float x, float y)
+	void Renderer::SetScale(float x, float y)
 	{
 		m_scale_x = x;
 		m_scale_y = y;
 	}
 
 
-	Batch* DefaultRenderer::find_batch(const Sprite& sprite)
+	Batch* Renderer::find_batch(const Sprite& sprite)
 	{
 		for (Batch* batch : m_batches)
 		{
@@ -662,7 +626,7 @@ namespace xen
 	}
 	
 
-	void DefaultRenderer::sort_batches()
+	void Renderer::sort_batches()
 	{
 		// Sort the batches
 		std::sort(m_batches.begin(), m_batches.end(), [&](const Batch* a_batch, const Batch* b_batch)

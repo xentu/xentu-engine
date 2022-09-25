@@ -25,8 +25,10 @@ namespace xen
 			int renderer_present(lua_State* L);
 			int renderer_draw_texture(lua_State* L);
 			int renderer_draw_sub_texture(lua_State* L);
+			int renderer_draw_rectangle(lua_State* L);
 			int renderer_draw_textbox(lua_State* L);
 			int renderer_set_background(lua_State* L);
+			int renderer_set_foreground(lua_State* L);
 			int renderer_set_window_mode(lua_State* L);
 			int renderer_set_position(lua_State* L);
 			int renderer_set_origin(lua_State* L);
