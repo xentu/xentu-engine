@@ -543,6 +543,22 @@ namespace xen
 		return 0;
 	}
 
+	int XentuLuaMachineInterop::textbox_measure_text(lua_State* L)
+	{
+		if (lua_gettop(L) != 3) {
+			return luaL_error(L, "expecting exactly 3 arguments");
+		}
+		auto textbox_id = lua_tointeger(L, -3);
+		auto font_id = lua_tointeger(L, -2);
+		std::string text = lua_tostring(L, -1);
+		auto m = LuaMachine::GetInstance();
+		auto r = m->GetRenderer();
+		auto result = r->MeasureTextBoxText(textbox_id, font_id, text.c_str());
+		lua_pushinteger(L, result.x);
+		lua_pushinteger(L, result.y);
+		return 2;
+	}
+
 	int XentuLuaMachineInterop::keyboard_key_down(lua_State* L)
 	{
 		if (lua_gettop(L) != 1) {
@@ -621,6 +637,7 @@ namespace xen
 		method(XentuLuaMachineInterop, config_get_int2, config_get_int2),
 		method(XentuLuaMachineInterop, textbox_set_text, textbox_set_text),
 		method(XentuLuaMachineInterop, textbox_set_color, textbox_set_color),
+		method(XentuLuaMachineInterop, textbox_measure_text, textbox_measure_text),
 		method(XentuLuaMachineInterop, keyboard_key_down, keyboard_key_down),
 		method(XentuLuaMachineInterop, keyboard_key_clicked, keyboard_key_clicked),
 		{0,0}

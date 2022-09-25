@@ -5,6 +5,8 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
+#include "Vector2.h"
+
 using namespace std;
 
 namespace xen
@@ -22,6 +24,7 @@ namespace xen
 			~TextBox(void);
 			void SetText(TTF_Font* font, const char* text);
 			void SetColor(TTF_Font* font, int r, int g, int b);
+			Vector2i MeasureText(TTF_Font* font, const char* text);
 
 		public:
 			bool m_text_set;

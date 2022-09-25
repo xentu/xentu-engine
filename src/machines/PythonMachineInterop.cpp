@@ -583,6 +583,22 @@ namespace xen
 		return PyBool_FromLong(1);
 	}
 
+	PyObject* xen_py_interop_textbox_measure_text(PyObject *self, PyObject *args)
+	{
+		int textbox_id, font_id;
+		char *text;
+		if (!PyArg_ParseTuple(args, "iis", &textbox_id, &font_id, &text)) {
+			return NULL;
+		}
+		auto m = PythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		auto result = r->MeasureTextBoxText(textbox_id, font_id, text);
+		PyObject *tuple = PyTuple_New(2);
+		PyTuple_SetItem(tuple, 0, PyLong_FromLong(result.x));
+		PyTuple_SetItem(tuple, 1, PyLong_FromLong(result.y));
+		return tuple;
+	}
+
 	PyObject* xen_py_interop_keyboard_key_down(PyObject *self, PyObject *args)
 	{
 		int key_code;
@@ -656,6 +672,7 @@ namespace xen
 		{"config_get_int2",				xen_py_interop_config_get_int2, METH_VARARGS, "Get a integer sub setting"},
 		{"textbox_set_text",				xen_py_interop_textbox_set_text, METH_VARARGS, "Set text for a textbox."},
 		{"textbox_set_color",			xen_py_interop_textbox_set_color, METH_VARARGS, "Set the color for a textbox."},
+		{"textbox_measure_text",      xen_py_interop_textbox_measure_text, METH_VARARGS, "Measure the size of rendered text."},
 		{"keyboard_key_down",         xen_py_interop_keyboard_key_down, METH_VARARGS, "Check if a keyboard key is down."},
 		{"keyboard_key_clicked",      xen_py_interop_keyboard_key_clicked, METH_VARARGS, "Check if a keyboard key is clicked."},
 		{NULL, NULL, 0, NULL}

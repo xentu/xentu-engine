@@ -80,4 +80,12 @@ namespace xen
 		m_color.b = static_cast<unsigned char>(r);
 		Regenerate(font);
 	}
+
+
+	Vector2i TextBox::MeasureText(TTF_Font* font, const char* text)
+	{
+		int w; int h;
+		TTF_SizeText(font, text, &w, &h);
+		return Vector2i(w, h);
+	}
 }

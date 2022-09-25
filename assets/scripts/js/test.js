@@ -15,6 +15,9 @@ textbox.set_color(text0, font0, "#FFFF00"); // set the text to yellow.
 var x = 0, x_speed = 2, rot = 0;
 var fullscreen = false;
 
+var size = textbox.measure_text(text0, font0, "Testing");
+print("Measurement: " + size.w + "x" + size.h);
+
 // handle the update event.
 game.on('update', function(dt) {
 	// print("Delta: " + dt);

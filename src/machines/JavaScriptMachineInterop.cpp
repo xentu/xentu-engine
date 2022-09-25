@@ -154,6 +154,9 @@ namespace xen
 		duk_push_c_function(L, js_textbox_set_color, 3 /*nargs*/);
 		duk_put_global_string(L, "textbox_set_color");
 
+		duk_push_c_function(L, js_textbox_measure_text, 3 /*nargs*/);
+		duk_put_global_string(L, "textbox_measure_text");
+
 		duk_push_c_function(L, js_keyboard_key_down, 1 /*nargs*/);
 		duk_put_global_string(L, "keyboard_key_down");
 
@@ -616,7 +619,7 @@ namespace xen
 	}
 
 	duk_ret_t js_textbox_set_color(duk_context* L) {
-		XEN_LOG("- Called js_textbox_set_color\n");
+		XEN_LOG("- Called textbox_set_color\n");
 		auto textbox_id = duk_to_int(L, 0);
 		auto font_id = duk_to_int(L, 1);
 		auto hex = duk_to_string(L, 2);
@@ -627,6 +630,24 @@ namespace xen
 		auto renderer = machine->GetRenderer();
 		renderer->SetTextBoxColor(textbox_id, font_id, r, g, b);
 		return 0;
+	}
+
+	duk_ret_t js_textbox_measure_text(duk_context* L) {
+		XEN_LOG("- Called textbox_measure_text\n");
+		auto textbox_id = duk_to_int(L, 0);
+		auto font_id = duk_to_int(L, 1);
+		const char* text = duk_to_string(L, 2);
+		auto m = JavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		auto result = r->MeasureTextBoxText(textbox_id, font_id, text);
+		auto obj_id = duk_push_object(L);
+		duk_push_string(L, "w");
+		duk_push_int(L, result.x);
+		duk_put_prop(L, obj_id);
+		duk_push_string(L, "h");
+		duk_push_int(L, result.y);
+		duk_put_prop(L, obj_id);
+		return 1;
 	}
 
 	duk_ret_t js_keyboard_key_down(duk_context* L) {

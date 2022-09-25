@@ -15,6 +15,9 @@ textbox.set_color(text0, font0, "#FFFF00") -- set the text to yellow.
 x = 0; x_speed = 2; rot = 0
 fullscreen = false
 
+tw, th = textbox.measure_text(text0, font0, "Testing")
+print("Measurement: " .. tw .. "x" .. th)
+
 -- handle the update event.
 game.on("update", function(dt)
 	if x_speed > 0 and x + 5 > 390 then x_speed = -2 end

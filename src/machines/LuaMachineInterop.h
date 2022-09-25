@@ -55,6 +55,7 @@ namespace xen
 			int config_get_int2(lua_State* L);
 			int textbox_set_text(lua_State* L);
 			int textbox_set_color(lua_State* L);
+			int textbox_measure_text(lua_State* L);
 			int keyboard_key_down(lua_State* L);
 			int keyboard_key_clicked(lua_State* L);
 

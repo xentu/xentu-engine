@@ -76,6 +76,7 @@ textbox.set_color = function(a,b,hex)
 	hex2 = hex:gsub("#", "")
 	interop.textbox_set_color(a,b,hex2)
 end
+textbox.measure_text = function(a,b,c) return interop.textbox_measure_text(a,b,c) end
 
 keyboard = {}
 keyboard.key_down = function(a) return interop.keyboard_key_down(a) end

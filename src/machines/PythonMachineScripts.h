@@ -91,6 +91,7 @@ class XenTextBoxObject(ModuleType):
 
 textbox = XenTextBoxObject('textbox')
 textbox.set_text = xentu.textbox_set_text
+textbox.measure_text = xentu.textbox_measure_text
 
 
 # masquerade a new module for keyboard

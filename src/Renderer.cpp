@@ -532,6 +532,15 @@ namespace xen
 	}
 
 
+	Vector2i Renderer::MeasureTextBoxText(int textbox_id, int font_id, const char* text)
+	{
+		auto assets = AssetManager::GetInstance();
+		auto textbox = assets->GetTextBox(textbox_id);
+		auto font = assets->GetFont(font_id);
+		return textbox->MeasureText(font, text);
+	}
+
+
 	void Renderer::SetTextBoxColor(int textbox_id, int font_id, int r, int g, int b)
 	{
 		auto assets = AssetManager::GetInstance();
