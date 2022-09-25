@@ -40,8 +40,9 @@ int main(int argc, char *argv[])
         return XEN_ERROR("- Error unable to locate %s\n", e.what());
     }
 
-    AssetManager *assets = new AssetManager();
 	Config *config = new Config(result.c_str());
+    AudioManager *audio = new AudioManager(config);
+    AssetManager *assets = new AssetManager();
     
     printf("Language: %s\n", config->language.c_str());
 
@@ -59,8 +60,9 @@ int main(int argc, char *argv[])
     }
 
     // dispose resources.
-    delete config;
     delete assets;
+    delete audio;
+    delete config;
     vfs_shutdown();
 
     // 3. at this point the game would have ended.

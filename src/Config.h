@@ -31,6 +31,13 @@ namespace xen
 	};
 
 
+	struct ConfigAudio
+	{
+		int frequency;
+		int channels;
+	};
+
+
 	class Config
 	{
 		public:
@@ -55,6 +62,7 @@ namespace xen
 			ConfigWindow window;
 			ConfigRenderer renderer;
 			ConfigViewport viewport;
+			ConfigAudio audio;
 
 		private:
 			nlohmann::json m_data;

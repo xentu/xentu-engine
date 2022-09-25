@@ -27,7 +27,10 @@ meson wrap install libjpeg-turbo
 meson wrap install libpng
 meson wrap install freetype
 meson wrap install lua
+meson wrap install ogg
+meson wrap install vorbis
 meson wrap install sdl2_image
+meson wrap install sdl2_mixer
 meson wrap install sdl2_ttf
 meson wrap install sdl2
 meson wrap install glew

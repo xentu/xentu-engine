@@ -6,6 +6,7 @@
 #include "Globals.h"
 #include "Config.h"
 #include "Renderer.h"
+#include "audio/AudioManager.h"
 #include "assets/AssetManager.h"
 #include "input/InputManager.h"
 

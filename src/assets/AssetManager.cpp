@@ -1,5 +1,6 @@
 #include "AssetManager.h"
 #include "../Globals.h"
+#include "../audio/AudioManager.h"
 
 namespace xen
 {
@@ -32,7 +33,6 @@ namespace xen
 		// no need to delete fonts.
 		m_fonts.clear();
 		TTF_Quit();
-		delete instance;
 		instance = NULL;
 	}
 
@@ -84,6 +84,22 @@ namespace xen
 		m_fonts_iter++;
 
 		return m_fonts_iter - 1;
+	}
+
+	int AssetManager::LoadAudio(uint8_t* buffer, uint64_t length)
+	{
+		auto *rw = SDL_RWFromMem(buffer, length);
+		auto audio = Mix_LoadWAV_RW(rw, 1 /* free RWops resource once open */);
+		auto audioMgr = AudioManager::GetInstance();
+		return audioMgr->StoreSample(audio);
+	}
+
+	int AssetManager::LoadMusic(uint8_t* buffer, uint64_t length)
+	{
+		auto *rw = SDL_RWFromMem(buffer, length);
+		auto audio = Mix_LoadMUS_RW(rw, 1 /* free RWops resource once open */);
+		auto audioMgr = AudioManager::GetInstance();
+		return audioMgr->StoreMusic(audio);
 	}
 
 	int AssetManager::CreateTextBox(int x, int y, int width, int height)

@@ -8,6 +8,7 @@
 #include <gl/glew.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
 #include "../graphics/Texture.h"
@@ -31,6 +32,16 @@ namespace xen
 			 * Load a ttf font into memory, and return it's asset id.
 			 */
 			int LoadFont(uint8_t* buffer, uint64_t length, int font_size);
+
+			/**
+			 * Load an audio sample into memory, and return it's asset id (can be used in audio manager).
+			 */
+			int LoadAudio(uint8_t* buffer, uint64_t length);
+
+			/**
+			 * Load a music file (ogg/flac) into memory, and return it's asset id (can be used in audio manager).
+			 */
+			int LoadMusic(uint8_t* buffer, uint64_t length);
 
 			/**
 			 * Create a textbox with specific dimensions, and return it's asset id.

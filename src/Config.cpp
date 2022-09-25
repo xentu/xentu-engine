@@ -42,6 +42,10 @@ namespace xen
 			bool ren_acc = this->GetSettingBool("game", "renderer", "accelerated", true);
 			renderer = { ren_engine, ren_teq, ren_acc };
 
+			int a_freq = this->GetSettingInt("game", "audio", "frequency", 44100);
+			int a_channels = this->GetSettingInt("game", "audio", "channels", 2);
+			audio = { a_freq, a_channels };
+
 			printf("Entry point: %s\n", entry_point.c_str());
 		}
 		catch (std::exception e)

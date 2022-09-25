@@ -2,7 +2,10 @@ project('xentu_rebuild', 'c', 'cpp',
         default_options: ['default_library=static'])
 
 glew = dependency('glew')
+ogg_dep = dependency('ogg')
+vorbis_dep = dependency('vorbis')
 sdl2_image_dep = dependency('sdl2_image')
+sdl2_mixer_dep = dependency('sdl2_mixer')
 sdl2_ttf_dep = dependency('sdl2_ttf')
 sdl2_dep = dependency('sdl2')
 py_dep = dependency('python3')
@@ -17,6 +20,9 @@ project_source_files = files([
 
   # assets
   'src/assets/AssetManager.cpp',
+
+  # audio
+  'src/audio/AudioManager.cpp',
 
   # filesystem
   'src/vfs/XenFileInfo.cpp',
@@ -64,6 +70,9 @@ project_source_files = files([
 
 executable('xentu', project_source_files,
            include_directories : incdir,
-           dependencies: [glew, sdl2_image_dep, sdl2_ttf_dep, sdl2_dep, py_dep, lua_dep])
+           dependencies: [
+              glew, sdl2_image_dep, sdl2_mixer_dep, ogg_dep, vorbis_dep,
+              sdl2_ttf_dep, sdl2_dep, py_dep, lua_dep
+            ])
            
            # win_subsystem: 'windows',
