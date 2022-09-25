@@ -26,7 +26,19 @@ assets.mount = function(a, b) interop.assets_mount(a, b) end
 assets.read_text_file = function(a) return interop.assets_read_text_file(a) end
 assets.load_texture = function(a) return interop.assets_load_texture(a) end
 assets.load_font = function(a, b) return interop.assets_load_font(a, b) end
+assets.load_sound = function(path) return interop.assets_load_sound(path) end
+assets.load_music = function(path) return interop.assets_load_music(path) end
 assets.create_textbox = function(a, b, c, d) return interop.assets_create_textbox(a, b, c, d) end
+
+audio = {}
+audio.play_sound = function(sound_id, channel, loops) interop.audio_play_sound(sound_id, channel, loops) end
+audio.play_music = function(music_id, loops) interop.audio_play_music(music_id, loops) end
+audio.stop_sound = function(channel_id) interop.audio_stop_sound(channel_id) end
+audio.stop_music = function() interop.audio_stop_music() end
+audio.set_sound_volume = function(sound_id,vol) interop.audio_set_sound_volume(sound_id,vol) end
+audio.set_channel_volume = function(channel_id,vol) interop.audio_set_channel_volume(channel_id,vol) end
+audio.set_music_volume = function(music_id,vol) interop.audio_set_music_volume(music_id,vol) end
+audio.set_channel_panning = function(id,left,right) interop.audio_set_channel_panning(id,left,right) end
 
 renderer = {}
 renderer.begin = function() interop.renderer_begin() end

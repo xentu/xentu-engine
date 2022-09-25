@@ -44,8 +44,8 @@ namespace xen
 	void TextBox::Regenerate(TTF_Font* font)
 	{
 		SDL_Surface* sur = TTF_RenderUTF8_Blended(font, m_text.c_str(), m_color);
-		if (sur==NULL) {
-			XEN_LOG("- Failed to render text: %s", SDL_GetError());
+		if (sur == nullptr || sur == NULL) {
+			XEN_ERROR("- Failed to render text: %s\n", SDL_GetError());
 		}
 		m_position.w = sur->w;
 		m_position.h = sur->h;

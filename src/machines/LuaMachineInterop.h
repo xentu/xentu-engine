@@ -15,11 +15,24 @@ namespace xen
 			int game_run(lua_State* L);
 			int game_exit(lua_State* L);
 			int geometry_create_rect(lua_State* L);
+			
 			int assets_mount(lua_State* L);
 			int assets_read_text_file(lua_State* L);
 			int assets_load_texture(lua_State* L);
 			int assets_load_font(lua_State* L);
+			int assets_load_sound(lua_State* L);
+			int assets_load_music(lua_State* L);
 			int assets_create_textbox(lua_State* L);
+
+			int audio_play_sound(lua_State* L);
+			int audio_play_music(lua_State* L);
+			int audio_stop_sound(lua_State* L);
+			int audio_stop_music(lua_State* L);
+			int audio_set_sound_volume(lua_State* L);
+			int audio_set_channel_volume(lua_State* L);
+			int audio_set_music_volume(lua_State* L);
+			int audio_set_channel_panning(lua_State* L);
+
 			int renderer_begin(lua_State* L);
 			int renderer_clear(lua_State* L);
 			int renderer_present(lua_State* L);

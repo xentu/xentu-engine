@@ -48,7 +48,17 @@ namespace xen
 	duk_ret_t js_assets_read_text_file(duk_context *L);
 	duk_ret_t js_assets_load_texture(duk_context *L);
 	duk_ret_t js_assets_load_font(duk_context *L);
+	duk_ret_t js_assets_load_sound(duk_context *L);
+	duk_ret_t js_assets_load_music(duk_context *L);
 	duk_ret_t js_assets_create_textbox(duk_context *L);
+	duk_ret_t js_audio_play_sound(duk_context *L);
+	duk_ret_t js_audio_play_music(duk_context *L);
+	duk_ret_t js_audio_stop_sound(duk_context *L);
+	duk_ret_t js_audio_stop_music(duk_context *L);
+	duk_ret_t js_audio_set_sound_volume(duk_context *L);
+	duk_ret_t js_audio_set_channel_volume(duk_context *L);
+	duk_ret_t js_audio_set_music_volume(duk_context *L);
+	duk_ret_t js_audio_set_channel_panning(duk_context *L);
 	duk_ret_t js_renderer_begin(duk_context *L);
 	duk_ret_t js_renderer_clear(duk_context *L);
 	duk_ret_t js_renderer_present(duk_context *L);

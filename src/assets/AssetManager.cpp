@@ -90,14 +90,24 @@ namespace xen
 	{
 		auto *rw = SDL_RWFromMem(buffer, length);
 		auto audio = Mix_LoadWAV_RW(rw, 1 /* free RWops resource once open */);
+		if (audio == NULL || audio == nullptr)
+		{
+			XEN_ERROR("Failed to load audio! SDL_mixer Error: %s\n", Mix_GetError());
+			return -1;
+		}
 		auto audioMgr = AudioManager::GetInstance();
-		return audioMgr->StoreSample(audio);
+		return audioMgr->StoreSound(audio);
 	}
 
 	int AssetManager::LoadMusic(uint8_t* buffer, uint64_t length)
 	{
 		auto *rw = SDL_RWFromMem(buffer, length);
 		auto audio = Mix_LoadMUS_RW(rw, 1 /* free RWops resource once open */);
+		if (audio == NULL || audio == nullptr)
+		{
+			XEN_ERROR("Failed to load music! SDL_mixer Error: %s\n", Mix_GetError());
+			return -1;
+		}
 		auto audioMgr = AudioManager::GetInstance();
 		return audioMgr->StoreMusic(audio);
 	}

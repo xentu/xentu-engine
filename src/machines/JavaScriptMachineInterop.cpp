@@ -54,9 +54,39 @@ namespace xen
 
 		duk_push_c_function(L, js_assets_load_font, 2 /*nargs*/);
 		duk_put_global_string(L, "assets_load_font");
+
+		duk_push_c_function(L, js_assets_load_sound, 1 /*nargs*/);
+		duk_put_global_string(L, "assets_load_sound");
+
+		duk_push_c_function(L, js_assets_load_music, 1 /*nargs*/);
+		duk_put_global_string(L, "assets_load_music");
       
 		duk_push_c_function(L, js_assets_create_textbox, 4 /*nargs*/);
 		duk_put_global_string(L, "assets_create_textbox");
+
+		duk_push_c_function(L, js_audio_play_sound, 3 /*nargs*/);
+		duk_put_global_string(L, "audio_play_sound");
+
+		duk_push_c_function(L, js_audio_play_music, 2 /*nargs*/);
+		duk_put_global_string(L, "audio_play_music");
+
+		duk_push_c_function(L, js_audio_stop_music, 0 /*nargs*/);
+		duk_put_global_string(L, "audio_stop_music");
+
+		duk_push_c_function(L, js_audio_stop_sound, 1 /*nargs*/);
+		duk_put_global_string(L, "audio_stop_sound");
+
+		duk_push_c_function(L, js_audio_set_sound_volume, 2 /*nargs*/);
+		duk_put_global_string(L, "audio_set_sound_volume");
+
+		duk_push_c_function(L, js_audio_set_channel_volume, 2 /*nargs*/);
+		duk_put_global_string(L, "audio_set_channel_volume");
+
+		duk_push_c_function(L, js_audio_set_music_volume, 2 /*nargs*/);
+		duk_put_global_string(L, "audio_set_music_volume");
+
+		duk_push_c_function(L, js_audio_set_channel_panning, 3 /*nargs*/);
+		duk_put_global_string(L, "audio_set_channel_panning");
 
 		duk_push_c_function(L, js_renderer_begin, 0 /*nargs*/);
 		duk_put_global_string(L, "renderer_begin");
@@ -266,6 +296,26 @@ namespace xen
 		duk_push_int(L, font_id);
 		return 1;
 	}
+
+	duk_ret_t js_assets_load_sound(duk_context *L) {
+		XEN_LOG("- Called audio_play_sound.\n");
+		auto path = duk_to_string(L, 0);
+		auto assets = AssetManager::GetInstance();
+		auto res = vfs_get_global()->ReadAllData(path);
+		int sound_id = assets->LoadAudio(res.buffer, res.length);
+		duk_push_int(L, sound_id);
+		return 1;
+	}
+
+	duk_ret_t js_assets_load_music(duk_context *L) {
+		XEN_LOG("- Called assets_load_music.\n");
+		auto path = duk_to_string(L, 0);
+		auto assets = AssetManager::GetInstance();
+		auto res = vfs_get_global()->ReadAllData(path);
+		int music_id = assets->LoadMusic(res.buffer, res.length);
+		duk_push_int(L, music_id);
+		return 1;
+	}
 	
 	duk_ret_t js_assets_create_textbox(duk_context *L) {
 		XEN_LOG("- Called assets_create_textbox.\n");
@@ -278,6 +328,68 @@ namespace xen
 		int textbox_id = r->CreateTextBox(x, y, w, h);
 		duk_push_int(L, textbox_id);
 		return 1;
+	}
+
+	duk_ret_t js_audio_play_sound(duk_context *L) {
+		XEN_LOG("- Called audio_play_sound.\n");
+		auto sound_id = duk_to_int(L, 0);
+		auto channel = duk_to_int(L, 1);
+		auto loops = duk_to_int(L, 2);
+		AudioManager::GetInstance()->PlaySound(sound_id, channel, loops);
+		return 1;
+	}
+
+	duk_ret_t js_audio_play_music(duk_context *L) {
+		XEN_LOG("- Called audio_play_music.\n");
+		auto music_id = duk_to_int(L, 0);
+		auto loops = duk_to_int(L, 1);
+		AudioManager::GetInstance()->PlayMusic(music_id, loops);
+		return 0;
+	}
+
+	duk_ret_t js_audio_stop_sound(duk_context *L) {
+		XEN_LOG("- Called audio_stop_sound.\n");
+		auto channel = duk_to_int(L, 0);
+		AudioManager::GetInstance()->StopSound(channel);
+		return 0;
+	}
+
+	duk_ret_t js_audio_stop_music(duk_context *L) {
+		XEN_LOG("- Called audio_stop_music.\n");
+		AudioManager::GetInstance()->StopMusic();
+		return 0;
+	}
+
+	duk_ret_t js_audio_set_sound_volume(duk_context *L) {
+		XEN_LOG("- Called audio_set_sound_volume.\n");
+		int sound_id = duk_to_int(L, 0);
+		float volume = duk_to_number(L, 1);
+		AudioManager::GetInstance()->SetSoundVolume(sound_id, volume);
+		return 0;
+	}
+
+	duk_ret_t js_audio_set_channel_volume(duk_context *L) {
+		XEN_LOG("- Called audio_set_channel_volume.\n");
+		int channel_id = duk_to_int(L, 0);
+		float volume = duk_to_number(L, 1);
+		AudioManager::GetInstance()->SetChannelVolume(channel_id, volume);
+		return 0;
+	}
+
+	duk_ret_t js_audio_set_music_volume(duk_context *L) {
+		XEN_LOG("- Called audio_set_music_volume.\n");
+		float volume = duk_to_number(L, 0);
+		AudioManager::GetInstance()->SetMusicVolume(volume);
+		return 0;
+	}
+
+	duk_ret_t js_audio_set_channel_panning(duk_context *L) {
+		XEN_LOG("- Called audio_set_channel_panning.\n");
+		int channel_id = duk_to_int(L, 0);
+		float left = duk_to_number(L, 1);
+		float right = duk_to_number(L, 2);
+		AudioManager::GetInstance()->SetChannelPanning(channel_id, left, right);
+		return 0;
 	}
 
 	duk_ret_t js_renderer_begin(duk_context *L) {

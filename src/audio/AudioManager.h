@@ -13,8 +13,16 @@ namespace xen
 			AudioManager(Config* config);
 			~AudioManager();
 			static AudioManager* GetInstance();
-			int StoreSample(Mix_Chunk* data);
+			int StoreSound(Mix_Chunk* data);
 			int StoreMusic(Mix_Music* data);
+			void PlaySound(int id, int channel = -1, int loop = 0);
+			void StopSound(int channel);
+			void PlayMusic(int id, int loop = 0);
+			void StopMusic();
+			void SetSoundVolume(int id, float volume);
+			void SetChannelVolume(int channel, float volume);
+			void SetMusicVolume(float volume);
+			void SetChannelPanning(int channel, float left, float right);
 
 		private:
 			bool m_initialized;
@@ -27,5 +35,6 @@ namespace xen
 
 			std::map<int, Mix_Music*> m_music;
 			int m_music_iter = 0;
+			int m_playing_music_id = -1;
 	};
 }

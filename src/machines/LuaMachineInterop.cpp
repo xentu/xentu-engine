@@ -141,6 +141,28 @@ namespace xen
 		return 1;
 	}
 
+	int XentuLuaMachineInterop::assets_load_sound(lua_State* L)
+	{
+		XEN_LOG("- Called assets_load_sound.\n");
+		auto path = lua_tostring(L, -1);
+		auto assets = AssetManager::GetInstance();
+		auto res = vfs_get_global()->ReadAllData(path);
+		int sound_id = assets->LoadAudio(res.buffer, res.length);
+		lua_pushinteger(L, sound_id);
+		return 1;
+	}
+
+	int XentuLuaMachineInterop::assets_load_music(lua_State* L)
+	{
+		XEN_LOG("- Called assets_load_music.\n");
+		auto path = lua_tostring(L, -1);
+		auto assets = AssetManager::GetInstance();
+		auto res = vfs_get_global()->ReadAllData(path);
+		int music_id = assets->LoadMusic(res.buffer, res.length);
+		lua_pushinteger(L, music_id);
+		return 1;
+	}
+
 	int XentuLuaMachineInterop::assets_create_textbox(lua_State* L)
 	{
 		XEN_LOG("- Called assets_create_textbox.\n");
@@ -158,6 +180,82 @@ namespace xen
 		return 1;
 	}
 
+	int XentuLuaMachineInterop::audio_play_sound(lua_State* L)
+	{
+		XEN_LOG("- Called audio_play_sound.\n");
+		if (lua_gettop(L) != 3) {
+			return luaL_error(L, "expecting exactly 4 arguments");
+		}
+		auto sound_id = lua_tointeger(L, -3);
+		auto channel = lua_tointeger(L, -2);
+		auto loops = lua_tointeger(L, -1);
+		AudioManager::GetInstance()->PlaySound(sound_id, channel, loops);
+		return 1;
+	}
+
+	int XentuLuaMachineInterop::audio_play_music(lua_State* L)
+	{
+		XEN_LOG("- Called audio_play_music.\n");
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 4 arguments");
+		}
+		auto music_id = lua_tointeger(L, -2);
+		auto loops = lua_tointeger(L, -1);
+		AudioManager::GetInstance()->PlayMusic(music_id, loops);
+		return 0;
+	}
+	
+	int XentuLuaMachineInterop::audio_stop_sound(lua_State* L)
+	{
+		XEN_LOG("- Called audio_stop_sound.\n");
+		auto channel = lua_tointeger(L, -1);
+		AudioManager::GetInstance()->StopSound(channel);
+		return 0;
+	}
+	
+	int XentuLuaMachineInterop::audio_stop_music(lua_State* L)
+	{
+		XEN_LOG("- Called audio_stop_music.\n");
+		AudioManager::GetInstance()->StopMusic();
+		return 0;
+	}
+	
+	int XentuLuaMachineInterop::audio_set_sound_volume(lua_State* L)
+	{
+		XEN_LOG("- Called audio_set_sound_volume.\n");
+		auto sound_id = lua_tointeger(L, -2);
+		float volume = lua_tonumber(L, -1);
+		AudioManager::GetInstance()->SetSoundVolume(sound_id, volume);
+		return 0;
+	}
+	
+	int XentuLuaMachineInterop::audio_set_channel_volume(lua_State* L)
+	{
+		XEN_LOG("- Called audio_set_channel_volume.\n");
+		auto channel_id = lua_tointeger(L, -2);
+		float volume = lua_tonumber(L, -1);
+		AudioManager::GetInstance()->SetChannelVolume(channel_id, volume);
+		return 0;
+	}
+	
+	int XentuLuaMachineInterop::audio_set_music_volume(lua_State* L)
+	{
+		XEN_LOG("- Called audio_set_music_volume.\n");
+		float volume = lua_tonumber(L, -1);
+		AudioManager::GetInstance()->SetMusicVolume(volume);
+		return 0;
+	}
+	
+	int XentuLuaMachineInterop::audio_set_channel_panning(lua_State* L)
+	{
+		XEN_LOG("- Called audio_set_channel_panning.\n");
+		auto channel_id = lua_tointeger(L, -3);
+		float left = lua_tonumber(L, -2);
+		float right = lua_tonumber(L, -1);
+		AudioManager::GetInstance()->SetChannelPanning(channel_id, left, right);
+		return 0;
+	}
+	
 	int XentuLuaMachineInterop::renderer_begin(lua_State* L)
 	{
 		XEN_LOG("- Called renderer_begin\n");
@@ -439,7 +537,17 @@ namespace xen
 		method(XentuLuaMachineInterop, assets_read_text_file, assets_read_text_file),
 		method(XentuLuaMachineInterop, assets_load_texture, assets_load_texture),
 		method(XentuLuaMachineInterop, assets_load_font, assets_load_font),
+		method(XentuLuaMachineInterop, assets_load_sound, assets_load_sound),
+		method(XentuLuaMachineInterop, assets_load_music, assets_load_music),
 		method(XentuLuaMachineInterop, assets_create_textbox, assets_create_textbox),
+		method(XentuLuaMachineInterop, audio_play_sound, audio_play_sound),
+		method(XentuLuaMachineInterop, audio_play_music, audio_play_music),
+		method(XentuLuaMachineInterop, audio_stop_sound, audio_stop_sound),
+		method(XentuLuaMachineInterop, audio_stop_music, audio_stop_music),
+		method(XentuLuaMachineInterop, audio_set_sound_volume, audio_set_sound_volume),
+		method(XentuLuaMachineInterop, audio_set_channel_volume, audio_set_channel_volume),
+		method(XentuLuaMachineInterop, audio_set_music_volume, audio_set_music_volume),
+		method(XentuLuaMachineInterop, audio_set_channel_panning, audio_set_channel_panning),
 		method(XentuLuaMachineInterop, renderer_begin, renderer_begin),
 		method(XentuLuaMachineInterop, renderer_clear, renderer_clear),
 		method(XentuLuaMachineInterop, renderer_present, renderer_present),

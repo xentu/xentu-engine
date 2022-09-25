@@ -26,17 +26,39 @@ assets_mount(virtual_path, real_path)
 assets_read_text_file(path)
 assets_load_texture(path)
 assets_load_font(path, font_size)
+assets_load_sound(path) ~
+assets_load_music(path) ~
 assets_create_textbox(x,y,w,h)
+```
+
+### Audio Functions
+```
+audio_play_sound(sound_id, channel, loops)
+audio_play_music(music_id, loops)
+audio_stop_music()
+audio_stop_sounds(channel) 
+audio_set_sound_volume(id, volume)
+audio_set_channel_volume(channel, volume)
+audio_set_music_volume(volume)
+audio_set_channel_panning(channel, left, right)
 ```
 
 ### Renderer Functions
 ```
 renderer_begin()
+renderer_clear()
 renderer_present()
 renderer_draw_texture(color, x, y, width, height)
 renderer_draw_sub_texture(color, x, y, w, h, sx, sy, sw, sh)
+renderer_draw_rectangle(x, y, w, h)
 renderer_draw_textbox(textbox_id)
 renderer_set_background(color)
+renderer_set_foreground(color)
+renderer_set_window_mode(mode)
+renderer_set_position(x,y)
+renderer_set_origin(x,y)
+renderer_set_rotation(angle)
+renderer_set_scale(x,y)
 ```
 
 ### Config Functions
@@ -52,9 +74,12 @@ config_get_int2
 ### Object Functions
 ```
 textbox_set_text(textbox_id, text)
+textbox_set_color(color)
+textbox_measure_text(textbox_id, text) ~
 ```
 
 ### Input Functions
 ```
 keyboard_key_down(key)
+keyboard_key_clicked(key)
 ```

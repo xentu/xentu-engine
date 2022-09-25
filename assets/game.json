@@ -1,8 +1,8 @@
 {
 	"game": {
 		"title": "Hello World",
-		"language": "javascript",
-		"entry_point": "/scripts/js/test.js",
+		"language": "python",
+		"entry_point": "/scripts/python/test.py",
 		"v_sync": true,
 		"fullscreen": false,
 		"update_frequency": 60,
@@ -19,6 +19,10 @@
 			"engine": "sdl2",
 			"accelerated": true,
 			"technique": "immediate"
+		},
+		"audio": {
+			"frequency": 44100,
+			"channels": 2
 		}
 	}
 }

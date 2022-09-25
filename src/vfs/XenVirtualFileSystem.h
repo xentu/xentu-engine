@@ -14,7 +14,12 @@ namespace xen
 	extern void vfs_shutdown();
 	extern XenVirtualFileSystemPtr vfs_get_global();
 
-	struct VfsBufferResult {uint8_t* buffer; uint64_t length; uint64_t r_length;};
+	struct VfsBufferResult {
+		uint8_t* buffer;
+		uint64_t length;
+		uint64_t r_length;
+		bool disposable;
+	};
 
 	class XenVirtualFileSystem final
 	{

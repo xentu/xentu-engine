@@ -14,7 +14,19 @@ namespace xen { const char * xen_js_script_init = R"(
 	const assets = {}
 	assets.load_texture = assets_load_texture;
 	assets.load_font = assets_load_font;
+	assets.load_sound = assets_load_sound;
+	assets.load_music = assets_load_music;
 	assets.create_textbox = assets_create_textbox;
+
+	const audio = {}
+	audio.play_sound = audio_play_sound;
+	audio.play_music = audio_play_music;
+	audio.stop_sound = audio_stop_sound;
+	audio.stop_music = audio_stop_music;
+	audio.set_sound_volume = audio_set_sound_volume;
+	audio.set_channel_volume = audio_set_channel_volume;
+	audio.set_music_volume = audio_set_music_volume;
+	audio.set_channel_panning = audio_set_channel_panning;
 
 	const config = {}
 	config.get_str = config_get_str;

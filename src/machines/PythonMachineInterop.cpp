@@ -204,8 +204,29 @@ namespace xen
 		xen::VfsBufferResult res = vfs_get_global()->ReadAllData(s);
 		printf("Bytes read: %s\n", std::to_string(res.length).c_str());
 		int font_id = r->LoadFont(res.buffer, res.length, font_size);
-		// todo: take the filename from s and load the font.
 		return PyLong_FromLong(font_id);
+	}
+
+	PyObject* xen_py_interop_assets_load_sound(PyObject *self, PyObject *args)
+	{
+		char *path;
+		if (!PyArg_ParseTuple(args, "s", &path)) {
+			return NULL;
+		}
+		auto assets = AssetManager::GetInstance();
+		auto res = vfs_get_global()->ReadAllData(path);
+		int sound_id = assets->LoadAudio(res.buffer, res.length);
+		return PyLong_FromLong(sound_id);
+	}
+
+	PyObject* xen_py_interop_assets_load_music(PyObject *self, PyObject *args)
+	{
+		char *path;
+		if (!PyArg_ParseTuple(args, "s", &path)) return NULL;
+		auto assets = AssetManager::GetInstance();
+		auto res = vfs_get_global()->ReadAllData(path);
+		int music_id = assets->LoadMusic(res.buffer, res.length);
+		return PyLong_FromLong(music_id);
 	}
 	
 	PyObject* xen_py_interop_assets_create_textbox(PyObject *self, PyObject *args)
@@ -216,6 +237,71 @@ namespace xen
 		auto r = AssetManager::GetInstance();
 		int textbox_id = r->CreateTextBox(x, y, w, h);
 		return PyLong_FromLong(textbox_id);
+	}
+
+	PyObject* xen_py_interop_audio_play_sound(PyObject *self, PyObject *args)
+	{
+		int sound_id, channel, loops;
+		if (!PyArg_ParseTuple(args, "iii", &sound_id, &channel, &loops)) return NULL;
+		AudioManager::GetInstance()->PlaySound(sound_id, channel, loops);
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_audio_play_music(PyObject *self, PyObject *args)
+	{
+		int music_id, loops;
+		if (!PyArg_ParseTuple(args, "ii", &music_id, &loops)) return NULL;
+		AudioManager::GetInstance()->PlayMusic(music_id, loops);
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_audio_stop_sound(PyObject *self, PyObject *args)
+	{
+		int channel;
+		if (!PyArg_ParseTuple(args, "i", &channel)) return NULL;
+		AudioManager::GetInstance()->StopSound(channel);
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_audio_stop_music(PyObject *self, PyObject *args)
+	{
+		AudioManager::GetInstance()->StopMusic();
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_audio_set_sound_volume(PyObject *self, PyObject *args)
+	{
+		int sound_id;
+		float volume;
+		if (!PyArg_ParseTuple(args, "if", &sound_id, &volume)) return NULL;
+		AudioManager::GetInstance()->SetSoundVolume(sound_id, volume);
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_audio_set_channel_volume(PyObject *self, PyObject *args)
+	{
+		int channel_id;
+		float volume;
+		if (!PyArg_ParseTuple(args, "if", &channel_id, &volume)) return NULL;
+		AudioManager::GetInstance()->SetChannelVolume(channel_id, volume);
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_audio_set_music_volume(PyObject *self, PyObject *args)
+	{
+		float volume;
+		if (!PyArg_ParseTuple(args, "f", &volume)) return NULL;
+		AudioManager::GetInstance()->SetMusicVolume(volume);
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_audio_set_channel_panning(PyObject *self, PyObject *args)
+	{
+		int channel_id;
+		float left, right;
+		if (!PyArg_ParseTuple(args, "iff", &channel_id, &left, &right)) return NULL;
+		AudioManager::GetInstance()->SetChannelPanning(channel_id, left, right);
+		return PyBool_FromLong(1);
 	}
 	
 	PyObject* xen_py_interop_renderer_begin(PyObject *self, PyObject *args)
@@ -461,7 +547,19 @@ namespace xen
 		{"assets_read_text_file",		xen_py_interop_assets_read_text_file, METH_VARARGS, "Read a text file."},
 		{"assets_load_texture",    	xen_py_interop_assets_load_texture, METH_VARARGS, "Load a texture."},
 		{"assets_load_font",				xen_py_interop_assets_load_font, METH_VARARGS, "Load a font."},
+		{"assets_load_sound",			xen_py_interop_assets_load_sound, METH_VARARGS, "Load an audio sample (WAV)."},
+		{"assets_load_music",			xen_py_interop_assets_load_music, METH_VARARGS, "Load a music file (OGG)."},
 		{"assets_create_textbox",  	xen_py_interop_assets_create_textbox, METH_VARARGS, "Create a textbox."},
+		
+		{"audio_play_sound",				xen_py_interop_audio_play_sound, METH_VARARGS, "Play a sound."},
+		{"audio_play_music",				xen_py_interop_audio_play_music, METH_VARARGS, "Play a music file."},
+		{"audio_stop_sound",				xen_py_interop_audio_stop_sound, METH_VARARGS, "Stop a sound channel."},
+		{"audio_stop_music",				xen_py_interop_audio_stop_music, METH_VARARGS, "Stop music playing."},
+		{"audio_set_sound_volume",		xen_py_interop_audio_set_sound_volume, METH_VARARGS, "Set the volume of a sound."},
+		{"audio_set_channel_volume",	xen_py_interop_audio_set_channel_volume, METH_VARARGS, "Set the volume of a mixer channel."},
+		{"audio_set_music_volume",		xen_py_interop_audio_set_music_volume, METH_VARARGS, "Set the volume of music."},
+		{"audio_set_channel_panning",	xen_py_interop_audio_set_channel_panning, METH_VARARGS, "Set the left and right panning of a channel."},
+		
 		{"renderer_begin",				xen_py_interop_renderer_begin, METH_VARARGS, "Begin a render cycle."},
 		{"renderer_clear",				xen_py_interop_renderer_clear, METH_VARARGS, "Clear the current render buffer."},
 		{"renderer_present",				xen_py_interop_renderer_present, METH_VARARGS, "Present the current render cycle."},

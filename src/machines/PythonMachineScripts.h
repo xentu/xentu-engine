@@ -26,14 +26,26 @@ game.run = xentu.game_run
 game.exit = xentu.game_exit
 
 
-# masquerade a new module for game
+# masquerade a new module for assets
 assets = XenDummyObject('game')
 assets.mount = xentu.assets_mount
 assets.read_text_file = xentu.assets_read_text_file
 assets.load_texture = xentu.assets_load_texture
 assets.load_font = xentu.assets_load_font
+assets.load_sound = xentu.assets_load_sound
+assets.load_music = xentu.assets_load_music
 assets.create_textbox = xentu.assets_create_textbox
 
+# masquerade a new module for audio
+audio = XenDummyObject('audio')
+audio.play_sound = xentu.audio_play_sound
+audio.play_music = xentu.audio_play_music
+audio.stop_sound = xentu.audio_stop_sound
+audio.stop_music = xentu.audio_stop_music
+audio.set_sound_volume = xentu.audio_set_sound_volume
+audio.set_channel_volume = xentu.audio_set_channel_volume
+audio.set_music_volume = xentu.audio_set_music_volume
+audio.set_channel_panning = xentu.audio_set_channel_panning
 
 def renderer_set_background_shim(hex):
 	col = hex.replace('#', '')
@@ -41,7 +53,6 @@ def renderer_set_background_shim(hex):
 
 
 # masquerade a new module for renderer
-
 class XenRendererObject(ModuleType):
 	def set_background(self, hex):
 		xentu.renderer_set_background(hex.replace('#', ''))
@@ -211,6 +222,7 @@ const.KB_MENU					= 257
 
 globals()['game'] = sys.modules['game'] = game
 globals()['assets'] = sys.modules['assets'] = assets
+globals()['audio'] = sys.modules['audio'] = audio
 globals()['renderer'] = sys.modules['renderer'] = renderer
 globals()['config'] = sys.modules['config'] = config
 globals()['textbox'] = sys.modules['textbox'] = textbox
@@ -234,5 +246,6 @@ class XenImporter(object):
 		return self
 sys.meta_path.append(XenImporter())
 
+game.create_window()
 
 )"; }
