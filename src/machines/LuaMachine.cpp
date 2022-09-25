@@ -56,11 +56,11 @@ namespace xen
 		std::string lua_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\n";
 
 		// run the lua code.
-		auto ret_startup = luaL_dostring(L, lua_code.c_str());
+		const int ret_startup = luaL_dostring(L, lua_code.c_str());
 		if (ret_startup != LUA_OK) {
-			XEN_LOG("- Error, One of the startup Lua components failed: ");
-			XEN_LOG(lua_tostring(L, -1));
-			XEN_LOG("\n");
+			printf("- Error, One of the startup Lua components failed: ");
+			printf(lua_tostring(L, -1));
+			printf("\n");
 			lua_pop(L, 1); // pop error message
 			return 0;
 		}
