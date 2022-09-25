@@ -22,6 +22,7 @@ namespace xen
 			int assets_load_font(lua_State* L);
 			int assets_load_sound(lua_State* L);
 			int assets_load_music(lua_State* L);
+			int assets_load_shader(lua_State* L);
 			int assets_create_textbox(lua_State* L);
 
 			int audio_play_sound(lua_State* L);
@@ -47,6 +48,7 @@ namespace xen
 			int renderer_set_origin(lua_State* L);
 			int renderer_set_rotation(lua_State* L);
 			int renderer_set_scale(lua_State* L);
+			int renderer_set_shader(lua_State* L);
 			int config_get_str(lua_State* L);
 			int config_get_str2(lua_State* L);
 			int config_get_bool(lua_State* L);

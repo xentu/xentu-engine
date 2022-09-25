@@ -60,6 +60,9 @@ namespace xen
 
 		duk_push_c_function(L, js_assets_load_music, 1 /*nargs*/);
 		duk_put_global_string(L, "assets_load_music");
+
+		duk_push_c_function(L, js_assets_load_shader, 2 /*nargs*/);
+		duk_put_global_string(L, "assets_load_shader");
       
 		duk_push_c_function(L, js_assets_create_textbox, 4 /*nargs*/);
 		duk_put_global_string(L, "assets_create_textbox");
@@ -129,6 +132,9 @@ namespace xen
 
 		duk_push_c_function(L, js_renderer_set_scale, 2 /*nargs*/);
 		duk_put_global_string(L, "renderer_set_scale");
+
+		duk_push_c_function(L, js_renderer_set_shader, 2 /*nargs*/);
+		duk_put_global_string(L, "renderer_set_shader");
 
 		duk_push_c_function(L, js_config_get_str, 3 /*nargs*/);
 		duk_put_global_string(L, "config_get_str");
@@ -317,6 +323,15 @@ namespace xen
 		auto res = vfs_get_global()->ReadAllData(path);
 		int music_id = assets->LoadMusic(res.buffer, res.length);
 		duk_push_int(L, music_id);
+		return 1;
+	}
+
+	duk_ret_t js_assets_load_shader(duk_context *L) {
+		auto vertex_src = duk_to_string(L, 0);
+		auto frag_src = duk_to_string(L, 1);
+		auto assets = AssetManager::GetInstance();
+		int shader_id = assets->LoadShader(vertex_src, frag_src);
+		duk_push_int(L, shader_id);
 		return 1;
 	}
 	
@@ -536,6 +551,14 @@ namespace xen
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
 		renderer->SetScale(x, y);
+		return 0;
+	}
+
+	duk_ret_t js_renderer_set_shader(duk_context *L) {
+		int asset_id = duk_to_int(L, 0);
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->UseShader(asset_id);
 		return 0;
 	}
 

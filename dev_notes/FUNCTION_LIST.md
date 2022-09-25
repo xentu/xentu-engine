@@ -26,8 +26,9 @@ assets_mount(virtual_path, real_path)
 assets_read_text_file(path)
 assets_load_texture(path)
 assets_load_font(path, font_size)
-assets_load_sound(path) ~
-assets_load_music(path) ~
+assets_load_sound(path)
+assets_load_music(path)
+assets_load_shader(vertex_text, fragment_text)
 assets_create_textbox(x,y,w,h)
 ```
 
@@ -59,6 +60,7 @@ renderer_set_position(x,y)
 renderer_set_origin(x,y)
 renderer_set_rotation(angle)
 renderer_set_scale(x,y)
+renderer_set_shader(shader_id)
 ```
 
 ### Config Functions

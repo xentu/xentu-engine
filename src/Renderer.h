@@ -44,6 +44,11 @@ namespace xen
 			bool Init(string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode);
 
 			/**
+			 * Use a specific shader
+			 */
+			void UseShader(int asset_id);
+
+			/**
 			 * Called at the beginning of each new frame.
 			 */
 			void NewFrame();
@@ -187,7 +192,7 @@ namespace xen
 			Texture* white_texture;
 
 			/* shader information. */
-			unsigned int m_shader;
+			int m_shader;
 			unsigned int m_shader_transform_loc;
 			unsigned int m_shader_tex_loc;
 

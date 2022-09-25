@@ -16,6 +16,7 @@ namespace xen { const char * xen_js_script_init = R"(
 	assets.load_font = assets_load_font;
 	assets.load_sound = assets_load_sound;
 	assets.load_music = assets_load_music;
+	assets.load_shader = assets_load_shader;
 	assets.create_textbox = assets_create_textbox;
 
 	const audio = {}
@@ -55,6 +56,7 @@ namespace xen { const char * xen_js_script_init = R"(
 	renderer.set_origin = renderer_set_origin;
 	renderer.set_rotation = renderer_set_rotation;
 	renderer.set_scale = renderer_set_scale;
+	renderer.set_shader = renderer_set_shader;
 
 	const textbox = {}
 	textbox.set_text = textbox_set_text;

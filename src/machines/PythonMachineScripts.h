@@ -34,6 +34,7 @@ assets.load_texture = xentu.assets_load_texture
 assets.load_font = xentu.assets_load_font
 assets.load_sound = xentu.assets_load_sound
 assets.load_music = xentu.assets_load_music
+assets.load_shader = xentu.assets_load_shader
 assets.create_textbox = xentu.assets_create_textbox
 
 # masquerade a new module for audio
@@ -72,6 +73,7 @@ renderer.set_position = xentu.renderer_set_position
 renderer.set_origin = xentu.renderer_set_origin
 renderer.set_rotation = xentu.renderer_set_rotation
 renderer.set_scale = xentu.renderer_set_scale
+renderer.set_shader = xentu.renderer_set_shader
 
 
 # masquerade a new module for config

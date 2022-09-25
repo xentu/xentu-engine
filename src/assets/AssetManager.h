@@ -44,6 +44,11 @@ namespace xen
 			int LoadMusic(uint8_t* buffer, uint64_t length);
 
 			/**
+			 * Load a shader into memory and return it's asset id.
+			 */
+			int AssetManager::LoadShader(string vertex_shader, string frag_shader);
+
+			/**
 			 * Create a textbox with specific dimensions, and return it's asset id.
 			 */
 			int CreateTextBox(int x, int y, int width, int height);
@@ -54,6 +59,9 @@ namespace xen
 			TTF_Font* GetFont(int id);
 			
 			TextBox* GetTextBox(int id);
+
+			unsigned int GetShader(int id);
+
 
 		private:
 			static AssetManager* instance;
@@ -69,5 +77,9 @@ namespace xen
 			/* textboxes */
 			map<int, TextBox*> m_textboxes;
 			int m_textboxes_iter = 0;
+
+			/* shaders */
+			map<int, unsigned int> m_shaders;
+			int m_shaders_iter = 0;
 	};
 }

@@ -28,6 +28,7 @@ assets.load_texture = function(a) return interop.assets_load_texture(a) end
 assets.load_font = function(a, b) return interop.assets_load_font(a, b) end
 assets.load_sound = function(path) return interop.assets_load_sound(path) end
 assets.load_music = function(path) return interop.assets_load_music(path) end
+assets.load_shader = function(a,b) return interop.assets_load_shader(a,b) end
 assets.create_textbox = function(a, b, c, d) return interop.assets_create_textbox(a, b, c, d) end
 
 audio = {}
@@ -61,6 +62,7 @@ renderer.set_position = function(x,y) interop.renderer_set_position(x,y) end
 renderer.set_origin = function(x,y) interop.renderer_set_origin(x,y) end
 renderer.set_rotation = function(angle) interop.renderer_set_rotation(angle) end
 renderer.set_scale = function(x,y) interop.renderer_set_scale(x,y) end
+renderer.set_shader = function(x) interop.renderer_set_shader(x) end
 
 config = {}
 config.get_str = function(a,b,c) return interop.config_get_str(a,b,c) end

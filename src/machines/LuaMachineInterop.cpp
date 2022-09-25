@@ -163,6 +163,17 @@ namespace xen
 		return 1;
 	}
 
+	int XentuLuaMachineInterop::assets_load_shader(lua_State* L)
+	{
+		XEN_LOG("- Called assets_load_shader.\n");
+		auto vertex_src = lua_tostring(L, -2);
+		auto frag_src = lua_tostring(L, -1);
+		auto assets = AssetManager::GetInstance();
+		int asset_id = assets->LoadShader(vertex_src, frag_src);
+		lua_pushinteger(L, asset_id);
+		return 1;
+	}
+
 	int XentuLuaMachineInterop::assets_create_textbox(lua_State* L)
 	{
 		XEN_LOG("- Called assets_create_textbox.\n");
@@ -429,6 +440,16 @@ namespace xen
 		return 0;
 	}
 
+	int XentuLuaMachineInterop::renderer_set_shader(lua_State* L)
+	{
+		XEN_LOG("- Called renderer_set_shader\n");
+		int asset_id = lua_tointeger(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->UseShader(asset_id);
+		return 0;
+	}
+
 	int XentuLuaMachineInterop::config_get_str(lua_State* L)
 	{
 		XEN_LOG("- Called config_get_str\n");
@@ -606,6 +627,7 @@ namespace xen
 		method(XentuLuaMachineInterop, assets_load_font, assets_load_font),
 		method(XentuLuaMachineInterop, assets_load_sound, assets_load_sound),
 		method(XentuLuaMachineInterop, assets_load_music, assets_load_music),
+		method(XentuLuaMachineInterop, assets_load_shader, assets_load_shader),
 		method(XentuLuaMachineInterop, assets_create_textbox, assets_create_textbox),
 		method(XentuLuaMachineInterop, audio_play_sound, audio_play_sound),
 		method(XentuLuaMachineInterop, audio_play_music, audio_play_music),
@@ -629,6 +651,7 @@ namespace xen
 		method(XentuLuaMachineInterop, renderer_set_origin, renderer_set_origin),
 		method(XentuLuaMachineInterop, renderer_set_rotation, renderer_set_rotation),
 		method(XentuLuaMachineInterop, renderer_set_scale, renderer_set_scale),
+		method(XentuLuaMachineInterop, renderer_set_shader, renderer_set_shader),
 		method(XentuLuaMachineInterop, config_get_str, config_get_str),
 		method(XentuLuaMachineInterop, config_get_str2, config_get_str2),
 		method(XentuLuaMachineInterop, config_get_bool, config_get_bool),

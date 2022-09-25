@@ -50,6 +50,7 @@ namespace xen
 	duk_ret_t js_assets_load_font(duk_context *L);
 	duk_ret_t js_assets_load_sound(duk_context *L);
 	duk_ret_t js_assets_load_music(duk_context *L);
+	duk_ret_t js_assets_load_shader(duk_context *L);
 	duk_ret_t js_assets_create_textbox(duk_context *L);
 	duk_ret_t js_audio_play_sound(duk_context *L);
 	duk_ret_t js_audio_play_music(duk_context *L);
@@ -73,6 +74,7 @@ namespace xen
 	duk_ret_t js_renderer_set_origin(duk_context *L);
 	duk_ret_t js_renderer_set_rotation(duk_context *L);
 	duk_ret_t js_renderer_set_scale(duk_context *L);
+	duk_ret_t js_renderer_set_shader(duk_context *L);
 	
 
 	duk_ret_t js_config_get_str(duk_context* L);

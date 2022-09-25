@@ -228,6 +228,16 @@ namespace xen
 		int music_id = assets->LoadMusic(res.buffer, res.length);
 		return PyLong_FromLong(music_id);
 	}
+
+	PyObject* xen_py_interop_assets_load_shader(PyObject *self, PyObject *args)
+	{
+		char *vertex_src;
+		char *frag_src;
+		if (!PyArg_ParseTuple(args, "ss", &vertex_src, &frag_src)) return NULL;
+		auto assets = AssetManager::GetInstance();
+		int asset_id = assets->LoadShader(string(vertex_src), string(frag_src));
+		return PyLong_FromLong(asset_id);
+	}
 	
 	PyObject* xen_py_interop_assets_create_textbox(PyObject *self, PyObject *args)
 	{
@@ -406,9 +416,7 @@ namespace xen
 	PyObject* xen_py_interop_renderer_set_window_mode(PyObject *self, PyObject *args)
 	{
 		int mode;
-		if (!PyArg_ParseTuple(args, "i", &mode)) {
-			return NULL;
-		}
+		if (!PyArg_ParseTuple(args, "i", &mode)) return NULL;
 		auto m = PythonMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->SetWindowMode(static_cast<XenWindowMode>(mode));
@@ -419,9 +427,7 @@ namespace xen
 	PyObject* xen_py_interop_renderer_set_position(PyObject *self, PyObject *args)
 	{
 		float x, y;
-		if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
-			return NULL;
-		}
+		if (!PyArg_ParseTuple(args, "ff", &x, &y)) return NULL;
 		auto m = PythonMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->SetPosition(x, y);
@@ -431,9 +437,7 @@ namespace xen
 	PyObject* xen_py_interop_renderer_set_origin(PyObject *self, PyObject *args)
 	{
 		float x, y;
-		if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
-			return NULL;
-		}
+		if (!PyArg_ParseTuple(args, "ff", &x, &y)) return NULL;
 		auto m = PythonMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->SetOrigin(x, y);
@@ -443,9 +447,7 @@ namespace xen
 	PyObject* xen_py_interop_renderer_set_rotation(PyObject *self, PyObject *args)
 	{
 		float angle;
-		if (!PyArg_ParseTuple(args, "f", &angle)) {
-			return NULL;
-		}
+		if (!PyArg_ParseTuple(args, "f", &angle)) return NULL;
 		auto m = PythonMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->SetRotation(angle);
@@ -455,12 +457,20 @@ namespace xen
 	PyObject* xen_py_interop_renderer_set_scale(PyObject *self, PyObject *args)
 	{
 		float x, y;
-		if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
-			return NULL;
-		}
+		if (!PyArg_ParseTuple(args, "ff", &x, &y)) return NULL;
 		auto m = PythonMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->SetScale(x, y);
+		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_renderer_set_shader(PyObject *self, PyObject *args)
+	{
+		int asset_id;
+		if (!PyArg_ParseTuple(args, "i", &asset_id)) return NULL;
+		auto m = PythonMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->UseShader(asset_id);
 		return PyBool_FromLong(1);
 	}
 	
@@ -639,6 +649,7 @@ namespace xen
 		{"assets_load_font",				xen_py_interop_assets_load_font, METH_VARARGS, "Load a font."},
 		{"assets_load_sound",			xen_py_interop_assets_load_sound, METH_VARARGS, "Load an audio sample (WAV)."},
 		{"assets_load_music",			xen_py_interop_assets_load_music, METH_VARARGS, "Load a music file (OGG)."},
+		{"assets_load_shader",			xen_py_interop_assets_load_shader, METH_VARARGS, "Load a pair of shaders (vertex, fragment)."},
 		{"assets_create_textbox",  	xen_py_interop_assets_create_textbox, METH_VARARGS, "Create a textbox."},
 		
 		{"audio_play_sound",				xen_py_interop_audio_play_sound, METH_VARARGS, "Play a sound."},
@@ -664,6 +675,7 @@ namespace xen
 		{"renderer_set_origin",			xen_py_interop_renderer_set_origin, METH_VARARGS, "Set the current transform origin."},
 		{"renderer_set_rotation",		xen_py_interop_renderer_set_rotation, METH_VARARGS, "Set the current transform rotation (in degrees)."},
 		{"renderer_set_scale",			xen_py_interop_renderer_set_scale, METH_VARARGS, "Set the current transform scale (fractional)."},
+		{"renderer_set_shader", 		xen_py_interop_renderer_set_shader, METH_VARARGS, "Set the shader to use."},
 		{"config_get_str",				xen_py_interop_config_get_str, METH_VARARGS, "Get a string setting"},
 		{"config_get_str2",				xen_py_interop_config_get_str2, METH_VARARGS, "Get a string sub setting"},
 		{"config_get_bool",				xen_py_interop_config_get_bool, METH_VARARGS, "Get a boolean setting"},
