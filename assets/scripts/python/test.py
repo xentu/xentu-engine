@@ -1,4 +1,4 @@
-import game, assets, audio, const, renderer, textbox, keyboard
+import game, assets, audio, config, const, renderer, textbox, keyboard
 
 print("Hello from python!\n")
 

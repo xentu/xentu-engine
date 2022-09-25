@@ -67,6 +67,7 @@ namespace xen
 		}
 		return default_value;
 	}
+
 	const bool Config::GetSettingBool(const string group, const string name, const bool default_value)
 	{
 		try {
@@ -79,6 +80,7 @@ namespace xen
 		}
 		return default_value;
 	}
+	
 	const int Config::GetSettingInt(const string group, const string name, const int default_value)
 	{
 		try {

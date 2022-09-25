@@ -431,32 +431,83 @@ namespace xen
 
 	int XentuLuaMachineInterop::config_get_str(lua_State* L)
 	{
-		return 0;
+		XEN_LOG("- Called config_get_str\n");
+		auto m_group = lua_tostring(L, -3);
+		auto m_name = lua_tostring(L, -2);
+		auto m_default = lua_tostring(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto config = machine->GetConfig();
+		const auto result = config->GetSetting(m_group, m_name, m_default);
+		lua_pushstring(L, result.c_str());
+		return 1;
 	}
 
 	int XentuLuaMachineInterop::config_get_str2(lua_State* L)
 	{
-		return 0;
+		XEN_LOG("- Called config_get_str2\n");
+		auto m_group = lua_tostring(L, -4);
+		auto m_subgroup = lua_tostring(L, -3);
+		auto m_name = lua_tostring(L, -2);
+		auto m_default = lua_tostring(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto config = machine->GetConfig();
+		const auto result = config->GetSetting(m_group, m_subgroup, m_name, m_default);
+		lua_pushstring(L, result.c_str());
+		return 1;
 	}
 
 	int XentuLuaMachineInterop::config_get_bool(lua_State* L)
 	{
-		return 0;
+		XEN_LOG("- Called config_get_bool\n");
+		auto m_group = lua_tostring(L, -3);
+		auto m_name = lua_tostring(L, -2);
+		auto m_default = lua_toboolean(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto config = machine->GetConfig();
+		const auto result = config->GetSettingBool(m_group, m_name, m_default);
+		lua_pushboolean(L, result);
+		return 1;
 	}
 
 	int XentuLuaMachineInterop::config_get_bool2(lua_State* L)
 	{
-		return 0;
+		XEN_LOG("- Called config_get_bool2\n");
+		auto m_group = lua_tostring(L, -4);
+		auto m_subgroup = lua_tostring(L, -3);
+		auto m_name = lua_tostring(L, -2);
+		auto m_default = lua_toboolean(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto config = machine->GetConfig();
+		const auto result = config->GetSettingBool(m_group, m_subgroup, m_name, m_default);
+		lua_pushboolean(L, result);
+		return 1;
 	}
 
 	int XentuLuaMachineInterop::config_get_int(lua_State* L)
 	{
-		return 0;
+		XEN_LOG("- Called config_get_int\n");
+		auto m_group = lua_tostring(L, -3);
+		auto m_name = lua_tostring(L, -2);
+		auto m_default = lua_tointeger(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto config = machine->GetConfig();
+		const auto result = config->GetSettingInt(m_group, m_name, m_default);
+		lua_pushinteger(L, result);
+		return 1;
 	}
 
 	int XentuLuaMachineInterop::config_get_int2(lua_State* L)
 	{
-		return 0;
+		XEN_LOG("- Called config_get_bool2\n");
+		auto m_group = lua_tostring(L, -4);
+		auto m_subgroup = lua_tostring(L, -3);
+		auto m_name = lua_tostring(L, -2);
+		auto m_default = lua_tointeger(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto config = machine->GetConfig();
+		const auto result = config->GetSettingInt(m_group, m_subgroup, m_name, m_default);
+		lua_pushinteger(L, result);
+		return 1;
 	}
 
 	int XentuLuaMachineInterop::textbox_set_text(lua_State* L)

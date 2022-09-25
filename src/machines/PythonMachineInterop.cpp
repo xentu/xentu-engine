@@ -464,17 +464,91 @@ namespace xen
 		return PyBool_FromLong(1);
 	}
 	
-	PyObject* xen_py_interop_config_get_str(PyObject *self, PyObject *args) { return NULL; }
+	PyObject* xen_py_interop_config_get_str(PyObject *self, PyObject *args)
+	{
+		char* m_group;
+		char* m_name;
+		char* m_default;
+		if (!PyArg_ParseTuple(args, "sss", &m_group, &m_name, &m_default)) return NULL;
+		std::string s_group(m_group);
+		std::string s_name(m_name);
+		std::string s_default(m_default);
+		auto config = PythonMachine::GetInstance()->GetConfig();
+		const auto result = config->GetSetting(s_group, s_name, s_default);
+		return PyUnicode_FromString(result.c_str());
+	}
 	
-	PyObject* xen_py_interop_config_get_str2(PyObject *self, PyObject *args) { return NULL; }
+	PyObject* xen_py_interop_config_get_str2(PyObject *self, PyObject *args)
+	{
+		char* m_group;
+		char* m_sub;
+		char* m_name;
+		char* m_default;
+		if (!PyArg_ParseTuple(args, "ssss", &m_group, &m_sub, &m_name, &m_default)) return NULL;
+		auto config = PythonMachine::GetInstance()->GetConfig();
+		std::string s_group(m_group);
+		std::string s_sub(m_sub);
+		std::string s_name(m_name);
+		std::string s_default(m_default);
+		const auto result = config->GetSetting(s_group, s_sub, s_name, s_default);
+		return PyUnicode_FromString(result.c_str());
+	}
 	
-	PyObject* xen_py_interop_config_get_bool(PyObject *self, PyObject *args) { return NULL; }
+	PyObject* xen_py_interop_config_get_bool(PyObject *self, PyObject *args)
+	{
+		char* m_group;
+		char* m_name;
+		bool m_default;
+		if (!PyArg_ParseTuple(args, "ssb", &m_group, &m_name, &m_default)) return NULL;
+		auto config = PythonMachine::GetInstance()->GetConfig();
+		std::string s_group(m_group);
+		std::string s_name(m_name);
+		const auto result = config->GetSettingBool(s_group, s_name, m_default);
+		return PyBool_FromLong(result ? 1 : 0);
+	}
 	
-	PyObject* xen_py_interop_config_get_bool2(PyObject *self, PyObject *args) { return NULL; }
+	PyObject* xen_py_interop_config_get_bool2(PyObject *self, PyObject *args)
+	{
+		char* m_group;
+		char* m_sub;
+		char* m_name;
+		bool m_default;
+		if (!PyArg_ParseTuple(args, "sssb", &m_group, &m_sub, &m_name, &m_default)) return NULL;
+		auto config = PythonMachine::GetInstance()->GetConfig();
+		std::string s_group(m_group);
+		std::string s_sub(m_sub);
+		std::string s_name(m_name);
+		const auto result = config->GetSettingBool(s_group, s_sub, s_name, m_default);
+		return PyBool_FromLong(result ? 1 : 0);
+	}
 	
-	PyObject* xen_py_interop_config_get_int(PyObject *self, PyObject *args) { return NULL; }
+	PyObject* xen_py_interop_config_get_int(PyObject *self, PyObject *args)
+	{
+		char* m_group;
+		char* m_name;
+		int m_default;
+		if (!PyArg_ParseTuple(args, "ssi", &m_group, &m_name, &m_default)) return NULL;
+		auto config = PythonMachine::GetInstance()->GetConfig();
+		std::string s_group(m_group);
+		std::string s_name(m_name);
+		const auto result = config->GetSettingInt(s_group, s_name, m_default);
+		return PyLong_FromLong(result);
+	}
 	
-	PyObject* xen_py_interop_config_get_int2(PyObject *self, PyObject *args) { return NULL; }
+	PyObject* xen_py_interop_config_get_int2(PyObject *self, PyObject *args)
+	{
+		char* m_group;
+		char* m_sub;
+		char* m_name;
+		int m_default;
+		if (!PyArg_ParseTuple(args, "sssi", &m_group, &m_sub, &m_name, &m_default)) return NULL;
+		auto config = PythonMachine::GetInstance()->GetConfig();
+		std::string s_group(m_group);
+		std::string s_sub(m_sub);
+		std::string s_name(m_name);
+		const auto result = config->GetSettingInt(s_group, s_sub, s_name, m_default);
+		return PyLong_FromLong(result);
+	}
 
 	PyObject* xen_py_interop_textbox_set_text(PyObject *self, PyObject *args)
 	{
