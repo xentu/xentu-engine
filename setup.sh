@@ -25,7 +25,7 @@ mkdir -p ./subprojects
 meson wrap install zlib
 meson wrap install libjpeg-turbo
 meson wrap install libpng
-meson wrap install freetype
+meson wrap install freetype2
 meson wrap install lua
 meson wrap install ogg
 meson wrap install vorbis
