@@ -13,11 +13,16 @@ namespace xen { const char * xen_js_script_init = R"(
 
 	const assets = {}
 	assets.load_texture = assets_load_texture;
+	assets.read_text_file = assets_read_text_file;
 	assets.load_font = assets_load_font;
 	assets.load_sound = assets_load_sound;
 	assets.load_music = assets_load_music;
 	assets.load_shader = assets_load_shader;
 	assets.create_textbox = assets_create_textbox;
+	assets.include = function(path) {
+		const code = assets_read_text_file(path);
+		eval(code);
+	};
 
 	const audio = {}
 	audio.play_sound = audio_play_sound;

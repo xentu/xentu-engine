@@ -30,6 +30,11 @@ assets.load_sound = function(path) return interop.assets_load_sound(path) end
 assets.load_music = function(path) return interop.assets_load_music(path) end
 assets.load_shader = function(a,b) return interop.assets_load_shader(a,b) end
 assets.create_textbox = function(a, b, c, d) return interop.assets_create_textbox(a, b, c, d) end
+assets.include = function(path)
+	code = assets.read_text_file(path)
+	delegate = load(code)
+	delegate()
+end
 
 audio = {}
 audio.play_sound = function(sound_id, channel, loops) interop.audio_play_sound(sound_id, channel, loops) end

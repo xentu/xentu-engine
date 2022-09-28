@@ -12,7 +12,7 @@ renderer.set_background('#444444') -- set the clear color.
 renderer.set_foreground("#00FFFF") -- set the foreground color.
 textbox.set_text(text0, font0, "Hello World") -- set the text on text0.
 textbox.set_color(text0, font0, "#FFFF00") -- set the text to yellow.
-x = 0; x_speed = 2; rot = 0
+x = 0; y = 0; x_speed = 2; rot = 0
 fullscreen = false
 
 tw, th = textbox.measure_text(text0, font0, "Testing")
@@ -40,7 +40,7 @@ game.on("draw", function(dt)
 	renderer.set_origin(50, 50)
 	renderer.set_rotation(rot)
 	rot = rot + x_speed
-	renderer.draw_texture(texture0, x + 50, 60, 100, 100)
+	renderer.draw_texture(texture0, x + 50, y + 60, 100, 100)
 	renderer.begin()
 	renderer.draw_textbox(text0)
 	renderer.present()
@@ -48,3 +48,4 @@ end)
 
 -- we've finished preparing, so run the game.
 game.run()
+assets.include('/scripts/lua/test2.lua')

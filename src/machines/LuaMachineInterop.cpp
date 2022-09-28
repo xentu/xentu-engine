@@ -98,13 +98,30 @@ namespace xen
 	int XentuLuaMachineInterop::assets_mount(lua_State* L)
 	{
 		XEN_LOG("- Called assets_mount\n");
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
+		auto s_point = lua_tostring(L, -2);
+		auto s_path = lua_tostring(L, -1);
+		// create the file system mount & init.
+		XenFileSystemPtr zip_fs(new XenZipFileSystem(s_path, "/"));
+		zip_fs->Initialize();
+		// add the file systems to the vfs.
+		XenVirtualFileSystemPtr vfs = vfs_get_global();
+    	vfs->AddFileSystem(s_point, zip_fs);
 		return 0;
 	}
 
 	int XentuLuaMachineInterop::assets_read_text_file(lua_State* L)
 	{
 		XEN_LOG("- Called assets_read_text_file\n");
-		return 0;
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
+		auto path = lua_tostring(L, -1);
+		auto res = vfs_get_global()->ReadAllText(path);
+		lua_pushstring(L, res.c_str());
+		return 1;
 	}
 
 	int XentuLuaMachineInterop::assets_load_texture(lua_State* L)

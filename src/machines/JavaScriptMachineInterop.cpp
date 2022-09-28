@@ -272,12 +272,23 @@ namespace xen
 	
 	duk_ret_t js_assets_mount(duk_context *L) {
 		XEN_LOG("- Called assets_mount\n");
+		auto s_point = duk_to_string(L, 0);
+		auto s_path = duk_to_string(L, 1);
+		// create the file system mount & init.
+		XenFileSystemPtr zip_fs(new XenZipFileSystem(s_path, "/"));
+		zip_fs->Initialize();
+		// add the file systems to the vfs.
+		XenVirtualFileSystemPtr vfs = vfs_get_global();
+    	vfs->AddFileSystem(s_point, zip_fs);
 		return 0;
 	}
 	
 	duk_ret_t js_assets_read_text_file(duk_context *L) {
 		XEN_LOG("- Called assets_read_text_file\n");
-		return 0;
+		auto path = duk_to_string(L, 0);
+		auto res = vfs_get_global()->ReadAllText(path);
+		duk_push_string(L, res.c_str());
+		return 1;
 	}
 	
 	duk_ret_t js_assets_load_texture(duk_context *L) {

@@ -30,6 +30,7 @@ assets_load_sound(path)
 assets_load_music(path)
 assets_load_shader(vertex_text, fragment_text)
 assets_create_textbox(x,y,w,h)
+assets_include(path)
 ```
 
 ### Audio Functions

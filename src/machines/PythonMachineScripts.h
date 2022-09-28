@@ -25,7 +25,6 @@ game.trigger = xentu.game_trigger
 game.run = xentu.game_run
 game.exit = xentu.game_exit
 
-
 # masquerade a new module for assets
 assets = XenDummyObject('game')
 assets.mount = xentu.assets_mount
@@ -36,6 +35,12 @@ assets.load_sound = xentu.assets_load_sound
 assets.load_music = xentu.assets_load_music
 assets.load_shader = xentu.assets_load_shader
 assets.create_textbox = xentu.assets_create_textbox
+
+def asset_include_shim(path):
+	code = xentu.assets_read_text_file(path)
+	eval(code)
+
+assets.include = asset_include_shim
 
 # masquerade a new module for audio
 audio = XenDummyObject('audio')

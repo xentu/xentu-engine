@@ -52,3 +52,4 @@ def draw_callback(dt):
 game.on("update", "update_callback")
 game.on("draw", "draw_callback")
 game.run()
+assets.include('/scripts/python/test2.py')
