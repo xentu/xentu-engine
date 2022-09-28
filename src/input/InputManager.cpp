@@ -4,7 +4,11 @@ namespace xen
 {
 	InputManager::InputManager()
 	: m_running(true)
-	{ }
+	{ 
+		for (int i=0; i<SDL_NUM_SCANCODES; i++) {
+			m_keyboard_down_events[i] = false;	
+		}
+	}
 
 	InputManager::~InputManager()
 	{ }
@@ -12,7 +16,6 @@ namespace xen
 	void InputManager::PollEvents()
 	{
 		SDL_Event event;
-		m_keyboard_down_events_iter = 0;
 		m_keyboard_up_events_iter = 0;
 		
 		// Events management
@@ -23,11 +26,11 @@ namespace xen
 					m_running = false;
 					break;
 				case SDL_KEYDOWN:
-					m_keyboard_down_events[m_keyboard_down_events_iter] = event.key.keysym;
-					m_keyboard_down_events_iter++;
+					m_keyboard_down_events[event.key.keysym.scancode] = true;
 					break;
 				case SDL_KEYUP:
 					m_keyboard_up_events[m_keyboard_up_events_iter] = event.key.keysym;
+					m_keyboard_down_events[event.key.keysym.scancode] = false;
 					m_keyboard_up_events_iter++;
 					break;
       	}
@@ -36,14 +39,7 @@ namespace xen
 
 	bool InputManager::KeyDown(int key_code)
 	{
-		for (int i=0; i<m_keyboard_down_events_iter; i++) {
-			auto evt = m_keyboard_down_events[i];
-			if (evt.scancode == key_code)
-			{
-				return true;
-			}
-		}
-		return false;
+		return m_keyboard_down_events[key_code];
 	}
 
 
