@@ -33,6 +33,11 @@ namespace xen
 					m_keyboard_down_events[event.key.keysym.scancode] = false;
 					m_keyboard_up_events_iter++;
 					break;
+				case SDL_WINDOWEVENT:
+					if(event.window.event == SDL_WINDOWEVENT_RESIZED) {
+						m_size_changed = true;
+					}
+            	break;
       	}
 		}	
 	}
@@ -59,5 +64,16 @@ namespace xen
 	bool InputManager::IsRunning()
 	{
 		return m_running;
+	}
+
+
+	bool InputManager::IsSizeChanged()
+	{
+		if (m_size_changed)
+		{
+			m_size_changed = false;
+			return true;
+		}
+		return false;
 	}
 }

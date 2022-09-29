@@ -113,7 +113,7 @@ namespace xen
 		SDL_GL_SetAttribute( SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
 		#endif
 
-		m_window = SDL_CreateWindow(title.c_str(), x, y, width, height, SDL_WINDOW_OPENGL);
+		m_window = SDL_CreateWindow(title.c_str(), x, y, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 		//m_renderer = SDL_CreateRenderer(m_window, -1, render_flags);
 		m_gl_context = SDL_GL_CreateContext(m_window);
 
@@ -152,7 +152,9 @@ namespace xen
 			/* calculate the projection matrices */
 			glViewport(0, 0, m_viewport.width, m_viewport.height);
 			this->view_proj = glm::ortho(0.0f, (float)m_viewport.width, (float)m_viewport.height, 0.0f);
-			this->screen_proj = glm::ortho(0.0f, (float)width, (float)height, 0.0f);
+			sc_w = (float)width;
+			sc_h = (float)height;
+			this->screen_proj = glm::ortho(0.0f, sc_w, sc_h, 0.0f);
 
 			/* load default shader, and begin using it. */
 			m_shader = AssetManager::GetInstance()->LoadShader(xen_gl_default_vertex_shader, xen_gl_default_fragment_shader);
@@ -187,6 +189,8 @@ namespace xen
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_viewport.width, m_viewport.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_fbo_texture, 0);
 
 			// debug the frame buffer creation.
@@ -239,8 +243,16 @@ namespace xen
 	}
 
 
-	void Renderer::NewFrame()
+	void Renderer::NewFrame(bool resized)
 	{
+		if (resized) {
+			int width = 800;
+			int height = 600;
+			SDL_GetWindowSize(m_window, &width, &height);
+			sc_w = (float)width;
+			sc_h = (float)height;
+			this->screen_proj = glm::ortho(0.0f, sc_w, sc_h, 0.0f);
+		}
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
@@ -309,9 +321,7 @@ namespace xen
 
 		// unbind the frame buffer.
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		int sc_w = m_config->window.width;
-		int sc_h = m_config->window.height;
-		glViewport(0, 0, sc_w, sc_h);
+		glViewport(0, 0, (int)sc_w, (int)sc_h);
 		glUniformMatrix4fv(m_shader_transform_loc, 1, false, &screen_proj[0][0]);
 
 		// clear the screen once more (this time with black).

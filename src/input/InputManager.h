@@ -13,9 +13,11 @@ namespace xen
 			bool KeyDown(int key_code);
 			bool KeyUp(int key_code);
 			bool IsRunning();
+			bool IsSizeChanged();
 
 		private:
 			bool m_running = true;
+			bool m_size_changed = false;
 			/* keyboard event buffer */
 			bool m_keyboard_down_events[SDL_NUM_SCANCODES];
 			SDL_Keysym m_keyboard_up_events[40];

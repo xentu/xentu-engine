@@ -51,7 +51,7 @@ namespace xen
 			/**
 			 * Called at the beginning of each new frame.
 			 */
-			void NewFrame();
+			void NewFrame(bool resized);
 
 			/**
 			 * Begin a new batch of graphics to draw, also resets the global transform.
@@ -199,6 +199,9 @@ namespace xen
 			/* screen/viewport variables */
 			Batch* view_batch;
 			glm::mat4 view_proj;
+
+			/* screen vars */
+			float sc_w; float sc_h;
 			glm::mat4 screen_proj;
 
 			/* flags */

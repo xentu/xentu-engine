@@ -45,7 +45,8 @@ namespace xen
 				running = false;
 			}
 			else {
-				m_renderer->NewFrame();
+				bool resized = m_input->IsSizeChanged();
+				m_renderer->NewFrame(resized);
 				this->Trigger("update", delta_ms);
 				this->Trigger("draw", delta_ms);
 			}
