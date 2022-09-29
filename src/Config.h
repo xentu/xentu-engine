@@ -59,6 +59,7 @@ namespace xen
 			bool v_sync;
 			bool fullscreen;
 			int update_frequency;
+			int draw_frequency;
 			ConfigWindow window;
 			ConfigRenderer renderer;
 			ConfigViewport viewport;

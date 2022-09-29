@@ -105,6 +105,11 @@ namespace xen
 
 		m_viewport = Viewport(vp_width, vp_height, vp_mode);
 
+		//Use V-Sync
+		if (m_config->v_sync && SDL_GL_SetSwapInterval(1) < 0) {
+			XEN_WARN( "Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError() );
+		}
+
 		//Use OpenGL 3.1 core
       SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
       SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 );
@@ -129,11 +134,6 @@ namespace xen
 			{
 				XEN_ERROR( "Error initializing GLEW! %s\n", glewGetErrorString( glewError ) );
 				return false;
-			}
-
-			//Use V-Sync
-			if (SDL_GL_SetSwapInterval( 1 ) < 0) {
-				XEN_WARN( "Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError() );
 			}
 
 			printf("- OpenGL Version: %s\n", glGetString(GL_VERSION));
@@ -370,7 +370,7 @@ namespace xen
 
 		//SDL_RenderPresent(m_renderer);
 		SDL_GL_SwapWindow(m_window);
-		SDL_Delay(1000 / 60);
+		SDL_Delay(1000 / m_config->draw_frequency);
 	}
 
 
