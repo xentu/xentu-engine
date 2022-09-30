@@ -64,6 +64,21 @@ renderer_set_scale(x,y)
 renderer_set_shader(shader_id)
 ```
 
+### Shader Functions
+```
+shader_get_uniform(shader_id, name)
+shader_set_uniform_1b(shader_id, uniform_id, b0)
+shader_set_uniform_1i(shader_id, uniform_id, i0)
+shader_set_uniform_2i(shader_id, uniform_id, i0, i1)
+shader_set_uniform_3i(shader_id, uniform_id, i0, i1, i2)
+shader_set_uniform_4i(shader_id, uniform_id, i0, i1, i2, i3)
+shader_set_uniform_1f(shader_id, uniform_id, f0)
+shader_set_uniform_2f(shader_id, uniform_id, f0, f1)
+shader_set_uniform_3f(shader_id, uniform_id, f0, f1, f2)
+shader_set_uniform_4f(shader_id, uniform_id, f0, f1, f2, f3)
+shader_set_uniform_mat4f(shader_id, uniform_id, matrix)
+```
+
 ### Config Functions
 ```
 config_get_str

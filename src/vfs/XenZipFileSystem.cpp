@@ -1,6 +1,4 @@
 #include "XenZipFileSystem.h"
-#include <dirent.h>
-#include <fstream>
 #include "XenZipFile.h"
 #include "XenStringUtils.h"
 

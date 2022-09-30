@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 #include <SDL.h>
-#include <gl/glew.h>
+#include <GL/glew.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
@@ -46,7 +46,7 @@ namespace xen
 			/**
 			 * Load a shader into memory and return it's asset id.
 			 */
-			int AssetManager::LoadShader(string vertex_shader, string frag_shader);
+			int LoadShader(string vertex_shader, string frag_shader);
 
 			/**
 			 * Create a textbox with specific dimensions, and return it's asset id.

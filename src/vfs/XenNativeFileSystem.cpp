@@ -1,14 +1,10 @@
 #include "XenNativeFileSystem.h"
-#include <dirent.h>
-//#include <fstream>
 #include "XenNativeFile.h"
 #include "XenStringUtils.h"
-#include <sys/stat.h>
 
 namespace xen
 {
 	const uint64_t kChunkSize = 1024;
-	struct SDir : public DIR {};
 
 
 	XenNativeFileSystem::XenNativeFileSystem(const std::string& basePath)
@@ -32,7 +28,7 @@ namespace xen
 			return;
 		}
     
-		SDir *dir = static_cast<SDir*>(opendir(BasePath().c_str()));
+		DIR *dir = static_cast<DIR*>(opendir(BasePath().c_str()));
 		if (dir) {
 			BuildFilelist(dir, BasePath(), m_FileList);
 			m_IsInitialized = true;
@@ -231,7 +227,7 @@ namespace xen
 	}
 
 
-	void XenNativeFileSystem::BuildFilelist(SDir* dir, std::string basePath, TFileList& outFileList)
+	void XenNativeFileSystem::BuildFilelist(DIR* dir, std::string basePath, TFileList& outFileList)
 	{
 		if (!XenStringUtils::EndsWith(basePath, "/")) {
 			basePath += "/";
@@ -241,7 +237,7 @@ namespace xen
 		while ((ent = readdir(dir)) != NULL) {
 			std::string filename = ent->d_name;
 			std::string filepath = basePath + filename;
-			SDir *childDir = static_cast<SDir*>(opendir(filepath.c_str()));
+			DIR *childDir = static_cast<DIR*>(opendir(filepath.c_str()));
 			bool isDotOrDotDot = XenStringUtils::EndsWith(filename, ".") && childDir;
 			if (childDir && !isDotOrDotDot) {
 					filename += "/";

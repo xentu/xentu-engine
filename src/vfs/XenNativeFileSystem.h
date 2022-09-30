@@ -1,11 +1,18 @@
 #pragma once
 
+#ifdef _WIN32
+#include <lib/dirent-win.h>
+#else
+#include <dirent.h>
+#endif
+
+#include <sys/stat.h>
+//#include <fstream>
+
 #include "XenFileSystem.h"
 
 namespace xen
-{
-	struct SDir;
-	
+{	
 	CLASS_PTR(XenNativeFile)
     
 	class XenNativeFileSystem final : public XenFileSystem
@@ -62,7 +69,7 @@ namespace xen
     
 	private:
 		XenFilePtr FindFile(const XenFileInfo& fileInfo) const;
-		void BuildFilelist(SDir* dir, std::string basePath, TFileList& outFileList);
+		void BuildFilelist(DIR* dir, std::string basePath, TFileList& outFileList);
     
 	private:
 		std::string m_BasePath;

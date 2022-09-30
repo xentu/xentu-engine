@@ -80,7 +80,7 @@ namespace xen
 		/**
 		 * Read the entire contents of a text file and return it as a string.
 		 */
-		std::string XenVirtualFileSystem::ReadAllText(const std::string filename);
+		std::string ReadAllText(const std::string filename);
 
 		/**
 		 * Read the entire contents of a file and return it as a tuple of array,length

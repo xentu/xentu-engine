@@ -3,11 +3,11 @@
 #include <string>
 #include <map>
 #include <SDL.h>
-#include <gl/glew.h>
+#include <GL/glew.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <gl/glu.h>
+#include <GL/glu.h>
 #include <lib/glm/glm.hpp>
 
 #include "graphics/TextBox.h"

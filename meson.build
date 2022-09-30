@@ -61,7 +61,7 @@ project_source_files = files([
 
   # other
   'src/Globals.cpp',
-  'src/Config.cpp', 
+  'src/Config.cpp',
 
   # main
   'main.cpp'
