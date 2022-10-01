@@ -15,7 +15,7 @@
 #include "src/vfs/XenNativeFileSystem.h"
 #include "src/machines/JavaScriptMachine.h"
 #include "src/machines/LuaMachine.h"
-#include "src/machines/PythonMachine.h"
+//#include "src/machines/PythonMachine.h"
 
 using MACHINE_PTR = const std::unique_ptr<xen::Machine>;
 
@@ -55,9 +55,12 @@ int main(int argc, char *argv[])
         res = lua_machine->Init();
     }
     else {
+        XEN_ERROR("Machine platform [%s] not currently supported.", config->language);
+    }
+    /* else {
         MACHINE_PTR py_machine(new PythonMachine(argc, argv, config));
         res = py_machine->Init();
-    }
+    } */
 
     // dispose resources.
     delete assets;

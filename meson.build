@@ -5,11 +5,15 @@ glew = dependency('glew')
 ogg_dep = dependency('ogg')
 vorbis_dep = dependency('vorbis')
 sdl2_image_dep = dependency('SDL2_image')
-sdl2_mixer_dep = dependency('sdl2_mixer')
-sdl2_ttf_dep = dependency('sdl2_ttf')
+sdl2_mixer_dep = dependency('SDL2_mixer')
+sdl2_ttf_dep = dependency('SDL2_ttf')
 sdl2_dep = dependency('sdl2')
-py_dep = dependency('python3')
-lua_dep = dependency('lua-5.4')
+#py_dep = dependency('python3')
+if host_machine.system() == 'linux'
+  lua_dep = dependency('lua-5.3')
+else
+  lua_dep = dependency('lua-5.4')
+endif
 incdir = include_directories(['lib'])
 
 
@@ -40,8 +44,8 @@ project_source_files = files([
   'src/machines/JavaScriptMachine.cpp',
   'src/machines/LuaMachineInterop.cpp',
   'src/machines/LuaMachine.cpp',
-  'src/machines/PythonMachineInterop.cpp',
-  'src/machines/PythonMachine.cpp',
+  #'src/machines/PythonMachineInterop.cpp',
+  #'src/machines/PythonMachine.cpp',
   'src/Machine.cpp',
 
   # graphics
@@ -72,7 +76,7 @@ executable('xentu', project_source_files,
            include_directories : incdir,
            dependencies: [
               glew, sdl2_image_dep, sdl2_mixer_dep, ogg_dep, vorbis_dep,
-              sdl2_ttf_dep, sdl2_dep, py_dep, lua_dep
+              sdl2_ttf_dep, sdl2_dep, lua_dep
             ])
            
            # win_subsystem: 'windows',
