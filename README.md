@@ -42,14 +42,19 @@ Project brief:
 ## Building
 
 The project now requires meson to build which also requires Python3+. Once you have
-both installed, run the setup.sh script to setup dependencies. Once ready, calling
+both installed, run the setup.sh script to setup dependencies. If you are not on windows,
+you may need to make the sh file executable first with "chmod +x ./setup.sh". Once ready,
+calling:
 
-```
-meson compile -C build
-```
+```meson compile -C build```
+
+or
+
+```ninja compile -C build```   (on some older systems)
+
 
 Will compile the engine into `/build/xentu.exe` on windows, or `/build/xentu` on
-MacOS/Linux respectively. Also if you have vscode, a tasks.json has been setup
+MacOS/Linux respectively. Also if you have VSCode, a tasks.json has been setup
 so you can build using the build command, and a launch.json has been provided to
 help aid in launching the engine in debug mode.
 

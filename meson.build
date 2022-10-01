@@ -4,7 +4,7 @@ project('xentu_rebuild', 'c', 'cpp',
 glew = dependency('glew')
 ogg_dep = dependency('ogg')
 vorbis_dep = dependency('vorbis')
-sdl2_image_dep = dependency('sdl2_image')
+sdl2_image_dep = dependency('SDL2_image')
 sdl2_mixer_dep = dependency('sdl2_mixer')
 sdl2_ttf_dep = dependency('sdl2_ttf')
 sdl2_dep = dependency('sdl2')
