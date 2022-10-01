@@ -10,10 +10,7 @@ White='\033[0;97m'        # White
 
 
 # Make sure meson is available.
-if ! command -v meson &> /dev/null; then
-	echo -e "Error, meson is not available. Please install meson: ${White}python -m pip install meson${Color_Off}"
-	exit
-fi
+command -v meson >/dev/null 2>&1 || { echo >&2 "Error, meson is not available. Please install meson: ${White}python -m pip install meson${Color_Off}"; exit; }
 
 
 # make sure the various folders are available.
