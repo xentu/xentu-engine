@@ -49,6 +49,7 @@ namespace xen
 			int renderer_set_rotation(lua_State* L);
 			int renderer_set_scale(lua_State* L);
 			int renderer_set_shader(lua_State* L);
+			int renderer_set_alpha(lua_State* L);
 			int config_get_str(lua_State* L);
 			int config_get_str2(lua_State* L);
 			int config_get_bool(lua_State* L);
@@ -60,6 +61,8 @@ namespace xen
 			int textbox_measure_text(lua_State* L);
 			int keyboard_key_down(lua_State* L);
 			int keyboard_key_clicked(lua_State* L);
+
+			int shader_get_uniform_location(lua_State* L);
 
 
 		public:

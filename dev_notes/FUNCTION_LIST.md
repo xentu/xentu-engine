@@ -2,9 +2,13 @@
 
 Here is a master list for the functions that should be available to each
 of the implemented programming languages. 
+Any function with a ~ at the end is being worked on and not yet available.
+
 
 ### Global Functions
+```
 print(text)
+```
 
 ### Game Functions
 ```
@@ -61,12 +65,13 @@ renderer_set_position(x,y)
 renderer_set_origin(x,y)
 renderer_set_rotation(angle)
 renderer_set_scale(x,y)
-renderer_set_shader(shader_id) ~
+renderer_set_shader(shader_id)
+renderer_set_alpha(alpha)
 ```
 
 ### Shader Functions
 ```
-shader_get_uniform(shader_id, name) ~
+shader_get_uniform(shader_id, name)
 shader_set_uniform_1b(shader_id, uniform_id, b0) ~
 shader_set_uniform_1i(shader_id, uniform_id, i0) ~
 shader_set_uniform_2i(shader_id, uniform_id, i0, i1) ~
@@ -93,33 +98,37 @@ config_get_int2
 ```
 textbox_set_text(textbox_id, text)
 textbox_set_color(color)
-textbox_measure_text(textbox_id, text) ~
+textbox_measure_text(textbox_id, text)
 ```
 
 ### Input Functions
 ```
 keyboard_key_down(key)
 keyboard_key_clicked(key)
+mouse_get_position() ~
+mouse_button_down(button) ~
+mouse_button_click(button) ~
+gamepad_get_
 ```
 
 ### Data Functions (Encoding/Compression)
 ```
-data_to_base16(bytes)
-data_to_base32(bytes)
-data_to_base64(bytes)
-data_to_xml(any)
-data_to_json(any)
-data_to_gzip(bytes)
-data_to_zlib(bytes)
+data_to_base16(bytes) ~
+data_to_base32(bytes) ~
+data_to_base64(bytes) ~
+data_to_xml(any) ~
+data_to_json(any) ~
+data_to_gzip(bytes) ~
+data_to_zlib(bytes) ~
 
-data_from_base16(string)
-data_from_base32(string)
-data_from_base64(string)
-data_from_xml(any)
-data_from_json(any)
-data_from_gzip(bytes)
-data_from_zlib(bytes)
+data_from_base16(string) ~
+data_from_base32(string) ~
+data_from_base64(string) ~
+data_from_xml(any) ~
+data_from_json(any) ~
+data_from_gzip(bytes) ~
+data_from_zlib(bytes) ~
 
-data_create_guid(seed)
-data_create_hash(algorithm, data)
+data_create_guid(seed) ~
+data_create_hash(algorithm, data) ~
 ```

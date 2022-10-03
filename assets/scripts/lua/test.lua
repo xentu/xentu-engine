@@ -12,7 +12,7 @@ renderer.set_background('#444444') -- set the clear color.
 renderer.set_foreground("#00FFFF") -- set the foreground color.
 textbox.set_text(text0, font0, "Hello World") -- set the text on text0.
 textbox.set_color(text0, font0, "#FFFF00") -- set the text to yellow.
-x = 0; y = 0; x_speed = 2; rot = 0
+x = 0; y = 0; x_speed = 2; rot = 0; alpha = 1
 fullscreen = false
 
 tw, th = textbox.measure_text(text0, font0, "Testing")

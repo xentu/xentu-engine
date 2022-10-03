@@ -68,6 +68,10 @@ renderer.set_origin = function(x,y) interop.renderer_set_origin(x,y) end
 renderer.set_rotation = function(angle) interop.renderer_set_rotation(angle) end
 renderer.set_scale = function(x,y) interop.renderer_set_scale(x,y) end
 renderer.set_shader = function(x) interop.renderer_set_shader(x) end
+renderer.set_alpha = function(alpha) interop.renderer_set_alpha(alpha) end
+
+shader = {}
+shader.get_uniform_location = function(uniform_name) return interop.shader_get_uniform_location(uniform_name) end
 
 config = {}
 config.get_str = function(a,b,c) return interop.config_get_str(a,b,c) end

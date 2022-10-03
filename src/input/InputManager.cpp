@@ -38,6 +38,8 @@ namespace xen
 						m_size_changed = true;
 					}
             	break;
+				case SDL_JOYAXISMOTION:
+					break;
       	}
 		}	
 	}

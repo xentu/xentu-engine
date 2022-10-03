@@ -85,6 +85,13 @@ namespace xen
 	}
 
 
+	unsigned int Renderer::GetUniformLocation(string name)
+	{
+		unsigned int shader_id = AssetManager::GetInstance()->GetShader(m_shader_asset_id);
+		return glGetUniformLocation(shader_id, name.c_str());
+	}
+
+
 	bool Renderer::Init()
 	{
 		return Init(
@@ -157,8 +164,8 @@ namespace xen
 			this->screen_proj = glm::ortho(0.0f, sc_w, sc_h, 0.0f);
 
 			/* load default shader, and begin using it. */
-			m_shader = AssetManager::GetInstance()->LoadShader(xen_gl_default_vertex_shader, xen_gl_default_fragment_shader);
-			UseShader(m_shader);
+			m_shader_asset_id = AssetManager::GetInstance()->LoadShader(xen_gl_default_vertex_shader, xen_gl_default_fragment_shader);
+			UseShader(m_shader_asset_id);
 
 			/* generate a vertex array object */
 			glGenVertexArrays(1, &m_vao);
@@ -266,6 +273,7 @@ namespace xen
 		m_scale_x = 1;
 		m_scale_y = 1;
 		m_rotation = 0;
+		m_alpha = 1;
 	}
 
 
@@ -382,7 +390,7 @@ namespace xen
 		m_sprite.set_rotation(m_rotation);
 		m_sprite.set_scale(m_scale_x, m_scale_y);
 
-		m_sprite.m_color = Vector4f(1, 1, 1, 1); // TODO: fix this.
+		m_sprite.m_color = Vector4f(1, 1, 1, m_alpha); // TODO: fix this.
 		m_sprite.m_width = static_cast<float>(width);
 		m_sprite.m_height = static_cast<float>(height);
 		m_sprite.m_texture = AssetManager::GetInstance()->GetTexture(texture_id)->gl_texture_id;
@@ -509,7 +517,7 @@ namespace xen
 			static_cast<GLclampf>(r) / 255.0f,
 			static_cast<GLclampf>(g) / 255.0f,
 			static_cast<GLclampf>(b) / 255.0f,
-			1.0f
+			m_alpha
 		};
 	}
 
@@ -547,6 +555,7 @@ namespace xen
 		m_rotation = angle;
 	}
 
+
 	void Renderer::SetScale(float x, float y)
 	{
 		m_scale_x = x;
@@ -583,5 +592,12 @@ namespace xen
 
 				return false; //a_batch->m_layer < a_batch->m_layer;
 			});
+	}
+
+
+	void Renderer::SetAlpha(float alpha)
+	{
+		m_alpha = alpha;
+		m_sprite.m_color.w = m_alpha;
 	}
 }

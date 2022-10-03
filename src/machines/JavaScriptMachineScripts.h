@@ -62,6 +62,7 @@ namespace xen { const char * xen_js_script_init = R"(
 	renderer.set_rotation = renderer_set_rotation;
 	renderer.set_scale = renderer_set_scale;
 	renderer.set_shader = renderer_set_shader;
+	renderer.set_alpha = renderer_set_alpha;
 
 	const textbox = {}
 	textbox.set_text = textbox_set_text;
@@ -73,6 +74,9 @@ namespace xen { const char * xen_js_script_init = R"(
 	const keyboard = {}
 	keyboard.key_down = keyboard_key_down;
 	keyboard.key_clicked = keyboard_key_clicked;
+
+	const shader = {}
+	shader.get_uniform_location = shader_get_uniform_location;
 
 	const geometry = {
 		create_rect: function(x, y, w, h) {

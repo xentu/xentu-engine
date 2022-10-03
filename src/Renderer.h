@@ -49,6 +49,11 @@ namespace xen
 			void UseShader(int asset_id);
 
 			/**
+			 *
+			 */
+			unsigned int GetUniformLocation(string name);
+
+			/**
 			 * Called at the beginning of each new frame.
 			 */
 			void NewFrame(bool resized);
@@ -148,6 +153,11 @@ namespace xen
 			 */
 			void SetScale(float x, float y);
 
+			/**
+			 * Set the drawing alpha channel multiplier.
+			 */
+			void SetAlpha(float alpha);
+
 
 		private:
 			/**
@@ -181,6 +191,7 @@ namespace xen
 			float m_origin_y; // the chosen y origin for the next sprite.
 			float m_scale_x; // the chosen x scale factor for the next sprite.
 			float m_scale_y; // the chosen y scale factor for the next sprite.
+			float m_alpha; // the alpha fraction.
 
 			/* the vertex/index/frame buffer. */
 			unsigned int m_vao;
@@ -192,7 +203,7 @@ namespace xen
 			Texture* white_texture;
 
 			/* shader information. */
-			int m_shader;
+			int m_shader_asset_id;
 			unsigned int m_shader_transform_loc;
 			unsigned int m_shader_tex_loc;
 

@@ -467,6 +467,16 @@ namespace xen
 		return 0;
 	}
 
+	int XentuLuaMachineInterop::renderer_set_alpha(lua_State* L)
+	{
+		XEN_LOG("- Called renderer_set_alpha\n");
+		float alpha = lua_tonumber(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetAlpha(alpha);
+		return 0;
+	}
+
 	int XentuLuaMachineInterop::config_get_str(lua_State* L)
 	{
 		XEN_LOG("- Called config_get_str\n");
@@ -624,6 +634,20 @@ namespace xen
 	}
 
 
+	int XentuLuaMachineInterop::shader_get_uniform_location(lua_State* L)
+	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
+		auto uniform_name = lua_tostring(L, -1);
+		auto m = LuaMachine::GetInstance();
+		auto r = m->GetRenderer();
+		unsigned int loc = r->GetUniformLocation(uniform_name);
+		lua_pushinteger(L, loc);
+		return 1;
+	}
+
+
 	const char xen::XentuLuaMachineInterop::className[] = "XentuLuaMachineInterop";
 
 	const Luna<XentuLuaMachineInterop>::PropertyType XentuLuaMachineInterop::properties[] = {
@@ -669,6 +693,7 @@ namespace xen
 		method(XentuLuaMachineInterop, renderer_set_rotation, renderer_set_rotation),
 		method(XentuLuaMachineInterop, renderer_set_scale, renderer_set_scale),
 		method(XentuLuaMachineInterop, renderer_set_shader, renderer_set_shader),
+		method(XentuLuaMachineInterop, renderer_set_alpha, renderer_set_alpha),
 		method(XentuLuaMachineInterop, config_get_str, config_get_str),
 		method(XentuLuaMachineInterop, config_get_str2, config_get_str2),
 		method(XentuLuaMachineInterop, config_get_bool, config_get_bool),
@@ -680,6 +705,7 @@ namespace xen
 		method(XentuLuaMachineInterop, textbox_measure_text, textbox_measure_text),
 		method(XentuLuaMachineInterop, keyboard_key_down, keyboard_key_down),
 		method(XentuLuaMachineInterop, keyboard_key_clicked, keyboard_key_clicked),
+		method(XentuLuaMachineInterop, shader_get_uniform_location, shader_get_uniform_location),
 		{0,0}
 	};
 }

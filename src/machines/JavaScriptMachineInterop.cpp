@@ -136,6 +136,9 @@ namespace xen
 		duk_push_c_function(L, js_renderer_set_shader, 2 /*nargs*/);
 		duk_put_global_string(L, "renderer_set_shader");
 
+		duk_push_c_function(L, js_renderer_set_alpha, 1 /*nargs*/);
+		duk_put_global_string(L, "renderer_set_alpha");
+
 		duk_push_c_function(L, js_config_get_str, 3 /*nargs*/);
 		duk_put_global_string(L, "config_get_str");
 
@@ -168,6 +171,12 @@ namespace xen
 
 		duk_push_c_function(L, js_keyboard_key_clicked, 1 /*nargs*/);
 		duk_put_global_string(L, "keyboard_key_clicked");
+
+		duk_push_c_function(L, js_keyboard_key_clicked, 1 /*numargs*/);
+		duk_put_global_string(L, "keyboard_key_clicked");
+
+		duk_push_c_function(L, js_shader_get_uniform_location, 1/*numargs*/);
+		duk_put_global_string(L, "shader_get_uniform_location");
 	}
 
 
@@ -573,6 +582,14 @@ namespace xen
 		return 0;
 	}
 
+	duk_ret_t js_renderer_set_alpha(duk_context *L) {
+		float alpha = duk_to_number(L, 0);
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetAlpha(alpha);
+		return 0;
+	}
+
 	duk_ret_t js_config_get_str(duk_context* L) {
 		auto machine = JavaScriptMachine::GetInstance();
 		auto config = machine->GetConfig();
@@ -700,6 +717,16 @@ namespace xen
 		auto i = m->GetInput();
 		bool down = i->KeyUp(key_code);
 		duk_push_boolean(L, down);
+		return 1;
+	}
+
+
+	duk_ret_t js_shader_get_uniform_location(duk_context* L) {
+		string uniform_name = duk_to_string(L, 0);
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		unsigned int loc = renderer->GetUniformLocation(uniform_name);
+		duk_push_int(L, loc);
 		return 1;
 	}
 }
