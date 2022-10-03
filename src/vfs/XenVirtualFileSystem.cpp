@@ -1,6 +1,6 @@
 #include "XenVirtualFileSystem.h"
-#include "XenStringUtils.h"
 #include "XenNativeFileSystem.h"
+#include "../StringUtils.h"
 #include "../Exceptions.h"
 
 namespace xen
@@ -69,7 +69,7 @@ namespace xen
 		}
     
 		std::string a = alias;
-		if (!XenStringUtils::EndsWith(a, "/")) {
+		if (!StringUtils::EndsWith(a, "/")) {
 			a += "/";
 		}
     
@@ -84,7 +84,7 @@ namespace xen
 
 	void XenVirtualFileSystem::RemoveFileSystem(const std::string& alias) {
 		std::string a = alias;
-		if (!XenStringUtils::EndsWith(a, "/")) {
+		if (!StringUtils::EndsWith(a, "/")) {
 			a += "/";
 		}
     
@@ -108,7 +108,7 @@ namespace xen
     	(void)std::all_of(m_SortedAlias.begin(), m_SortedAlias.end(), [&](const TSortedAliasList::value_type& fs) {
 			const std::string& alias = fs.alias;
 			XenFileSystemPtr filesystem = fs.filesystem;
-			if (XenStringUtils::StartsWith(filePath.BasePath(), alias) && filePath.AbsolutePath().length() != alias.length()) {
+			if (StringUtils::StartsWith(filePath.BasePath(), alias) && filePath.AbsolutePath().length() != alias.length()) {
 				file = filesystem->DoOpenFile(filePath, mode);
 			}
         

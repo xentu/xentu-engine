@@ -1,6 +1,5 @@
 #include "XenZipFileSystem.h"
 #include "XenZipFile.h"
-#include "XenStringUtils.h"
 
 namespace xen
 {

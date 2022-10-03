@@ -1,10 +1,11 @@
 #pragma once
 
-#include "VFS.h"
+#include <string>
+#include <vector>
 
 namespace xen
 {
-	class XenStringUtils
+	class StringUtils final
 	{
 	public:
 		static void Split(std::vector<std::string>& tokens, const std::string& text, char delimeter);

@@ -1,6 +1,6 @@
 #include "XenNativeFileSystem.h"
 #include "XenNativeFile.h"
-#include "XenStringUtils.h"
+#include "../StringUtils.h"
 
 namespace xen
 {
@@ -11,7 +11,7 @@ namespace xen
 	: m_BasePath(basePath)
 	, m_IsInitialized(false)
 	{
-		if (!XenStringUtils::EndsWith(m_BasePath, "/"))
+		if (!StringUtils::EndsWith(m_BasePath, "/"))
 		{
 			m_BasePath += "/";
 		}
@@ -229,7 +229,7 @@ namespace xen
 
 	void XenNativeFileSystem::BuildFilelist(DIR* dir, std::string basePath, TFileList& outFileList)
 	{
-		if (!XenStringUtils::EndsWith(basePath, "/")) {
+		if (!StringUtils::EndsWith(basePath, "/")) {
 			basePath += "/";
 		}
 		
@@ -238,7 +238,7 @@ namespace xen
 			std::string filename = ent->d_name;
 			std::string filepath = basePath + filename;
 			DIR *childDir = static_cast<DIR*>(opendir(filepath.c_str()));
-			bool isDotOrDotDot = XenStringUtils::EndsWith(filename, ".") && childDir;
+			bool isDotOrDotDot = StringUtils::EndsWith(filename, ".") && childDir;
 			if (childDir && !isDotOrDotDot) {
 					filename += "/";
 			}

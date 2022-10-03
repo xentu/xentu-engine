@@ -1,5 +1,5 @@
 #include "XenFileInfo.h"
-#include "XenStringUtils.h"
+#include "../StringUtils.h"
 
 namespace xen
 {
@@ -38,15 +38,15 @@ namespace xen
 		m_Name = fileName;
 		m_IsDir = isDir;
 		
-		if (!XenStringUtils::EndsWith(m_BasePath, "/")) {
+		if (!StringUtils::EndsWith(m_BasePath, "/")) {
 			m_BasePath += "/";
 		}
 		
-		if (isDir && !XenStringUtils::EndsWith(m_Name, "/")) {
+		if (isDir && !StringUtils::EndsWith(m_Name, "/")) {
 			m_Name += "/";
 		}
 		
-		if (XenStringUtils::StartsWith(m_Name, "/")) {
+		if (StringUtils::StartsWith(m_Name, "/")) {
 			m_Name = m_Name.substr(1, m_Name.length() - 1);
 		}
 		

@@ -3,7 +3,7 @@
 #include <sys/stat.h>
 #include <cstring>
 #include "../Globals.h"
-#include "XenStringUtils.h"
+#include "../StringUtils.h"
 
 
 
@@ -151,7 +151,7 @@ namespace xen
         }
         
         std::string absPath = FileInfo().AbsolutePath();
-        if (XenStringUtils::StartsWith(absPath, "/"))
+        if (StringUtils::StartsWith(absPath, "/"))
         {
             absPath = absPath.substr(1, absPath.length() - 1);
         }

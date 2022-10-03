@@ -1,6 +1,6 @@
 #include "XenMemoryFileSystem.h"
 #include "XenMemoryFile.h"
-#include "XenStringUtils.h"
+#include "../StringUtils.h"
 
 namespace xen
 {

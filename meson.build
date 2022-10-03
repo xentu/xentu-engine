@@ -1,5 +1,11 @@
+
 project('xentu_rebuild', 'c', 'cpp',
-        default_options: ['default_library=static'])
+        version : run_command('cat', './version.txt').stdout().strip(),
+        default_options: ['default_library=static', 'buildtype=debug']
+        )
+
+the_version = run_command('cat', './version.txt').stdout().strip()
+
 
 glew = dependency('glew')
 ogg_dep = dependency('ogg')
@@ -33,7 +39,6 @@ project_source_files = files([
   'src/vfs/XenMemoryFileSystem.cpp',
   'src/vfs/XenNativeFile.cpp',
   'src/vfs/XenNativeFileSystem.cpp',
-  'src/vfs/XenStringUtils.cpp',
   'src/vfs/XenVirtualFileSystem.cpp',
   'src/vfs/XenZipFile.cpp',
   'src/vfs/XenZipFileSystem.cpp',
@@ -63,15 +68,32 @@ project_source_files = files([
   # other
   'src/Globals.cpp',
   'src/Config.cpp',
+  'src/StringUtils.cpp',
 
   # main
   'main.cpp'
 ])
 
 
-executable('xentu', project_source_files,
-           include_directories : incdir,
-           dependencies: [
-              glew, sdl2_image_dep, sdl2_mixer_dep, ogg_dep, vorbis_dep,
-              sdl2_ttf_dep, sdl2_dep, lua_dep
-            ])
+dependencies = [
+  glew, sdl2_image_dep, sdl2_mixer_dep, ogg_dep, vorbis_dep,
+  sdl2_ttf_dep, sdl2_dep, lua_dep
+]
+
+
+conf_data = configuration_data()
+conf_data.set('version', the_version)
+
+
+if host_machine.system() == 'windows'
+    project_source_files += import('windows').compile_resources( 'xentu.rc' )
+endif
+
+
+executable('xentu_debug', project_source_files, include_directories:incdir, 
+           dependencies:dependencies, gui_app:false, 
+           cpp_args : ['-DXEN_DEBUG','-DXEN_VER="' + the_version + '"'])
+
+executable('xentu', project_source_files, include_directories:incdir,
+           dependencies:dependencies, gui_app:true,
+           cpp_args : ['-DXEN_VER="' + the_version + '"'])

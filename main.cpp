@@ -5,17 +5,20 @@
 
 #include <SDL.h>
 #include <SDL_timer.h>
+#if XEN_DEBUG
+#include <rang.h>
+#endif
 
 #include "src/Globals.h"
 #include "src/Config.h"
 #include "src/Machine.h"
 #include "src/Exceptions.h"
+#include "src/StringUtils.h"
 #include "src/vfs/XenVirtualFileSystem.h"
 #include "src/vfs/XenFileSystem.h"
 #include "src/vfs/XenNativeFileSystem.h"
 #include "src/machines/JavaScriptMachine.h"
 #include "src/machines/LuaMachine.h"
-//#include "src/machines/PythonMachine.h"
 
 using MACHINE_PTR = const std::unique_ptr<xen::Machine>;
 
@@ -25,6 +28,25 @@ using namespace xen;
 int main(int argc, char *argv[])
 {
     int res = 0;
+
+    #if XEN_DEBUG
+    cout << endl << rang::fg::reset << "#########################################" << endl;
+    cout << rang::fg::reset << "#" << rang::fg::yellow << " Xentu Game Engine" << rang::fg::yellow << " - v" << XEN_VER << rang::fg::reset << endl;
+    cout << rang::fg::reset << "#########################################" << rang::fg::reset << endl << endl;
+
+    // check for console switches if using the _debug version of the engine binary.
+    if (argc > 1) {
+        string argv1 = argv[1];
+        if (argv1 == "--version" || argv1 == "-v") {
+            printf("Version: %s\n", XEN_VER);
+            return res;
+        }
+        else if (argv1 == "--logging" || argv1 == "-l") {
+            #define XEN_LOG_ENABLED 1
+        }
+    }
+    #endif
+
     // initialize and setup defaults for the vfs.
 	vfs_initialize();
     vfs_default();
@@ -46,21 +68,17 @@ int main(int argc, char *argv[])
     
     printf("Language: %s\n", config->language.c_str());
 
-    if (config->language == "javascript") {
+    if (StringUtils::EndsWith(config->entry_point, "js")) {
         MACHINE_PTR js_machine(new xen::JavaScriptMachine(argc, argv, config));
         res = js_machine->Init();
     }
-    else if (config->language == "lua") {
+    else if (StringUtils::EndsWith(config->entry_point, "lua")) {
         MACHINE_PTR lua_machine(new LuaMachine(argc, argv, config));
         res = lua_machine->Init();
     }
     else {
         XEN_ERROR("Machine platform [%s] not currently supported.", config->language);
     }
-    /* else {
-        MACHINE_PTR py_machine(new PythonMachine(argc, argv, config));
-        res = py_machine->Init();
-    } */
 
     // dispose resources.
     delete assets;

@@ -1,8 +1,8 @@
-#include "XenStringUtils.h"
+#include "StringUtils.h"
 
 namespace xen
 {
-	void XenStringUtils::Split(std::vector<std::string>& tokens, const std::string& text, char delimeter)
+	void StringUtils::Split(std::vector<std::string>& tokens, const std::string& text, char delimeter)
 	{
 		size_t start = 0;
 		size_t end = 0;
@@ -14,7 +14,7 @@ namespace xen
 	}
 
 
-	std::string XenStringUtils::Replace(std::string string, const std::string& from, const std::string& to)
+	std::string StringUtils::Replace(std::string string, const std::string& from, const std::string& to)
 	{
 		size_t pos = 0;
 		while ((pos = string.find(from, pos)) != std::string::npos) {
@@ -25,7 +25,7 @@ namespace xen
 	}
 
 
-	bool XenStringUtils::EndsWith(std::string const& fullString, std::string const& ending)
+	bool StringUtils::EndsWith(std::string const& fullString, std::string const& ending)
 	{
 		if (fullString.length() >= ending.length()) {
 			return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
@@ -34,7 +34,7 @@ namespace xen
 	}
 
 
-	bool XenStringUtils::StartsWith(std::string const& fullString, std::string const& starting)
+	bool StringUtils::StartsWith(std::string const& fullString, std::string const& starting)
 	{
 		if (fullString.length() >= starting.length()) {
 			return (0 == fullString.compare(0, starting.length(), starting));

@@ -1,9 +1,10 @@
 #pragma once
 
+#include <string>
 
 #define MAX_ARGV 12
-//#define XEN_LOG_ENABLED 1
 
+//#define XEN_LOG_ENABLED 1
 
 #ifndef XEN_LOG_ENABLED
 #   define XEN_LOG(...)
