@@ -49,4 +49,3 @@ game.on("draw", function(dt) {
 
 // we've finished preparing, so run the game.
 game.run();
-assets.include('/scripts/js/test2.js');

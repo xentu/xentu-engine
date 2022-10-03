@@ -48,4 +48,3 @@ end)
 
 -- we've finished preparing, so run the game.
 game.run()
-assets.include('/scripts/lua/test2.lua')

@@ -57,7 +57,12 @@ namespace xen
 						m_input->SetKeyUp(event.key.keysym);
 						break;
 					case SDL_WINDOWEVENT:
-						size_changed = true;
+						switch (event.window.event) {
+							case SDL_WINDOWEVENT_RESIZED:
+							case SDL_WINDOWEVENT_SIZE_CHANGED:
+								size_changed = true;
+								break;
+						}
 						break;
 				}
 			}
