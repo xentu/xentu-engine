@@ -3,7 +3,6 @@
 namespace xen
 {
 	InputManager::InputManager()
-	: m_running(true)
 	{ 
 		for (int i=0; i<SDL_NUM_SCANCODES; i++) {
 			m_keyboard_down_events[i] = false;	
@@ -12,37 +11,6 @@ namespace xen
 
 	InputManager::~InputManager()
 	{ }
-
-	void InputManager::PollEvents()
-	{
-		SDL_Event event;
-		m_keyboard_up_events_iter = 0;
-		
-		// Events management
-		while (SDL_PollEvent(&event)) {
-			switch (event.type) {
-				case SDL_QUIT:
-					// handling of close button
-					m_running = false;
-					break;
-				case SDL_KEYDOWN:
-					m_keyboard_down_events[event.key.keysym.scancode] = true;
-					break;
-				case SDL_KEYUP:
-					m_keyboard_up_events[m_keyboard_up_events_iter] = event.key.keysym;
-					m_keyboard_down_events[event.key.keysym.scancode] = false;
-					m_keyboard_up_events_iter++;
-					break;
-				case SDL_WINDOWEVENT:
-					if(event.window.event == SDL_WINDOWEVENT_RESIZED) {
-						m_size_changed = true;
-					}
-            	break;
-				case SDL_JOYAXISMOTION:
-					break;
-      	}
-		}	
-	}
 
 	bool InputManager::KeyDown(int key_code)
 	{
@@ -63,19 +31,23 @@ namespace xen
 	}
 
 
-	bool InputManager::IsRunning()
+	
+
+
+	void InputManager::Reset()
 	{
-		return m_running;
+		m_keyboard_up_events_iter = 0;
 	}
 
-
-	bool InputManager::IsSizeChanged()
+	void InputManager::SetKeyDown(int keycode)
 	{
-		if (m_size_changed)
-		{
-			m_size_changed = false;
-			return true;
-		}
-		return false;
+		m_keyboard_down_events[keycode] = true;
+	}
+
+	void InputManager::SetKeyUp(SDL_Keysym keysym)
+	{
+		m_keyboard_up_events[m_keyboard_up_events_iter] = keysym;
+		m_keyboard_down_events[keysym.scancode] = false;
+		m_keyboard_up_events_iter++;
 	}
 }

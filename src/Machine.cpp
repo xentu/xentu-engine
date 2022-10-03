@@ -40,13 +40,33 @@ namespace xen
 			auto delta_ms = delta_time.count();
 			time_start = now;
 
-			m_input->PollEvents();
-			if (m_input->IsRunning() == false || m_renderer->IsRunning() == false) {
+			m_input->Reset();
+			SDL_Event event;
+			bool size_changed = false;
+			// Events management
+			while (SDL_PollEvent(&event)) {
+				switch (event.type) {
+					case SDL_QUIT:
+						// handling of close button
+						running = false;
+						break;
+					case SDL_KEYDOWN:
+						m_input->SetKeyDown(event.key.keysym.scancode);
+						break;
+					case SDL_KEYUP:
+						m_input->SetKeyUp(event.key.keysym);
+						break;
+					case SDL_WINDOWEVENT:
+						size_changed = true;
+						break;
+				}
+			}
+
+			if (running == false || m_renderer->IsRunning() == false) {
 				running = false;
 			}
 			else {
-				bool resized = m_input->IsSizeChanged();
-				m_renderer->NewFrame(resized);
+				m_renderer->NewFrame(size_changed);
 				this->Trigger("update", delta_ms);
 				this->Trigger("draw", delta_ms);
 			}
@@ -70,7 +90,6 @@ namespace xen
 	{
 		return m_input;
 	}
-
 
 	
 	Machine::~Machine()

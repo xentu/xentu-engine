@@ -108,7 +108,6 @@ keyboard_key_clicked(key)
 mouse_get_position() ~
 mouse_button_down(button) ~
 mouse_button_click(button) ~
-gamepad_get_
 ```
 
 ### Data Functions (Encoding/Compression)
