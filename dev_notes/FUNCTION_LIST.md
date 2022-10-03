@@ -61,22 +61,22 @@ renderer_set_position(x,y)
 renderer_set_origin(x,y)
 renderer_set_rotation(angle)
 renderer_set_scale(x,y)
-renderer_set_shader(shader_id)
+renderer_set_shader(shader_id) ~
 ```
 
 ### Shader Functions
 ```
-shader_get_uniform(shader_id, name)
-shader_set_uniform_1b(shader_id, uniform_id, b0)
-shader_set_uniform_1i(shader_id, uniform_id, i0)
-shader_set_uniform_2i(shader_id, uniform_id, i0, i1)
-shader_set_uniform_3i(shader_id, uniform_id, i0, i1, i2)
-shader_set_uniform_4i(shader_id, uniform_id, i0, i1, i2, i3)
-shader_set_uniform_1f(shader_id, uniform_id, f0)
-shader_set_uniform_2f(shader_id, uniform_id, f0, f1)
-shader_set_uniform_3f(shader_id, uniform_id, f0, f1, f2)
-shader_set_uniform_4f(shader_id, uniform_id, f0, f1, f2, f3)
-shader_set_uniform_mat4f(shader_id, uniform_id, matrix)
+shader_get_uniform(shader_id, name) ~
+shader_set_uniform_1b(shader_id, uniform_id, b0) ~
+shader_set_uniform_1i(shader_id, uniform_id, i0) ~
+shader_set_uniform_2i(shader_id, uniform_id, i0, i1) ~
+shader_set_uniform_3i(shader_id, uniform_id, i0, i1, i2) ~
+shader_set_uniform_4i(shader_id, uniform_id, i0, i1, i2, i3) ~
+shader_set_uniform_1f(shader_id, uniform_id, f0) ~
+shader_set_uniform_2f(shader_id, uniform_id, f0, f1) ~
+shader_set_uniform_3f(shader_id, uniform_id, f0, f1, f2) ~
+shader_set_uniform_4f(shader_id, uniform_id, f0, f1, f2, f3) ~
+shader_set_uniform_mat4f(shader_id, uniform_id, matrix) ~
 ```
 
 ### Config Functions
@@ -100,4 +100,26 @@ textbox_measure_text(textbox_id, text) ~
 ```
 keyboard_key_down(key)
 keyboard_key_clicked(key)
+```
+
+### Data Functions (Encoding/Compression)
+```
+data_to_base16(bytes)
+data_to_base32(bytes)
+data_to_base64(bytes)
+data_to_xml(any)
+data_to_json(any)
+data_to_gzip(bytes)
+data_to_zlib(bytes)
+
+data_from_base16(string)
+data_from_base32(string)
+data_from_base64(string)
+data_from_xml(any)
+data_from_json(any)
+data_from_gzip(bytes)
+data_from_zlib(bytes)
+
+data_create_guid(seed)
+data_create_hash(algorithm, data)
 ```

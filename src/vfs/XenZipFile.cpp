@@ -2,7 +2,9 @@
 #include <miniz/miniz.h>
 #include <sys/stat.h>
 #include <cstring>
+#include "../Globals.h"
 #include "XenStringUtils.h"
+
 
 
 #ifndef S_IWRITE
@@ -29,7 +31,7 @@ namespace xen
         mz_bool status = mz_zip_reader_init_file((mz_zip_archive*)m_ZipArchive, zipPath.c_str(), 0);
         if (!status)
         {
-            VFS_LOG("Cannot open zip file: %s\n", zipPath.c_str());
+            XEN_LOG("Cannot open zip file: %s\n", zipPath.c_str());
             assert("Cannot open zip file" && false);
         }
         
@@ -38,7 +40,7 @@ namespace xen
             mz_zip_archive_file_stat file_stat;
             if (!mz_zip_reader_file_stat((mz_zip_archive*)m_ZipArchive, i, &file_stat))
             {
-                VFS_LOG("Cannot read entry with index: %d from zip archive", i, zipPath.c_str());
+                XEN_LOG("Cannot read entry with index: %d from zip archive", i, zipPath.c_str());
                 continue;
             }
             
@@ -137,7 +139,7 @@ namespace xen
         // TODO: ZIPFS - Add implementation of readwrite mode
         if ((mode & XenFile::Out) ||
             (mode & XenFile::Append)) {
-            VFS_LOG("Files from zip can be opened in read only mode");
+            XEN_LOG("Files from zip can be opened in read only mode");
             return;
         }
         
@@ -156,7 +158,7 @@ namespace xen
         
         bool ok = m_ZipArchive->MapFile(absPath, m_Data);
         if (!ok) {
-            VFS_LOG("Cannot open file: %s from zip: %s", absPath.c_str(), m_ZipArchive->Filename().c_str());
+            XEN_LOG("Cannot open file: %s from zip: %s", absPath.c_str(), m_ZipArchive->Filename().c_str());
             return;
         }
         
