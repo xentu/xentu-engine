@@ -4,15 +4,21 @@
 
 #define MAX_ARGV 12
 
-//#define XEN_LOG_ENABLED 1
 
-#ifndef XEN_LOG_ENABLED
-#   define XEN_LOG(...)
+#ifndef XEN_DEBUG
+#   define XEN_ECHO(...)
 #else
-#   define XEN_LOG(...) printf(__VA_ARGS__)
+    // Output a message to the console if XEN_DEBUG is enabled.
+#   define XEN_ECHO(...) printf(__VA_ARGS__)
 #endif
 
 
+/**
+ * Log a warning even if XEN_DEBUG is not defined.
+ */
 int XEN_WARN(const char *format, ...);
 
+/**
+ * Log an error even if XEN_DEBUG is not defined.
+ */
 int XEN_ERROR(const char *format, ...);

@@ -68,7 +68,6 @@ namespace xen
 		m_sprite(),
 		m_running(true)
 	{
-		XEN_LOG("- Created Renderer.\n");
 		clear_color_r = 0;
 		clear_color_g = 0;
 		clear_color_b = 0;
@@ -112,11 +111,6 @@ namespace xen
 
 		m_viewport = Viewport(vp_width, vp_height, vp_mode);
 
-		//Use V-Sync
-		if (m_config->v_sync && SDL_GL_SetSwapInterval(1) < 0) {
-			XEN_WARN( "Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError() );
-		}
-
 		//Use OpenGL 3.1 core
       SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
       SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 );
@@ -128,6 +122,11 @@ namespace xen
 		m_window = SDL_CreateWindow(title.c_str(), x, y, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 		//m_renderer = SDL_CreateRenderer(m_window, -1, render_flags);
 		m_gl_context = SDL_GL_CreateContext(m_window);
+
+		//Use V-Sync
+		if (m_config->v_sync && SDL_GL_SetSwapInterval(1) < 0) {
+			XEN_WARN("> Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+		}
 
 		if(m_gl_context == NULL) {
 			XEN_ERROR("OpenGL context could not be created! SDL Error: %s\n", SDL_GetError());
@@ -143,7 +142,7 @@ namespace xen
 				return false;
 			}
 
-			printf("- OpenGL Version: %s\n", glGetString(GL_VERSION));
+			printf("> OpenGL Version: %s\n", glGetString(GL_VERSION));
 
 			// generate a white (10x10) texture.
 			unsigned char* wt_data = new unsigned char[400];
@@ -204,17 +203,17 @@ namespace xen
 			auto ret = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			if (ret != GL_FRAMEBUFFER_COMPLETE) {
 				if (ret == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-					XEN_LOG("Something went wrong with the fbo. GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+					XEN_ERROR("> Something went wrong with the fbo. GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
 				}
 				else if (ret == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-					XEN_LOG("Something went wrong with the fbo. GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+					XEN_ERROR("> Something went wrong with the fbo. GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
 				}
 				else {
-					XEN_LOG("Something went wrong with the fbo. #%s%s%i", ret, ", texture #", m_fbo_texture);
+					XEN_ERROR("> Something went wrong with the fbo. #%s%s%i", ret, ", texture #", m_fbo_texture);
 				}
 			}
 			else {
-				printf("Frame buffer created #%i\n", m_fbo_texture);
+				XEN_ECHO("> Frame buffer created #%i\n", m_fbo_texture);
 			}
 
 			// create a texture for our generated fbo.
@@ -499,7 +498,6 @@ namespace xen
 	Renderer::~Renderer()
 	{
 		SDL_DestroyWindow(m_window);
-		XEN_LOG("- Destroyed Renderer\n");
 	}
 
 

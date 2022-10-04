@@ -31,7 +31,6 @@ namespace xen
 
 		// load in our custom import loader.
 		luaL_dostring(L, xen_lua_script_init);
-		XEN_LOG("- Created XentuLuaMachine\n");
 	}
 
 
@@ -49,8 +48,6 @@ namespace xen
 
 	int LuaMachine::Init()
 	{
-		XEN_LOG("- Started LuaMachine.\n");
-
 		// load some lua code.
 		auto config = this->GetConfig();
 		std::string lua_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\n";
@@ -58,7 +55,7 @@ namespace xen
 		// run the lua code.
 		const int ret_startup = luaL_dostring(L, lua_code.c_str());
 		if (ret_startup != LUA_OK) {
-			printf("- Error, One of the startup Lua components failed: ");
+			printf("> Error, One of the startup Lua components failed: ");
 			printf(lua_tostring(L, -1));
 			printf("\n");
 			lua_pop(L, 1); // pop error message
@@ -133,6 +130,5 @@ namespace xen
 	{
 		lua_close(L);
 		instance = nullptr;
-		XEN_LOG("- Destroyed XentuLuaMachine\n");
 	}
 }

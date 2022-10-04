@@ -19,15 +19,11 @@ extern "C" {
 namespace xen
 {
 	XentuLuaMachineInterop::XentuLuaMachineInterop(lua_State* L)
-	{
-		printf("XentuLuaGame::XentuLuaGame called\n");
-	}
+	{ }
 
 
 	XentuLuaMachineInterop::~XentuLuaMachineInterop()
-	{
-		printf("XentuLuaGame::~XentuLuaGame called\n");
-	}
+	{ }
 
 
 	int XentuLuaMachineInterop::test(lua_State* L)
@@ -39,7 +35,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::game_create_window(lua_State* L)
 	{
-		XEN_LOG("- Called game_create_window\n");
 		LuaMachine* m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
 		int window_id = r->Init();
@@ -49,7 +44,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::game_on(lua_State* L)
 	{
-		XEN_LOG("- Called game_on\n");
 		if (lua_isfunction(L, -1))
 		{
 			int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -63,7 +57,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::game_trigger(lua_State* L)
 	{
-		XEN_LOG("- Called game_trigger\n");
 		if (lua_gettop(L) != 1) {
 			return luaL_error(L, "expecting exactly 1 arguments");
 		}
@@ -75,7 +68,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::game_run(lua_State* L)
 	{
-		XEN_LOG("- Called game_run\n");
 		auto m = LuaMachine::GetInstance();
 		m->Run();
 		return 0;
@@ -91,13 +83,11 @@ namespace xen
 
 	int XentuLuaMachineInterop::geometry_create_rect(lua_State* L)
 	{
-		XEN_LOG("- Called geometry_create_rect\n");
 		return 0;
 	}
 
 	int XentuLuaMachineInterop::assets_mount(lua_State* L)
 	{
-		XEN_LOG("- Called assets_mount\n");
 		if (lua_gettop(L) != 2) {
 			return luaL_error(L, "expecting exactly 2 arguments");
 		}
@@ -114,7 +104,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::assets_read_text_file(lua_State* L)
 	{
-		XEN_LOG("- Called assets_read_text_file\n");
 		if (lua_gettop(L) != 1) {
 			return luaL_error(L, "expecting exactly 1 arguments");
 		}
@@ -126,7 +115,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::assets_load_texture(lua_State* L)
 	{
-		XEN_LOG("- Called assets_load_texture\n");
 		if (lua_gettop(L) != 1) {
 			return luaL_error(L, "expecting exactly 1 arguments");
 		}
@@ -134,7 +122,6 @@ namespace xen
 		auto m = LuaMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
 		auto res = vfs_get_global()->ReadAllData(path);
-		XEN_LOG("- Bytes read: %s\n", std::to_string(res.length).c_str());
 		int texture_id = r->LoadTexture(res.buffer, res.length);
 		lua_pushinteger(L, texture_id);
 		return 1;
@@ -142,17 +129,14 @@ namespace xen
 
 	int XentuLuaMachineInterop::assets_load_font(lua_State* L)
 	{
-		XEN_LOG("- Called assets_load_font\n");
 		if (lua_gettop(L) != 2) {
 			return luaL_error(L, "expecting exactly 2 arguments");
 		}
 		const std::string path = lua_tostring(L, -2);
-		XEN_LOG("- Attempting to read font %s\n", path.c_str());
 		auto font_size = lua_tointeger(L, -1);
 		auto m = LuaMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
 		auto res = vfs_get_global()->ReadAllData(path);
-		XEN_LOG("- Bytes read: %s\n", std::to_string(res.length).c_str());
 		int font_id = r->LoadFont(res.buffer, res.length, font_size);
 		lua_pushinteger(L, font_id);
 		return 1;
@@ -160,7 +144,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::assets_load_sound(lua_State* L)
 	{
-		XEN_LOG("- Called assets_load_sound.\n");
 		auto path = lua_tostring(L, -1);
 		auto assets = AssetManager::GetInstance();
 		auto res = vfs_get_global()->ReadAllData(path);
@@ -171,7 +154,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::assets_load_music(lua_State* L)
 	{
-		XEN_LOG("- Called assets_load_music.\n");
 		auto path = lua_tostring(L, -1);
 		auto assets = AssetManager::GetInstance();
 		auto res = vfs_get_global()->ReadAllData(path);
@@ -182,7 +164,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::assets_load_shader(lua_State* L)
 	{
-		XEN_LOG("- Called assets_load_shader.\n");
 		auto vertex_src = lua_tostring(L, -2);
 		auto frag_src = lua_tostring(L, -1);
 		auto assets = AssetManager::GetInstance();
@@ -193,7 +174,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::assets_create_textbox(lua_State* L)
 	{
-		XEN_LOG("- Called assets_create_textbox.\n");
 		if (lua_gettop(L) != 4) {
 			return luaL_error(L, "expecting exactly 4 arguments");
 		}
@@ -210,7 +190,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::audio_play_sound(lua_State* L)
 	{
-		XEN_LOG("- Called audio_play_sound.\n");
 		if (lua_gettop(L) != 3) {
 			return luaL_error(L, "expecting exactly 4 arguments");
 		}
@@ -223,7 +202,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::audio_play_music(lua_State* L)
 	{
-		XEN_LOG("- Called audio_play_music.\n");
 		if (lua_gettop(L) != 2) {
 			return luaL_error(L, "expecting exactly 4 arguments");
 		}
@@ -235,7 +213,6 @@ namespace xen
 	
 	int XentuLuaMachineInterop::audio_stop_sound(lua_State* L)
 	{
-		XEN_LOG("- Called audio_stop_sound.\n");
 		auto channel = lua_tointeger(L, -1);
 		AudioManager::GetInstance()->StopSound(channel);
 		return 0;
@@ -243,14 +220,12 @@ namespace xen
 	
 	int XentuLuaMachineInterop::audio_stop_music(lua_State* L)
 	{
-		XEN_LOG("- Called audio_stop_music.\n");
 		AudioManager::GetInstance()->StopMusic();
 		return 0;
 	}
 	
 	int XentuLuaMachineInterop::audio_set_sound_volume(lua_State* L)
 	{
-		XEN_LOG("- Called audio_set_sound_volume.\n");
 		auto sound_id = lua_tointeger(L, -2);
 		float volume = lua_tonumber(L, -1);
 		AudioManager::GetInstance()->SetSoundVolume(sound_id, volume);
@@ -259,7 +234,6 @@ namespace xen
 	
 	int XentuLuaMachineInterop::audio_set_channel_volume(lua_State* L)
 	{
-		XEN_LOG("- Called audio_set_channel_volume.\n");
 		auto channel_id = lua_tointeger(L, -2);
 		float volume = lua_tonumber(L, -1);
 		AudioManager::GetInstance()->SetChannelVolume(channel_id, volume);
@@ -268,7 +242,6 @@ namespace xen
 	
 	int XentuLuaMachineInterop::audio_set_music_volume(lua_State* L)
 	{
-		XEN_LOG("- Called audio_set_music_volume.\n");
 		float volume = lua_tonumber(L, -1);
 		AudioManager::GetInstance()->SetMusicVolume(volume);
 		return 0;
@@ -276,7 +249,6 @@ namespace xen
 	
 	int XentuLuaMachineInterop::audio_set_channel_panning(lua_State* L)
 	{
-		XEN_LOG("- Called audio_set_channel_panning.\n");
 		auto channel_id = lua_tointeger(L, -3);
 		float left = lua_tonumber(L, -2);
 		float right = lua_tonumber(L, -1);
@@ -286,7 +258,6 @@ namespace xen
 	
 	int XentuLuaMachineInterop::renderer_begin(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_begin\n");
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->Begin();
@@ -295,7 +266,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_clear(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_clear\n");
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->Clear();
@@ -304,7 +274,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_present(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_present\n");
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->Present();
@@ -313,7 +282,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_draw_texture(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_draw_texture\n");
 		if (lua_gettop(L) != 5) {
 			return luaL_error(L, "expecting exactly 5 arguments");
 		}
@@ -330,7 +298,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_draw_sub_texture(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_draw_texture\n");
 		if (lua_gettop(L) != 9) {
 			return luaL_error(L, "expecting exactly 9 arguments");
 		}
@@ -351,7 +318,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_draw_rectangle(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_draw_rectangle\n");
 		if (lua_gettop(L) != 4) {
 			return luaL_error(L, "expecting exactly 4 arguments");
 		}
@@ -367,7 +333,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_draw_textbox(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_draw_texbox\n");
 		int textbox_id = lua_tointeger(L, -1);
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
@@ -377,7 +342,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_set_background(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_set_background\n");
 		auto hex = lua_tostring(L, -1);
 
 		int r, g, b;
@@ -394,7 +358,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_set_foreground(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_set_foreground\n");
 		auto hex = lua_tostring(L, -1);
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
@@ -406,7 +369,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_set_window_mode(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_set_window_mode\n");
 		int mode = lua_tointeger(L, -1);
 		auto machine = LuaMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -416,7 +378,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_set_position(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_set_origin\n");
 		float x = lua_tonumber(L, -2);
 		float y = lua_tonumber(L, -1);
 		auto machine = LuaMachine::GetInstance();
@@ -427,7 +388,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_set_origin(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_set_origin\n");
 		float x = lua_tonumber(L, -2);
 		float y = lua_tonumber(L, -1);
 		auto machine = LuaMachine::GetInstance();
@@ -438,7 +398,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_set_rotation(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_set_rotation\n");
 		float angle = lua_tonumber(L, -1);
 		auto machine = LuaMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -448,7 +407,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_set_scale(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_set_scale\n");
 		float x = lua_tonumber(L, -2);
 		float y = lua_tonumber(L, -1);
 		auto machine = LuaMachine::GetInstance();
@@ -459,7 +417,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_set_shader(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_set_shader\n");
 		int asset_id = lua_tointeger(L, -1);
 		auto machine = LuaMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -469,7 +426,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_set_alpha(lua_State* L)
 	{
-		XEN_LOG("- Called renderer_set_alpha\n");
 		float alpha = lua_tonumber(L, -1);
 		auto machine = LuaMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -479,7 +435,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::config_get_str(lua_State* L)
 	{
-		XEN_LOG("- Called config_get_str\n");
 		auto m_group = lua_tostring(L, -3);
 		auto m_name = lua_tostring(L, -2);
 		auto m_default = lua_tostring(L, -1);
@@ -492,7 +447,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::config_get_str2(lua_State* L)
 	{
-		XEN_LOG("- Called config_get_str2\n");
 		auto m_group = lua_tostring(L, -4);
 		auto m_subgroup = lua_tostring(L, -3);
 		auto m_name = lua_tostring(L, -2);
@@ -506,7 +460,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::config_get_bool(lua_State* L)
 	{
-		XEN_LOG("- Called config_get_bool\n");
 		auto m_group = lua_tostring(L, -3);
 		auto m_name = lua_tostring(L, -2);
 		auto m_default = lua_toboolean(L, -1);
@@ -519,7 +472,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::config_get_bool2(lua_State* L)
 	{
-		XEN_LOG("- Called config_get_bool2\n");
 		auto m_group = lua_tostring(L, -4);
 		auto m_subgroup = lua_tostring(L, -3);
 		auto m_name = lua_tostring(L, -2);
@@ -533,7 +485,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::config_get_int(lua_State* L)
 	{
-		XEN_LOG("- Called config_get_int\n");
 		auto m_group = lua_tostring(L, -3);
 		auto m_name = lua_tostring(L, -2);
 		auto m_default = lua_tointeger(L, -1);
@@ -546,7 +497,6 @@ namespace xen
 
 	int XentuLuaMachineInterop::config_get_int2(lua_State* L)
 	{
-		XEN_LOG("- Called config_get_bool2\n");
 		auto m_group = lua_tostring(L, -4);
 		auto m_subgroup = lua_tostring(L, -3);
 		auto m_name = lua_tostring(L, -2);
@@ -583,8 +533,6 @@ namespace xen
 
 		int rr, g, b;
 		sscanf(hex, "%02x%02x%02x", &rr, &g, &b);
-		printf("font_color: %i,%i,%i (hex %s)\n", rr, g, b, hex);
-
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->SetTextBoxColor(textbox_id, font_id, rr, g, b);

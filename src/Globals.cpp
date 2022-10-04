@@ -3,8 +3,8 @@
 
 int XEN_WARN(const char *format, ...)
 {
-	#ifdef XEN_LOG_ENABLED
-	// only print to the console if XEN_LOG is enabled.
+	#ifdef XEN_DEBUG
+	// only print to the console if XEN_ECHO is enabled.
 	va_list args;
 	va_start(args, format);
 	vprintf(format, args);

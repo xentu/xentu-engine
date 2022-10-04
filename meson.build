@@ -1,10 +1,10 @@
-
 project('xentu_rebuild', 'c', 'cpp',
         version : run_command('cat', './version.txt').stdout().strip(),
         default_options: ['default_library=static', 'buildtype=debug']
         )
 
-the_version = run_command('cat', './version.txt').stdout().strip()
+
+the_version = meson.project_version()
 
 
 glew = dependency('glew')

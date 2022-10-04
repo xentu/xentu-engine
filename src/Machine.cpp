@@ -12,8 +12,6 @@ namespace xen
 	Machine::Machine(size_t argc, char *argv[], Config* config)
 	: arg_count(argc)
 	{
-		XEN_LOG("- Created XentuMachine.\n");
-
 		// store the startup arguments (upto a maximum count)
 		for (int i = 0; i<argc && i<MAX_ARGV; i++) {
 			arg_values[i] = argv[i];
@@ -103,7 +101,5 @@ namespace xen
 		xen::vfs_shutdown();
 
 		delete m_renderer;
-
-		XEN_LOG("- Destroyed XentuMachine.\n");
 	}
 }

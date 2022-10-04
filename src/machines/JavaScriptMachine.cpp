@@ -10,8 +10,6 @@ namespace xen
 	JavaScriptMachine::JavaScriptMachine(int argc, char *argv[], Config* config)
 	:	Machine::Machine(argc, argv, config)
 	{
-		XEN_LOG("- Created XentuJavaScriptMachine.\n");
-
 		// keep a pointer to this instance.
 		if (instance != nullptr) {
 			printf("Error, tried to create more than one XentuJavaScriptMachine!");
@@ -20,7 +18,6 @@ namespace xen
 		instance = this;
 
 		// load in our custom import loader.
-
 		L = duk_create_heap(NULL, NULL, NULL, NULL, js_error_handler);
 		js_init_interop(L);
 		duk_eval_string(L, xen_js_script_init);
@@ -41,8 +38,6 @@ namespace xen
 
 	int JavaScriptMachine::Init()
 	{
-		XEN_LOG("- Started JavaScriptMachine.\n");
-
 		// load some js code.
 		auto config = this->GetConfig();
 		std::string js_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\n";
@@ -109,6 +104,5 @@ namespace xen
 	{
 		duk_destroy_heap(L);
 		instance = nullptr;
-		XEN_LOG("- Destroyed XentuJavaScriptMachine.\n");
 	}
 }

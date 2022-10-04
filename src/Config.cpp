@@ -47,7 +47,7 @@ namespace xen
 			int a_channels = this->GetSettingInt("game", "audio", "channels", 2);
 			audio = { a_freq, a_channels };
 
-			printf("Entry point: %s\n", entry_point.c_str());
+			printf("> Entry point: %s\n", entry_point.c_str());
 		}
 		catch (std::exception e)
 		{
@@ -64,7 +64,7 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_WARN("- Config warning: GetSetting [%s.%s] missing.\n", group.c_str(), name.c_str());
+			XEN_WARN("> Config warning: GetSetting [%s.%s] missing.\n", group.c_str(), name.c_str());
 		}
 		return default_value;
 	}
@@ -77,7 +77,7 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_WARN("- Config warning: SetSetting [%s.%s] missing.\n", group.c_str(), name.c_str());
+			XEN_WARN("> Config warning: SetSetting [%s.%s] missing.\n", group.c_str(), name.c_str());
 		}
 		return default_value;
 	}
@@ -90,7 +90,7 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_WARN("- Config warning: GetSettingInt [%s.%s] missing.\n", group.c_str(), name.c_str());
+			XEN_WARN("> Config warning: GetSettingInt [%s.%s] missing.\n", group.c_str(), name.c_str());
 		}
 		return default_value;
 	}
@@ -104,7 +104,7 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_WARN("- Config warning: GetSetting [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
+			XEN_WARN("> Config warning: GetSetting [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
 		}
 		return default_value;
 	}
@@ -117,7 +117,7 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_WARN("- Config warning: GetSettingBool [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
+			XEN_WARN("> Config warning: GetSettingBool [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
 		}
 		return default_value;
 	}
@@ -130,13 +130,11 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_WARN("- Config warning: GetSettingInt [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
+			XEN_WARN("> Config warning: GetSettingInt [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
 		}
 		return default_value;
 	}
 	
 	Config::~Config()
-	{
-		XEN_LOG("- Destroyed Config.\n");
-	}
+	{ }
 }

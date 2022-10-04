@@ -38,11 +38,8 @@ int main(int argc, char *argv[])
     if (argc > 1) {
         string argv1 = argv[1];
         if (argv1 == "--version" || argv1 == "-v") {
-            printf("Version: %s\n", XEN_VER);
+            XEN_ECHO("Version: %s\n", XEN_VER);
             return res;
-        }
-        else if (argv1 == "--logging" || argv1 == "-l") {
-            #define XEN_LOG_ENABLED 1
         }
     }
     #endif
@@ -66,13 +63,13 @@ int main(int argc, char *argv[])
     AudioManager *audio = new AudioManager(config);
     AssetManager *assets = new AssetManager();
     
-    printf("Language: %s\n", config->language.c_str());
-
     if (StringUtils::EndsWith(config->entry_point, "js")) {
+        printf("> Language: JavaScript\n");
         MACHINE_PTR js_machine(new xen::JavaScriptMachine(argc, argv, config));
         res = js_machine->Init();
     }
     else if (StringUtils::EndsWith(config->entry_point, "lua")) {
+        printf("> Language: LUA\n");
         MACHINE_PTR lua_machine(new LuaMachine(argc, argv, config));
         res = lua_machine->Init();
     }
@@ -87,6 +84,6 @@ int main(int argc, char *argv[])
     vfs_shutdown();
 
     // 3. at this point the game would have ended.
-    XEN_LOG("\nEnded with code %i.", res);
+    XEN_ECHO("\nEnded with code %i.", res);
     return res;
 }

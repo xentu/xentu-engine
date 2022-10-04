@@ -231,7 +231,6 @@ namespace xen
 
 
 	duk_ret_t js_game_create_window(duk_context *L) {
-		XEN_LOG("- Called game_create_window\n");
 		JavaScriptMachine* m = JavaScriptMachine::GetInstance();
 		auto r = m->GetRenderer();
 		int window_id = r->Init();
@@ -241,7 +240,6 @@ namespace xen
 
 	int js_on_iter = 0;
 	duk_ret_t js_game_on(duk_context *L) {
-		XEN_LOG("- Called game_on\n");
 		auto event_name = duk_to_string(L, 0);
 		
 		std::string callback_name = "xen_callback" + std::to_string(js_on_iter);
@@ -256,12 +254,10 @@ namespace xen
 	}
 	
 	duk_ret_t js_game_trigger(duk_context *L) {
-		XEN_LOG("- Called game_trigger\n");
 		return 0;
 	}
 	
 	duk_ret_t js_game_run(duk_context *L) {
-		XEN_LOG("- Called game_run\n");
 		auto m = JavaScriptMachine::GetInstance();
 		m->Run();
 		return 0;
@@ -275,12 +271,10 @@ namespace xen
 	}
 
 	duk_ret_t js_geometry_create_rect(duk_context *L) {
-		XEN_LOG("- Called geometry_create_rect\n");
 		return 0;
 	}
 	
 	duk_ret_t js_assets_mount(duk_context *L) {
-		XEN_LOG("- Called assets_mount\n");
 		auto s_point = duk_to_string(L, 0);
 		auto s_path = duk_to_string(L, 1);
 		// create the file system mount & init.
@@ -293,7 +287,6 @@ namespace xen
 	}
 	
 	duk_ret_t js_assets_read_text_file(duk_context *L) {
-		XEN_LOG("- Called assets_read_text_file\n");
 		auto path = duk_to_string(L, 0);
 		auto res = vfs_get_global()->ReadAllText(path);
 		duk_push_string(L, res.c_str());
@@ -301,33 +294,27 @@ namespace xen
 	}
 	
 	duk_ret_t js_assets_load_texture(duk_context *L) {
-		XEN_LOG("- Called assets_load_texture\n");
 		auto path = duk_to_string(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
 		auto res = vfs_get_global()->ReadAllData(path);
-		XEN_LOG("- Bytes read: %s\n", std::to_string(res.length).c_str());
 		int texture_id = r->LoadTexture(res.buffer, res.length);
 		duk_push_int(L, texture_id);
 		return 1;
 	}
 
 	duk_ret_t js_assets_load_font(duk_context *L) {
-		XEN_LOG("- Called assets_load_font.\n");
 		auto path = duk_to_string(L, 0);
-		XEN_LOG("- Attempting to read font %s\n", path);
 		int font_size = duk_to_int(L, 1);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
 		auto res = vfs_get_global()->ReadAllData(path);
-		XEN_LOG("- Font bytes read: %s\n", std::to_string(res.length).c_str());
 		int font_id = r->LoadFont(res.buffer, res.length, font_size);
 		duk_push_int(L, font_id);
 		return 1;
 	}
 
 	duk_ret_t js_assets_load_sound(duk_context *L) {
-		XEN_LOG("- Called audio_play_sound.\n");
 		auto path = duk_to_string(L, 0);
 		auto assets = AssetManager::GetInstance();
 		auto res = vfs_get_global()->ReadAllData(path);
@@ -337,7 +324,6 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_load_music(duk_context *L) {
-		XEN_LOG("- Called assets_load_music.\n");
 		auto path = duk_to_string(L, 0);
 		auto assets = AssetManager::GetInstance();
 		auto res = vfs_get_global()->ReadAllData(path);
@@ -356,7 +342,6 @@ namespace xen
 	}
 	
 	duk_ret_t js_assets_create_textbox(duk_context *L) {
-		XEN_LOG("- Called assets_create_textbox.\n");
 		auto x = duk_to_int(L, 0);
 		auto y = duk_to_int(L, 1);
 		auto w = duk_to_int(L, 2);
@@ -369,7 +354,6 @@ namespace xen
 	}
 
 	duk_ret_t js_audio_play_sound(duk_context *L) {
-		XEN_LOG("- Called audio_play_sound.\n");
 		auto sound_id = duk_to_int(L, 0);
 		auto channel = duk_to_int(L, 1);
 		auto loops = duk_to_int(L, 2);
@@ -378,7 +362,6 @@ namespace xen
 	}
 
 	duk_ret_t js_audio_play_music(duk_context *L) {
-		XEN_LOG("- Called audio_play_music.\n");
 		auto music_id = duk_to_int(L, 0);
 		auto loops = duk_to_int(L, 1);
 		AudioManager::GetInstance()->PlayMusic(music_id, loops);
@@ -386,20 +369,17 @@ namespace xen
 	}
 
 	duk_ret_t js_audio_stop_sound(duk_context *L) {
-		XEN_LOG("- Called audio_stop_sound.\n");
 		auto channel = duk_to_int(L, 0);
 		AudioManager::GetInstance()->StopSound(channel);
 		return 0;
 	}
 
 	duk_ret_t js_audio_stop_music(duk_context *L) {
-		XEN_LOG("- Called audio_stop_music.\n");
 		AudioManager::GetInstance()->StopMusic();
 		return 0;
 	}
 
 	duk_ret_t js_audio_set_sound_volume(duk_context *L) {
-		XEN_LOG("- Called audio_set_sound_volume.\n");
 		int sound_id = duk_to_int(L, 0);
 		float volume = duk_to_number(L, 1);
 		AudioManager::GetInstance()->SetSoundVolume(sound_id, volume);
@@ -407,7 +387,6 @@ namespace xen
 	}
 
 	duk_ret_t js_audio_set_channel_volume(duk_context *L) {
-		XEN_LOG("- Called audio_set_channel_volume.\n");
 		int channel_id = duk_to_int(L, 0);
 		float volume = duk_to_number(L, 1);
 		AudioManager::GetInstance()->SetChannelVolume(channel_id, volume);
@@ -415,14 +394,12 @@ namespace xen
 	}
 
 	duk_ret_t js_audio_set_music_volume(duk_context *L) {
-		XEN_LOG("- Called audio_set_music_volume.\n");
 		float volume = duk_to_number(L, 0);
 		AudioManager::GetInstance()->SetMusicVolume(volume);
 		return 0;
 	}
 
 	duk_ret_t js_audio_set_channel_panning(duk_context *L) {
-		XEN_LOG("- Called audio_set_channel_panning.\n");
 		int channel_id = duk_to_int(L, 0);
 		float left = duk_to_number(L, 1);
 		float right = duk_to_number(L, 2);
@@ -452,7 +429,6 @@ namespace xen
 	}
 	
 	duk_ret_t js_renderer_draw_texture(duk_context *L) {
-		XEN_LOG("- Called renderer_draw_texture\n");
 		int texture_id = duk_to_int(L, 0);
 		int x = duk_to_int(L, 1);
 		int y = duk_to_int(L, 2);
@@ -465,7 +441,6 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_draw_sub_texture(duk_context *L) {
-		XEN_LOG("- Called renderer_draw_texture\n");
 		int texture_id = duk_to_int(L, 0);
 		int x = duk_to_int(L, 1);
 		int y = duk_to_int(L, 2);
@@ -482,7 +457,6 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_draw_rectangle(duk_context *L) {
-		XEN_LOG("- Called renderer_draw_texture\n");
 		int x = duk_to_int(L, 0);
 		int y = duk_to_int(L, 1);
 		int w = duk_to_int(L, 2);
@@ -494,7 +468,6 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_draw_textbox(duk_context *L) {
-		XEN_LOG("- Called renderer_draw_texbox\n");
 		int textbox_id = duk_to_int(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = m->GetRenderer();
@@ -503,7 +476,6 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_set_background(duk_context *L) {
-		XEN_LOG("- Called renderer_set_background\n");
 
 		auto hex = duk_to_string(L, 0);
 		int r, g, b;
@@ -519,7 +491,6 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_set_foreground(duk_context *L) {
-		XEN_LOG("- Called renderer_set_foreground\n");
 		auto hex = duk_to_string(L, 0);
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
@@ -670,13 +641,11 @@ namespace xen
 	}
 
 	duk_ret_t js_textbox_set_color(duk_context* L) {
-		XEN_LOG("- Called textbox_set_color\n");
 		auto textbox_id = duk_to_int(L, 0);
 		auto font_id = duk_to_int(L, 1);
 		auto hex = duk_to_string(L, 2);
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
-		printf("text_color: %i,%i,%i (hex %s)\n", r, g, b, hex);
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
 		renderer->SetTextBoxColor(textbox_id, font_id, r, g, b);
@@ -684,7 +653,6 @@ namespace xen
 	}
 
 	duk_ret_t js_textbox_measure_text(duk_context* L) {
-		XEN_LOG("- Called textbox_measure_text\n");
 		auto textbox_id = duk_to_int(L, 0);
 		auto font_id = duk_to_int(L, 1);
 		const char* text = duk_to_string(L, 2);
