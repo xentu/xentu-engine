@@ -33,7 +33,9 @@ assets_load_font(path, font_size)
 assets_load_sound(path)
 assets_load_music(path)
 assets_load_shader(vertex_text, fragment_text)
+assets_load_sprite_map(path)
 assets_create_textbox(x,y,w,h)
+assets_create_sprite_map()
 assets_include(path)
 ```
 
@@ -54,10 +56,11 @@ audio_set_channel_panning(channel, left, right)
 renderer_begin()
 renderer_clear()
 renderer_present()
-renderer_draw_texture(color, x, y, width, height)
-renderer_draw_sub_texture(color, x, y, w, h, sx, sy, sw, sh)
+renderer_draw_texture(texture_id, x, y, width, height)
+renderer_draw_sub_texture(texture_id, x, y, w, h, sx, sy, sw, sh)
 renderer_draw_rectangle(x, y, w, h)
 renderer_draw_textbox(textbox_id)
+renderer_draw_sprite(sprite_map_id, region_name, x, y, w, h)
 renderer_set_background(color)
 renderer_set_foreground(color)
 renderer_set_window_mode(mode)
@@ -69,7 +72,13 @@ renderer_set_shader(shader_id)
 renderer_set_alpha(alpha)
 renderer_set_blend(bool)
 renderer_set_blend_func(src_mode, dest_mode)
+```
 
+### Sprite Maps
+```
+sprite_map_set_region(sprite_map_id, region_name, x, y, w, h)
+sprite_map_set_texture(texture_id)
+sprite_map_reset(sprite_map_id)
 ```
 
 ### Shader Functions

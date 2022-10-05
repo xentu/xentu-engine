@@ -47,5 +47,6 @@ game.on("draw", function(dt) {
 	renderer.present();
 });
 
+
 // we've finished preparing, so run the game.
 game.run();

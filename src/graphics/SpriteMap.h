@@ -16,7 +16,7 @@ namespace xen
 		SpriteMap();
 		~SpriteMap();
 
-		static SpriteMap* parse_file(std::string filename);
+		static SpriteMap* parse_file(std::string const& json);
 
 		/// <summary>
 		/// Attempt to get a named region, if a region is not found, a default one is returned instead.
@@ -25,8 +25,15 @@ namespace xen
 		/// <returns>The rectangle that represents the found region.</returns>
 		const Rect* get_region(std::string nickname) const;
 		int add_region(const std::string nickname, const Rect* rect);
-	private:
 
-		std::map<const std::string, const Rect*> regions;
+		void set_texture(int texture_asset_id);
+		const int get_texture() const;
+		void reset();
+
+
+	private:
+		// the asset_id for the loaded texture.
+		int m_texture_asset_id;
+		std::map<const std::string, const Rect*> m_regions;
 	};
 }

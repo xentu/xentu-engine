@@ -44,7 +44,9 @@ namespace xen
 		js_init_method(L, "assets_load_sound", js_assets_load_sound, 1);
 		js_init_method(L, "assets_load_music", js_assets_load_music, 1);
 		js_init_method(L, "assets_load_shader", js_assets_load_shader, 2);
+		js_init_method(L, "assets_load_sprite_map", js_assets_load_sprite_map, 1);
 		js_init_method(L, "assets_create_textbox", js_assets_create_textbox, 4);
+		js_init_method(L, "assets_create_sprite_map", js_assets_create_sprite_map, 0);
 		js_init_method(L, "audio_play_sound", js_audio_play_sound, 3);
 		js_init_method(L, "audio_play_music", js_audio_play_music, 2);
 		js_init_method(L, "audio_stop_music", js_audio_stop_music, 1);
@@ -60,6 +62,7 @@ namespace xen
 		js_init_method(L, "renderer_draw_sub_texture", js_renderer_draw_sub_texture, 9);
 		js_init_method(L, "renderer_draw_rectangle", js_renderer_draw_rectangle, 4);
 		js_init_method(L, "renderer_draw_textbox", js_renderer_draw_textbox, 1);
+		js_init_method(L, "renderer_draw_sprite", js_renderer_draw_sprite, 6);
 		js_init_method(L, "renderer_set_background", js_renderer_set_background, 1);
 		js_init_method(L, "renderer_set_foreground", js_renderer_set_foreground, 1);
 		js_init_method(L, "renderer_set_window_mode", js_renderer_set_window_mode, 1);
@@ -87,6 +90,9 @@ namespace xen
 		js_init_method(L, "shader_set_uniforms_bool", js_shader_set_uniforms_bool, DUK_VARARGS);
 		js_init_method(L, "shader_set_uniforms_int", js_shader_set_uniforms_int, DUK_VARARGS);
 		js_init_method(L, "shader_set_uniforms_float", js_shader_set_uniforms_float, DUK_VARARGS);
+		js_init_method(L, "sprite_map_set_region", js_sprite_map_set_region, 6);
+		js_init_method(L, "sprite_map_set_texture", js_sprite_map_set_texture, 2);
+		js_init_method(L, "sprite_map_reset", js_sprite_map_reset, 1);
 	}
 
 
@@ -258,6 +264,15 @@ namespace xen
 		duk_push_int(L, shader_id);
 		return 1;
 	}
+
+	duk_ret_t js_assets_load_sprite_map(duk_context *L) {
+		auto path = duk_to_string(L, 0);
+		const string json = vfs_get_global()->ReadAllText(path);
+		auto a = AssetManager::GetInstance();
+		int asset_id = a->LoadSpriteMap(json);
+		duk_push_int(L, asset_id);
+		return 1;
+	}
 	
 	duk_ret_t js_assets_create_textbox(duk_context *L) {
 		auto x = duk_to_int(L, 0);
@@ -268,6 +283,13 @@ namespace xen
 		auto r = AssetManager::GetInstance();
 		int textbox_id = r->CreateTextBox(x, y, w, h);
 		duk_push_int(L, textbox_id);
+		return 1;
+	}
+
+	duk_ret_t js_assets_create_sprite_map(duk_context *L) {
+		auto a = AssetManager::GetInstance();
+		int asset_id = a->CreateSpriteMap();
+		duk_push_int(L, asset_id);
 		return 1;
 	}
 
@@ -400,6 +422,19 @@ namespace xen
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->DrawTextBox(textbox_id);
+		return 0;
+	}
+
+	duk_ret_t js_renderer_draw_sprite(duk_context *L) {
+		int asset_id = duk_to_int(L, 0);
+		const string region = duk_to_string(L, 1);
+		int x = duk_to_int(L, 2);
+		int y = duk_to_int(L, 3);
+		int w = duk_to_int(L, 4);
+		int h = duk_to_int(L, 5);
+		auto m = JavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->DrawRectangle(x, y, w, h);
 		return 0;
 	}
 
@@ -719,6 +754,41 @@ namespace xen
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
 		renderer->SetUniforms(uniform_id, argc, inputs);
+		return 0;
+	}
+
+	#pragma endregion
+
+
+	#pragma region Sprite Map
+
+	duk_ret_t js_sprite_map_set_region(duk_context *L) {
+		int asset_id = duk_to_int(L, 0);
+		const string region = duk_to_string(L, 1);
+		float x = duk_to_number(L, 2);
+		float y = duk_to_number(L, 3);
+		float w = duk_to_number(L, 4);
+		float h = duk_to_number(L, 5);
+		auto a = AssetManager::GetInstance();
+		auto sm = a->GetSpriteMap(asset_id);
+		sm->add_region(region, new Rect(x, y, w, h));
+		return 0;
+	}
+
+	duk_ret_t js_sprite_map_set_texture(duk_context *L) {
+		int asset_id = duk_to_int(L, 0);
+		int texture_asset_id = duk_to_int(L, 1);
+		auto a = AssetManager::GetInstance();
+		auto sm = a->GetSpriteMap(asset_id);
+		sm->set_texture(texture_asset_id);
+		return 0;
+	}
+
+	duk_ret_t js_sprite_map_reset(duk_context *L) {
+		int asset_id = duk_to_int(L, 0);
+		auto a = AssetManager::GetInstance();
+		auto sm = a->GetSpriteMap(asset_id);
+		sm->reset();
 		return 0;
 	}
 

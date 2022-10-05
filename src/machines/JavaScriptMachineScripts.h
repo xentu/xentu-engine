@@ -18,7 +18,9 @@ namespace xen { const char * xen_js_script_init = R"(
 	assets.load_sound = assets_load_sound;
 	assets.load_music = assets_load_music;
 	assets.load_shader = assets_load_shader;
+	assets.load_sprite_map = assets_load_sprite_map;
 	assets.create_textbox = assets_create_textbox;
+	assets.create_sprite_map = assets_create_sprite_map;
 	assets.include = function(path) {
 		const code = assets_read_text_file(path);
 		eval(code);
@@ -57,6 +59,7 @@ namespace xen { const char * xen_js_script_init = R"(
 	renderer.set_window_mode = renderer_set_window_mode;
 	renderer.present = renderer_present;
 	renderer.draw_textbox = renderer_draw_textbox;
+	renderer.draw_sprite = renderer_draw_sprite;
 	renderer.set_position = renderer_set_position;
 	renderer.set_origin = renderer_set_origin;
 	renderer.set_rotation = renderer_set_rotation;
@@ -83,6 +86,11 @@ namespace xen { const char * xen_js_script_init = R"(
 	shader.set_uniforms_bool = shader_set_uniforms_bool;
 	shader.set_uniforms_int = shader_set_uniforms_int;
 	shader.set_uniforms_float = shader_set_uniforms_float;
+
+	const sprite_map = {}
+	sprite_map.set_region = sprite_map_set_region;
+	sprite_map.set_texture = sprite_map_set_texture;
+	sprite_map.reset = sprite_map_reset;
 
 	const color = {
 		hex_to_int: function(hex) {

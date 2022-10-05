@@ -13,6 +13,7 @@
 
 #include "../graphics/Texture.h"
 #include "../graphics/TextBox.h"
+#include "../graphics/SpriteMap.h"
 
 namespace xen
 {
@@ -44,6 +45,11 @@ namespace xen
 			int LoadMusic(uint8_t* buffer, uint64_t length);
 
 			/**
+			 * Load a sprite map into memory, and return it's asset id.
+			 */
+			int LoadSpriteMap(std::string const& json);
+
+			/**
 			 * Load a shader into memory and return it's asset id.
 			 */
 			int LoadShader(string vertex_shader, string frag_shader);
@@ -53,6 +59,11 @@ namespace xen
 			 */
 			int CreateTextBox(int x, int y, int width, int height);
 
+			/**
+			 * Create a sprite map, and return it's asset id.
+			 */
+			int CreateSpriteMap();
+
 
 			Texture* GetTexture(int id);
 
@@ -61,6 +72,8 @@ namespace xen
 			TextBox* GetTextBox(int id);
 
 			unsigned int GetShader(int id);
+
+			SpriteMap* AssetManager::GetSpriteMap(int id);
 
 
 		private:
@@ -81,5 +94,9 @@ namespace xen
 			/* shaders */
 			map<int, unsigned int> m_shaders;
 			int m_shaders_iter = 0;
+
+			/* sprite maps */
+			map<int, SpriteMap*> m_sprite_maps;
+			int m_sprite_map_iter = 0;
 	};
 }

@@ -135,6 +135,11 @@ namespace xen
 			void DrawTextBox(int textbox_id);
 
 			/**
+			 * Draw a region from a sprite map onto the current buffer.
+			 */
+			void DrawSprite(int sprite_map_id, string const& region_name, int x, int y, int w, int h);
+
+			/**
 			 * Set the text for a textbox (updates an underlying texture, can be expensive).
 			 */
 			void SetTextBoxText(int textbox_id, int font_id, const char* text);

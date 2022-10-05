@@ -192,6 +192,14 @@ namespace xen
 		return audioMgr->StoreMusic(audio);
 	}
 
+	int AssetManager::LoadSpriteMap(std::string const& json)
+	{
+		auto sprite_map = SpriteMap::parse_file(json);
+		m_sprite_maps.insert(std::make_pair(m_sprite_map_iter, sprite_map));
+		m_sprite_map_iter++;
+		return m_sprite_map_iter - 1;
+	}
+
 	int AssetManager::LoadShader(string vertex_shader, string frag_shader)
 	{
 		auto res = create_shader(vertex_shader, frag_shader);
@@ -208,24 +216,41 @@ namespace xen
 		return m_textboxes_iter - 1;
 	}
 
+	int AssetManager::CreateSpriteMap()
+	{
+		auto sprite_map = new SpriteMap();
+		m_sprite_maps.insert(std::make_pair(m_sprite_map_iter, sprite_map));
+		m_sprite_map_iter++;
+		return m_sprite_map_iter - 1;
+	}
+
 
 	Texture* AssetManager::GetTexture(int id)
 	{
 		return m_textures[id];
 	}
 
+
 	TTF_Font* AssetManager::GetFont(int id)
 	{
 		return m_fonts[id];
 	}
-			
+
+
 	TextBox* AssetManager::GetTextBox(int id)
 	{
 		return m_textboxes[id];
 	}
 
+
 	unsigned int AssetManager::GetShader(int id)
 	{
 		return m_shaders[id];
+	}
+
+
+	SpriteMap* AssetManager::GetSpriteMap(int id)
+	{
+		return m_sprite_maps[id];
 	}
 }

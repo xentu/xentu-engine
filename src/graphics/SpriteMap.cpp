@@ -15,18 +15,15 @@ namespace xen
 
 	SpriteMap::~SpriteMap()
 	{
-
+		// TODO: memory leak, delete the rects!
+		m_texture_asset_id = -1;
 	}
 
 
-	SpriteMap* SpriteMap::parse_file(std::string filename)
+	SpriteMap* SpriteMap::parse_file(std::string const& json)
 	{
 		SpriteMap* result = new SpriteMap();
-
-		/* try to read the specified file. */
-		std::ifstream ifs(filename);
-		nlohmann::json j;
-		ifs >> j;
+		nlohmann::json j = nlohmann::json::parse(json);
 
 		for (auto& el : j.items()) {
 			auto en = el.value();
@@ -50,9 +47,9 @@ namespace xen
 
 	const Rect* SpriteMap::get_region(const std::string nickname) const
 	{
-		if (regions.count(nickname))
+		if (m_regions.count(nickname))
 		{
-			return regions.at(nickname);
+			return m_regions.at(nickname);
 		}
 		return nullptr;
 	}
@@ -60,13 +57,29 @@ namespace xen
 
 	int SpriteMap::add_region(const std::string nickname, const Rect* rect)
 	{
-		if (regions.count(nickname))
+		if (m_regions.count(nickname))
 		{
 			return -1;
 		}
 
 		const auto pair = std::make_pair(nickname, rect);
-		regions.insert(pair);
+		m_regions.insert(pair);
 		return 0;
+	}
+
+
+	void SpriteMap::set_texture(int texture_asset_id) {
+		m_texture_asset_id = texture_asset_id;
+	}
+
+
+	const int SpriteMap::get_texture() const {
+		return m_texture_asset_id;
+	}
+
+
+	void SpriteMap::reset() {
+		// TODO: clean up memory, rects are on heap.
+		m_regions.clear();
 	}
 }

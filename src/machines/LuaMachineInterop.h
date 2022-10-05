@@ -21,7 +21,9 @@ namespace xen
 			int assets_load_sound(lua_State* L);
 			int assets_load_music(lua_State* L);
 			int assets_load_shader(lua_State* L);
+			int assets_load_sprite_map(lua_State* L);
 			int assets_create_textbox(lua_State* L);
+			int assets_create_sprite_map(lua_State* L);
 
 			int audio_play_sound(lua_State* L);
 			int audio_play_music(lua_State* L);
@@ -39,6 +41,7 @@ namespace xen
 			int renderer_draw_sub_texture(lua_State* L);
 			int renderer_draw_rectangle(lua_State* L);
 			int renderer_draw_textbox(lua_State* L);
+			int renderer_draw_sprite(lua_State* L);
 			int renderer_set_background(lua_State* L);
 			int renderer_set_foreground(lua_State* L);
 			int renderer_set_window_mode(lua_State* L);
@@ -70,6 +73,10 @@ namespace xen
 			int shader_set_uniforms_bool(lua_State* L);
 			int shader_set_uniforms_int(lua_State* L);
 			int shader_set_uniforms_float(lua_State* L);
+
+			int sprite_map_set_region(lua_State* L);
+			int sprite_map_set_texture(lua_State* L);
+			int sprite_map_reset(lua_State* L);
 
 
 		public:

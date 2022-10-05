@@ -29,7 +29,9 @@ assets.load_font = function(a, b) return interop.assets_load_font(a, b) end
 assets.load_sound = function(path) return interop.assets_load_sound(path) end
 assets.load_music = function(path) return interop.assets_load_music(path) end
 assets.load_shader = function(a,b) return interop.assets_load_shader(a,b) end
+assets.load_sprite_map = function(path) return interop.assets_load_sprite_map(path) end
 assets.create_textbox = function(a, b, c, d) return interop.assets_create_textbox(a, b, c, d) end
+assets.create_sprite_map = function() return interop.assets_create_sprite_map() end
 assets.include = function(path)
 	code = assets.read_text_file(path)
 	delegate = load(code)
@@ -54,6 +56,7 @@ renderer.draw_texture = function(a, b, c, d, e) interop.renderer_draw_texture(a,
 renderer.draw_sub_texture = function(a, b,c,d,e, f,g,h,i) interop.renderer_draw_sub_texture(a, b,c,d,e, f,g,h,i) end
 renderer.draw_rectangle = function(a,b,c,d) interop.renderer_draw_rectangle(a,b,c,d) end
 renderer.draw_textbox = function(a) interop.renderer_draw_textbox(a) end
+renderer.draw_sprite = function(id,region,x,y,w,h) interop.renderer_draw_sprite(id,region,x,y,w,h) end
 renderer.set_background = function(hex)
 	hex2 = hex:gsub("#", "")
 	interop.renderer_set_background(hex2)
@@ -72,6 +75,11 @@ renderer.set_alpha = function(alpha) interop.renderer_set_alpha(alpha) end
 renderer.set_blend = function(enable) interop.renderer_set_blend(enable) end
 renderer.set_blend_func = function(src, dst) interop.renderer_set_blend_func(src, dst) end
 renderer.set_blend_preset = function(src, dst) interop.renderer_set_blend_preset(mode, p_alpha) end
+
+sprite_map = {}
+sprite_map.set_region = function(id,region,x,y,w,h) interop.sprite_map_set_region(id,region,x,y,w,h) end
+sprite_map.set_texture = function(id,texture) interop.sprite_map_set_texture(id,texture) end
+sprite_map.reset = function() interop.sprite_map_reset() end
 
 config = {}
 config.get_str = function(a,b,c) return interop.config_get_str(a,b,c) end

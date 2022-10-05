@@ -51,7 +51,9 @@ namespace xen
 	duk_ret_t js_assets_load_sound(duk_context *L);
 	duk_ret_t js_assets_load_music(duk_context *L);
 	duk_ret_t js_assets_load_shader(duk_context *L);
+	duk_ret_t js_assets_load_sprite_map(duk_context *L);
 	duk_ret_t js_assets_create_textbox(duk_context *L);
+	duk_ret_t js_assets_create_sprite_map(duk_context* L);
 
 	duk_ret_t js_audio_play_sound(duk_context *L);
 	duk_ret_t js_audio_play_music(duk_context *L);
@@ -69,6 +71,7 @@ namespace xen
 	duk_ret_t js_renderer_draw_sub_texture(duk_context *L);
 	duk_ret_t js_renderer_draw_rectangle(duk_context *L);
 	duk_ret_t js_renderer_draw_textbox(duk_context *L);
+	duk_ret_t js_renderer_draw_sprite(duk_context* L);
 	duk_ret_t js_renderer_set_background(duk_context *L);
 	duk_ret_t js_renderer_set_foreground(duk_context *L);
 	duk_ret_t js_renderer_set_window_mode(duk_context *L);
@@ -101,4 +104,8 @@ namespace xen
 	duk_ret_t js_shader_set_uniforms_int(duk_context* L);
 	duk_ret_t js_shader_set_uniforms_float(duk_context* L);
 	duk_ret_t js_shader_set_uniform_matrix(duk_context* L);
+
+	duk_ret_t js_sprite_map_set_region(duk_context* L);
+	duk_ret_t js_sprite_map_set_texture(duk_context* L);
+	duk_ret_t js_sprite_map_reset(duk_context* L);
 }
