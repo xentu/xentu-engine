@@ -164,6 +164,17 @@ namespace xen
 			void SetUniforms(int uniform_id, int argc, float argv[]);
 			void SetUniformMatrix(int uniform_id, glm::mat4 matrix);
 
+			/**
+			 * Enable/disable alpha-blending.
+			 */
+			void SetBlend(const bool enable);
+
+			/**
+			 * Set the blend state for the renderer.
+			 * @param s_factor The src factor.
+			 * @param s_factor The dest factor.
+			 */
+			void SetBlendFunc(const int s_factor, const int d_factor);
 
 		private:
 			/**

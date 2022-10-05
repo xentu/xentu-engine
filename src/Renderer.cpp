@@ -631,4 +631,21 @@ namespace xen
 	{
 		glUniformMatrix4fv(uniform_id, 1, false, &matrix[0][0]);
 	}
+
+
+	void Renderer::SetBlend(const bool enable)
+	{
+		if (enable) {
+			glEnable(GL_BLEND);
+		}
+		else {
+			glDisable(GL_BLEND);
+		}
+	}
+
+
+	void Renderer::SetBlendFunc(const int s_factor, const int d_factor)
+	{
+		glBlendFunc(s_factor, d_factor);
+	}
 }

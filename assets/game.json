@@ -1,7 +1,7 @@
 {
 	"game": {
 		"title": "Hello World",
-		"entry_point": "/scripts/test.js",
+		"entry_point": "/scripts/test.lua",
 		"v_sync": true,
 		"fullscreen": false,
 		"update_frequency": 60,

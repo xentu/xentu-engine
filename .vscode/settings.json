@@ -23,6 +23,7 @@
 		"pycompobj",
 		"pylance",
 		"pyright",
+		"toboolean",
 		"vfspp",
 		"WINDOWPOS",
 		"Xentu"

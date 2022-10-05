@@ -63,6 +63,8 @@ namespace xen { const char * xen_js_script_init = R"(
 	renderer.set_scale = renderer_set_scale;
 	renderer.set_shader = renderer_set_shader;
 	renderer.set_alpha = renderer_set_alpha;
+	renderer.set_blend = renderer_set_blend;
+	renderer.set_blend_func = renderer_set_blend_func;
 
 	const textbox = {}
 	textbox.set_text = textbox_set_text;

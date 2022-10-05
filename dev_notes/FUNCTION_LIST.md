@@ -67,6 +67,9 @@ renderer_set_rotation(angle)
 renderer_set_scale(x,y)
 renderer_set_shader(shader_id)
 renderer_set_alpha(alpha)
+renderer_set_blend(bool)
+renderer_set_blend_func(src_mode, dest_mode)
+
 ```
 
 ### Shader Functions

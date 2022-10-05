@@ -78,6 +78,8 @@ namespace xen
 	duk_ret_t js_renderer_set_scale(duk_context *L);
 	duk_ret_t js_renderer_set_shader(duk_context *L);
 	duk_ret_t js_renderer_set_alpha(duk_context *L);
+	duk_ret_t js_renderer_set_blend(duk_context *L);
+	duk_ret_t js_renderer_set_blend_func(duk_context *L);
 	
 	duk_ret_t js_config_get_str(duk_context* L);
 	duk_ret_t js_config_get_str2(duk_context* L);

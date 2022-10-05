@@ -69,6 +69,8 @@ renderer.set_rotation = function(angle) interop.renderer_set_rotation(angle) end
 renderer.set_scale = function(x,y) interop.renderer_set_scale(x,y) end
 renderer.set_shader = function(x) interop.renderer_set_shader(x) end
 renderer.set_alpha = function(alpha) interop.renderer_set_alpha(alpha) end
+renderer.set_blend = function(enable) interop.renderer_set_blend(enable) end
+renderer.set_blend_func = function(src, dst) interop.renderer_set_blend_func(src, dst) end
 
 config = {}
 config.get_str = function(a,b,c) return interop.config_get_str(a,b,c) end

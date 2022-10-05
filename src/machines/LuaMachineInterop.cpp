@@ -434,6 +434,31 @@ namespace xen
 		return 0;
 	}
 
+	int XentuLuaMachineInterop::renderer_set_blend(lua_State* L) 
+	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
+		const bool enable = lua_toboolean(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetBlend(enable);
+		return 0;
+	}
+
+	int XentuLuaMachineInterop::renderer_set_blend_func(lua_State* L) 
+	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
+		const int src = lua_tointeger(L, -1);
+		const int dest = lua_tointeger(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetBlendFunc(src, dest);
+		return 0;
+	}
+
 	#pragma endregion
 
 
@@ -716,6 +741,8 @@ namespace xen
 		method(XentuLuaMachineInterop, renderer_set_scale, renderer_set_scale),
 		method(XentuLuaMachineInterop, renderer_set_shader, renderer_set_shader),
 		method(XentuLuaMachineInterop, renderer_set_alpha, renderer_set_alpha),
+		method(XentuLuaMachineInterop, renderer_set_blend, renderer_set_blend),
+		method(XentuLuaMachineInterop, renderer_set_blend_func, renderer_set_blend_func),
 		method(XentuLuaMachineInterop, config_get_str, config_get_str),
 		method(XentuLuaMachineInterop, config_get_str2, config_get_str2),
 		method(XentuLuaMachineInterop, config_get_bool, config_get_bool),

@@ -69,6 +69,8 @@ namespace xen
 		js_init_method(L, "renderer_set_scale", js_renderer_set_scale, 2);
 		js_init_method(L, "renderer_set_shader", js_renderer_set_shader, 2);
 		js_init_method(L, "renderer_set_alpha", js_renderer_set_alpha, 1);
+		js_init_method(L, "renderer_set_blend", js_renderer_set_blend, 1);
+		js_init_method(L, "renderer_set_blend_func", js_renderer_set_blend_func, 2);
 		js_init_method(L, "config_get_str", js_config_get_str, 3);
 		js_init_method(L, "config_get_str2", js_config_get_str2, 4);
 		js_init_method(L, "config_get_bool", js_config_get_bool, 3);
@@ -480,6 +482,23 @@ namespace xen
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
 		renderer->SetAlpha(alpha);
+		return 0;
+	}
+
+	duk_ret_t js_renderer_set_blend(duk_context *L) {
+		bool blend = duk_to_boolean(L, 0);
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetBlend(blend);
+		return 0;
+	}
+
+	duk_ret_t js_renderer_set_blend_func(duk_context *L) {
+		int src_mode = duk_to_int(L, 0);
+		int dest_mode = duk_to_int(L, 1);
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetBlendFunc(src_mode, dest_mode);
 		return 0;
 	}
 

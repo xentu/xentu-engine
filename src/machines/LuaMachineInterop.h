@@ -48,6 +48,8 @@ namespace xen
 			int renderer_set_scale(lua_State* L);
 			int renderer_set_shader(lua_State* L);
 			int renderer_set_alpha(lua_State* L);
+			int renderer_set_blend(lua_State* L);
+			int renderer_set_blend_func(lua_State* L);
 
 			int config_get_str(lua_State* L);
 			int config_get_str2(lua_State* L);
