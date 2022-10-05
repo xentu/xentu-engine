@@ -36,14 +36,14 @@ namespace xen
 	void js_call_func(duk_context *L, string func_name, int arg0);
 	void js_call_func(duk_context *L, string func_name, float arg0);
 
-
 	duk_ret_t js_native_print(duk_context* ctx);
+
 	duk_ret_t js_game_create_window(duk_context *L);
 	duk_ret_t js_game_on(duk_context *L);
 	duk_ret_t js_game_trigger(duk_context *L);
 	duk_ret_t js_game_run(duk_context *L);
 	duk_ret_t js_game_exit(duk_context *L);
-	duk_ret_t js_geometry_create_rect(duk_context *L);
+
 	duk_ret_t js_assets_mount(duk_context *L);
 	duk_ret_t js_assets_read_text_file(duk_context *L);
 	duk_ret_t js_assets_load_texture(duk_context *L);
@@ -52,6 +52,7 @@ namespace xen
 	duk_ret_t js_assets_load_music(duk_context *L);
 	duk_ret_t js_assets_load_shader(duk_context *L);
 	duk_ret_t js_assets_create_textbox(duk_context *L);
+
 	duk_ret_t js_audio_play_sound(duk_context *L);
 	duk_ret_t js_audio_play_music(duk_context *L);
 	duk_ret_t js_audio_stop_sound(duk_context *L);
@@ -60,6 +61,7 @@ namespace xen
 	duk_ret_t js_audio_set_channel_volume(duk_context *L);
 	duk_ret_t js_audio_set_music_volume(duk_context *L);
 	duk_ret_t js_audio_set_channel_panning(duk_context *L);
+
 	duk_ret_t js_renderer_begin(duk_context *L);
 	duk_ret_t js_renderer_clear(duk_context *L);
 	duk_ret_t js_renderer_present(duk_context *L);
@@ -77,7 +79,6 @@ namespace xen
 	duk_ret_t js_renderer_set_shader(duk_context *L);
 	duk_ret_t js_renderer_set_alpha(duk_context *L);
 	
-
 	duk_ret_t js_config_get_str(duk_context* L);
 	duk_ret_t js_config_get_str2(duk_context* L);
 	duk_ret_t js_config_get_bool(duk_context* L);
@@ -93,4 +94,8 @@ namespace xen
 	duk_ret_t js_keyboard_key_clicked(duk_context* L);
 
 	duk_ret_t js_shader_get_uniform_location(duk_context* L);
+	duk_ret_t js_shader_set_uniforms_bool(duk_context* L);
+	duk_ret_t js_shader_set_uniforms_int(duk_context* L);
+	duk_ret_t js_shader_set_uniforms_float(duk_context* L);
+	duk_ret_t js_shader_set_uniform_matrix(duk_context* L);
 }

@@ -18,7 +18,7 @@ namespace xen
 	{
 		// keep a pointer to this instance.
 		if (instance != nullptr) {
-			printf("Error, tried to create more than one XentuLuaMachine!");
+			XEN_ERROR("> Error, tried to create more than one LuaMachine!");
 			exit(111);
 		}
 		instance = this;
@@ -39,7 +39,7 @@ namespace xen
 	{
 		if (instance == 0)
 		{
-			printf("ERROR");
+			XEN_ERROR("Error, called LuaMachine::GetInstance() before initialization!");
 			exit(123);
 		}
 		return instance;
@@ -55,9 +55,9 @@ namespace xen
 		// run the lua code.
 		const int ret_startup = luaL_dostring(L, lua_code.c_str());
 		if (ret_startup != LUA_OK) {
-			printf("> Error, One of the startup Lua components failed: ");
-			printf(lua_tostring(L, -1));
-			printf("\n");
+			XEN_ERROR("> Error, One of the startup Lua components failed: ");
+			XEN_ERROR(lua_tostring(L, -1));
+			XEN_ERROR("\n");
 			lua_pop(L, 1); // pop error message
 			return 0;
 		}

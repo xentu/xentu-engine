@@ -47,7 +47,7 @@ namespace xen
 			int a_channels = this->GetSettingInt("game", "audio", "channels", 2);
 			audio = { a_freq, a_channels };
 
-			printf("> Entry point: %s\n", entry_point.c_str());
+			XEN_ECHO("> Entry point: %s\n", entry_point.c_str());
 		}
 		catch (std::exception e)
 		{

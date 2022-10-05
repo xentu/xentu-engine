@@ -159,6 +159,12 @@ namespace xen
 			void SetAlpha(float alpha);
 
 
+			void SetUniforms(int uniform_id, int argc, bool argv[]);
+			void SetUniforms(int uniform_id, int argc, int argv[]);
+			void SetUniforms(int uniform_id, int argc, float argv[]);
+			void SetUniformMatrix(int uniform_id, glm::mat4 matrix);
+
+
 		private:
 			/**
 			 * Find the correct batch to use for rendering a sprite.

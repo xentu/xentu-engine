@@ -77,12 +77,9 @@ namespace xen { const char * xen_js_script_init = R"(
 
 	const shader = {}
 	shader.get_uniform_location = shader_get_uniform_location;
-
-	const geometry = {
-		create_rect: function(x, y, w, h) {
-			return { x:x, y:y, width:w, height:h };
-		}
-	}
+	shader.set_uniforms_bool = shader_set_uniforms_bool;
+	shader.set_uniforms_int = shader_set_uniforms_int;
+	shader.set_uniforms_float = shader_set_uniforms_float;
 
 	const color = {
 		hex_to_int: function(hex) {

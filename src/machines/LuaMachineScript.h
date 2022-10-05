@@ -70,9 +70,6 @@ renderer.set_scale = function(x,y) interop.renderer_set_scale(x,y) end
 renderer.set_shader = function(x) interop.renderer_set_shader(x) end
 renderer.set_alpha = function(alpha) interop.renderer_set_alpha(alpha) end
 
-shader = {}
-shader.get_uniform_location = function(uniform_name) return interop.shader_get_uniform_location(uniform_name) end
-
 config = {}
 config.get_str = function(a,b,c) return interop.config_get_str(a,b,c) end
 config.get_str2 = function(a,b,c,d) return interop.config_get_str2(a,b,c,d) end
@@ -92,6 +89,13 @@ textbox.measure_text = function(a,b,c) return interop.textbox_measure_text(a,b,c
 keyboard = {}
 keyboard.key_down = function(a) return interop.keyboard_key_down(a) end
 keyboard.key_clicked = function(a) return interop.keyboard_key_clicked(a) end
+
+shader = {}
+shader.get_uniform_location = function(uniform_name) return interop.shader_get_uniform_location(uniform_name) end
+shader.set_uniforms_bool = function(...) return interop.shader_set_uniforms_bool(arg) end
+shader.set_uniforms_int = function(...) return interop.shader_set_uniforms_int(arg) end
+shader.set_uniforms_float = function(...) return interop.shader_set_uniforms_float(arg) end
+
 
 game.create_window()
 

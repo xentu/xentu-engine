@@ -26,12 +26,7 @@ namespace xen
 	{ }
 
 
-	int XentuLuaMachineInterop::test(lua_State* L)
-	{
-		printf("Test called\n");
-		return 0;
-	}
-
+	#pragma region Game Object
 
 	int XentuLuaMachineInterop::game_create_window(lua_State* L)
 	{
@@ -81,10 +76,10 @@ namespace xen
 		return 0;
 	}
 
-	int XentuLuaMachineInterop::geometry_create_rect(lua_State* L)
-	{
-		return 0;
-	}
+	#pragma endregion
+
+
+	#pragma region Assets
 
 	int XentuLuaMachineInterop::assets_mount(lua_State* L)
 	{
@@ -188,6 +183,11 @@ namespace xen
 		return 1;
 	}
 
+	#pragma endregion
+
+
+	#pragma region Audio
+
 	int XentuLuaMachineInterop::audio_play_sound(lua_State* L)
 	{
 		if (lua_gettop(L) != 3) {
@@ -256,6 +256,11 @@ namespace xen
 		return 0;
 	}
 	
+	#pragma endregion
+
+
+	#pragma region Renderer
+
 	int XentuLuaMachineInterop::renderer_begin(lua_State* L)
 	{
 		auto m = LuaMachine::GetInstance();
@@ -343,12 +348,8 @@ namespace xen
 	int XentuLuaMachineInterop::renderer_set_background(lua_State* L)
 	{
 		auto hex = lua_tostring(L, -1);
-
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
-
-		printf("clear_color: %i,%i,%i (hex %s)\n", r, g, b, hex);
-
 		auto machine = LuaMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
 		renderer->SetClearColor(r, g, b);
@@ -433,6 +434,11 @@ namespace xen
 		return 0;
 	}
 
+	#pragma endregion
+
+
+	#pragma region Config
+
 	int XentuLuaMachineInterop::config_get_str(lua_State* L)
 	{
 		auto m_group = lua_tostring(L, -3);
@@ -508,6 +514,11 @@ namespace xen
 		return 1;
 	}
 
+	#pragma endregion
+
+
+	#pragma region TextBox
+
 	int XentuLuaMachineInterop::textbox_set_text(lua_State* L)
 	{
 		if (lua_gettop(L) != 3) {
@@ -555,6 +566,11 @@ namespace xen
 		return 2;
 	}
 
+	#pragma endregion
+
+
+	#pragma region Input
+
 	int XentuLuaMachineInterop::keyboard_key_down(lua_State* L)
 	{
 		if (lua_gettop(L) != 1) {
@@ -581,6 +597,10 @@ namespace xen
 		return 1;
 	}
 
+	#pragma endregion
+
+
+	#pragma region Shader
 
 	int XentuLuaMachineInterop::shader_get_uniform_location(lua_State* L)
 	{
@@ -595,6 +615,62 @@ namespace xen
 		return 1;
 	}
 
+	int XentuLuaMachineInterop::shader_set_uniforms_bool(lua_State* L)
+	{
+		int argc = lua_gettop(L);
+		if (argc < 2 || argc > 17) return luaL_error(L, "expecting between 2 & 17 arguments");
+		int uniform_id = lua_tointeger(L, -argc);
+		argc--;
+		bool inputs[16];
+
+		for (int i=-argc, j=0; i<0; i++, j++) {
+			inputs[j] = lua_toboolean(L, i);
+		}
+
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetUniforms(uniform_id, argc, inputs);
+		return 0;
+	}
+	
+	int XentuLuaMachineInterop::shader_set_uniforms_int(lua_State* L)
+	{
+		int argc = lua_gettop(L);
+		if (argc < 2 || argc > 17) return luaL_error(L, "expecting between 2 & 17 arguments");
+		int uniform_id = lua_tointeger(L, -argc);
+		argc--;
+		int inputs[16];
+
+		for (int i=-argc, j=0; i<0; i++, j++) {
+			inputs[j] = lua_tointeger(L, i);
+		}
+
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetUniforms(uniform_id, argc, inputs);
+		return 0;
+	}
+	
+	int XentuLuaMachineInterop::shader_set_uniforms_float(lua_State* L)
+	{
+		int argc = lua_gettop(L);
+		if (argc < 2 || argc > 17) return luaL_error(L, "expecting between 2 & 17 arguments");
+		int uniform_id = lua_tointeger(L, -argc);
+		argc--;
+		float inputs[16];
+
+		for (int i=-argc, j=0; i<0; i++, j++) {
+			inputs[j] = lua_tonumber(L, i);
+		}
+
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetUniforms(uniform_id, argc, inputs);
+		return 0;
+	}
+
+	#pragma endregion
+
 
 	const char xen::XentuLuaMachineInterop::className[] = "XentuLuaMachineInterop";
 
@@ -603,13 +679,11 @@ namespace xen
 	};
 
 	const Luna<XentuLuaMachineInterop>::FunctionType XentuLuaMachineInterop::methods[] = {
-		method(XentuLuaMachineInterop, test, test),
 		method(XentuLuaMachineInterop, game_create_window, game_create_window),
 		method(XentuLuaMachineInterop, game_on, game_on),
 		method(XentuLuaMachineInterop, game_trigger, game_trigger),
 		method(XentuLuaMachineInterop, game_run, game_run),
 		method(XentuLuaMachineInterop, game_exit, game_exit),
-		method(XentuLuaMachineInterop, geometry_create_rect, geometry_create_rect),
 		method(XentuLuaMachineInterop, assets_mount, assets_mount),
 		method(XentuLuaMachineInterop, assets_read_text_file, assets_read_text_file),
 		method(XentuLuaMachineInterop, assets_load_texture, assets_load_texture),
@@ -654,6 +728,9 @@ namespace xen
 		method(XentuLuaMachineInterop, keyboard_key_down, keyboard_key_down),
 		method(XentuLuaMachineInterop, keyboard_key_clicked, keyboard_key_clicked),
 		method(XentuLuaMachineInterop, shader_get_uniform_location, shader_get_uniform_location),
+		method(XentuLuaMachineInterop, shader_set_uniforms_bool, shader_set_uniforms_bool),
+		method(XentuLuaMachineInterop, shader_set_uniforms_int, shader_set_uniforms_int),
+		method(XentuLuaMachineInterop, shader_set_uniforms_float, shader_set_uniforms_float),
 		{0,0}
 	};
 }

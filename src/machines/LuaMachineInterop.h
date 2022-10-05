@@ -8,13 +8,11 @@ namespace xen
 			XentuLuaMachineInterop(lua_State* L);
 			~XentuLuaMachineInterop();
 
-			int test(lua_State* L);
 			int game_create_window(lua_State* L);
 			int game_on(lua_State* L);
 			int game_trigger(lua_State* L);
 			int game_run(lua_State* L);
 			int game_exit(lua_State* L);
-			int geometry_create_rect(lua_State* L);
 			
 			int assets_mount(lua_State* L);
 			int assets_read_text_file(lua_State* L);
@@ -50,19 +48,25 @@ namespace xen
 			int renderer_set_scale(lua_State* L);
 			int renderer_set_shader(lua_State* L);
 			int renderer_set_alpha(lua_State* L);
+
 			int config_get_str(lua_State* L);
 			int config_get_str2(lua_State* L);
 			int config_get_bool(lua_State* L);
 			int config_get_bool2(lua_State* L);
 			int config_get_int(lua_State* L);
 			int config_get_int2(lua_State* L);
+
 			int textbox_set_text(lua_State* L);
 			int textbox_set_color(lua_State* L);
 			int textbox_measure_text(lua_State* L);
+
 			int keyboard_key_down(lua_State* L);
 			int keyboard_key_clicked(lua_State* L);
 
 			int shader_get_uniform_location(lua_State* L);
+			int shader_set_uniforms_bool(lua_State* L);
+			int shader_set_uniforms_int(lua_State* L);
+			int shader_set_uniforms_float(lua_State* L);
 
 
 		public:

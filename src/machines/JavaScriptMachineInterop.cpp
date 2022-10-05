@@ -9,174 +9,81 @@
 #include "../vfs/XenZipFileSystem.h"
 #include "JavaScriptMachine.h"
 
+
 namespace xen
 {
 	void js_error_handler(void *udata, const char *msg) {
 		(void) udata;  /* ignored in this case, silence warning */
 
 		/* Note that 'msg' may be NULL. */
-		fprintf(stderr, "*** FATAL ERROR: %s\n", (msg ? msg : "no message"));
-		fflush(stderr);
+		//fprintf(stderr, "> %s\n", );
+		XEN_ERROR("> JS Error - %s", (msg ? msg : "no message"));
+		//fflush(stderr);
 		abort();
 	}
 
 
+	void js_init_method(duk_context *L, const char* reference, duk_c_function func, duk_idx_t nargs) 
+	{
+		duk_push_c_function(L, func, nargs);
+		duk_put_global_string(L, reference);
+	}
+
+
 	void js_init_interop(duk_context *L) {
-		duk_push_c_function(L, js_native_print, 1 /*nargs*/);
-		duk_put_global_string(L, "print");
-
-		duk_push_c_function(L, js_game_create_window, 0 /*nargs*/);
-		duk_put_global_string(L, "game_create_window");
-      
-		duk_push_c_function(L, js_game_on, 2 /*nargs*/);
-		duk_put_global_string(L, "game_on");
-
-		duk_push_c_function(L, js_game_trigger, 1 /*nargs*/);
-		duk_put_global_string(L, "game_trigger");
-
-		duk_push_c_function(L, js_game_run, 0 /*nargs*/);
-		duk_put_global_string(L, "game_run");
-
-		duk_push_c_function(L, js_game_exit, 0 /* nargs */);
-		duk_put_global_string(L, "game_exit");
-
-		duk_push_c_function(L, js_geometry_create_rect, 4 /*nargs*/);
-		duk_put_global_string(L, "geometry_create_rect");
-      
-		duk_push_c_function(L, js_assets_mount, 1 /*nargs*/);
-		duk_put_global_string(L, "assets_mount");
-
-		duk_push_c_function(L, js_assets_read_text_file, 1 /*nargs*/);
-		duk_put_global_string(L, "assets_read_text_file");
-
-		duk_push_c_function(L, js_assets_load_texture, 1 /*nargs*/);
-		duk_put_global_string(L, "assets_load_texture");
-
-		duk_push_c_function(L, js_assets_load_font, 2 /*nargs*/);
-		duk_put_global_string(L, "assets_load_font");
-
-		duk_push_c_function(L, js_assets_load_sound, 1 /*nargs*/);
-		duk_put_global_string(L, "assets_load_sound");
-
-		duk_push_c_function(L, js_assets_load_music, 1 /*nargs*/);
-		duk_put_global_string(L, "assets_load_music");
-
-		duk_push_c_function(L, js_assets_load_shader, 2 /*nargs*/);
-		duk_put_global_string(L, "assets_load_shader");
-      
-		duk_push_c_function(L, js_assets_create_textbox, 4 /*nargs*/);
-		duk_put_global_string(L, "assets_create_textbox");
-
-		duk_push_c_function(L, js_audio_play_sound, 3 /*nargs*/);
-		duk_put_global_string(L, "audio_play_sound");
-
-		duk_push_c_function(L, js_audio_play_music, 2 /*nargs*/);
-		duk_put_global_string(L, "audio_play_music");
-
-		duk_push_c_function(L, js_audio_stop_music, 0 /*nargs*/);
-		duk_put_global_string(L, "audio_stop_music");
-
-		duk_push_c_function(L, js_audio_stop_sound, 1 /*nargs*/);
-		duk_put_global_string(L, "audio_stop_sound");
-
-		duk_push_c_function(L, js_audio_set_sound_volume, 2 /*nargs*/);
-		duk_put_global_string(L, "audio_set_sound_volume");
-
-		duk_push_c_function(L, js_audio_set_channel_volume, 2 /*nargs*/);
-		duk_put_global_string(L, "audio_set_channel_volume");
-
-		duk_push_c_function(L, js_audio_set_music_volume, 2 /*nargs*/);
-		duk_put_global_string(L, "audio_set_music_volume");
-
-		duk_push_c_function(L, js_audio_set_channel_panning, 3 /*nargs*/);
-		duk_put_global_string(L, "audio_set_channel_panning");
-
-		duk_push_c_function(L, js_renderer_begin, 0 /*nargs*/);
-		duk_put_global_string(L, "renderer_begin");
-
-		duk_push_c_function(L, js_renderer_clear, 0 /*nargs*/);
-		duk_put_global_string(L, "renderer_clear");
-
-		duk_push_c_function(L, js_renderer_present, 0 /*nargs*/);
-		duk_put_global_string(L, "renderer_present");
-
-		duk_push_c_function(L, js_renderer_draw_texture, 5 /*nargs*/);
-		duk_put_global_string(L, "renderer_draw_texture");
-
-		duk_push_c_function(L, js_renderer_draw_sub_texture, 9 /*nargs*/);
-		duk_put_global_string(L, "renderer_draw_sub_texture");
-
-		duk_push_c_function(L, js_renderer_draw_rectangle, 4 /*nargs*/);
-		duk_put_global_string(L, "renderer_draw_rectangle");
-
-		duk_push_c_function(L, js_renderer_draw_textbox, 1 /*nargs*/);
-		duk_put_global_string(L, "renderer_draw_textbox");
-
-		duk_push_c_function(L, js_renderer_set_background, 1 /*nargs*/);
-		duk_put_global_string(L, "renderer_set_background");
-
-		duk_push_c_function(L, js_renderer_set_foreground, 1 /*nargs*/);
-		duk_put_global_string(L, "renderer_set_foreground");
-
-		duk_push_c_function(L, js_renderer_set_window_mode, 1 /*nargs*/);
-		duk_put_global_string(L, "renderer_set_window_mode");
-
-		duk_push_c_function(L, js_renderer_set_position, 2 /*nargs*/);
-		duk_put_global_string(L, "renderer_set_position");
-
-		duk_push_c_function(L, js_renderer_set_origin, 2 /*nargs*/);
-		duk_put_global_string(L, "renderer_set_origin");
-
-		duk_push_c_function(L, js_renderer_set_rotation, 1 /*nargs*/);
-		duk_put_global_string(L, "renderer_set_rotation");
-
-		duk_push_c_function(L, js_renderer_set_scale, 2 /*nargs*/);
-		duk_put_global_string(L, "renderer_set_scale");
-
-		duk_push_c_function(L, js_renderer_set_shader, 2 /*nargs*/);
-		duk_put_global_string(L, "renderer_set_shader");
-
-		duk_push_c_function(L, js_renderer_set_alpha, 1 /*nargs*/);
-		duk_put_global_string(L, "renderer_set_alpha");
-
-		duk_push_c_function(L, js_config_get_str, 3 /*nargs*/);
-		duk_put_global_string(L, "config_get_str");
-
-		duk_push_c_function(L, js_config_get_str2, 4 /*nargs*/);
-		duk_put_global_string(L, "config_get_str2");
-
-		duk_push_c_function(L, js_config_get_bool, 3 /*nargs*/);
-		duk_put_global_string(L, "config_get_bool");
-
-		duk_push_c_function(L, js_config_get_bool2, 4 /*nargs*/);
-		duk_put_global_string(L, "config_get_bool2");
-
-		duk_push_c_function(L, js_config_get_int, 3 /*nargs*/);
-		duk_put_global_string(L, "config_get_int");
-
-		duk_push_c_function(L, js_config_get_int2, 4 /*nargs*/);
-		duk_put_global_string(L, "config_get_int2");
-
-		duk_push_c_function(L, js_textbox_set_text, 3 /*nargs*/);
-		duk_put_global_string(L, "textbox_set_text");
-
-		duk_push_c_function(L, js_textbox_set_color, 3 /*nargs*/);
-		duk_put_global_string(L, "textbox_set_color");
-
-		duk_push_c_function(L, js_textbox_measure_text, 3 /*nargs*/);
-		duk_put_global_string(L, "textbox_measure_text");
-
-		duk_push_c_function(L, js_keyboard_key_down, 1 /*nargs*/);
-		duk_put_global_string(L, "keyboard_key_down");
-
-		duk_push_c_function(L, js_keyboard_key_clicked, 1 /*nargs*/);
-		duk_put_global_string(L, "keyboard_key_clicked");
-
-		duk_push_c_function(L, js_keyboard_key_clicked, 1 /*numargs*/);
-		duk_put_global_string(L, "keyboard_key_clicked");
-
-		duk_push_c_function(L, js_shader_get_uniform_location, 1/*numargs*/);
-		duk_put_global_string(L, "shader_get_uniform_location");
+		js_init_method(L, "print", js_native_print, 1);
+		js_init_method(L, "game_create_window", js_game_create_window, 0);
+		js_init_method(L, "game_on", js_game_on, 2);
+		js_init_method(L, "game_trigger", js_game_trigger, 1);
+		js_init_method(L, "game_run", js_game_run, 0);
+		js_init_method(L, "game_exit", js_game_exit, 0);
+		js_init_method(L, "assets_mount", js_assets_mount, 1);
+		js_init_method(L, "assets_read_text_file", js_assets_read_text_file, 1);
+		js_init_method(L, "assets_load_texture", js_assets_load_texture, 1);
+		js_init_method(L, "assets_load_font", js_assets_load_font, 2);
+		js_init_method(L, "assets_load_sound", js_assets_load_sound, 1);
+		js_init_method(L, "assets_load_music", js_assets_load_music, 1);
+		js_init_method(L, "assets_load_shader", js_assets_load_shader, 2);
+		js_init_method(L, "assets_create_textbox", js_assets_create_textbox, 4);
+		js_init_method(L, "audio_play_sound", js_audio_play_sound, 3);
+		js_init_method(L, "audio_play_music", js_audio_play_music, 2);
+		js_init_method(L, "audio_stop_music", js_audio_stop_music, 1);
+		js_init_method(L, "audio_stop_sound", js_audio_stop_sound, 0);
+		js_init_method(L, "audio_set_sound_volume", js_audio_set_sound_volume, 2);
+		js_init_method(L, "audio_set_channel_volume", js_audio_set_channel_volume, 2);
+		js_init_method(L, "audio_set_music_volume", js_audio_set_music_volume, 2);
+		js_init_method(L, "audio_set_channel_panning", js_audio_set_channel_panning, 3);
+		js_init_method(L, "renderer_begin", js_renderer_begin, 0);
+		js_init_method(L, "renderer_clear", js_renderer_clear, 0);
+		js_init_method(L, "renderer_present", js_renderer_present, 0);
+		js_init_method(L, "renderer_draw_texture", js_renderer_draw_texture, 5);
+		js_init_method(L, "renderer_draw_sub_texture", js_renderer_draw_sub_texture, 9);
+		js_init_method(L, "renderer_draw_rectangle", js_renderer_draw_rectangle, 4);
+		js_init_method(L, "renderer_draw_textbox", js_renderer_draw_textbox, 1);
+		js_init_method(L, "renderer_set_background", js_renderer_set_background, 1);
+		js_init_method(L, "renderer_set_foreground", js_renderer_set_foreground, 1);
+		js_init_method(L, "renderer_set_window_mode", js_renderer_set_window_mode, 1);
+		js_init_method(L, "renderer_set_position", js_renderer_set_position, 2);
+		js_init_method(L, "renderer_set_origin", js_renderer_set_origin, 2);
+		js_init_method(L, "renderer_set_rotation", js_renderer_set_rotation, 1);
+		js_init_method(L, "renderer_set_scale", js_renderer_set_scale, 2);
+		js_init_method(L, "renderer_set_shader", js_renderer_set_shader, 2);
+		js_init_method(L, "renderer_set_alpha", js_renderer_set_alpha, 1);
+		js_init_method(L, "config_get_str", js_config_get_str, 3);
+		js_init_method(L, "config_get_str2", js_config_get_str2, 4);
+		js_init_method(L, "config_get_bool", js_config_get_bool, 3);
+		js_init_method(L, "config_get_bool2", js_config_get_bool2, 4);
+		js_init_method(L, "config_get_int", js_config_get_int, 3);
+		js_init_method(L, "config_get_int2", js_config_get_int2, 4);
+		js_init_method(L, "textbox_set_text", js_textbox_set_text, 3);
+		js_init_method(L, "textbox_set_color", js_textbox_set_color, 3);
+		js_init_method(L, "textbox_measure_text", js_textbox_measure_text, 3);
+		js_init_method(L, "keyboard_key_down", js_keyboard_key_down, 1);
+		js_init_method(L, "keyboard_key_clicked", js_keyboard_key_clicked, 1);
+		js_init_method(L, "shader_get_uniform_location", js_shader_get_uniform_location, 1);
+		js_init_method(L, "shader_set_uniforms_bool", js_shader_set_uniforms_bool, DUK_VARARGS);
+		js_init_method(L, "shader_set_uniforms_int", js_shader_set_uniforms_int, DUK_VARARGS);
+		js_init_method(L, "shader_set_uniforms_float", js_shader_set_uniforms_float, DUK_VARARGS);
 	}
 
 
@@ -224,10 +131,17 @@ namespace xen
 	}
 
 
+	#pragma region Native
+
 	duk_ret_t js_native_print(duk_context *L) {
-		printf("%s\n", duk_to_string(L, 0));
+		XEN_ECHO("%s\n", duk_to_string(L, 0));
 		return 0;  /* no return value (= undefined) */
 	}
+
+	#pragma endregion
+
+
+	#pragma region Game Object
 
 
 	duk_ret_t js_game_create_window(duk_context *L) {
@@ -237,7 +151,6 @@ namespace xen
 		return window_id;
 	}
 	
-
 	int js_on_iter = 0;
 	duk_ret_t js_game_on(duk_context *L) {
 		auto event_name = duk_to_string(L, 0);
@@ -270,9 +183,11 @@ namespace xen
 		return 0;
 	}
 
-	duk_ret_t js_geometry_create_rect(duk_context *L) {
-		return 0;
-	}
+
+	#pragma endregion
+
+
+	#pragma region Assets
 	
 	duk_ret_t js_assets_mount(duk_context *L) {
 		auto s_point = duk_to_string(L, 0);
@@ -353,6 +268,11 @@ namespace xen
 		return 1;
 	}
 
+	#pragma endregion
+
+
+	#pragma region Audio
+
 	duk_ret_t js_audio_play_sound(duk_context *L) {
 		auto sound_id = duk_to_int(L, 0);
 		auto channel = duk_to_int(L, 1);
@@ -406,6 +326,11 @@ namespace xen
 		AudioManager::GetInstance()->SetChannelPanning(channel_id, left, right);
 		return 0;
 	}
+
+	#pragma endregion
+
+
+	#pragma region Renderer
 
 	duk_ret_t js_renderer_begin(duk_context *L) {
 		auto m = JavaScriptMachine::GetInstance();
@@ -480,9 +405,6 @@ namespace xen
 		auto hex = duk_to_string(L, 0);
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
-
-		printf("clear_color: %i,%i,%i (hex %s)\n", r, g, b, hex);
-
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
 		renderer->SetClearColor(r, g, b);
@@ -561,6 +483,11 @@ namespace xen
 		return 0;
 	}
 
+	#pragma endregion
+
+
+	#pragma region Config
+
 	duk_ret_t js_config_get_str(duk_context* L) {
 		auto machine = JavaScriptMachine::GetInstance();
 		auto config = machine->GetConfig();
@@ -630,6 +557,11 @@ namespace xen
 		return 1;
 	}
 
+	#pragma endregion
+
+
+	#pragma region TextBox
+
 	duk_ret_t js_textbox_set_text(duk_context* L) {
 		auto textbox_id = duk_to_int(L, 0);
 		auto font_id = duk_to_int(L, 1);
@@ -669,6 +601,11 @@ namespace xen
 		return 1;
 	}
 
+	#pragma endregion
+
+
+	#pragma region Input
+
 	duk_ret_t js_keyboard_key_down(duk_context* L) {
 		auto key_code = duk_to_int(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
@@ -677,7 +614,6 @@ namespace xen
 		duk_push_boolean(L, down);
 		return 1;
 	}
-
 
 	duk_ret_t js_keyboard_key_clicked(duk_context* L) {
 		auto key_code = duk_to_int(L, 0);
@@ -688,6 +624,10 @@ namespace xen
 		return 1;
 	}
 
+	#pragma endregion
+
+
+	#pragma region Shader
 
 	duk_ret_t js_shader_get_uniform_location(duk_context* L) {
 		string uniform_name = duk_to_string(L, 0);
@@ -697,4 +637,60 @@ namespace xen
 		duk_push_int(L, loc);
 		return 1;
 	}
+
+	duk_ret_t js_shader_set_uniforms_bool(duk_context* L) {
+		int argc = duk_get_top(L);
+		if (argc < 2 || argc > 17) return DUK_RET_TYPE_ERROR;
+		argc--; // subtract 1 so argc equals the number of booleans.
+
+		int uniform_id = duk_to_int(L, 0);
+		bool inputs[16];
+
+		for (int i=0; i<argc; i++) {
+			inputs[i] = duk_to_boolean(L, i + 1);
+		}
+
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetUniforms(uniform_id, argc, inputs);
+		return 0;
+	}
+
+	duk_ret_t js_shader_set_uniforms_int(duk_context* L) {
+		int argc = duk_get_top(L);
+		if (argc < 2 || argc > 17) return DUK_RET_TYPE_ERROR;
+		argc--; // subtract 1 so argc equals the number of booleans.
+
+		int uniform_id = duk_to_int(L, 0);
+		int inputs[16];
+
+		for (int i=0; i<argc; i++) {
+			inputs[i] = duk_to_int(L, i + 1);
+		}
+
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetUniforms(uniform_id, argc, inputs);
+		return 0;
+	}
+
+	duk_ret_t js_shader_set_uniforms_float(duk_context* L) {
+		int argc = duk_get_top(L);
+		if (argc < 2 || argc > 17) return DUK_RET_TYPE_ERROR;
+		argc--; // subtract 1 so argc equals the number of booleans.
+
+		int uniform_id = duk_to_int(L, 0);
+		float inputs[16];
+
+		for (int i=0; i<argc; i++) {
+			inputs[i] = duk_to_number(L, i + 1);
+		}
+
+		auto machine = JavaScriptMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetUniforms(uniform_id, argc, inputs);
+		return 0;
+	}
+
+	#pragma endregion
 }

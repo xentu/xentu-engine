@@ -7,7 +7,7 @@ namespace xen
 	{
 		// keep a pointer to this instance.
 		if (m_instance != nullptr) {
-			printf("Error, tried to create more than one AssetManager!");
+			XEN_ERROR("> Error, tried to create more than one AssetManager!");
 			exit(111);
 		}
 
@@ -47,7 +47,7 @@ namespace xen
 	{
 		if (m_instance == 0)
 		{
-			printf("ERROR");
+			XEN_ERROR("Error, called AudioManager::GetInstance() before initialization!");
 			exit(123);
 		}
 		return m_instance;

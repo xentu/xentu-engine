@@ -142,7 +142,7 @@ namespace xen
 				return false;
 			}
 
-			printf("> OpenGL Version: %s\n", glGetString(GL_VERSION));
+			XEN_ECHO("> OpenGL Version: %s\n", glGetString(GL_VERSION));
 
 			// generate a white (10x10) texture.
 			unsigned char* wt_data = new unsigned char[400];
@@ -597,5 +597,38 @@ namespace xen
 	{
 		m_alpha = alpha;
 		m_sprite.m_color.w = m_alpha;
+	}
+	
+
+	void Renderer::SetUniforms(int uniform_id, int argc, bool argv[])
+	{
+		if (argc == 1) glUniform1i(uniform_id, argv[0]);
+		else if (argc == 2) glUniform2i(uniform_id, argv[0], argv[1]);
+		else if (argc == 3) glUniform3i(uniform_id, argv[0], argv[1], argv[2]);
+		else if (argc == 4) glUniform4i(uniform_id, argv[0], argv[1], argv[2], argv[3]);
+	}
+
+	
+	void Renderer::SetUniforms(int uniform_id, int argc, int argv[])
+	{
+		if (argc == 1) glUniform1i(uniform_id, argv[0]);
+		else if (argc == 2) glUniform2i(uniform_id, argv[0], argv[1]);
+		else if (argc == 3) glUniform3i(uniform_id, argv[0], argv[1], argv[2]);
+		else if (argc == 4) glUniform4i(uniform_id, argv[0], argv[1], argv[2], argv[3]);
+	}
+	
+	
+	void Renderer::SetUniforms(int uniform_id, int argc, float argv[])
+	{
+		if (argc == 1) glUniform1f(uniform_id, argv[0]);
+		else if (argc == 2) glUniform2f(uniform_id, argv[0], argv[1]);
+		else if (argc == 3) glUniform3f(uniform_id, argv[0], argv[1], argv[2]);
+		else if (argc == 4) glUniform4f(uniform_id, argv[0], argv[1], argv[2], argv[3]);
+	}
+	
+	
+	void Renderer::SetUniformMatrix(int uniform_id, glm::mat4 matrix)
+	{
+		glUniformMatrix4fv(uniform_id, 1, false, &matrix[0][0]);
 	}
 }

@@ -58,7 +58,7 @@ namespace xen
 		int linked;
 		glGetProgramiv(program, GL_LINK_STATUS, &linked);
 		if (linked != GL_TRUE) {
-			XEN_ERROR("Failed to link shader.");
+			XEN_ERROR("> Failed to link shader.");
 		}
 
 		// TODO: glBindVertexArray(VAO); should be done before validation to avoid a warning on the next part.
@@ -88,7 +88,7 @@ namespace xen
 	{
 		// keep a pointer to this instance.
 		if (instance != nullptr) {
-			printf("Error, tried to create more than one AssetManager!");
+			XEN_ERROR("Error, tried to create more than one AssetManager!");
 			exit(111);
 		}
 		instance = this;
@@ -121,7 +121,7 @@ namespace xen
 	{
 		if (instance == 0)
 		{
-			printf("ERROR");
+			XEN_ERROR("Error, called AssetManager::GetInstance() before initialization!");
 			exit(123);
 		}
 		return instance;

@@ -12,7 +12,7 @@ namespace xen
 	{
 		// keep a pointer to this instance.
 		if (instance != nullptr) {
-			printf("Error, tried to create more than one XentuJavaScriptMachine!");
+			XEN_ERROR("> Error, tried to create more than one XentuJavaScriptMachine!");
 			exit(111);
 		}
 		instance = this;
@@ -29,7 +29,7 @@ namespace xen
 	{
 		if (instance == 0)
 		{
-			printf("ERROR");
+			XEN_ERROR("Error, called JavaScriptMachine::GetInstance() before initialization!");
 			exit(123);
 		}
 		return instance;
