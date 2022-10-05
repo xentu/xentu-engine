@@ -86,7 +86,7 @@ conf_data.set('version', the_version)
 
 
 if host_machine.system() == 'windows'
-    project_source_files += import('windows').compile_resources( 'xentu.rc' )
+    project_source_files += import('windows').compile_resources( 'resource.rc' )
 endif
 
 
