@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
         res = lua_machine->Init();
     }
     else {
-        XEN_ERROR("Machine platform [%s] not currently supported.", config->language);
+        XEN_ERROR("Machine platform not currently supported, please use a recognised file format for the entry point.");
     }
 
     // dispose resources.

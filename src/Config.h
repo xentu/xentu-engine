@@ -54,7 +54,6 @@ namespace xen
 
 		public:
 			std::string title;
-			std::string language;
 			std::string entry_point;
 			bool v_sync;
 			bool fullscreen;

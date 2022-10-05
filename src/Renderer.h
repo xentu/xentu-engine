@@ -27,6 +27,37 @@ namespace xen
 	};
 
 
+	enum BlendPreset
+	{
+		BLEND_SOURCE_OVER			 = 0,
+		BLEND_SOURCE_IN			 = 1,
+		BLEND_SOURCE_OUT			 = 2,
+		BLEND_SOURCE_ATOP			 = 3,
+		BLEND_DESTINATION_OVER	 = 4,
+		BLEND_DESTINATION_IN		 = 5,
+		BLEND_DESTINATION_OUT	 = 6,
+		BLEND_DESTINATION_ATOP	 = 7,
+		BLEND_LIGHTER				 = 8,
+		BLEND_COPY					 = 9,
+		BLEND_XOR					 = 10,
+		BLEND_MULTIPLY				 = 11,
+		BLEND_SCREEN				 = 12,
+		BLEND_OVERLAY				 = 13,
+		BLEND_DARKEN				 = 14,
+		BLEND_LIGHTEN				 = 15,
+		BLEND_COLOR_DODGE			 = 16,
+		BLEND_COLOR_BURN			 = 17,
+		BLEND_HARD_LIGHT			 = 18,
+		BLEND_SOFT_LIGHT			 = 19,
+		BLEND_DIFFERENCE			 = 20,
+		BLEND_EXCLUSION			 = 21,
+		BLEND_HUE					 = 22,
+		BLEND_SATURATION			 = 23,
+		BLEND_COLOR					 = 24,
+		BLEND_LUMINOSITY			 = 25
+	};
+
+
 	class Renderer
 	{
 		public:
@@ -175,6 +206,13 @@ namespace xen
 			 * @param s_factor The dest factor.
 			 */
 			void SetBlendFunc(const int s_factor, const int d_factor);
+
+			/**
+			 * Use a preset to set the blend state.
+			 * @param preset The preset.
+			 * @param p_alpha Some presets only work correctly when you declare weather the texture you are drawing has pre-multiplied alpha (default false).
+			 */
+			void SetBlendPreset(const BlendPreset preset, const bool p_alpha);
 
 		private:
 			/**

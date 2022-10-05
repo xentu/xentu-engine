@@ -451,11 +451,25 @@ namespace xen
 		if (lua_gettop(L) != 2) {
 			return luaL_error(L, "expecting exactly 2 arguments");
 		}
-		const int src = lua_tointeger(L, -1);
+		const int src = lua_tointeger(L, -2);
 		const int dest = lua_tointeger(L, -1);
 		auto machine = LuaMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
 		renderer->SetBlendFunc(src, dest);
+		return 0;
+	}
+
+	int XentuLuaMachineInterop::renderer_set_blend_preset(lua_State* L)
+	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
+		const int preset_num = lua_tointeger(L, -2);
+		const BlendPreset preset = static_cast<BlendPreset>(preset_num);
+		const bool p_alpha = lua_toboolean(L, -1);
+		auto machine = LuaMachine::GetInstance();
+		auto renderer = machine->GetRenderer();
+		renderer->SetBlendPreset(preset, p_alpha);
 		return 0;
 	}
 
@@ -743,6 +757,7 @@ namespace xen
 		method(XentuLuaMachineInterop, renderer_set_alpha, renderer_set_alpha),
 		method(XentuLuaMachineInterop, renderer_set_blend, renderer_set_blend),
 		method(XentuLuaMachineInterop, renderer_set_blend_func, renderer_set_blend_func),
+		method(XentuLuaMachineInterop, renderer_set_blend_preset, renderer_set_blend_preset),
 		method(XentuLuaMachineInterop, config_get_str, config_get_str),
 		method(XentuLuaMachineInterop, config_get_str2, config_get_str2),
 		method(XentuLuaMachineInterop, config_get_bool, config_get_bool),

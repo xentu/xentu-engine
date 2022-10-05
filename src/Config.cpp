@@ -15,7 +15,6 @@ namespace xen
 
 			title = m_game.at("title");
 			title = this->GetSetting("game", "title", "");
-			language = this->GetSetting("game", "language", "");
 			entry_point = this->GetSetting("game", "entry_point", "");
 			v_sync = this->GetSettingBool("game", "v_sync", true);
 			fullscreen = this->GetSettingBool("game", "fullscreen", false);

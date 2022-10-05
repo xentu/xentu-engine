@@ -648,4 +648,103 @@ namespace xen
 	{
 		glBlendFunc(s_factor, d_factor);
 	}
+
+
+	
+
+
+	void Renderer::SetBlendPreset(const BlendPreset preset, const bool p_alpha)
+	{
+		glEnable(GL_BLEND);
+		switch (preset) {
+			case BLEND_SOURCE_OVER:
+				if (p_alpha) {
+					glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    				glBlendEquationSeparate(GL_ADD, GL_ADD);
+				}
+				else {
+					glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    				glBlendEquationSeparate(GL_ADD, GL_ADD);
+				}
+				break;
+			case BLEND_SOURCE_IN:
+				// TODO: finish this.
+				break;
+			case BLEND_SOURCE_OUT:
+				// TODO: finish this.
+				break;
+			case BLEND_SOURCE_ATOP:
+				// TODO: finish this.
+				break;
+			case BLEND_DESTINATION_OVER:
+				// TODO: finish this.
+				break;
+			case BLEND_DESTINATION_IN:
+				// TODO: finish this.
+				break;
+			case BLEND_DESTINATION_OUT:
+				// TODO: finish this.
+				break;
+			case BLEND_DESTINATION_ATOP:
+				// TODO: finish this.
+				break;
+			case BLEND_LIGHTER:
+				// TODO: finish this.
+				break;
+			case BLEND_COPY:
+				// TODO: finish this.
+				break;
+			case BLEND_XOR:
+				// TODO: finish this.
+				break;
+			case BLEND_MULTIPLY:
+				// TODO: finish this.
+				break;
+			case BLEND_SCREEN:
+				// TODO: finish this.
+				break;
+			case BLEND_OVERLAY:
+				// TODO: finish this.
+				break;
+			case BLEND_DARKEN:
+				// TODO: finish this.
+				break;
+			case BLEND_LIGHTEN:
+				// TODO: finish this.
+				break;
+			case BLEND_COLOR_DODGE:
+				// TODO: finish this.
+				break;
+			case BLEND_COLOR_BURN:
+				// TODO: finish this.
+				break;
+			case BLEND_HARD_LIGHT:
+				// TODO: finish this.
+				break;
+			case BLEND_SOFT_LIGHT:
+				// TODO: finish this.
+				break;
+			case BLEND_DIFFERENCE:
+				// TODO: finish this.
+				break;
+			case BLEND_EXCLUSION:
+				// TODO: finish this.
+				break;
+			case BLEND_HUE:
+				// TODO: finish this.
+				break;
+			case BLEND_SATURATION:
+				// TODO: finish this.
+				break;
+			case BLEND_COLOR:
+				// TODO: finish this.
+				break;
+			case BLEND_LUMINOSITY:
+				// TODO: finish this.
+				break;
+		};
+
+
+		
+	}
 }

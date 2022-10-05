@@ -65,6 +65,7 @@ namespace xen { const char * xen_js_script_init = R"(
 	renderer.set_alpha = renderer_set_alpha;
 	renderer.set_blend = renderer_set_blend;
 	renderer.set_blend_func = renderer_set_blend_func;
+	renderer.set_blend_preset = renderer_set_blend_preset;
 
 	const textbox = {}
 	textbox.set_text = textbox_set_text;
@@ -221,7 +222,65 @@ namespace xen { const char * xen_js_script_init = R"(
 	const KB_MENU					= 257;
 
 
+	// mouse codes ------------------------------------------------------------
+
+	const MOUSE_LEFT				= 0;
+	const MOUSE_RIGHT				= 1;
+	const MOUSE_MIDDLE         = 2;
+
+
+	// blend factor constants (from opengl) -----------------------------------
+
+	const ZERO 							 = 0;
+	const ONE							 = 1;
+	const SRC_COLOR					 = 768; //0x0300
+	const ONE_MINUS_SRC_COLOR		 = 769; //0x0301
+	const DST_COLOR					 = 774; //0x0306
+	const ONE_MINUS_DST_COLOR		 = 775; //0x0307
+	const SRC_ALPHA					 = 770; //0x0302
+	const ONE_MINUS_SRC_ALPHA		 = 771; //0x0303
+	const DST_ALPHA					 = 772; //0x0304
+	const ONE_MINUS_DST_ALPHA		 = 773; //0x0305
+	const CONSTANT_COLOR				 = 32769; //0x8001
+	const ONE_MINUS_CONSTANT_COLOR = 32770; //0x8002
+	const SRC_ALPHA_SATURATE		 = 776; //0x0308
+	const SRC1_COLOR					 = 35065; //0x88F9
+	const ONE_MINUS_SRC1_COLOR		 = 35066; //0x88FA
+	const SRC1_ALPHA					 = 34185; //0x8589
+	const ONE_MINUS_SRC1_ALPHA		 = 35067; //0x88FB
+
+
+	// blend presets (same as //developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation)
+
+	const BLEND_SOURCE_OVER			 = 0;
+	const BLEND_SOURCE_IN			 = 1;
+	const BLEND_SOURCE_OUT			 = 2;
+	const BLEND_SOURCE_ATOP			 = 3;
+	const BLEND_DESTINATION_OVER	 = 4;
+	const BLEND_DESTINATION_IN		 = 5;
+	const BLEND_DESTINATION_OUT	 = 6;
+	const BLEND_DESTINATION_ATOP	 = 7;
+	const BLEND_LIGHTER				 = 8;
+	const BLEND_COPY					 = 9;
+	const BLEND_XOR					 = 10;
+	const BLEND_MULTIPLY				 = 11;
+	const BLEND_SCREEN				 = 12;
+	const BLEND_OVERLAY				 = 13;
+	const BLEND_DARKEN				 = 14;
+	const BLEND_LIGHTEN				 = 15;
+	const BLEND_COLOR_DODGE			 = 16;
+	const BLEND_COLOR_BURN			 = 17;
+	const BLEND_HARD_LIGHT			 = 18;
+	const BLEND_SOFT_LIGHT			 = 19;
+	const BLEND_DIFFERENCE			 = 20;
+	const BLEND_EXCLUSION			 = 21;
+	const BLEND_HUE					 = 22;
+	const BLEND_SATURATION			 = 23;
+	const BLEND_COLOR					 = 24;
+	const BLEND_LUMINOSITY			 = 25;
+
+
 	game.create_window();
-	// vfs.mount('/zip', './assets/test.zip');
+	// assets.mount('/zip', './assets/test.zip');
 
 )"; }

@@ -71,6 +71,7 @@ renderer.set_shader = function(x) interop.renderer_set_shader(x) end
 renderer.set_alpha = function(alpha) interop.renderer_set_alpha(alpha) end
 renderer.set_blend = function(enable) interop.renderer_set_blend(enable) end
 renderer.set_blend_func = function(src, dst) interop.renderer_set_blend_func(src, dst) end
+renderer.set_blend_preset = function(src, dst) interop.renderer_set_blend_preset(mode, p_alpha) end
 
 config = {}
 config.get_str = function(a,b,c) return interop.config_get_str(a,b,c) end
@@ -221,6 +222,64 @@ KB_RIGHT_CONTROL		= 228
 KB_RIGHT_ALT			= 230
 KB_RIGHT_SUPER			= 231
 KB_MENU					= 257
+
+
+-- mouse codes ------------------------------------------------------------
+
+MOUSE_LEFT				= 0
+MOUSE_RIGHT				= 1
+MOUSE_MIDDLE         = 2
+
+
+-- blend factor constants (from opengl) -----------------------------------
+
+ZERO 							 = 0
+ONE							 = 1
+SRC_COLOR					 = 768 --0x0300
+ONE_MINUS_SRC_COLOR		 = 769 --0x0301
+DST_COLOR					 = 774 --0x0306
+ONE_MINUS_DST_COLOR		 = 775 --0x0307
+SRC_ALPHA					 = 770 --0x0302
+ONE_MINUS_SRC_ALPHA		 = 771 --0x0303
+DST_ALPHA					 = 772 --0x0304
+ONE_MINUS_DST_ALPHA		 = 773 --0x0305
+CONSTANT_COLOR				 = 32769 --0x8001
+ONE_MINUS_CONSTANT_COLOR = 32770 --0x8002
+SRC_ALPHA_SATURATE		 = 776 --0x0308
+SRC1_COLOR					 = 35065 --0x88F9
+ONE_MINUS_SRC1_COLOR		 = 35066 --0x88FA
+SRC1_ALPHA					 = 34185 --0x8589
+ONE_MINUS_SRC1_ALPHA		 = 35067 --0x88FB
+
+
+-- blend presets (same as //developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation)
+
+BLEND_SOURCE_OVER			 = 0
+BLEND_SOURCE_IN			 = 1
+BLEND_SOURCE_OUT			 = 2
+BLEND_SOURCE_ATOP			 = 3
+BLEND_DESTINATION_OVER	 = 4
+BLEND_DESTINATION_IN		 = 5
+BLEND_DESTINATION_OUT	 = 6
+BLEND_DESTINATION_ATOP	 = 7
+BLEND_LIGHTER				 = 8
+BLEND_COPY					 = 9
+BLEND_XOR					 = 10
+BLEND_MULTIPLY				 = 11
+BLEND_SCREEN				 = 12
+BLEND_OVERLAY				 = 13
+BLEND_DARKEN				 = 14
+BLEND_LIGHTEN				 = 15
+BLEND_COLOR_DODGE			 = 16
+BLEND_COLOR_BURN			 = 17
+BLEND_HARD_LIGHT			 = 18
+BLEND_SOFT_LIGHT			 = 19
+BLEND_DIFFERENCE			 = 20
+BLEND_EXCLUSION			 = 21
+BLEND_HUE					 = 22
+BLEND_SATURATION			 = 23
+BLEND_COLOR					 = 24
+BLEND_LUMINOSITY			 = 25
 
 
 )"; }
