@@ -45,7 +45,7 @@ namespace xen
 			while (SDL_PollEvent(&event)) {
 				switch (event.type) {
 					case SDL_QUIT:
-						// handling of close button
+						this->Trigger("quit");
 						running = false;
 						break;
 					case SDL_KEYDOWN:
@@ -59,9 +59,40 @@ namespace xen
 							case SDL_WINDOWEVENT_RESIZED:
 							case SDL_WINDOWEVENT_SIZE_CHANGED:
 								size_changed = true;
+								this->Trigger("window_resized");
+								break;
+							case SDL_WINDOWEVENT_SHOWN:
+								this->Trigger("window_shown");
+								break;
+							case SDL_WINDOWEVENT_HIDDEN:
+								this->Trigger("window_hidden");
+								break;
+							case SDL_WINDOWEVENT_MOVED:
+								this->Trigger("window_moved");
+								break;
+							case SDL_WINDOWEVENT_MINIMIZED:
+								this->Trigger("window_minimized");
+								break;
+							case SDL_WINDOWEVENT_MAXIMIZED:
+								this->Trigger("window_maximized");
+								break;
+							case SDL_WINDOWEVENT_RESTORED:
+								this->Trigger("window_restored");
+								break;
+							case SDL_WINDOWEVENT_ENTER:
+								this->Trigger("window_enter");
+								break;
+							case SDL_WINDOWEVENT_LEAVE:
+								this->Trigger("window_leave");
+								break;
+							case SDL_WINDOWEVENT_FOCUS_GAINED:
+								this->Trigger("window_focus");
+								break;
+							case SDL_WINDOWEVENT_FOCUS_LOST:
+								this->Trigger("window_blur");
 								break;
 						}
-						break;
+						break;						
 				}
 			}
 
