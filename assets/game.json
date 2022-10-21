@@ -7,18 +7,13 @@
 		"update_frequency": 60,
 		"draw_frequency": 60,
 		"window": {
-			"width": 800,
-			"height": 600
+			"width": 1280,
+			"height": 720
 		},
 		"viewport": {
 			"width": 500,
 			"height": 500,
 			"mode": 1
-		},
-		"renderer": {
-			"engine": "sdl2",
-			"accelerated": true,
-			"technique": "immediate"
 		},
 		"audio": {
 			"frequency": 44100,
