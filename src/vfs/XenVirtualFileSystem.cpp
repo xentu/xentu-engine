@@ -19,7 +19,7 @@ namespace xen
 	void vfs_default()
 	{
 		// create a native pointing to the current dir (and a test zip endpoint).
-		XenFileSystemPtr root_fs(new XenNativeFileSystem("./assets"));
+		XenFileSystemPtr root_fs(new XenNativeFileSystem("./"));
 		root_fs->Initialize();
 			
 		// add the file systems to the vfs.

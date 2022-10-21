@@ -73,7 +73,7 @@ namespace xen
 
 			unsigned int GetShader(int id);
 
-			SpriteMap* AssetManager::GetSpriteMap(int id);
+			SpriteMap* GetSpriteMap(int id);
 
 
 		private:
