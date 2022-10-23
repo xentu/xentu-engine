@@ -6,16 +6,6 @@ This project contains code from the following
 	License: Zlib License
 	Copyright: (c) 2021 Steve Bailey (aka Kodaloid)
 
-- Mini Audio
-	Website: https://miniaud.io/
-	License: MIT License
-	Copyright: (c) 2020 David Reid
-
-- STB Image
-	Website: https://github.com/nothings/stb
-	License: MIT License
-	Copyright: (c) 2017 Sean Barrett
-
 - tinytoml
 	Website: https://github.com/mayah/tinytoml
 	License: BSD 2-Clause
