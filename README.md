@@ -1,50 +1,47 @@
 <p align="center"><img width="100" src="assets/images/logo.png" alt="Xentu logo" /></p>
-<h1 align="center">Xentu Game Engine (v0.0.2 rebuild)</h1>
-
+<h1 align="center">Xentu Game Engine</h1>
 
 A slim, fast and easy to learn framework for creating 2D games scripted in Lua,
-Python or JavaScript (via Ducktape). It's completely free to use, open-source
-(under the zlib license), links to other open-source libraries, written in C/C++,
-and very cross-platform friendly.
+Python or JavaScript. It's completely free to use, open-source (under the zlib license), written in C/C++, and super cross-platform friendly.
+
+Xentu is designed to be compiled and ran on a vast number of different systems.
+It runs great on Windows, Linux/BSD, MacOS, ChromeOS, HaikuOS, surprisingly well
+on ARM based computers like the Raspberry PI. Games consoles and mobile are on the
+horizon too, along with Emscripten which will allow you to run your games in a
+web browser.
+
+If you want the most time saving and hassle free way to make your next computer
+game work in as many places as possible (not just those with a browser available), Xentu has your back!
 
 <br />
 
-## Engine Features
 
-- Works on OpenGL 3.3+ (and ES 3.0+) or SDL.
-- Game code is written in Lua (or Python/JavaScript), no need to recompile every time.
-- Structure using very fast emitter/subscriber events.
-- Organise with the scene system (switch instantly between game parts).
-- Load in textures, sprites, custom shaders, fonts, data etc... using a clever asset manager.
-- Renderer smartly with a system that draws in organised batches for performance.
-- Move, rotate or scale graphics using the simple built-in transform system.
-- Includes tools for creating, packaging and sharing your games.
-- Compact & portable, with the main exe compiling to 2mb in release mode.
+## Features
+
+- Uses SDL2 backend, with OpenGL 3.3+ (and DirectX mode coming soon).
+- Write your game code in Lua, JavaScript, or Python (disabled temporarily).
+- Load textures, sprites, shaders, fonts, and more using the asset manager.
+- Store your assets in archives, and access them via the built in VFS (virtual file system).
+- Render smartly with a fully featured and efficient batch manager.
 
 <br />
 
-## This Is A Development Branch
 
-If you want a working engine, see the [master branch](https://github.com/xentu/xentu-engine/tree/master).
+## Getting Started
 
-For the next Alpha (v0.0.2), I am rebuilding Xentu so that it can use more modern
-tech, add support for other scripting languages (Python, JavaScript), and include
-support for other projects I have like the Sutori dialog engine. This track
-will also add support for emscripten so that we finally get browser support.
+If this is your first time using Xentu, you should try the also free [Xentu Creator](https://xentu.net/creator) the official cross-platform editor IDE for Xentu. It provides a rich code editor, debugging, project management, and other cool things like code templates to get you started.
 
-Project brief:
-- Use meson/ninja instead of CMake. [done]
-- Fix, port & update vfspp so that xentu has a real virtual file system. [done]
-- Make the engine more abstraction orientated allowing for parts to be swapped. [done]
-- Add core functionality to support embedded languages. [done]
-- Add SDL compatibility.
+If you'd prefer to go it alone, the binaries can be downloaded from the Xentu
+website using [this link](https://xentu.net/binaries). And in the next section
+you'll see how to build the engine yourself.
+
+<br />
+
 
 ## Building
 
-The project now requires meson to build which also requires Python3+. Once you have
-both installed, run the setup.sh script to setup dependencies. If you are not on windows,
-you may need to make the sh file executable first with "chmod +x ./setup.sh". Once ready,
-calling:
+The project requires meson to build, which also requires Python3+. Once you have
+both installed, run the setup.sh script to setup dependencies. If you are not on Windows, you may need to make the sh file executable first with `"chmod +x ./setup.sh"`. Once ready, calling:
 
 ```meson compile -C build```
 
@@ -62,7 +59,7 @@ help aid in launching the engine in debug mode.
 
 ## Contribution And Community
 
-To get in touch, please join me on discord at https://discord.com/invite/enC7FGvV
+To get in touch, please join the discord at https://discord.com/invite/enC7FGvV
 
 <br />
 
@@ -73,90 +70,3 @@ This project is maintained by:
 * [@kodaloid](https://github.com/kodaloid)
 
 <br />
-
-## Background
-
-The initial alpha release of the Xentu game engine is a major milestone. It does
-everything I set out to do, allows you to write a game in Lua, and play it on many
-platforms via a C++/OpenGL engine. But that completion has not arrived without
-flaws.
-
-Whilst building the alpha, I also learnt C++/CMake. This inevitably means I made
-mistakes that are now embedded deep in the design of the code. A good example of
-this is how things are loaded into the game. Currently it works like this:
-
-- Core scripts/shaders etc.. are embedded into the executable via CMake. 
-- An asset manager on the C++ side can load in files from the filesystem.
-- The Lua interpreter can speak to the filesystem to require other Lua files.
-
-That all sounds fine until you realise from a programmers perspective it's highly
-unmaintainable. As a result I was never able to provide a way to wrap a games
-assets into a bundle like other games do, and I also had to write an alternative
-include Lua function to get around Lua's strange include system.
-
-### CMake Issues
-
-Another example is how I was forced to setup CMake. If you follow my instructions
-from the README.md to the letter, it will build. But that's only because I ask
-that you use a specific compiler known to work.
-
-There are people who will disagree with me, but in my experience CMake is a hot
-mess. It's great when it works, but the poor documentation is crippling when you
-are a sole developer trying to build something like Xentu. In some situations you
-can end up spending weeks trying to understand a single command, only to find out
-in some message board from 15 years ago that it was abandoned and replaced with
-something new. 
-
-Going forward CMake needs replacing, so I'm moving over to a more modern build
-system called meson, which crucially gives the ability to compile using different
-compilers, and provides a far smoother build dynamic.
-
-### Language Concerns
-
-Lua in my opinion is one of the most underrated programming languages, and for a
-long time I've pushed it as the only choice for Xentu. It's speed, learnability 
-and elegance is such an obvious choice for enabling people to make games, but
-maybe my obsession is clouding my judgement.
-
-If you run code for a language natively, package managers can bridge gaps in
-functionality, but when it comes to embedded languages, it's quite rare to find
-that those packages can accompany the host application. Compiled languages like
-C# and C++ have an advantage as you can just bundle the package .dll/.so files,
-but embedded languages usually have no equivalent, unless the host application
-requires the user to also install the needed package manager.
-
-Due to this, it's actually quite important for the language being embedded to
-provide everything that you'll need out of the box. For the Xentu alpha, Lua did
-provide most of what I needed, but there were some noticeable gaps that caused
-a few problems. For example when I had to load XML in C++ instead of Lua when 
-loading Tiled TMX files.
-
-Recently whilst working on another project called Sutori, a dialog engine for the
-likes of quizzes and visual novels (which is primarily a JavaScript endeavour) I
-began writing ports to other languages. Ports for .NET, and Python were as simple
-as you can imagine, however when I went to write a port for Lua (I obviously wanted
-it to work with Xentu) I realised that I'd have to do the whole Tiled TMX thing
-for Sutori, so what took maybe an hour or two in .NET and Python was going to take
-a few days in Lua!
-
-So here's the deal, Lua is still going to be a major language supported by the
-engine. But for this track it will take a slight back seat to allow for me to
-implement a core set of libraries in c++ that allows Lua (and other interpreters)
-to have the same out of the box functionality that Python has.
-
-Here's a list of libraries that should be featured in the out of the box list:
-
-- Serializer/Deserializer for: XML, JSON, TOML, CSV
-- Encoder/Decoder for base16, base32, base64
-- Compression library for: zip, bzip2, gzip, lzma, zlib
-- Hashing library like [hashlib](https://docs.python.org/3/library/hashlib.html)
-- Logging library.
-- RegEx library.
-
-If you have any suggestions for further libraries, please let me know.
-
-## What's Next
-
-All the pieces needed to get this done are easily available, and the vfs is already
-fully working. If everything goes to plan, this alpha will be complete by the end
-of September 2022, and may end up as the beta if everything goes well.
