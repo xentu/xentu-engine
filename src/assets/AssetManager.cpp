@@ -31,7 +31,7 @@ namespace xen
 			#endif
 			//
 			glGetShaderInfoLog(id, length, &length, message);
-			XEN_ERROR("Failed to compile ", (type == GL_VERTEX_SHADER ? "vertex" : "fragment"), " shader\n", message);
+			XEN_ERROR("Failed to compile %s shader: %s", (type == GL_VERTEX_SHADER ? "vertex" : "fragment"), "\n", message);
 			glDeleteShader(id);
 			return 0;
 		}

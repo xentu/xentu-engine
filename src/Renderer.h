@@ -2,12 +2,17 @@
 
 #include <string>
 #include <map>
-#include <SDL.h>
+
 #include <GL/glew.h>
+#if defined(__APPLE__)
+#else
+#include <GL/glu.h>
+#endif
+
+#include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <GL/glu.h>
 #include <lib/glm/glm.hpp>
 
 #include "graphics/TextBox.h"

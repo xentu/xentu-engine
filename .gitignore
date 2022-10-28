@@ -4,6 +4,8 @@
 !.vscode/settings.json
 !.vscode/tasks.json
 
+.DS_Store
+
 # .vs folder
 .vs/**/*
 !.vs/ProjectSettings.json

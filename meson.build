@@ -1,11 +1,10 @@
 project('xentu_rebuild', 'c', 'cpp',
         version : run_command('cat', './version.txt').stdout().strip(),
-        default_options: ['default_library=static', 'buildtype=debug']
+        default_options: ['default_library=static', 'buildtype=debug', 'c_std=c17', 'cpp_std=c++17']
         )
 
 
 the_version = meson.project_version()
-
 
 glew = dependency('glew')
 ogg_dep = dependency('ogg')
@@ -19,7 +18,11 @@ if host_machine.system() == 'linux'
 else
   lua_dep = dependency('lua-5.4')
 endif
-incdir = include_directories(['lib'])
+if  host_machine.system() == 'darwin'
+  dep_main = dependency('appleframeworks', modules : ['Foundation'])
+  dep_libs = dependency('appleframeworks', modules : ['OpenGL'], required : true)
+endif
+incdir = include_directories(['lib','/usr/local/include'])
 
 
 project_source_files = files([
@@ -83,6 +86,11 @@ dependencies = [
 
 conf_data = configuration_data()
 conf_data.set('version', the_version)
+
+
+if host_machine.system() == 'darwin'
+   dependencies += [dep_main, dep_libs]
+endif
 
 
 if host_machine.system() == 'windows'

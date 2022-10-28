@@ -107,20 +107,31 @@ namespace xen
 
 	bool Renderer::Init(std::string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode)
 	{
-		Uint32 render_flags = SDL_RENDERER_ACCELERATED;
-
 		m_viewport = Viewport(vp_width, vp_height, vp_mode);
 
-		//Use OpenGL 3.1 core
-      SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
-      SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 );
-      SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
-		#ifdef __APPLE__
-		SDL_GL_SetAttribute( SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-		#endif
+		if(SDL_Init(SDL_INIT_VIDEO) < 0){
+        	std::cout << "SDL could not be initialized: " << SDL_GetError();
+    	}
+		else
+		{
+        	std::cout << "SDL video system is ready to go\n";
+    	}
+	
+		//Use OpenGL 3.3 core
+		if (SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 ) < 0) {
+			std::cout << "SDL could not set OpenGL Major Version: " << SDL_GetError();
+		}
+
+      	if (SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 3 ) < 0) {
+			std::cout << "SDL could not set OpenGL Minor Version: " << SDL_GetError();
+		}
+
+		//r = SDL_GL_SetAttribute( SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+      	if (SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE ) < 0) {
+			std::cout << "SDL could not set OpenGL Core Profile: " << SDL_GetError();
+		}
 
 		m_window = SDL_CreateWindow(title.c_str(), x, y, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-		//m_renderer = SDL_CreateRenderer(m_window, -1, render_flags);
 		m_gl_context = SDL_GL_CreateContext(m_window);
 
 		//Use V-Sync
