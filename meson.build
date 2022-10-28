@@ -22,7 +22,7 @@ if  host_machine.system() == 'darwin'
   dep_main = dependency('appleframeworks', modules : ['Foundation'])
   dep_libs = dependency('appleframeworks', modules : ['OpenGL'], required : true)
 endif
-incdir = include_directories(['lib','/usr/local/include'])
+incdir = include_directories(['lib'])
 
 
 project_source_files = files([
@@ -90,6 +90,7 @@ conf_data.set('version', the_version)
 
 if host_machine.system() == 'darwin'
    dependencies += [dep_main, dep_libs]
+   incdir += ['/usr/local/include']
 endif
 
 
