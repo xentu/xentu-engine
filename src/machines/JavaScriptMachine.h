@@ -37,6 +37,7 @@ namespace xen
 	void js_call_func(duk_context *L, string func_name, float arg0);
 
 	duk_ret_t js_native_print(duk_context* ctx);
+	duk_ret_t js_native_eval(duk_context* ctx);
 
 	duk_ret_t js_game_create_window(duk_context *L);
 	duk_ret_t js_game_on(duk_context *L);

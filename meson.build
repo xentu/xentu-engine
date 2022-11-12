@@ -1,6 +1,6 @@
 project('xentu_rebuild', 'c', 'cpp',
         version : run_command('cat', './version.txt').stdout().strip(),
-        default_options: ['default_library=static', 'buildtype=debug', 'c_std=c17', 'cpp_std=c++17']
+        default_options: ['default_library=static', 'buildtype=debug', 'cpp_std=c++17']
         )
 
 

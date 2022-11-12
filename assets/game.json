@@ -2,6 +2,7 @@
 	"game": {
 		"title": "Hello World",
 		"entry_point": "/scripts/test.js",
+		"version": "0.0.0",
 		"v_sync": true,
 		"fullscreen": false,
 		"update_frequency": 60,
@@ -17,7 +18,9 @@
 		},
 		"audio": {
 			"frequency": 44100,
-			"channels": 2
+			"channels": 2,
+			"depth": 16,
+			"codecs": ["wav", "ogg", "flac"]
 		}
 	}
 }

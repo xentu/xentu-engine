@@ -9,6 +9,7 @@ namespace xen { const char * xen_js_script_init = R"(
 	game.create_window = game_create_window;
 	game.run = game_run;
 	game.on = game_on;
+	game.trigger = game_trigger;
 	game.exit = game_exit;
 
 	const assets = {}
@@ -23,8 +24,12 @@ namespace xen { const char * xen_js_script_init = R"(
 	assets.create_sprite_map = assets_create_sprite_map;
 	assets.include = function(path) {
 		const code = assets_read_text_file(path);
-		eval(code);
+		return eval(code);
 	};
+	assets.include_raw = function(path) {
+		const code = assets_read_text_file(path);
+		code_eval(code);
+	}
 
 	const audio = {}
 	audio.play_sound = audio_play_sound;

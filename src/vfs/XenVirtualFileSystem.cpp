@@ -141,11 +141,25 @@ namespace xen
 		if (file && file->IsOpened())
 		{
 			uint64_t length = file->Size(); // not always accurate.
-			uint8_t data[4096 * 10]; // create a buffer.
-			uint64_t r_length = file->Read(data, length); // returns true length.
-			auto result = std::string(data, data + r_length);
-			this->CloseFile(file);
-			return result;
+
+			size_t data_len = 4096 * 10;
+			if (length > data_len) 
+			{
+				// big enough that we need to allocate it onto the heap.
+				uint8_t* data2 = new uint8_t[length];
+				uint64_t r_length = file->Read(data2, length);
+				auto result2 = std::string(data2, data2 + r_length);
+				this->CloseFile(file);
+				return result2;
+			}
+			else
+			{
+				uint8_t data[4096 * 10]; // create a buffer.
+				uint64_t r_length = file->Read(data, length); // returns true length.
+				auto result = std::string(data, data + r_length);
+				this->CloseFile(file);
+				return result;
+			}
 		}
 
 		throw XentuNotFoundException(filename.c_str());

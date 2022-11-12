@@ -32,6 +32,7 @@ namespace xen
 
 	void js_init_interop(duk_context *L) {
 		js_init_method(L, "print", js_native_print, 1);
+		js_init_method(L, "code_eval", js_native_eval, 1);
 		js_init_method(L, "game_create_window", js_game_create_window, 0);
 		js_init_method(L, "game_on", js_game_on, 2);
 		js_init_method(L, "game_trigger", js_game_trigger, 1);
@@ -147,6 +148,12 @@ namespace xen
 		return 0;  /* no return value (= undefined) */
 	}
 
+	duk_ret_t js_native_eval(duk_context *L) {
+		auto code = duk_to_string(L, 0);
+		duk_eval_string(L, code);
+		return 0;
+	}
+
 	#pragma endregion
 
 
@@ -176,6 +183,9 @@ namespace xen
 	}
 	
 	duk_ret_t js_game_trigger(duk_context *L) {
+		auto event_name = duk_to_string(L, 0);
+		auto m = JavaScriptMachine::GetInstance();
+		m->Trigger(event_name);
 		return 0;
 	}
 	

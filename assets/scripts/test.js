@@ -18,6 +18,11 @@ var fullscreen = false;
 var size = textbox.measure_text(text0, font0, "Testing");
 print("Measurement: " + size.w + "x" + size.h);
 
+
+game.on('init', function() {
+	print('Initialized!');
+});
+
 // handle the update event.
 game.on('update', function(dt) {
 	// print("Delta: " + dt);
@@ -49,4 +54,5 @@ game.on("draw", function(dt) {
 
 
 // we've finished preparing, so run the game.
+game.trigger('init');
 game.run();
