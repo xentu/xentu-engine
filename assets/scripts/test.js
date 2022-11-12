@@ -55,4 +55,3 @@ game.on("draw", function(dt) {
 
 // we've finished preparing, so run the game.
 game.trigger('init');
-game.run();

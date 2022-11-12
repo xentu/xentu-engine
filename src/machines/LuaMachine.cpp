@@ -50,7 +50,7 @@ namespace xen
 	{
 		// load some lua code.
 		auto config = this->GetConfig();
-		std::string lua_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\n";
+		std::string lua_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\ngame.run()\n\n";
 
 		// run the lua code.
 		const int ret_startup = luaL_dostring(L, lua_code.c_str());

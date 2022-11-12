@@ -45,6 +45,3 @@ game.on("draw", function(dt)
 	renderer.draw_textbox(text0)
 	renderer.present()
 end)
-
--- we've finished preparing, so run the game.
-game.run()

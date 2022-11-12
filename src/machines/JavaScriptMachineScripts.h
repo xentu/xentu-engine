@@ -24,10 +24,6 @@ namespace xen { const char * xen_js_script_init = R"(
 	assets.create_sprite_map = assets_create_sprite_map;
 	assets.include = function(path) {
 		const code = assets_read_text_file(path);
-		return eval(code);
-	};
-	assets.include_raw = function(path) {
-		const code = assets_read_text_file(path);
 		code_eval(code);
 	}
 

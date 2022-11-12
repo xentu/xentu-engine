@@ -40,7 +40,7 @@ namespace xen
 	{
 		// load some js code.
 		auto config = this->GetConfig();
-		std::string js_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\n";
+		std::string js_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\ngame.run();\n\n";
 
 		// run the js code.
 		duk_eval_string(L, js_code.c_str());
