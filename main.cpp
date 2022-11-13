@@ -29,7 +29,9 @@ int main(int argc, char *argv[])
 {
     int res = 0;
 
+
     #if XEN_DEBUG
+    setbuf(stdout, NULL);
     cout << endl << rang::fg::reset << "#########################################" << endl;
     cout << rang::fg::reset << "#" << rang::fg::yellow << " Xentu Game Engine" << rang::fg::yellow << " - v" << XEN_VER << rang::fg::reset << endl;
     cout << rang::fg::reset << "#########################################" << rang::fg::reset << endl << endl;
