@@ -479,11 +479,14 @@ namespace xen
 	}
 
 
-	void Renderer::DrawSprite(int sprite_map_id, string const& region_name, int x, int y, int w, int h)
+	void Renderer::DrawSprite(int sprite_map_id, string const& group_name, int frame, int x, int y, int w, int h)
 	{
 		auto assets = AssetManager::GetInstance();
 		auto sprite_map = assets->GetSpriteMap(sprite_map_id);
-		auto r = sprite_map->get_region(region_name);
+		auto sprite_group = sprite_map->get_group(group_name);
+		auto f = sprite_group->get_frame(frame);
+		auto r = f->coords;
+		
 		int texture_asset_id = sprite_map->get_texture();
 
 		m_sprite.ResetTransform();

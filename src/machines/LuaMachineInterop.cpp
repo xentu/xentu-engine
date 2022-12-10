@@ -379,7 +379,7 @@ namespace xen
 		int h = lua_tointeger(L, -1);
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
-		r->DrawSprite(asset_id, region, x, y, w, h);
+		r->DrawSprite(asset_id, region, 0, x, y, w, h);
 		return 0;
 	}
 
@@ -764,7 +764,7 @@ namespace xen
 		int h = lua_tointeger(L, -1);
 		auto a = AssetManager::GetInstance();
 		auto sm = a->GetSpriteMap(asset_id);
-		sm->add_region(region, new Rect(x, y, w, h));
+		// TODO: sm->add_region(region, new Rect(x, y, w, h));
 		return 0;
 	}
 

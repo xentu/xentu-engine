@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Rect.h"
+#include "SpriteMapGroup.h"
 
 namespace xen
 {
@@ -23,8 +24,8 @@ namespace xen
 		/// </summary>
 		/// <param name="nickname">The name of the region to return.</param>
 		/// <returns>The rectangle that represents the found region.</returns>
-		const Rect* get_region(std::string nickname) const;
-		int add_region(const std::string nickname, const Rect* rect);
+		const SpriteMapGroup* get_group(std::string nickname) const;
+		int add_group(const std::string nickname, const SpriteMapGroup* group);
 
 		void set_texture(int texture_asset_id);
 		const int get_texture() const;
@@ -34,6 +35,6 @@ namespace xen
 	private:
 		// the asset_id for the loaded texture.
 		int m_texture_asset_id;
-		std::map<const std::string, const Rect*> m_regions;
+		std::map<const std::string, const SpriteMapGroup*> m_groups;
 	};
 }

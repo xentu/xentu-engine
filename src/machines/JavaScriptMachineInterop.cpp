@@ -437,14 +437,15 @@ namespace xen
 
 	duk_ret_t js_renderer_draw_sprite(duk_context *L) {
 		int asset_id = duk_to_int(L, 0);
-		const string region = duk_to_string(L, 1);
+		const string group = duk_to_string(L, 1);
 		int x = duk_to_int(L, 2);
 		int y = duk_to_int(L, 3);
 		int w = duk_to_int(L, 4);
 		int h = duk_to_int(L, 5);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = m->GetRenderer();
-		r->DrawRectangle(x, y, w, h);
+		//r->DrawRectangle(x, y, w, h);
+		r->DrawSprite(asset_id, group, 0, x, y, w, h);
 		return 0;
 	}
 
@@ -781,7 +782,7 @@ namespace xen
 		float h = duk_to_number(L, 5);
 		auto a = AssetManager::GetInstance();
 		auto sm = a->GetSpriteMap(asset_id);
-		sm->add_region(region, new Rect(x, y, w, h));
+		//sm->add_region(region, new Rect(x, y, w, h));
 		return 0;
 	}
 

@@ -1,0 +1,19 @@
+[
+	{
+		"name": "rect1",
+		"type": "rectangle",
+		"coordinates": "0 0 32 32"
+	},
+	{
+		"name": "sprite1",
+		"type": "sprite",
+		"coordinates": "0 0 32 32"
+		"texture": "/images/logo.png"
+	},
+	{
+		"name": "sprite2",
+		"type": "sub-sprite",
+		"coordinates": "0 0 32 32"
+		"sprite_map": "/sprite_map/zombie1.xsf"
+	}
+]

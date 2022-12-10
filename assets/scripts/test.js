@@ -6,6 +6,8 @@ const font0 = assets.load_font("/fonts/Roboto-Regular.ttf", 20);
 const text0 = assets.create_textbox(10, 10, 680, 40);
 const audio0 = assets.load_sound("/audio/bounce1.wav");
 const music0 = assets.load_music("/music/melody.ogg");
+const sprite_map0 = assets.load_sprite_map("/sprite_map/zombie1.xsf");
+
 
 // setup variables.
 renderer.set_background('#444444'); // set the clear color.
@@ -49,6 +51,7 @@ game.on("draw", function(dt) {
 	renderer.draw_texture(texture0, x + 50, 60, 100, 100);
 	renderer.begin();
 	renderer.draw_textbox(text0);
+	renderer.draw_sprite(sprite_map0, 'walk_right', 100, 100, 25, 25);
 	renderer.present();
 });
 

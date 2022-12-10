@@ -58,6 +58,7 @@ project_source_files = files([
   'src/graphics/Rect.cpp',
   'src/graphics/Sprite.cpp',
   'src/graphics/SpriteMap.cpp',
+  'src/graphics/SpriteMapGroup.cpp',
   'src/graphics/TextBox.cpp',
   'src/graphics/Texture.cpp',
   'src/graphics/Transform.cpp',

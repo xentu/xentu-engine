@@ -20,7 +20,11 @@
 			"frequency": 44100,
 			"channels": 2,
 			"depth": 16,
-			"codecs": ["wav", "ogg", "flac"]
+			"codecs": [
+				"wav",
+				"ogg",
+				"flac"
+			]
 		}
 	}
 }

@@ -1,0 +1,80 @@
+{
+  "image": "/images/ZOMBIE_1.png",
+  "animations": [
+    {
+      "name": "walk_right",
+      "frames": [
+        {
+          "delay": 100,
+          "coords": "0, 0, 25, 25"
+        },
+        {
+          "delay": 100,
+          "coords": "25, 0, 25, 25"
+        },
+        {
+          "delay": 100,
+          "coords": "50, 0, 25, 25"
+        },
+        {
+          "delay": 100,
+          "coords": "75, 0, 25, 25"
+        }
+      ]
+    },
+    {
+      "name": "walk_left",
+      "frames": [
+        {
+          "delay": 100,
+          "coords": "0, 0, 25, 25",
+          "flip_x": true
+        },
+        {
+          "delay": 100,
+          "coords": "25, 0, 25, 25",
+          "flip_x": true
+        },
+        {
+          "delay": 100,
+          "coords": "50, 0, 25, 25",
+          "flip_x": true
+        },
+        {
+          "delay": 100,
+          "coords": "75, 0, 25 ,25",
+          "flip_x": true
+        }
+      ]
+    },
+    {
+      "name": "jump_right",
+      "frames": [
+        {
+          "delay": 100,
+          "coords": "0, 50, 25, 25"
+        },
+        {
+          "delay": 100,
+          "coords": "25, 50, 25, 25"
+        },
+        {
+          "delay": 100,
+          "coords": "50, 50, 25, 25"
+        },
+        {
+          "delay": 100,
+          "coords": "75, 50, 25, 25"
+        },
+        {
+          "delay": 100,
+          "coords": "100, 50, 25, 25"
+        },
+        {
+          "delay": 100,
+          "coords": "125, 50, 25, 25"
+        }
+      ]
+    }
+  ]
+}
