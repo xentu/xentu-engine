@@ -21,7 +21,7 @@ namespace xen
 
 	const SpriteMapFrame* SpriteMapGroup::get_frame(int frame) const
 	{
-		return m_frames[0];
+		return m_frames[frame];
 	}
 
 

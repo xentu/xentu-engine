@@ -56,7 +56,7 @@ renderer.draw_texture = function(a, b, c, d, e) interop.renderer_draw_texture(a,
 renderer.draw_sub_texture = function(a, b,c,d,e, f,g,h,i) interop.renderer_draw_sub_texture(a, b,c,d,e, f,g,h,i) end
 renderer.draw_rectangle = function(a,b,c,d) interop.renderer_draw_rectangle(a,b,c,d) end
 renderer.draw_textbox = function(a) interop.renderer_draw_textbox(a) end
-renderer.draw_sprite = function(id,region,x,y,w,h) interop.renderer_draw_sprite(id,region,x,y,w,h) end
+renderer.draw_sprite = function(id,region,frame,x,y,w,h) interop.renderer_draw_sprite(id,region,frame,x,y,w,h) end
 renderer.set_background = function(hex)
 	hex2 = hex:gsub("#", "")
 	interop.renderer_set_background(hex2)

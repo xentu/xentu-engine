@@ -368,18 +368,19 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_draw_sprite(lua_State* L)
 	{
-		if (lua_gettop(L) != 6) {
-			return luaL_error(L, "expecting exactly 6 arguments");
+		if (lua_gettop(L) != 7) {
+			return luaL_error(L, "expecting exactly 7 arguments");
 		}
-		int asset_id = lua_tointeger(L, -6);
-		const string region = lua_tostring(L, -5);
+		int asset_id = lua_tointeger(L, -7);
+		const string region = lua_tostring(L, -6);
+		int frame = lua_tointeger(L, -5);
 		int x = lua_tointeger(L, -4);
 		int y = lua_tointeger(L, -3);
 		int w = lua_tointeger(L, -2);
 		int h = lua_tointeger(L, -1);
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
-		r->DrawSprite(asset_id, region, 0, x, y, w, h);
+		r->DrawSprite(asset_id, region, frame, x, y, w, h);
 		return 0;
 	}
 

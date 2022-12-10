@@ -63,7 +63,7 @@ namespace xen
 		js_init_method(L, "renderer_draw_sub_texture", js_renderer_draw_sub_texture, 9);
 		js_init_method(L, "renderer_draw_rectangle", js_renderer_draw_rectangle, 4);
 		js_init_method(L, "renderer_draw_textbox", js_renderer_draw_textbox, 1);
-		js_init_method(L, "renderer_draw_sprite", js_renderer_draw_sprite, 6);
+		js_init_method(L, "renderer_draw_sprite", js_renderer_draw_sprite, 7);
 		js_init_method(L, "renderer_set_background", js_renderer_set_background, 1);
 		js_init_method(L, "renderer_set_foreground", js_renderer_set_foreground, 1);
 		js_init_method(L, "renderer_set_window_mode", js_renderer_set_window_mode, 1);
@@ -438,14 +438,15 @@ namespace xen
 	duk_ret_t js_renderer_draw_sprite(duk_context *L) {
 		int asset_id = duk_to_int(L, 0);
 		const string group = duk_to_string(L, 1);
-		int x = duk_to_int(L, 2);
-		int y = duk_to_int(L, 3);
-		int w = duk_to_int(L, 4);
-		int h = duk_to_int(L, 5);
+		int frame = duk_to_int(L, 2);
+		int x = duk_to_int(L, 3);
+		int y = duk_to_int(L, 4);
+		int w = duk_to_int(L, 5);
+		int h = duk_to_int(L, 6);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = m->GetRenderer();
 		//r->DrawRectangle(x, y, w, h);
-		r->DrawSprite(asset_id, group, 0, x, y, w, h);
+		r->DrawSprite(asset_id, group, frame, x, y, w, h);
 		return 0;
 	}
 

@@ -6,17 +6,23 @@ font0 = assets.load_font("/fonts/Roboto-Regular.ttf", 20)
 text0 = assets.create_textbox(10, 10, 680, 40)
 audio0 = assets.load_sound("/audio/bounce1.wav")
 music0 = assets.load_music("/music/melody.ogg")
+sprite_map0 = assets.load_sprite_map("/sprite_map/zombie1.xsf")
 
 -- setup variables.
 renderer.set_background('#444444') -- set the clear color.
 renderer.set_foreground("#00FFFF") -- set the foreground color.
 textbox.set_text(text0, font0, "Hello World") -- set the text on text0.
 textbox.set_color(text0, font0, "#FFFF00") -- set the text to yellow.
-x = 0; y = 0; x_speed = 2; rot = 0; alpha = 1
+x = 0; y = 0; x_speed = 2; rot = 0; alpha = 1; frame = 0; frame_time = 0
 fullscreen = false
 
 tw, th = textbox.measure_text(text0, font0, "Testing")
 print("Measurement: " .. tw .. "x" .. th)
+
+-- handle the init event
+game.on('init', function()
+	print('Initialized!');
+end)
 
 -- handle the update event.
 game.on("update", function(dt)
@@ -31,6 +37,13 @@ game.on("update", function(dt)
 	end
 	if keyboard.key_clicked(KB_M) then audio.play_music(music0, 0) end
 	if keyboard.key_clicked(KB_S) then audio.play_sound(audio0, -1, 0) end
+	
+	frame_time = frame_time + dt
+	if (frame_time > 0.3) then
+		frame = frame + 1
+		frame_time = 0
+		if (frame > 3) then frame = 0 end
+	end
 end)
 
 -- handle the draw event
@@ -43,5 +56,9 @@ game.on("draw", function(dt)
 	renderer.draw_texture(texture0, x + 50, y + 60, 100, 100)
 	renderer.begin()
 	renderer.draw_textbox(text0)
+	renderer.draw_sprite(sprite_map0, 'walk_right', frame, 100, 100, 50, 50)
+	renderer.draw_sprite(sprite_map0, 'jump_right', frame, 150, 100, 50, 50)
+	renderer.draw_sprite(sprite_map0, 'walk_right', frame, 200, 100, 50, 50)
+	renderer.draw_sprite(sprite_map0, 'jump_right', frame, 250, 100, 50, 50)
 	renderer.present()
 end)

@@ -35,43 +35,60 @@ namespace xen
 		auto texture = a->GetTexture(texture_id);
 		result->set_texture(texture_id);
 
+		// get the texture size so we can convert pixel coords to uv's
 		float texture_w = static_cast<float>(texture->width);
 		float texture_h = static_cast<float>(texture->height);
+
+		// avoid division by 0
+		if (texture_w == 0) texture_w = 1;
+		if (texture_h == 0) texture_h = 1;
 
 		auto animations = j.at("animations");
 
 		for (auto& el : animations.items())
 		{
-			printf("animation!\n");
 			auto en = el.value();
 			if (en.contains("name") && en.contains("frames"))
 			{
 				const std::string name = en["name"];
 				SpriteMapGroup* group = new SpriteMapGroup();
-				SpriteMapFrame* frame = new SpriteMapFrame();
-				frame->coords = new Rect(0, 0, 0.1655, 0.1420);
-				group->add_frame(frame);
-				result->add_group(name, group);
 
-				//const std::string coords = en["frames"];
-				printf("animation '%s'\n", name.c_str());
+				for (auto& el_frame : en.at("frames").items())
+				{
+					auto en_frame_val = el_frame.value();
+					SpriteMapFrame* frame = new SpriteMapFrame();
+
+					// convert coords to integers.
+					string str_coords = en_frame_val["coords"];
+					string raw_coords;
+					std::remove_copy(str_coords.begin(), str_coords.end(), std::back_inserter(raw_coords), ',');
+					
+					// convert the coords string into a set of floats.
+					std::vector<float> parsed_coords;
+					std::istringstream iss(raw_coords);
+					std::copy(std::istream_iterator<float>(iss), std::istream_iterator<float>(), std::back_inserter(parsed_coords));
+					
+					// get the pixel coords from the parsed string.
+					Rect px_coords = Rect(parsed_coords[0], parsed_coords[1], parsed_coords[2], parsed_coords[3]);
+
+					// convert the pixel coords into uv's to help the renderer.
+					frame->coords = new Rect(
+						px_coords.left / texture_w, // u
+						px_coords.top / texture_h, // v
+						px_coords.width / texture_w, // w
+						px_coords.height / texture_h  // h
+					);
+
+					// add the frame to the group.
+					group->add_frame(frame);
+				}
+				
+				result->add_group(name, group);
+				printf("-- animation '%s --'\n", name.c_str());
 			}
 		}
 
 		printf("image2: %s\n", image.c_str());
-
-		/* for (auto& el : j.items()) {
-			auto en = el.value();
-			if (en.contains("x") && en.contains("y") && en.contains("width") && en.contains("height")) {
-				const float w = en["width"];
-				const float h = en["height"];
-				const float x = en["x"];
-				const float raw_y = en["y"];
-				const float y = 1.0f - raw_y - h;
-				const auto reg = el.key();
-				result->add_region(reg, new Rect(x, y, w, h));
-			}
-		} */
 
 		return result;
 	}
