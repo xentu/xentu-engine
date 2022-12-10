@@ -79,6 +79,14 @@ namespace xen
 						px_coords.height / texture_h  // h
 					);
 
+					if (en_frame_val.contains("flip_x") && en_frame_val["flip_x"] == true) {
+						frame->flip_x = true;
+					}
+
+					if (en_frame_val.contains("flip_y") && en_frame_val["flip_y"] == true) {
+						frame->flip_y = true;
+					}
+
 					// add the frame to the group.
 					group->add_frame(frame);
 				}

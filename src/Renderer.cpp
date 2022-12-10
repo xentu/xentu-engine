@@ -489,18 +489,35 @@ namespace xen
 		
 		int texture_asset_id = sprite_map->get_texture();
 
+		int _x = m_pos_x + x;
+		int _y = m_pos_y + y;
+		int _scale_x = 1;
+		int _scale_y = 1;
+
+		if (f->flip_x) {
+			_x += w;
+			_scale_x = -1;
+		}
+
+		if (f->flip_y) {
+			_y += h;
+			_scale_y = -1;
+		}
+
+		// todo: handle rotations.
+
 		m_sprite.ResetTransform();
-		m_sprite.set_position(m_pos_x + x, m_pos_y + y);
 		m_sprite.set_origin(m_origin_x, m_origin_y);
 		m_sprite.set_rotation(m_rotation);
-		m_sprite.set_scale(m_scale_x, m_scale_y);
+		m_sprite.set_scale(_scale_x, _scale_y);
+		m_sprite.set_position(_x, _y);
 
 		m_sprite.m_color = Vector4f(1, 1, 1, m_alpha); // TODO: fix this.
 		m_sprite.m_width = static_cast<float>(w);
 		m_sprite.m_height = static_cast<float>(h);
 		m_sprite.m_texture = assets->GetTexture(texture_asset_id)->gl_texture_id;
 		m_sprite.m_rect = Rect(r->left, r->top, r->width, r->height);
-
+		
 		if (m_sprite.m_texture == NULL)
 			return;
 
