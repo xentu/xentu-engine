@@ -145,9 +145,8 @@ namespace xen
  		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		SDL_FreeSurface(sur);
-
 		Texture* texture = new Texture(texture_id, sur->w, sur->h, mode);
+		SDL_FreeSurface(sur);
 		
 		m_textures.insert(std::make_pair(m_textures_iter, texture));
 		m_textures_iter++;
