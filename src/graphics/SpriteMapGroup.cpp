@@ -31,4 +31,10 @@ namespace xen
 		m_frames_count++;
 		return -1;
 	}
+
+
+	int SpriteMapGroup::get_count() const
+	{
+		return m_frames_count;
+	}
 }

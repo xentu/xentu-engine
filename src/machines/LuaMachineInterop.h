@@ -74,9 +74,8 @@ namespace xen
 			int shader_set_uniforms_int(lua_State* L);
 			int shader_set_uniforms_float(lua_State* L);
 
-			int sprite_map_set_region(lua_State* L);
-			int sprite_map_set_texture(lua_State* L);
-			int sprite_map_reset(lua_State* L);
+			int sprite_map_get_frame_info(lua_State* L);
+			int sprite_map_get_frame_count(lua_State* L);
 
 
 		public:

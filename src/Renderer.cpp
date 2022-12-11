@@ -494,6 +494,8 @@ namespace xen
 		int _scale_x = 1;
 		int _scale_y = 1;
 
+		// todo: move flipping of sprites into the shaders.
+
 		if (f->flip_x) {
 			_x += w;
 			_scale_x = -1;
@@ -503,8 +505,6 @@ namespace xen
 			_y += h;
 			_scale_y = -1;
 		}
-
-		// todo: handle rotations.
 
 		m_sprite.ResetTransform();
 		m_sprite.set_origin(m_origin_x, m_origin_y);

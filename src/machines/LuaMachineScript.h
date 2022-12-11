@@ -77,9 +77,8 @@ renderer.set_blend_func = function(src, dst) interop.renderer_set_blend_func(src
 renderer.set_blend_preset = function(src, dst) interop.renderer_set_blend_preset(mode, p_alpha) end
 
 sprite_map = {}
-sprite_map.set_region = function(id,region,x,y,w,h) interop.sprite_map_set_region(id,region,x,y,w,h) end
-sprite_map.set_texture = function(id,texture) interop.sprite_map_set_texture(id,texture) end
-sprite_map.reset = function() interop.sprite_map_reset() end
+sprite_map.get_frame_info = function(id,region,frame) return interop.sprite_map_get_frame_info(id,region,frame) end
+sprite_map.get_frame_count = function(id,region) return interop.sprite_map_get_frame_count(id,region) end
 
 config = {}
 config.get_str = function(a,b,c) return interop.config_get_str(a,b,c) end

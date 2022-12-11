@@ -106,7 +106,6 @@ namespace xen
 	duk_ret_t js_shader_set_uniforms_float(duk_context* L);
 	duk_ret_t js_shader_set_uniform_matrix(duk_context* L);
 
-	duk_ret_t js_sprite_map_set_region(duk_context* L);
-	duk_ret_t js_sprite_map_set_texture(duk_context* L);
-	duk_ret_t js_sprite_map_reset(duk_context* L);
+	duk_ret_t js_sprite_map_get_frame_info(duk_context* L);
+	duk_ret_t js_sprite_map_get_frame_count(duk_context* L);
 }

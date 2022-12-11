@@ -91,9 +91,8 @@ namespace xen
 		js_init_method(L, "shader_set_uniforms_bool", js_shader_set_uniforms_bool, DUK_VARARGS);
 		js_init_method(L, "shader_set_uniforms_int", js_shader_set_uniforms_int, DUK_VARARGS);
 		js_init_method(L, "shader_set_uniforms_float", js_shader_set_uniforms_float, DUK_VARARGS);
-		js_init_method(L, "sprite_map_set_region", js_sprite_map_set_region, 6);
-		js_init_method(L, "sprite_map_set_texture", js_sprite_map_set_texture, 2);
-		js_init_method(L, "sprite_map_reset", js_sprite_map_reset, 1);
+		js_init_method(L, "sprite_map_get_frame_info", js_sprite_map_get_frame_info, 3);
+		js_init_method(L, "sprite_map_get_frame_count", js_sprite_map_get_frame_count, 2);
 	}
 
 
@@ -774,34 +773,35 @@ namespace xen
 
 	#pragma region Sprite Map
 
-	duk_ret_t js_sprite_map_set_region(duk_context *L) {
+	duk_ret_t js_sprite_map_get_frame_info(duk_context *L) {
 		int asset_id = duk_to_int(L, 0);
-		const string region = duk_to_string(L, 1);
-		float x = duk_to_number(L, 2);
-		float y = duk_to_number(L, 3);
-		float w = duk_to_number(L, 4);
-		float h = duk_to_number(L, 5);
+		const string animation = duk_to_string(L, 1);
+		int frame = duk_to_int(L, 2);
 		auto a = AssetManager::GetInstance();
 		auto sm = a->GetSpriteMap(asset_id);
-		//sm->add_region(region, new Rect(x, y, w, h));
-		return 0;
+		auto grp = sm->get_group(animation);
+		auto info = grp->get_frame(frame);
+
+		duk_idx_t obj = duk_push_object(L);
+		duk_push_int(L, info->delay);
+		duk_put_prop_string(L, obj, "delay");
+		duk_push_boolean(L, info->flip_x);
+		duk_put_prop_string(L, obj, "flip_x");
+		duk_push_boolean(L, info->flip_y);
+		duk_put_prop_string(L, obj, "flip_y");
+
+		return 1;
 	}
 
-	duk_ret_t js_sprite_map_set_texture(duk_context *L) {
+	duk_ret_t js_sprite_map_get_frame_count(duk_context *L) {
 		int asset_id = duk_to_int(L, 0);
-		int texture_asset_id = duk_to_int(L, 1);
+		const string animation = duk_to_string(L, 1);
 		auto a = AssetManager::GetInstance();
 		auto sm = a->GetSpriteMap(asset_id);
-		sm->set_texture(texture_asset_id);
-		return 0;
-	}
-
-	duk_ret_t js_sprite_map_reset(duk_context *L) {
-		int asset_id = duk_to_int(L, 0);
-		auto a = AssetManager::GetInstance();
-		auto sm = a->GetSpriteMap(asset_id);
-		sm->reset();
-		return 0;
+		auto grp = sm->get_group(animation);
+		const int count = grp->get_count();
+		duk_push_int(L, count);
+		return 1;
 	}
 
 	#pragma endregion

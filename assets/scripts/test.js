@@ -19,6 +19,13 @@ var fullscreen = false;
 var size = textbox.measure_text(text0, font0, "Testing");
 print("Measurement: " + size.w + "x" + size.h);
 
+// retrieve sprite info.
+var fi = sprite_map.get_frame_info(sprite_map0, 'walk_right', 0);
+var fc = sprite_map.get_frame_count(sprite_map0, 'walk_right');
+print("Frame Time: " + fi.delay.toString());
+print("Frame Count: " + fc.toString());
+
+
 // handle the init event
 game.on('init', function() {
 	print('Initialized!');

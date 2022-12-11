@@ -29,7 +29,6 @@ namespace xen
 
 		void set_texture(int texture_asset_id);
 		const int get_texture() const;
-		void reset();
 
 
 	private:

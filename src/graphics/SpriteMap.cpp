@@ -87,6 +87,11 @@ namespace xen
 						frame->flip_y = true;
 					}
 
+					frame->delay = 1000;
+					if (en_frame_val.contains("delay")) {
+						frame->delay = static_cast<int>(en_frame_val["delay"]);
+					}
+
 					// add the frame to the group.
 					group->add_frame(frame);
 				}
@@ -132,11 +137,5 @@ namespace xen
 
 	const int SpriteMap::get_texture() const {
 		return m_texture_asset_id;
-	}
-
-
-	void SpriteMap::reset() {
-		// TODO: clean up memory, rects are on heap.
-		m_groups.clear();
 	}
 }

@@ -13,7 +13,6 @@ namespace xen
 		int delay;
 		bool flip_x;
 		bool flip_y;
-		int rotation;
 	};
 
 
@@ -29,6 +28,7 @@ namespace xen
 
 		const SpriteMapFrame* get_frame(int frame) const;
 		int add_frame(SpriteMapFrame* frame);
+		int get_count() const;
 
 
 	private:

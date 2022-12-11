@@ -752,46 +752,39 @@ namespace xen
 
 	#pragma region Sprite Map
 
-	int XentuLuaMachineInterop::sprite_map_set_region(lua_State* L)
+	int XentuLuaMachineInterop::sprite_map_get_frame_info(lua_State* L)
 	{
-		if (lua_gettop(L) != 6) {
-			return luaL_error(L, "expecting exactly 6 arguments");
+		if (lua_gettop(L) != 3) {
+			return luaL_error(L, "expecting exactly 3 arguments");
 		}
-		int asset_id = lua_tointeger(L, -6);
-		const string region = lua_tostring(L, -5);
-		int x = lua_tointeger(L, -4);
-		int y = lua_tointeger(L, -3);
-		int w = lua_tointeger(L, -2);
-		int h = lua_tointeger(L, -1);
+		int asset_id = lua_tointeger(L, -3);
+		string animation = lua_tostring(L, -2);
+		int frame = lua_tointeger(L, -1);
 		auto a = AssetManager::GetInstance();
 		auto sm = a->GetSpriteMap(asset_id);
-		// TODO: sm->add_region(region, new Rect(x, y, w, h));
-		return 0;
+		auto grp = sm->get_group(animation);
+		auto info = grp->get_frame(frame);
+
+		lua_pushinteger(L, info->delay);
+		lua_pushboolean(L, info->flip_x);
+		lua_pushboolean(L, info->flip_y);
+		return 3;
 	}
 
-	int XentuLuaMachineInterop::sprite_map_set_texture(lua_State* L)
+	int XentuLuaMachineInterop::sprite_map_get_frame_count(lua_State* L)
 	{
 		if (lua_gettop(L) != 2) {
 			return luaL_error(L, "expecting exactly 2 arguments");
 		}
 		int asset_id = lua_tointeger(L, -2);
-		int texture_asset_id = lua_tointeger(L, -1);
-		auto a = AssetManager::GetInstance();
-		auto sm = a->GetSpriteMap(asset_id);
-		sm->set_texture(texture_asset_id);
-		return 0;
-	}
+		string animation = lua_tostring(L, -1);
 
-	int XentuLuaMachineInterop::sprite_map_reset(lua_State* L)
-	{
-		if (lua_gettop(L) != 1) {
-			return luaL_error(L, "expecting exactly 2 arguments");
-		}
-		int asset_id = lua_tointeger(L, -1);
 		auto a = AssetManager::GetInstance();
 		auto sm = a->GetSpriteMap(asset_id);
-		sm->reset();
-		return 0;
+		auto grp = sm->get_group(animation);
+		const int count = grp->get_count();
+		lua_pushinteger(L, count);
+		return 1;
 	}
 
 	#pragma endregion
@@ -862,9 +855,8 @@ namespace xen
 		method(XentuLuaMachineInterop, shader_set_uniforms_bool, shader_set_uniforms_bool),
 		method(XentuLuaMachineInterop, shader_set_uniforms_int, shader_set_uniforms_int),
 		method(XentuLuaMachineInterop, shader_set_uniforms_float, shader_set_uniforms_float),
-		method(XentuLuaMachineInterop, sprite_map_set_region, sprite_map_set_region),
-		method(XentuLuaMachineInterop, sprite_map_set_texture, sprite_map_set_texture),
-		method(XentuLuaMachineInterop, sprite_map_reset, sprite_map_reset),
+		method(XentuLuaMachineInterop, sprite_map_get_frame_info, sprite_map_get_frame_info),
+		method(XentuLuaMachineInterop, sprite_map_get_frame_count, sprite_map_get_frame_count),
 		{0,0}
 	};
 }

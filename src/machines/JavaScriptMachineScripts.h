@@ -89,9 +89,8 @@ namespace xen { const char * xen_js_script_init = R"(
 	shader.set_uniforms_float = shader_set_uniforms_float;
 
 	const sprite_map = {}
-	sprite_map.set_region = sprite_map_set_region;
-	sprite_map.set_texture = sprite_map_set_texture;
-	sprite_map.reset = sprite_map_reset;
+	sprite_map.get_frame_info = sprite_map_get_frame_info;
+	sprite_map.get_frame_count = sprite_map_get_frame_count;
 
 	const color = {
 		hex_to_int: function(hex) {

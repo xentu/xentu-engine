@@ -16,6 +16,12 @@ textbox.set_color(text0, font0, "#FFFF00") -- set the text to yellow.
 x = 0; y = 0; x_speed = 2; rot = 0; alpha = 1; frame = 0; frame_time = 0
 fullscreen = false
 
+-- retrieve sprite info.
+fi_delay, fi_flip_x, fi_flip_y = sprite_map.get_frame_info(sprite_map0, 'walk_right', 0)
+fc = sprite_map.get_frame_count(sprite_map0, "walk_right")
+print("Frame Time: " .. fi_delay)
+print("Frame Count: " .. fc)
+
 tw, th = textbox.measure_text(text0, font0, "Testing")
 print("Measurement: " .. tw .. "x" .. th)
 
