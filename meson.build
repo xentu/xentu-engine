@@ -68,6 +68,7 @@ project_source_files = files([
 
   #input
   'src/input/InputManager.cpp',
+  'src/input/MouseState.cpp',
 
   # other
   'src/Globals.cpp',

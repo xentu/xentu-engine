@@ -49,11 +49,24 @@ namespace xen
 						running = false;
 						break;
 					case SDL_KEYDOWN:
-						m_input->SetKeyDown(event.key.keysym.scancode);
-						break;
 					case SDL_KEYUP:
-						m_input->SetKeyUp(event.key.keysym);
+						m_input->HandleKeyboardEvent(&event);
 						break;
+					case SDL_JOYAXISMOTION:
+					case SDL_JOYBALLMOTION:
+					case SDL_JOYBATTERYUPDATED:
+					case SDL_JOYBUTTONDOWN:
+					case SDL_JOYBUTTONUP:
+					case SDL_JOYDEVICEADDED:
+					case SDL_JOYDEVICEREMOVED:
+					case SDL_JOYHATMOTION:
+						m_input->HandleJoystickEvent(&event);
+						break;
+					case SDL_MOUSEBUTTONDOWN:
+					case SDL_MOUSEBUTTONUP:
+					case SDL_MOUSEMOTION:
+					case SDL_MOUSEWHEEL:
+						m_input->HandleMouseEvent(&event, &m_renderer->drawn_screen);
 					case SDL_WINDOWEVENT:
 						switch (event.window.event) {
 							case SDL_WINDOWEVENT_RESIZED:

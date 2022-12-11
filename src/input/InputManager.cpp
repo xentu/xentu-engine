@@ -7,10 +7,13 @@ namespace xen
 		for (int i=0; i<SDL_NUM_SCANCODES; i++) {
 			m_keyboard_down_events[i] = false;	
 		}
+		m_mouse_state = new MouseState;
 	}
 
 	InputManager::~InputManager()
 	{ }
+
+
 
 	bool InputManager::KeyDown(int key_code)
 	{
@@ -31,23 +34,67 @@ namespace xen
 	}
 
 
-	
+	const MouseState* InputManager::GetMouseState() const
+	{
+		return m_mouse_state;
+	}
 
 
 	void InputManager::Reset()
 	{
 		m_keyboard_up_events_iter = 0;
+		m_mouse_state->Reset();
+	}
+	
+
+	void InputManager::HandleKeyboardEvent(const SDL_Event* event)
+	{
+		switch (event->type) {
+			case SDL_KEYDOWN:
+				m_keyboard_down_events[event->key.keysym.scancode] = true;
+				break;
+			case SDL_KEYUP:
+				m_keyboard_up_events[m_keyboard_up_events_iter] = event->key.keysym;
+				m_keyboard_down_events[event->key.keysym.scancode] = false;
+				m_keyboard_up_events_iter++;
+				break;
+		}
 	}
 
-	void InputManager::SetKeyDown(int keycode)
+
+	void InputManager::HandleJoystickEvent(const SDL_Event* event)
 	{
-		m_keyboard_down_events[keycode] = true;
+		// todo: joystick input.
 	}
 
-	void InputManager::SetKeyUp(SDL_Keysym keysym)
+
+	void InputManager::HandleMouseEvent(const SDL_Event* event, const Rect* screen)
 	{
-		m_keyboard_up_events[m_keyboard_up_events_iter] = keysym;
-		m_keyboard_down_events[keysym.scancode] = false;
-		m_keyboard_up_events_iter++;
+		switch (event->type) {
+			case SDL_MOUSEMOTION:
+				UpdateMousePosition(
+					static_cast<int>(event->button.x),
+					static_cast<int>(event->button.y),
+					screen
+				);
+				break;
+		}
+	}
+
+
+	void InputManager::UpdateMousePosition(int x, int y, const Rect* screen)
+	{
+		int _x = x - static_cast<int>(screen->left);
+		int _y = y - static_cast<int>(screen->top);
+
+		// clamp the values.
+		if (_x < 0) _x = 0;
+		if (_x > screen->width) _x = static_cast<int>(screen->width);
+		if (_y < 0) _y = 0;
+		if (_y > screen->height) _y = static_cast<int>(screen->height);
+
+		// update.
+		m_mouse_state->m_x = _x;
+		m_mouse_state->m_y = _y;
 	}
 }

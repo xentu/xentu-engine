@@ -51,6 +51,9 @@ game.on('update', function(dt) {
 		frame++;
 		frame_time = 0;
 		if (frame > 3) frame = 0;
+		
+		var mp = mouse.get_position();
+		print("x:" + mp.x.toString() + ", y:" + mp.y.toString());
 	}
 });
 

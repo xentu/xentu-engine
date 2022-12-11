@@ -49,6 +49,9 @@ game.on("update", function(dt)
 		frame = frame + 1
 		frame_time = 0
 		if (frame > 3) then frame = 0 end
+		
+		mp_x, mp_y = mouse.get_position()
+		print("x:" .. mp_x .. ", y:" .. mp_y)
 	end
 end)
 

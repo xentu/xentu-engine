@@ -282,5 +282,8 @@ namespace xen
 
 			/* flags */
 			bool m_running;
+
+		public:
+			Rect drawn_screen;
 	};
 }

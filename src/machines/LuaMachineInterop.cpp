@@ -675,6 +675,16 @@ namespace xen
 		return 1;
 	}
 
+	int XentuLuaMachineInterop::mouse_get_position(lua_State* L)
+	{
+		auto m = LuaMachine::GetInstance();
+		auto i = m->GetInput();
+		auto s = i->GetMouseState();
+		lua_pushinteger(L, s->m_x);
+		lua_pushinteger(L, s->m_y);
+		return 2;
+	}
+
 	#pragma endregion
 
 
@@ -851,6 +861,7 @@ namespace xen
 		method(XentuLuaMachineInterop, textbox_measure_text, textbox_measure_text),
 		method(XentuLuaMachineInterop, keyboard_key_down, keyboard_key_down),
 		method(XentuLuaMachineInterop, keyboard_key_clicked, keyboard_key_clicked),
+		method(XentuLuaMachineInterop, mouse_get_position, mouse_get_position),
 		method(XentuLuaMachineInterop, shader_get_uniform_location, shader_get_uniform_location),
 		method(XentuLuaMachineInterop, shader_set_uniforms_bool, shader_set_uniforms_bool),
 		method(XentuLuaMachineInterop, shader_set_uniforms_int, shader_set_uniforms_int),

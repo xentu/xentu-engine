@@ -244,6 +244,9 @@ namespace xen
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		}
+
+		drawn_screen = Rect(0, 0, (float)vp_width, (float)vp_height);
+
 		return true;
 	}
 
@@ -352,6 +355,8 @@ namespace xen
 		m_sprite.set_scale(1, 1);
 
 		// choose the viewport mode.
+		drawn_screen.left = 0;
+		drawn_screen.top = 0;
 		if (m_viewport.mode == 2) {
 			// stretch
 			m_sprite.m_width = static_cast<float>(sc_w);
@@ -364,6 +369,8 @@ namespace xen
 			const float hx = (sc_w / 2.0) - (vp_w / 2.0);
 			const float hy = (sc_h / 2.0) - (vp_h / 2.0);
 			m_sprite.set_position(hx, hy);
+			drawn_screen.left = static_cast<float>(hx);
+			drawn_screen.top = static_cast<float>(hy);
 		}
 		else {
 			// none
