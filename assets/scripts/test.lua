@@ -49,9 +49,11 @@ game.on("update", function(dt)
 		frame = frame + 1
 		frame_time = 0
 		if (frame > 3) then frame = 0 end
-		
+	end
+	
+	if (mouse.button_clicked(1)) then
 		mp_x, mp_y = mouse.get_position()
-		print("x:" .. mp_x .. ", y:" .. mp_y)
+		print("Mouse Click! (x:" .. mp_x .. ", y:" .. mp_y .. ")")
 	end
 end)
 

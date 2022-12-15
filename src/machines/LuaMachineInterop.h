@@ -70,6 +70,8 @@ namespace xen
 			int keyboard_key_clicked(lua_State* L);
 
 			int mouse_get_position(lua_State* L);
+			int mouse_button_down(lua_State* L);
+			int mouse_button_clicked(lua_State* L);
 
 			int shader_get_uniform_location(lua_State* L);
 			int shader_set_uniforms_bool(lua_State* L);

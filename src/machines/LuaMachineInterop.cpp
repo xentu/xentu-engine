@@ -685,6 +685,32 @@ namespace xen
 		return 2;
 	}
 
+	int XentuLuaMachineInterop::mouse_button_down(lua_State* L)
+	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
+		auto button_code = lua_tointeger(L, -1);
+		auto m = LuaMachine::GetInstance();
+		auto i = m->GetInput();
+		bool down = i->MouseButtonDown(button_code);
+		lua_pushboolean(L, down);
+		return 1;
+	}
+
+	int XentuLuaMachineInterop::mouse_button_clicked(lua_State* L)
+	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
+		auto button_code = lua_tointeger(L, -1);
+		auto m = LuaMachine::GetInstance();
+		auto i = m->GetInput();
+		bool down = i->MouseButtonUp(button_code);
+		lua_pushboolean(L, down);
+		return 1;
+	}
+
 	#pragma endregion
 
 
@@ -862,6 +888,8 @@ namespace xen
 		method(XentuLuaMachineInterop, keyboard_key_down, keyboard_key_down),
 		method(XentuLuaMachineInterop, keyboard_key_clicked, keyboard_key_clicked),
 		method(XentuLuaMachineInterop, mouse_get_position, mouse_get_position),
+		method(XentuLuaMachineInterop, mouse_button_down, mouse_button_down),
+		method(XentuLuaMachineInterop, mouse_button_clicked, mouse_button_clicked),
 		method(XentuLuaMachineInterop, shader_get_uniform_location, shader_get_uniform_location),
 		method(XentuLuaMachineInterop, shader_set_uniforms_bool, shader_set_uniforms_bool),
 		method(XentuLuaMachineInterop, shader_set_uniforms_int, shader_set_uniforms_int),

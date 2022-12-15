@@ -13,6 +13,8 @@ namespace xen
 			~InputManager();
 			bool KeyDown(int key_code);
 			bool KeyUp(int key_code);
+			bool MouseButtonDown(int button_code);
+			bool MouseButtonUp(int button_code);
 			const MouseState* GetMouseState() const;
 
 			void Reset();
@@ -28,6 +30,11 @@ namespace xen
 			bool m_keyboard_down_events[SDL_NUM_SCANCODES];
 			SDL_Keysym m_keyboard_up_events[40];
 			int m_keyboard_up_events_iter = 0;
+
+			/* mouse button event buffer */
+			bool m_mouse_button_down_events[20];
+			SDL_MouseButtonEvent m_mouse_button_up_events[20];
+			int m_mouse_button_up_events_iter = 0;
 
 			MouseState* m_mouse_state;
 	};

@@ -84,6 +84,8 @@ namespace xen { const char * xen_js_script_init = R"(
 
 	const mouse = {}
 	mouse.get_position = mouse_get_position;
+	mouse.button_down = mouse_button_down;
+	mouse.button_clicked = mouse_button_clicked;
 
 	const shader = {}
 	shader.get_uniform_location = shader_get_uniform_location;

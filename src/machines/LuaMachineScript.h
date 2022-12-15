@@ -102,6 +102,8 @@ keyboard.key_clicked = function(a) return interop.keyboard_key_clicked(a) end
 
 mouse = {}
 mouse.get_position = function() return interop.mouse_get_position() end
+mouse.button_down = function(a) return interop.mouse_button_down(a) end
+mouse.button_clicked = function(a) return interop.mouse_button_clicked(a) end
 
 shader = {}
 shader.get_uniform_location = function(uniform_name) return interop.shader_get_uniform_location(uniform_name) end

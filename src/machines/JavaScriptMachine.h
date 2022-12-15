@@ -99,7 +99,10 @@ namespace xen
 
 	duk_ret_t js_keyboard_key_down(duk_context* L);
 	duk_ret_t js_keyboard_key_clicked(duk_context* L);
+
 	duk_ret_t js_mouse_get_position(duk_context* L);
+	duk_ret_t js_mouse_button_down(duk_context* L);
+	duk_ret_t js_mouse_button_clicked(duk_context* L);
 
 	duk_ret_t js_shader_get_uniform_location(duk_context* L);
 	duk_ret_t js_shader_set_uniforms_bool(duk_context* L);
