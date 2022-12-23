@@ -54,13 +54,17 @@ both installed, run the setup.sh script to setup dependencies. If you are not on
 
 or
 
-```ninja compile -C build```   (on some older systems)
+```ninja -C build```   (on some older systems)
 
 
 Will compile the engine into `/build/xentu.exe` on windows, or `/build/xentu` on
 MacOS/Linux respectively. Also if you have VSCode, a tasks.json has been setup
 so you can build using the build command, and a launch.json has been provided to
 help aid in launching the engine in debug mode.
+
+Also if you find the binaries that are produced are too large, you likely need to
+switch to a different buildtype in the meson.build file. Common values are 'debug',
+'release' and 'minsize'.
 
 <br />
 
