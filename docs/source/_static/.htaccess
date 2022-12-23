@@ -1,3 +1,0 @@
-RewriteEngine On
-RewriteCond %{SERVER_PORT} 80
-RewriteRule ^(.*)$ https://docs.xentu.net/$1 [R,L]
