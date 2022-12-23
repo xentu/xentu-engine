@@ -49,7 +49,7 @@ audio.set_music_volume = function(music_id,vol) interop.audio_set_music_volume(m
 audio.set_channel_panning = function(id,left,right) interop.audio_set_channel_panning(id,left,right) end
 
 renderer = {}
-renderer.begin = function() interop.renderer_begin() end
+renderer.begin = function(reset) interop.renderer_begin(reset) end
 renderer.clear = function() interop.renderer_clear() end
 renderer.present = function() interop.renderer_present() end
 renderer.draw_texture = function(a, b, c, d, e) interop.renderer_draw_texture(a, b, c, d, e) end

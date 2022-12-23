@@ -277,7 +277,7 @@ namespace xen
 	}
 
 
-	void Renderer::Begin()
+	void Renderer::Begin(bool reset_transforms)
 	{
 		m_origin_x = 0;
 		m_origin_y = 0;
@@ -287,11 +287,7 @@ namespace xen
 		m_scale_y = 1;
 		m_rotation = 0;
 		m_alpha = 1;
-	}
 
-
-	void Renderer::Clear()
-	{
 		for (unsigned int i = 0; i < m_batches.size(); i++)
 		{
 			m_batches[i]->clear();
@@ -304,6 +300,12 @@ namespace xen
 				i--;
 			}
 		}
+	}
+
+
+	void Renderer::Clear()
+	{
+		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
 

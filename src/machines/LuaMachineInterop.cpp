@@ -285,8 +285,9 @@ namespace xen
 	int XentuLuaMachineInterop::renderer_begin(lua_State* L)
 	{
 		auto m = LuaMachine::GetInstance();
+		auto reset = lua_gettop(L) > 0 ? lua_toboolean(L, -1) : true;
 		auto r = m->GetRenderer();
-		r->Begin();
+		r->Begin(reset);
 		return 0;
 	}
 

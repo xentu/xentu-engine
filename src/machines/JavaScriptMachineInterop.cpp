@@ -56,7 +56,7 @@ namespace xen
 		js_init_method(L, "audio_set_channel_volume", js_audio_set_channel_volume, 2);
 		js_init_method(L, "audio_set_music_volume", js_audio_set_music_volume, 2);
 		js_init_method(L, "audio_set_channel_panning", js_audio_set_channel_panning, 3);
-		js_init_method(L, "renderer_begin", js_renderer_begin, 0);
+		js_init_method(L, "renderer_begin", js_renderer_begin, DUK_VARARGS);
 		js_init_method(L, "renderer_clear", js_renderer_clear, 0);
 		js_init_method(L, "renderer_present", js_renderer_present, 0);
 		js_init_method(L, "renderer_draw_texture", js_renderer_draw_texture, 5);
@@ -371,8 +371,10 @@ namespace xen
 
 	duk_ret_t js_renderer_begin(duk_context *L) {
 		auto m = JavaScriptMachine::GetInstance();
+		int argc = duk_get_top(L);
+		bool reset = argc > 0 ? duk_to_boolean(L, 0) : true;
 		auto r = m->GetRenderer();
-		r->Begin();
+		r->Begin(reset);
 		return 0;
 	}
 

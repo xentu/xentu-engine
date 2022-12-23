@@ -97,7 +97,7 @@ namespace xen
 			/**
 			 * Begin a new batch of graphics to draw, also resets the global transform.
 			 */
-			void Begin();
+			void Begin(bool reset_transforms);
 
 			/**
 			 * Clears the current draw buffer.
