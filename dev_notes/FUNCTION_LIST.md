@@ -7,21 +7,15 @@ Any function with a ~ at the end is being worked on and not yet available.
 
 ### Global Functions
 ```
+include(path)
 print(text)
 ```
 
 ### Game Functions
 ```
-game_create_window()
 game_on(event, callback)
-game_trigger(event)
-game_run()
+game_trigger(event, [arg])
 game_exit()
-```
-
-### Geometry
-```
-geometry_create_rect(x, y, width, height)
 ```
 
 ### Asset Functions
@@ -35,8 +29,6 @@ assets_load_music(path)
 assets_load_shader(vertex_text, fragment_text)
 assets_load_sprite_map(path)
 assets_create_textbox(x,y,w,h)
-assets_create_sprite_map()
-assets_include(path)
 ```
 
 ### Audio Functions
@@ -53,14 +45,14 @@ audio_set_channel_panning(channel, left, right)
 
 ### Renderer Functions
 ```
-renderer_begin()
 renderer_clear()
+renderer_begin(reset)
 renderer_present()
 renderer_draw_texture(texture_id, x, y, width, height)
 renderer_draw_sub_texture(texture_id, x, y, w, h, sx, sy, sw, sh)
 renderer_draw_rectangle(x, y, w, h)
 renderer_draw_textbox(textbox_id)
-renderer_draw_sprite(sprite_map_id, region_name, x, y, w, h)
+renderer_draw_sprite(sprite_map_id, region_name, frame, x, y, w, h)
 renderer_set_background(color)
 renderer_set_foreground(color)
 renderer_set_window_mode(mode)
@@ -72,6 +64,7 @@ renderer_set_shader(shader_id)
 renderer_set_alpha(alpha)
 renderer_set_blend(bool)
 renderer_set_blend_func(src_mode, dest_mode)
+renderer_set_blend_preset(preset)
 ```
 
 ### Sprite Maps
@@ -100,7 +93,7 @@ config_get_int
 config_get_int2
 ```
 
-### Object Functions
+### TextBox Functions
 ```
 textbox_set_text(textbox_id, text)
 textbox_set_color(color)
@@ -129,8 +122,6 @@ data_to_zlib(bytes) ~
 data_from_base16(string) ~
 data_from_base32(string) ~
 data_from_base64(string) ~
-data_from_xml(any) ~
-data_from_json(any) ~
 data_from_gzip(bytes) ~
 data_from_zlib(bytes) ~
 
