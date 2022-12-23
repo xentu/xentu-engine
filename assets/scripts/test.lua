@@ -73,3 +73,8 @@ game.on("draw", function(dt)
 	renderer.draw_sprite(sprite_map0, 'jump_right', frame, 250, 100, 50, 50)
 	renderer.present()
 end)
+
+
+game.on("key_click", function(key)
+   print("key clicked " .. key)
+end);

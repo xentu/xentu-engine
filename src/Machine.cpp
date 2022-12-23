@@ -49,8 +49,16 @@ namespace xen
 						running = false;
 						break;
 					case SDL_KEYDOWN:
+						m_input->HandleKeyboardEvent(&event);
+						// fire an event if a key click happened.
+						this->Trigger("key_down", (int)event.key.keysym.scancode);
+						break;
 					case SDL_KEYUP:
 						m_input->HandleKeyboardEvent(&event);
+						// fire an event if a key click happened.
+						if (m_input->KeyUp(event.key.keysym.scancode)) {
+							this->Trigger("key_click", (int)event.key.keysym.scancode);
+						}
 						break;
 					case SDL_JOYAXISMOTION:
 					case SDL_JOYBALLMOTION:

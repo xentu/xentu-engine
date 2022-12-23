@@ -32,7 +32,7 @@ assets.load_shader = function(a,b) return interop.assets_load_shader(a,b) end
 assets.load_sprite_map = function(path) return interop.assets_load_sprite_map(path) end
 assets.create_textbox = function(a, b, c, d) return interop.assets_create_textbox(a, b, c, d) end
 assets.create_sprite_map = function() return interop.assets_create_sprite_map() end
-assets.include = function(path)
+include = function(path)
 	code = assets.read_text_file(path)
 	delegate = load(code)
 	delegate()

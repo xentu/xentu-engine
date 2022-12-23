@@ -77,5 +77,10 @@ game.on("draw", function(dt) {
 });
 
 
+game.on("key_click", function(key) {
+   print("key clicked " + key.toString());
+});
+
+
 // we've finished preparing, so run the game.
 game.trigger('init');
