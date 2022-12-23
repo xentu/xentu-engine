@@ -1,39 +1,46 @@
 <p align="center"><img width="100" src="assets/images/logo.png" alt="Xentu logo" /></p>
 <h1 align="center">Xentu Game Engine</h1>
 
-A slim, fast and easy to learn framework for creating 2D games scripted in Lua,
-Python or JavaScript. It's completely free to use, open-source (under the zlib license), written in C/C++, and super cross-platform friendly.
+A slim, fast and easy to learn framework for creating 2D computer games scripted 
+in a variety of scripting languages, including JavaScript, Lua and more. It's 
+completely free to use & publish with. Open-source (under the zlib license), 
+written in C/C++, and super cross-platform friendly.
 
-Xentu is designed to be compiled and ran on a vast number of different systems.
-It runs great on Windows, Linux/BSD, MacOS, ChromeOS, HaikuOS, surprisingly well
-on ARM based computers like the Raspberry PI. Games consoles and mobile are on the
-horizon too, along with Emscripten which will allow you to run your games in a
-web browser.
+Web browsers have the power to enable people to build interactive experiences 
+using popular scripting languages like JavaScript, Lua, Ruby & Python. But they 
+come at the cost of having a big browser attached with all it's system overheads. 
 
-If you want the most time saving and hassle free way to make your next computer
-game work in as many places as possible (not just those with a browser available), Xentu has your back!
+Xentu aims to strip away this big clunky browser, and make games written in those popular 
+languages available to run pretty much anywhere natively.
 
 <br />
 
 
 ## Features
 
-- Uses SDL2 backend, with OpenGL 3.3+ (and DirectX mode coming soon).
-- Write your game code in Lua, JavaScript, or Python (disabled temporarily).
-- Load textures, sprites, shaders, fonts, and more using the asset manager.
-- Store your assets in archives, and access them via the built in VFS (virtual file system).
-- Render smartly with a fully featured and efficient batch manager.
+- Draw graphics with a fully featured and fast batch renderer.
+- Load textures, shaders, fonts, and more using a smart asset manager.
+- Access assets from archives via the built in VFS (virtual file system).
+- Input support for keyboards, mice and game pads.
+- Sound and music playback, with 8 mixer tracks.
 
 <br />
 
 
 ## Getting Started
 
-If this is your first time using Xentu, you should try the also free [Xentu Creator](https://xentu.net/creator) the official cross-platform editor IDE for Xentu. It provides a rich code editor, debugging, project management, and other cool things like code templates to get you started.
+If this is your first time using Xentu, you should try [Xentu Creator](https://xentu.net/creator) the official cross-platform editor IDE for Xentu. It provides a rich code editor, debugging, project management, and other cool things like code templates to get you started.
 
 If you'd prefer to go it alone, the binaries can be downloaded from the Xentu
 website using [this link](https://xentu.net/binaries). And in the next section
 you'll see how to build the engine yourself.
+
+<br />
+
+
+## Documentation
+
+Full documentation for this project can be found at [https://docs.xentu.net](https://docs.xentu.net), and the GitHub repo for it can be found [here](https://github.com/xentu/xentu-docs).
 
 <br />
 
