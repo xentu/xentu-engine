@@ -92,7 +92,7 @@ conf_data.set('version', the_version)
 
 if host_machine.system() == 'darwin'
    dependencies += [dep_main, dep_libs]
-   incdir += ['/usr/local/include']
+   incdir = include_directories(['lib', '/usr/local/include'])
 endif
 
 
