@@ -69,10 +69,10 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Kodaloid Studios"
             VALUE "FileDescription", "Xentu Game Engine (beta)"
-            VALUE "FileVersion", "0.0.2.0"
+            VALUE "FileVersion", "0.0.3.0"
             VALUE "LegalCopyright", "Kodaloid Studios (C) 2022"
             VALUE "ProductName", "Xentu Game Engine"
-            VALUE "ProductVersion", "0.0.2.0"
+            VALUE "ProductVersion", "0.0.3.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -96,3 +96,5 @@ END
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 
+
+xentu   ICON "xentu.ico"
