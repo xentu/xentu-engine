@@ -31,6 +31,8 @@ namespace xen
 		
 		bool running = true;
 
+		this->Trigger("init");
+
 		while (running) {
 			// calculate delta.
 			auto now = clock::now();

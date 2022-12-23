@@ -75,6 +75,6 @@ game.on("draw", function(dt)
 end)
 
 
-game.on("key_click", function(key)
-   print("key clicked " .. key)
+game.on("key_down", function(key)
+   print("key down " .. key)
 end);
