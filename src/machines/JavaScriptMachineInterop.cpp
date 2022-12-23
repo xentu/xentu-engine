@@ -48,6 +48,12 @@ namespace xen
 		js_init_method(L, "assets_load_sprite_map", js_assets_load_sprite_map, 1);
 		js_init_method(L, "assets_create_textbox", js_assets_create_textbox, 4);
 		js_init_method(L, "assets_create_sprite_map", js_assets_create_sprite_map, 0);
+		js_init_method(L, "assets_unload_texture", js_assets_unload_texture, 1);
+		js_init_method(L, "assets_unload_font", js_assets_unload_font, 1);
+		js_init_method(L, "assets_unload_sound", js_assets_unload_sound, 1);
+		js_init_method(L, "assets_unload_music", js_assets_unload_music, 1);
+		js_init_method(L, "assets_unload_shader", js_assets_unload_shader, 1);
+		js_init_method(L, "assets_unload_sprite_map", js_assets_unload_sprite_map, 1);
 		js_init_method(L, "audio_play_sound", js_audio_play_sound, 3);
 		js_init_method(L, "audio_play_music", js_audio_play_music, 2);
 		js_init_method(L, "audio_stop_music", js_audio_stop_music, 1);
@@ -304,6 +310,49 @@ namespace xen
 		duk_push_int(L, asset_id);
 		return 1;
 	}
+
+	duk_ret_t js_assets_unload_texture(duk_context* L) {
+		auto a = AssetManager::GetInstance();
+		int asset_id = duk_to_int(L, 0);
+		duk_push_int(L, a->UnloadTexture(asset_id));
+		return 1;
+	}
+
+	duk_ret_t js_assets_unload_font(duk_context* L) {
+		auto a = AssetManager::GetInstance();
+		int asset_id = duk_to_int(L, 0);
+		duk_push_int(L, a->UnloadFont(asset_id));
+		return 1;
+	}
+
+	duk_ret_t js_assets_unload_sound(duk_context* L) {
+		auto a = AssetManager::GetInstance();
+		int asset_id = duk_to_int(L, 0);
+		duk_push_int(L, a->UnloadAudio(asset_id));
+		return 1;
+	}
+
+	duk_ret_t js_assets_unload_music(duk_context* L) {
+		auto a = AssetManager::GetInstance();
+		int asset_id = duk_to_int(L, 0);
+		duk_push_int(L, a->UnloadTexture(asset_id));
+		return 1;
+	}
+
+	duk_ret_t js_assets_unload_shader(duk_context* L) {
+		auto a = AssetManager::GetInstance();
+		int asset_id = duk_to_int(L, 0);
+		duk_push_int(L, a->UnloadShader(asset_id));
+		return 1;
+	}
+
+	duk_ret_t js_assets_unload_sprite_map(duk_context* L) {
+		auto a = AssetManager::GetInstance();
+		int asset_id = duk_to_int(L, 0);
+		duk_push_int(L, a->UnloadSpriteMap(asset_id));
+		return 1;
+	}
+
 
 	#pragma endregion
 

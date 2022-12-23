@@ -252,4 +252,62 @@ namespace xen
 	{
 		return m_sprite_maps[id];
 	}
+
+
+	int AssetManager::UnloadTexture(int id)
+	{
+		auto texture = m_textures[id];
+		delete texture;
+		m_textures.erase(id);
+		m_textures_iter--;
+		return 0;
+	}
+
+	
+	int AssetManager::UnloadFont(int id)
+	{
+		auto font = m_fonts[id];
+		TTF_CloseFont(font);
+		m_fonts.erase(id);
+		m_fonts_iter--;
+		return 0;
+	}
+
+	
+	int AssetManager::UnloadAudio(int id)
+	{
+		auto audioMgr = AudioManager::GetInstance();
+		return audioMgr->UnloadAudio(id);
+	}
+	
+
+	int AssetManager::UnloadMusic(int id)
+	{
+		auto audioMgr = AudioManager::GetInstance();
+		return audioMgr->UnloadMusic(id);
+	}
+	
+
+	int AssetManager::UnloadSpriteMap(int id)
+	{
+		auto sprite_map = m_sprite_maps[id];
+		auto texture_id = sprite_map->get_texture();
+		// unload the texture.
+		this->UnloadTexture(texture_id);
+		// remove the actual sprite map.
+		delete sprite_map;
+		m_sprite_maps.erase(id);
+		m_sprite_map_iter--;
+		return 0;
+	}
+	
+	
+	int AssetManager::UnloadShader(int id)
+	{
+		auto program = m_shaders[id];
+		glDeleteProgram(program);
+		m_shaders.erase(id);
+		m_shaders_iter--;
+		return 0;
+	}
 }

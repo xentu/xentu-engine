@@ -37,6 +37,12 @@ assets.include = function(path)
 	delegate = load(code)
 	delegate()
 end
+assets.unload_texture = function(a) return assets_unload_texture end
+assets.unload_font = function(a) return assets_unload_font end
+assets.unload_sound = function(a) return assets_unload_sound end
+assets.unload_music = function(a) return assets_unload_music end
+assets.unload_shader = function(a) return assets_unload_shader end
+assets.unload_sprite_map = function(a) return assets_unload_sprite_map end
 
 audio = {}
 audio.play_sound = function(sound_id, channel, loops) interop.audio_play_sound(sound_id, channel, loops) end

@@ -23,6 +23,8 @@ namespace xen
 			void SetChannelVolume(int channel, float volume);
 			void SetMusicVolume(float volume);
 			void SetChannelPanning(int channel, float left, float right);
+			int UnloadAudio(int id);
+			int UnloadMusic(int id);
 
 		private:
 			bool m_initialized;

@@ -26,6 +26,12 @@ namespace xen { const char * xen_js_script_init = R"(
 		const code = assets_read_text_file(path);
 		code_eval(code);
 	}
+	assets.unload_texture = assets_unload_texture;
+	assets.unload_font = assets_unload_font;
+	assets.unload_sound = assets_unload_sound;
+	assets.unload_music = assets_unload_music;
+	assets.unload_shader = assets_unload_shader;
+	assets.unload_sprite_map = assets_unload_sprite_map;
 
 	const audio = {}
 	audio.play_sound = audio_play_sound;

@@ -204,6 +204,54 @@ namespace xen
 		return 1;
 	}
 
+	int XentuLuaMachineInterop::assets_unload_texture(lua_State* L)
+	{
+		auto a = AssetManager::GetInstance();
+		int asset_id = lua_tointeger(L, -1);
+		lua_pushinteger(L, a->UnloadTexture(asset_id));
+		return 1;
+	}
+	
+	int XentuLuaMachineInterop::assets_unload_font(lua_State* L)
+	{
+		auto a = AssetManager::GetInstance();
+		int asset_id = lua_tointeger(L, -1);
+		lua_pushinteger(L, a->UnloadFont(asset_id));
+		return 1;
+	}
+	
+	int XentuLuaMachineInterop::assets_unload_sound(lua_State* L)
+	{
+		auto a = AssetManager::GetInstance();
+		int asset_id = lua_tointeger(L, -1);
+		lua_pushinteger(L, a->UnloadAudio(asset_id));
+		return 1;
+	}
+	
+	int XentuLuaMachineInterop::assets_unload_music(lua_State* L)
+	{
+		auto a = AssetManager::GetInstance();
+		int asset_id = lua_tointeger(L, -1);
+		lua_pushinteger(L, a->UnloadMusic(asset_id));
+		return 1;
+	}
+	
+	int XentuLuaMachineInterop::assets_unload_shader(lua_State* L)
+	{
+		auto a = AssetManager::GetInstance();
+		int asset_id = lua_tointeger(L, -1);
+		lua_pushinteger(L, a->UnloadShader(asset_id));
+		return 1;
+	}
+	
+	int XentuLuaMachineInterop::assets_unload_sprite_map(lua_State* L)
+	{
+		auto a = AssetManager::GetInstance();
+		int asset_id = lua_tointeger(L, -1);
+		lua_pushinteger(L, a->UnloadSpriteMap(asset_id));
+		return 1;
+	}
+
 	#pragma endregion
 
 
@@ -848,7 +896,13 @@ namespace xen
 		method(XentuLuaMachineInterop, assets_load_shader, assets_load_shader),
 		method(XentuLuaMachineInterop, assets_load_sprite_map, assets_load_sprite_map),
 		method(XentuLuaMachineInterop, assets_create_textbox, assets_create_textbox),
-		method(XentuLuaMachineInterop, assets_create_sprite_map,assets_create_sprite_map),
+		method(XentuLuaMachineInterop, assets_create_sprite_map, assets_create_sprite_map),
+		method(XentuLuaMachineInterop, assets_unload_texture, assets_unload_texture),
+		method(XentuLuaMachineInterop, assets_unload_font, assets_unload_font),
+		method(XentuLuaMachineInterop, assets_unload_sound, assets_unload_sound),
+		method(XentuLuaMachineInterop, assets_unload_music, assets_unload_music),
+		method(XentuLuaMachineInterop, assets_unload_shader, assets_unload_shader),
+		method(XentuLuaMachineInterop, assets_unload_sprite_map, assets_unload_sprite_map),
 		method(XentuLuaMachineInterop, audio_play_sound, audio_play_sound),
 		method(XentuLuaMachineInterop, audio_play_music, audio_play_music),
 		method(XentuLuaMachineInterop, audio_stop_sound, audio_stop_sound),

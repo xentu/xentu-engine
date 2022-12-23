@@ -148,4 +148,23 @@ namespace xen
 		int i_right = static_cast<int>(255 * right);
 		Mix_SetPanning(channel, i_left, i_right);
 	}
+
+
+	int AudioManager::UnloadAudio(int id)
+	{
+		auto chunk = m_samples[id];
+		Mix_FreeChunk(chunk);
+		m_samples.erase(id);
+		m_samples_iter--;
+		return 0;
+	}
+
+	int AudioManager::UnloadMusic(int id)
+	{
+		auto music = m_music[id];
+		Mix_FreeMusic(music);
+		m_music.erase(id);
+		m_music_iter--;
+		return 0;
+	}
 }

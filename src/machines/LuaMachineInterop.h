@@ -24,6 +24,12 @@ namespace xen
 			int assets_load_sprite_map(lua_State* L);
 			int assets_create_textbox(lua_State* L);
 			int assets_create_sprite_map(lua_State* L);
+			int assets_unload_texture(lua_State* L);
+			int assets_unload_font(lua_State* L);
+			int assets_unload_sound(lua_State* L);
+			int assets_unload_music(lua_State* L);
+			int assets_unload_shader(lua_State* L);
+			int assets_unload_sprite_map(lua_State* L);
 
 			int audio_play_sound(lua_State* L);
 			int audio_play_music(lua_State* L);

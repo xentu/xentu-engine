@@ -76,6 +76,14 @@ namespace xen
 			SpriteMap* GetSpriteMap(int id);
 
 
+			int UnloadTexture(int id);
+			int UnloadFont(int id);
+			int UnloadAudio(int id);
+			int UnloadMusic(int id);
+			int UnloadSpriteMap(int id);
+			int UnloadShader(int id);
+
+
 		private:
 			static AssetManager* instance;
 
