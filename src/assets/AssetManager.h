@@ -58,7 +58,7 @@ namespace xen
 			/**
 			 * Load a tilemap from a Tiled TMX file.
 			 */
-			int LoadTileMapTMX(const string& path);
+			int LoadTileMapTMX(const string& path, const string& working_dir);
 
 			/**
 			 * Load a shader into memory and return it's asset id.

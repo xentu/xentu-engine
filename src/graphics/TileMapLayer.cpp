@@ -170,7 +170,7 @@ namespace xen {
 			delete tileSetTextures;
 		}
 
-		XEN_ECHO("Loaded instance of TileMapLayer (", layer->getName(), ").");
+		XEN_ECHO("Loaded instance of TileMapLayer (%s).\n", layer->getName().c_str());
 	}
 
 	

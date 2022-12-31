@@ -46,7 +46,7 @@ namespace xen
 		js_init_method(L, "assets_load_music", js_assets_load_music, 1);
 		js_init_method(L, "assets_load_shader", js_assets_load_shader, 2);
 		js_init_method(L, "assets_load_sprite_map", js_assets_load_sprite_map, 1);
-		js_init_method(L, "assets_load_tilemap_tmx", js_assets_load_tilemap_tmx, 1);
+		js_init_method(L, "assets_load_tilemap_tmx", js_assets_load_tilemap_tmx, 2);
 		js_init_method(L, "assets_create_textbox", js_assets_create_textbox, 4);
 		js_init_method(L, "assets_create_sprite_map", js_assets_create_sprite_map, 0);
 		js_init_method(L, "assets_unload_texture", js_assets_unload_texture, 1);
@@ -291,8 +291,9 @@ namespace xen
 
 	duk_ret_t js_assets_load_tilemap_tmx(duk_context *L) {
 		auto path = duk_to_string(L, 0);
+		auto working_dir = duk_to_string(L, 1);
 		auto a = AssetManager::GetInstance();
-		int asset_id = a->LoadTileMapTMX(path);
+		int asset_id = a->LoadTileMapTMX(path, working_dir);
 		duk_push_int(L, asset_id);
 		return 1;
 	}

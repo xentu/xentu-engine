@@ -543,8 +543,7 @@ namespace xen
 		for (int i=0; i<layer->m_tile_count; i++)
 		{
 			const auto& tile = layer->m_tiles[i];
-
-			if (tile->texture_id <= 0) continue;
+			if (tile->texture_id < 0) continue;
 
 			m_sprite.ResetTransform();
 			m_sprite.set_position(m_pos_x + tile->x, m_pos_y + tile->y);
@@ -563,7 +562,8 @@ namespace xen
 			float w = tile->t_width / (float)texture->width;
 			float h = tile->t_height / (float)texture->height;
 
-			m_sprite.m_rect = Rect(u, 1.0 - v - h,w,h);
+			//m_sprite.m_rect = Rect(u, 1.0 - v - h,w,h);
+			m_sprite.m_rect = Rect(u, v, w, h);
 			find_batch(m_sprite)->draw(m_sprite);
 		}
 

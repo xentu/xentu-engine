@@ -4,8 +4,8 @@
 			  "name": "Debug with Meson (windows)",
 			  "type": "cppvsdbg",
 			  "request": "launch",
-			  "program": "${workspaceRoot}/build/xentu",
-			  "cwd": "${workspaceRoot}",
+			  "program": "${workspaceRoot}/build/xentu_debug",
+			  "cwd": "${workspaceRoot}/demos/01_tilemaps",
 			  "preLaunchTask": "build debug meson"
 		 }
 	]

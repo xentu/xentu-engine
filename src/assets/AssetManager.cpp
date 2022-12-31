@@ -142,7 +142,7 @@ namespace xen
 		auto sur = IMG_Load_RW(rw, AUTO_FREE);
 		if(sur == NULL)
 		{
-			XEN_ERROR("Error whilst loading image IMG_Load_RW");
+			XEN_ERROR("Error whilst loading image '%s'\n.", path.c_str());
 			SDL_FreeRW(rw);
 			return -1;
 		}
@@ -185,9 +185,10 @@ namespace xen
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur_clean->pixels);
-		glGenerateMipmap(GL_TEXTURE_2D);
+		//glGenerateMipmap(GL_TEXTURE_2D);
 
 		Texture* texture = new Texture(texture_id, sur->w, sur->h, mode);
+		XEN_ECHO("Loaded texture: %s [gl: %d] [id: %d] (Size: %d x %d).\n", path.c_str(), (int)texture_id, m_textures_iter, sur->w, sur->h);
 		SDL_FreeSurface(sur);
 		SDL_FreeSurface(sur_clean);
 		
@@ -257,11 +258,11 @@ namespace xen
 		return m_sprite_map_iter - 1;
 	}
 
-	int AssetManager::LoadTileMapTMX(const string& path) 
+	int AssetManager::LoadTileMapTMX(const string& path, const string& working_dir) 
 	{
 		const string xml = vfs_get_global()->ReadAllText(path);
 		TileMap* map = new TileMap;
-		map->LoadTMX(xml, "/");
+		map->LoadTMX(xml, working_dir);
 		m_tile_maps.insert(std::make_pair(m_tile_map_iter, map));
 		m_tile_map_iter++;
 		return m_tile_map_iter - 1;
