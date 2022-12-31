@@ -2,7 +2,13 @@
 
 #include <string>
 
+// max executable input args.
 #define MAX_ARGV 12
+
+// texture constants
+#define TX_REPEAT 0
+#define TX_CLAMP_TO_EDGE 1
+#define TX_CLAMP_TO_BORDER 2
 
 
 #ifndef XEN_DEBUG

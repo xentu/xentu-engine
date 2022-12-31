@@ -116,8 +116,7 @@ namespace xen
 		auto path = lua_tostring(L, -1);
 		auto m = LuaMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
-		auto res = vfs_get_global()->ReadAllData(path);
-		int texture_id = r->LoadTexture(res.buffer, res.length);
+		int texture_id = r->LoadTexture(path, TX_CLAMP_TO_EDGE);
 		lua_pushinteger(L, texture_id);
 		return 1;
 	}

@@ -239,8 +239,7 @@ namespace xen
 		auto path = duk_to_string(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
-		auto res = vfs_get_global()->ReadAllData(path);
-		int texture_id = r->LoadTexture(res.buffer, res.length);
+		int texture_id = r->LoadTexture(path, TX_CLAMP_TO_BORDER);
 		duk_push_int(L, texture_id);
 		return 1;
 	}

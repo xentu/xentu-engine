@@ -31,6 +31,12 @@
 		"Xentu"
 	],
 	"files.associations": {
+		"*.json.liquid": "json",
+		"*.yaml.liquid": "yaml",
+		"*.md.liquid": "markdown",
+		"*.js.liquid": "liquid-javascript",
+		"*.css.liquid": "liquid-css",
+		"*.scss.liquid": "liquid-scss",
 		"memory": "cpp",
 		"array": "cpp",
 		"list": "cpp",
@@ -114,7 +120,9 @@
 		"unordered_set": "cpp",
 		"valarray": "cpp",
 		"variant": "cpp",
-		"hash_map": "cpp"
+		"hash_map": "cpp",
+		"ranges": "cpp",
+		"span": "cpp"
 	},
 	"mesonbuild.configureOnOpen": "ask",
 	"mesonbuild.buildFolder": "build",

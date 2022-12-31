@@ -30,6 +30,19 @@ project_source_files = files([
   'lib/ducktape/duktape.c',
   'lib/miniz/miniz.c',
 
+  # tmx lite
+	'lib/tmxlite/detail/pugixml.cpp',
+	'lib/tmxlite/FreeFuncs.cpp',
+	'lib/tmxlite/ImageLayer.cpp',
+	'lib/tmxlite/LayerGroup.cpp',
+	'lib/tmxlite/Map.cpp',
+	'lib/tmxlite/Object.cpp',
+	'lib/tmxlite/ObjectGroup.cpp',
+	'lib/tmxlite/ObjectTypes.cpp',
+	'lib/tmxlite/Property.cpp',
+	'lib/tmxlite/TileLayer.cpp',
+	'lib/tmxlite/Tileset.cpp',
+
   # assets
   'src/assets/AssetManager.cpp',
 
@@ -61,6 +74,9 @@ project_source_files = files([
   'src/graphics/SpriteMapGroup.cpp',
   'src/graphics/TextBox.cpp',
   'src/graphics/Texture.cpp',
+  'src/graphics/TileMap.cpp',
+  'src/graphics/TileMapLayer.cpp',
+  'src/graphics/TileMapObject.cpp',
   'src/graphics/Transform.cpp',
   'src/graphics/Transformable.cpp',
   'src/graphics/Vertex.cpp',

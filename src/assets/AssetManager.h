@@ -27,7 +27,12 @@ namespace xen
 			/**
 			 * Load a texture into memory, and return it's asset id.
 			 */
-			int LoadTexture(uint8_t* buffer, uint64_t length);
+			int LoadTexture(string path, unsigned int wrap);
+
+			/**
+			 * Return an asset id for loaded texture, or -1 on fail.
+			 */
+			int LookupTexture(string path);
 
 			/**
 			 * Load a ttf font into memory, and return it's asset id.
@@ -89,6 +94,7 @@ namespace xen
 
 			/* textures */
 			map<int, Texture*> m_textures;
+			map<std::string, int> m_texture_lookups;
 			int m_textures_iter = 0;
 
 			/* fonts */

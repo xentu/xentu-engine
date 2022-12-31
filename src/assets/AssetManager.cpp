@@ -3,6 +3,9 @@
 #include "../Config.h"
 #include "../Renderer.h"
 #include "../audio/AudioManager.h"
+#include "../vfs/XenVirtualFileSystem.h"
+#include "../vfs/XenFileSystem.h"
+#include "../vfs/XenZipFileSystem.h"
 
 namespace xen
 {
@@ -127,9 +130,10 @@ namespace xen
 		return instance;
 	}
 
-	int AssetManager::LoadTexture(uint8_t* buffer, uint64_t length)
+	int AssetManager::LoadTexture(string path, unsigned int wrap)
 	{
-		auto *rw = SDL_RWFromMem(buffer, length);
+		auto res = vfs_get_global()->ReadAllData(path);
+		auto *rw = SDL_RWFromMem(res.buffer, res.length);
 		auto sur = IMG_Load_RW(rw, AUTO_FREE);
 
 		GLuint texture_id = 0;
@@ -141,17 +145,41 @@ namespace xen
 			mode = GL_RGBA;
 		}
 
-		glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur->pixels);
+		int gl_wrap = GL_REPEAT;
+		switch (wrap) {
+			case 1:
+				gl_wrap = GL_CLAMP_TO_EDGE;
+				break;
+			case 2:
+				gl_wrap = GL_CLAMP_TO_BORDER;
+				break;
+		}
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_wrap);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_wrap);
  		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur->pixels);
 
 		Texture* texture = new Texture(texture_id, sur->w, sur->h, mode);
 		SDL_FreeSurface(sur);
 		
 		m_textures.insert(std::make_pair(m_textures_iter, texture));
+		m_texture_lookups.insert(std::make_pair(path, m_textures_iter));
 		m_textures_iter++;
 
 		return m_textures_iter - 1;
+	}
+
+	int AssetManager::LookupTexture(std::string path)
+	{
+		std::map<std::string, int>::iterator it = m_texture_lookups.find(path);
+		if (it != m_texture_lookups.end())
+		{
+			return it->second;
+		}
+		return -1;
 	}
 
 	int AssetManager::LoadFont(uint8_t* buffer, uint64_t length, int font_size)

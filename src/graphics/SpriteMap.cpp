@@ -4,6 +4,7 @@
 
 #include <json/json.hpp>
 #include "SpriteMap.h"
+#include "../Globals.h"
 #include "../assets/AssetManager.h"
 #include "../vfs/XenVirtualFileSystem.h"
 #include "../vfs/XenFileSystem.h"
@@ -30,8 +31,8 @@ namespace xen
 
 		std::string image = j.at("image");
 		auto a = AssetManager::GetInstance();
-		auto res = vfs_get_global()->ReadAllData(image);
-		int texture_id = a->LoadTexture(res.buffer, res.length);
+		//auto res = vfs_get_global()->ReadAllData(image);
+		int texture_id = a->LoadTexture(image, TX_CLAMP_TO_EDGE);
 		auto texture = a->GetTexture(texture_id);
 		result->set_texture(texture_id);
 
