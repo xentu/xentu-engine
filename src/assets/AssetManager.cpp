@@ -13,7 +13,7 @@ namespace xen
 
 
 	// Compiles an individual vertex or fragment shader.
-	static unsigned int compile_shader(unsigned int type, const std::string& source)
+	static unsigned int compile_shader(unsigned int type, const string& source)
 	{
 		unsigned int id = glCreateShader(type);
 		const char* src = source.c_str();
@@ -44,7 +44,7 @@ namespace xen
 
 
 	// Links and attaches a vertex and fragment shader pair.
-	static unsigned int create_shader(const std::string& vertexShader, const std::string& fragmentShader)
+	static unsigned int create_shader(const string& vertexShader, const string& fragmentShader)
 	{
 		unsigned int program = glCreateProgram();
 		unsigned int vs = compile_shader(GL_VERTEX_SHADER, vertexShader);
@@ -111,7 +111,7 @@ namespace xen
 		{
 			delete tb.second;
 		}
-		m_textures.clear();
+		m_textboxes.clear();
 
 		// no need to delete fonts.
 		m_fonts.clear();
@@ -130,8 +130,13 @@ namespace xen
 		return instance;
 	}
 
-	int AssetManager::LoadTexture(string path, unsigned int wrap)
+	int AssetManager::LoadTexture(const string& path, unsigned int wrap)
 	{
+		int existing_asset_id = this->LookupTexture(path);
+		if (existing_asset_id >= 0) {
+			return existing_asset_id;
+		}
+
 		auto res = vfs_get_global()->ReadAllData(path);
 		auto *rw = SDL_RWFromMem(res.buffer, res.length);
 		auto sur = IMG_Load_RW(rw, AUTO_FREE);
@@ -172,7 +177,7 @@ namespace xen
 		return m_textures_iter - 1;
 	}
 
-	int AssetManager::LookupTexture(std::string path)
+	int AssetManager::LookupTexture(const string& path)
 	{
 		std::map<std::string, int>::iterator it = m_texture_lookups.find(path);
 		if (it != m_texture_lookups.end())
@@ -182,9 +187,10 @@ namespace xen
 		return -1;
 	}
 
-	int AssetManager::LoadFont(uint8_t* buffer, uint64_t length, int font_size)
+	int AssetManager::LoadFont(const string& path, int font_size)
 	{
-		auto *rw = SDL_RWFromMem(buffer, length);
+		auto res = vfs_get_global()->ReadAllData(path);
+		auto *rw = SDL_RWFromMem(res.buffer, res.length);
 		auto font = TTF_OpenFontRW(rw, 1 /* free RWops resource once open */, font_size);
 
 		m_fonts.insert(std::make_pair(m_fonts_iter, font));
@@ -193,9 +199,10 @@ namespace xen
 		return m_fonts_iter - 1;
 	}
 
-	int AssetManager::LoadAudio(uint8_t* buffer, uint64_t length)
+	int AssetManager::LoadAudio(const string& path)
 	{
-		auto *rw = SDL_RWFromMem(buffer, length);
+		auto res = vfs_get_global()->ReadAllData(path);
+		auto *rw = SDL_RWFromMem(res.buffer, res.length);
 		auto audio = Mix_LoadWAV_RW(rw, 1 /* free RWops resource once open */);
 		if (audio == NULL || audio == nullptr)
 		{
@@ -206,9 +213,10 @@ namespace xen
 		return audioMgr->StoreSound(audio);
 	}
 
-	int AssetManager::LoadMusic(uint8_t* buffer, uint64_t length)
+	int AssetManager::LoadMusic(const string& path)
 	{
-		auto *rw = SDL_RWFromMem(buffer, length);
+		auto res = vfs_get_global()->ReadAllData(path);
+		auto *rw = SDL_RWFromMem(res.buffer, res.length);
 		auto audio = Mix_LoadMUS_RW(rw, 1 /* free RWops resource once open */);
 		if (audio == NULL || audio == nullptr)
 		{
@@ -219,15 +227,26 @@ namespace xen
 		return audioMgr->StoreMusic(audio);
 	}
 
-	int AssetManager::LoadSpriteMap(std::string const& json)
+	int AssetManager::LoadSpriteMap(const string& path)
 	{
-		auto sprite_map = SpriteMap::parse_file(json);
+		const string json = vfs_get_global()->ReadAllText(path);
+		auto sprite_map = SpriteMap::parse_json(json);
 		m_sprite_maps.insert(std::make_pair(m_sprite_map_iter, sprite_map));
 		m_sprite_map_iter++;
 		return m_sprite_map_iter - 1;
 	}
 
-	int AssetManager::LoadShader(string vertex_shader, string frag_shader)
+	int AssetManager::LoadTileMapTMX(const string& path) 
+	{
+		const string xml = vfs_get_global()->ReadAllText(path);
+		TileMap* map = new TileMap;
+		map->LoadTMX(xml, "/");
+		m_tile_maps.insert(std::make_pair(m_tile_map_iter, map));
+		m_tile_map_iter++;
+		return m_tile_map_iter - 1;
+	}
+
+	int AssetManager::LoadShader(const string& vertex_shader, const string& frag_shader)
 	{
 		auto res = create_shader(vertex_shader, frag_shader);
 		m_shaders.insert(std::make_pair(m_shaders_iter, res));
@@ -252,39 +271,39 @@ namespace xen
 	}
 
 
-	Texture* AssetManager::GetTexture(int id)
+	const Texture* const AssetManager::GetTexture(const int id) const
 	{
-		return m_textures[id];
+		return m_textures.at(id);
 	}
 
 
-	TTF_Font* AssetManager::GetFont(int id)
+	TTF_Font* const AssetManager::GetFont(const int id) const
 	{
-		return m_fonts[id];
+		return m_fonts.at(id);
 	}
 
 
-	TextBox* AssetManager::GetTextBox(int id)
+	TextBox* const AssetManager::GetTextBox(const int id) const
 	{
-		return m_textboxes[id];
+		return m_textboxes.at(id);
 	}
 
 
-	unsigned int AssetManager::GetShader(int id)
+	unsigned int AssetManager::GetShader(const int id) const
 	{
-		return m_shaders[id];
+		return m_shaders.at(id);
 	}
 
 
-	SpriteMap* AssetManager::GetSpriteMap(int id)
+	SpriteMap* const AssetManager::GetSpriteMap(const int id) const
 	{
-		return m_sprite_maps[id];
+		return m_sprite_maps.at(id);
 	}
 
 
 	int AssetManager::UnloadTexture(int id)
 	{
-		auto texture = m_textures[id];
+		auto texture = m_textures.at(id);
 		delete texture;
 		m_textures.erase(id);
 		m_textures_iter--;
@@ -294,7 +313,7 @@ namespace xen
 	
 	int AssetManager::UnloadFont(int id)
 	{
-		auto font = m_fonts[id];
+		auto font = m_fonts.at(id);
 		TTF_CloseFont(font);
 		m_fonts.erase(id);
 		m_fonts_iter--;

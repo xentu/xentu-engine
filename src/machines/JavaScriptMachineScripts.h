@@ -20,6 +20,7 @@ namespace xen { const char * xen_js_script_init = R"(
 	assets.load_music = assets_load_music;
 	assets.load_shader = assets_load_shader;
 	assets.load_sprite_map = assets_load_sprite_map;
+	assets.load_tilemap_tmx = assets_load_tilemap_tmx;
 	assets.create_textbox = assets_create_textbox;
 	assets.create_sprite_map = assets_create_sprite_map;
 	include = function(path) {

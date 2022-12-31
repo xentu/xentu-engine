@@ -23,11 +23,11 @@ namespace xen
 		TileMapLayer(tmx::Map& map, const tmx::Layer::Ptr& layer);
 		~TileMapLayer(void);
 
-		const tmx::Vector2u get_size() const;
-		std::vector<tmx::TileLayer::Tile> get_tiles(const tmx::Layer::Ptr& layer) const;
-		const int get_texture_id() const;
-		const int get_object_count() const;
-		const TileMapObject* get_object(const int object_index);
+		const tmx::Vector2u GetSize() const;
+		std::vector<tmx::TileLayer::Tile> GetTiles(const tmx::Layer::Ptr& layer) const;
+		const int GetTextureID() const;
+		const int GetObjectCount() const;
+		const TileMapObject* GetObject(const int object_index);
 
 		Tile *m_tiles[MAX_OBJECTS_OR_TILES];
 		int m_tile_count;

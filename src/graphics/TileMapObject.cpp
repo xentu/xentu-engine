@@ -38,7 +38,7 @@ namespace xen
 	}
 
 
-	const xen::Tile TileMapObject::get_tile() const
+	const xen::Tile TileMapObject::GetTile() const
 	{
 		return m_tile;
 	}

@@ -18,7 +18,7 @@ namespace xen
 		TileMapObject(const tmx::Object object);
 		~TileMapObject(void);
 
-		const xen::Tile get_tile() const;
+		const xen::Tile GetTile() const;
 
 		bool has_tile;
 		float x;

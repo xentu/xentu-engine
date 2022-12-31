@@ -6,9 +6,9 @@
 
 namespace xen
 {
-	TileMap::TileMap(lua_State* L)
+	TileMap::TileMap()
 	{
-		m_map = new tmx::Map();
+		//m_map = new tmx::Map();
 		m_layers_count = 0;
       //Advisor::logInfo("Created instance of TileMap.");
 	}
@@ -19,27 +19,27 @@ namespace xen
 		for (int i = 0; i < m_layers_count; i++)
 			delete m_layers[i];
 
-		if (m_map != nullptr) {
+		/* if (m_map != nullptr) {
 			delete m_map;
-		}
-		//Advisor::logInfo("Deleted instance of TileMap.");
+		} */
 	}
 
 
-	void TileMap::load(std::string filename)
+	void TileMap::LoadTMX(const std::string& xml, const std::string& working_dir)
 	{
-		if (m_map->load(filename))
+		tmx::Map* map = new tmx::Map;
+		if (map->loadFromString(xml, working_dir))
 		{
 			// TODO: Load textures, and process layers so that drawing is made easier.
 
-			const auto& layers = m_map->getLayers();
+			const auto& layers = map->getLayers();
 			XEN_ECHO("Map has ", std::to_string( layers.size() ), " layers");
 			m_layers_count = 0;
 
 			for (const tmx::Layer::Ptr& layer : layers)
 			{
 				const tmx::Layer::Ptr& l = layer;
-				m_layers[m_layers_count] = new TileMapLayer(*m_map, l);
+				m_layers[m_layers_count] = new TileMapLayer(*map, l);
 				m_layers_count++;
 			}
 			//xen::Advisor::logInfo("Loaded tmx!");
@@ -47,16 +47,17 @@ namespace xen
 		else {
 			//xen::Advisor::logInfo("Failed to load tmx :(");
 		}
+		delete map;
 	}
 
 
-	const tmx::Map* TileMap::get_map() const
+	/* const tmx::Map* TileMap::get_map() const
 	{
 		return m_map;
-	}
+	} */
 
 
-	int TileMap::get_layers_count()
+	int TileMap::GetLayerCount()
 	{
 		return m_layers_count;
 	}

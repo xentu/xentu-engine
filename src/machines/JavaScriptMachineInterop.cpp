@@ -46,6 +46,7 @@ namespace xen
 		js_init_method(L, "assets_load_music", js_assets_load_music, 1);
 		js_init_method(L, "assets_load_shader", js_assets_load_shader, 2);
 		js_init_method(L, "assets_load_sprite_map", js_assets_load_sprite_map, 1);
+		js_init_method(L, "assets_load_tilemap_tmx", js_assets_load_tilemap_tmx, 1);
 		js_init_method(L, "assets_create_textbox", js_assets_create_textbox, 4);
 		js_init_method(L, "assets_create_sprite_map", js_assets_create_sprite_map, 0);
 		js_init_method(L, "assets_unload_texture", js_assets_unload_texture, 1);
@@ -249,8 +250,7 @@ namespace xen
 		int font_size = duk_to_int(L, 1);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
-		auto res = vfs_get_global()->ReadAllData(path);
-		int font_id = r->LoadFont(res.buffer, res.length, font_size);
+		int font_id = r->LoadFont(path, font_size);
 		duk_push_int(L, font_id);
 		return 1;
 	}
@@ -258,8 +258,7 @@ namespace xen
 	duk_ret_t js_assets_load_sound(duk_context *L) {
 		auto path = duk_to_string(L, 0);
 		auto assets = AssetManager::GetInstance();
-		auto res = vfs_get_global()->ReadAllData(path);
-		int sound_id = assets->LoadAudio(res.buffer, res.length);
+		int sound_id = assets->LoadAudio(path);
 		duk_push_int(L, sound_id);
 		return 1;
 	}
@@ -267,8 +266,7 @@ namespace xen
 	duk_ret_t js_assets_load_music(duk_context *L) {
 		auto path = duk_to_string(L, 0);
 		auto assets = AssetManager::GetInstance();
-		auto res = vfs_get_global()->ReadAllData(path);
-		int music_id = assets->LoadMusic(res.buffer, res.length);
+		int music_id = assets->LoadMusic(path);
 		duk_push_int(L, music_id);
 		return 1;
 	}
@@ -284,9 +282,16 @@ namespace xen
 
 	duk_ret_t js_assets_load_sprite_map(duk_context *L) {
 		auto path = duk_to_string(L, 0);
-		const string json = vfs_get_global()->ReadAllText(path);
 		auto a = AssetManager::GetInstance();
-		int asset_id = a->LoadSpriteMap(json);
+		int asset_id = a->LoadSpriteMap(path);
+		duk_push_int(L, asset_id);
+		return 1;
+	}
+
+	duk_ret_t js_assets_load_tilemap_tmx(duk_context *L) {
+		auto path = duk_to_string(L, 0);
+		auto a = AssetManager::GetInstance();
+		int asset_id = a->LoadTileMapTMX(path);
 		duk_push_int(L, asset_id);
 		return 1;
 	}

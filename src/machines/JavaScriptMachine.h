@@ -53,6 +53,7 @@ namespace xen
 	duk_ret_t js_assets_load_music(duk_context *L);
 	duk_ret_t js_assets_load_shader(duk_context *L);
 	duk_ret_t js_assets_load_sprite_map(duk_context *L);
+	duk_ret_t js_assets_load_tilemap_tmx(duk_context *L);
 	duk_ret_t js_assets_create_textbox(duk_context *L);
 	duk_ret_t js_assets_create_sprite_map(duk_context* L);
 	duk_ret_t js_assets_unload_texture(duk_context* L);

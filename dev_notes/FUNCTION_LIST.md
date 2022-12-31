@@ -115,7 +115,7 @@ Aiming to add these in the next few weeks.
 
 Signature | Description
 --------- | -----------
-assets_load_tilemap(path)                        | loads a tilemap into memory.
+assets_load_tilemap_tmx(path)                    | loads a tilemap into memory.
 assets_unload_tilemap(tm)                        | unload a tilemap from memory.
 tilemap_get_layer(tm, layer)                     | gets layer properties.
 tilemap_get_layer_tiles(tm, layer)               | gets layer tile data.

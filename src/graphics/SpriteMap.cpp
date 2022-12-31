@@ -24,7 +24,7 @@ namespace xen
 	}
 
 
-	SpriteMap* SpriteMap::parse_file(std::string const& json)
+	SpriteMap* SpriteMap::parse_json(const string& json)
 	{
 		SpriteMap* result = new SpriteMap();
 		nlohmann::json j = nlohmann::json::parse(json);
@@ -108,17 +108,18 @@ namespace xen
 	}
 
 
-	const SpriteMapGroup* SpriteMap::get_group(const std::string nickname) const
+	const SpriteMapGroup* SpriteMap::get_group(const string& nickname) const
 	{
 		if (m_groups.count(nickname))
 		{
 			return m_groups.at(nickname);
 		}
+		XEN_ERROR("Tried to get a sprite map group that does not exist [", nickname, "]");
 		return nullptr;
 	}
 
 
-	int SpriteMap::add_group(const std::string nickname, const SpriteMapGroup* group)
+	int SpriteMap::add_group(const string& nickname, const SpriteMapGroup* group)
 	{
 		if (m_groups.count(nickname))
 		{

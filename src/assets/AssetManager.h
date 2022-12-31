@@ -14,6 +14,7 @@
 #include "../graphics/Texture.h"
 #include "../graphics/TextBox.h"
 #include "../graphics/SpriteMap.h"
+#include "../graphics/TileMap.h"
 
 namespace xen
 {
@@ -27,37 +28,42 @@ namespace xen
 			/**
 			 * Load a texture into memory, and return it's asset id.
 			 */
-			int LoadTexture(string path, unsigned int wrap);
+			int LoadTexture(const string& path, unsigned int wrap);
 
 			/**
 			 * Return an asset id for loaded texture, or -1 on fail.
 			 */
-			int LookupTexture(string path);
+			int LookupTexture(const string& path);
 
 			/**
 			 * Load a ttf font into memory, and return it's asset id.
 			 */
-			int LoadFont(uint8_t* buffer, uint64_t length, int font_size);
+			int LoadFont(const string& path, int font_size);
 
 			/**
 			 * Load an audio sample into memory, and return it's asset id (can be used in audio manager).
 			 */
-			int LoadAudio(uint8_t* buffer, uint64_t length);
+			int LoadAudio(const string& path);
 
 			/**
 			 * Load a music file (ogg/flac) into memory, and return it's asset id (can be used in audio manager).
 			 */
-			int LoadMusic(uint8_t* buffer, uint64_t length);
+			int LoadMusic(const string& path);
 
 			/**
 			 * Load a sprite map into memory, and return it's asset id.
 			 */
-			int LoadSpriteMap(std::string const& json);
+			int LoadSpriteMap(const string& path);
+
+			/**
+			 * Load a tilemap from a Tiled TMX file.
+			 */
+			int LoadTileMapTMX(const string& path);
 
 			/**
 			 * Load a shader into memory and return it's asset id.
 			 */
-			int LoadShader(string vertex_shader, string frag_shader);
+			int LoadShader(const string& vertex_shader, const string& frag_shader);
 
 			/**
 			 * Create a textbox with specific dimensions, and return it's asset id.
@@ -70,15 +76,15 @@ namespace xen
 			int CreateSpriteMap();
 
 
-			Texture* GetTexture(int id);
+			const Texture* const GetTexture(const int id) const;
 
-			TTF_Font* GetFont(int id);
+			TTF_Font* const GetFont(const int id) const;
 			
-			TextBox* GetTextBox(int id);
+			TextBox* const GetTextBox(const int id) const;
 
-			unsigned int GetShader(int id);
+			unsigned int GetShader(const int id) const;
 
-			SpriteMap* GetSpriteMap(int id);
+			SpriteMap* const GetSpriteMap(const int id) const;
 
 
 			int UnloadTexture(int id);
@@ -93,7 +99,7 @@ namespace xen
 			static AssetManager* instance;
 
 			/* textures */
-			map<int, Texture*> m_textures;
+			map<const int, const Texture*> m_textures;
 			map<std::string, int> m_texture_lookups;
 			int m_textures_iter = 0;
 
@@ -106,11 +112,15 @@ namespace xen
 			int m_textboxes_iter = 0;
 
 			/* shaders */
-			map<int, unsigned int> m_shaders;
+			map<int, const unsigned int> m_shaders;
 			int m_shaders_iter = 0;
 
 			/* sprite maps */
 			map<int, SpriteMap*> m_sprite_maps;
 			int m_sprite_map_iter = 0;
+
+
+			map<int, TileMap*> m_tile_maps;
+			int m_tile_map_iter = 0;
 	};
 }

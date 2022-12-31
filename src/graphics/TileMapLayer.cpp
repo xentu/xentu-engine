@@ -44,7 +44,7 @@ namespace xen {
 		const auto& tileSize = map.getTileSize();
 		const auto& tileSets = map.getTilesets();
 		auto tileSetTextures = new std::map<std::string, int>();
-		const auto layerSize = this->get_size();
+		const auto layerSize = this->GetSize();
 		std::uint32_t maxID = std::numeric_limits<std::uint32_t>::max();
 		std::vector<const tmx::Tileset*> usedTileSets;
 
@@ -70,16 +70,16 @@ namespace xen {
 						{
 							const auto& path = ts->getImagePath();
 							auto vec2 = &object.getPosition();
-
-							int texture_id = assets->LookupTexture(path);
-							if (texture_id == -1) {
-								texture_id = assets->LoadTexture(path, TX_CLAMP_TO_EDGE);
-							}
-
+							int texture_id = assets->LoadTexture(path, TX_CLAMP_TO_EDGE);
 							auto ts_tile = ts->getTile(idx);
 							auto ts_tile_size = ts->getTileSize();
 
-							tobj->m_tile = Tile(vec2->x, vec2->y - ts_tile_size.y, ts_tile_size.x, ts_tile_size.y, texture_id);
+							tobj->m_tile = Tile(
+								static_cast<int>(vec2->x),
+								static_cast<int>(vec2->y) - ts_tile_size.y,
+								ts_tile_size.x,
+								ts_tile_size.y,
+								texture_id);
 							tobj->m_tile.t_x = ts_tile->imagePosition.x;
 							tobj->m_tile.t_y = ts_tile->imagePosition.y;
 							tobj->m_tile.t_width = ts_tile_size.x;
@@ -110,7 +110,7 @@ namespace xen {
 		}
 		else if (type == tmx::Layer::Type::Tile)
 		{
-			const auto& tiles = this->get_tiles(layer);
+			const auto& tiles = this->GetTiles(layer);
 			
 			unsigned int idx = 0;
 
@@ -196,32 +196,32 @@ namespace xen {
 	}
 
 
-	const tmx::Vector2u TileMapLayer::get_size() const
+	const tmx::Vector2u TileMapLayer::GetSize() const
 	{
 		return m_size;
 	}
 
 
-	std::vector<tmx::TileLayer::Tile> TileMapLayer::get_tiles(const tmx::Layer::Ptr& layer) const
+	std::vector<tmx::TileLayer::Tile> TileMapLayer::GetTiles(const tmx::Layer::Ptr& layer) const
 	{
 		tmx::TileLayer& tile_layer = layer->getLayerAs<tmx::TileLayer>();
 		return tile_layer.getTiles();
 	}
 
 
-	const int TileMapLayer::get_texture_id() const
+	const int TileMapLayer::GetTextureID() const
 	{
 		return m_texture_id;
 	}
 
 
-	const int TileMapLayer::get_object_count() const
+	const int TileMapLayer::GetObjectCount() const
 	{
 		return m_object_count;
 	}
 
 	
-	const TileMapObject* TileMapLayer::get_object(const int object_index)
+	const TileMapObject* TileMapLayer::GetObject(const int object_index)
 	{
 		int max_index = m_object_count - 1;
 

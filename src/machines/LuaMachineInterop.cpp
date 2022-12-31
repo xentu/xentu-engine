@@ -128,10 +128,7 @@ namespace xen
 		}
 		const std::string path = lua_tostring(L, -2);
 		auto font_size = lua_tointeger(L, -1);
-		auto m = LuaMachine::GetInstance();
-		auto r = AssetManager::GetInstance();
-		auto res = vfs_get_global()->ReadAllData(path);
-		int font_id = r->LoadFont(res.buffer, res.length, font_size);
+		int font_id = AssetManager::GetInstance()->LoadFont(path, font_size);
 		lua_pushinteger(L, font_id);
 		return 1;
 	}
@@ -139,9 +136,7 @@ namespace xen
 	int XentuLuaMachineInterop::assets_load_sound(lua_State* L)
 	{
 		auto path = lua_tostring(L, -1);
-		auto assets = AssetManager::GetInstance();
-		auto res = vfs_get_global()->ReadAllData(path);
-		int sound_id = assets->LoadAudio(res.buffer, res.length);
+		int sound_id = AssetManager::GetInstance()->LoadAudio(path);
 		lua_pushinteger(L, sound_id);
 		return 1;
 	}
@@ -149,9 +144,7 @@ namespace xen
 	int XentuLuaMachineInterop::assets_load_music(lua_State* L)
 	{
 		auto path = lua_tostring(L, -1);
-		auto assets = AssetManager::GetInstance();
-		auto res = vfs_get_global()->ReadAllData(path);
-		int music_id = assets->LoadMusic(res.buffer, res.length);
+		int music_id = AssetManager::GetInstance()->LoadMusic(path);
 		lua_pushinteger(L, music_id);
 		return 1;
 	}
@@ -172,9 +165,7 @@ namespace xen
 			return luaL_error(L, "expecting exactly 1 arguments");
 		}
 		auto path = lua_tostring(L, -1);
-		const string json = vfs_get_global()->ReadAllText(path);
-		auto a = AssetManager::GetInstance();
-		int asset_id = a->LoadSpriteMap(json);
+		int asset_id = AssetManager::GetInstance()->LoadSpriteMap(path);
 		lua_pushinteger(L, asset_id);
 		return 1;
 	}
