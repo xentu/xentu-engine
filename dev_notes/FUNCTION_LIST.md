@@ -117,15 +117,15 @@ Signature | Description
 --------- | -----------
 assets_load_tilemap_tmx(path)                    | loads a tilemap into memory.
 assets_unload_tilemap(tm)                        | unload a tilemap from memory.
-tilemap_get_layer(tm, layer)                     | gets layer properties.
-tilemap_get_layer_tiles(tm, layer)               | gets layer tile data.
-tilemap_get_layer_objects(tm, layer)             | gets layer objects.
-tilemap_get_layer_polygons(tm, layer)            | gets layer polygons.
-tilemap_get_tile(tm, layer, tile)                | gets tile properties.
-tilemap_get_object(tm, layer, object)            | gets object properties.
-tilemap_change_layer(tm, layer, prop, val)       | change the prop for a layer.
-tilemap_change_tile(tm, layer, tile, prop, val)  | change the prop for a tile on a layer.
-tilemap_change_object(tm, layer, obj, prop, val) | change the prop for an object on a layer.
+tilemap_get_layer(tm, layer)                     | gets layer properties. ~
+tilemap_get_layer_tiles(tm, layer)               | gets layer tile data. ~
+tilemap_get_layer_objects(tm, layer)             | gets layer objects. ~
+tilemap_get_layer_polygons(tm, layer)            | gets layer polygons. ~
+tilemap_get_tile(tm, layer, tile)                | gets tile properties. ~
+tilemap_get_object(tm, layer, object)            | gets object properties. ~
+tilemap_change_layer(tm, layer, prop, val)       | change the prop for a layer. ~
+tilemap_change_tile(tm, layer, tile, prop, val)  | change the prop for a tile on a layer. ~
+tilemap_change_object(tm, layer, obj, prop, val) | change the prop for an object on a layer. ~
 renderer_draw_tile_layer(tm, index)              | draws a tilemap layer (tiles & polygons).
 
 ### Data Functions (Encoding/Compression)

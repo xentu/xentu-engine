@@ -140,15 +140,34 @@ namespace xen
 		auto res = vfs_get_global()->ReadAllData(path);
 		auto *rw = SDL_RWFromMem(res.buffer, res.length);
 		auto sur = IMG_Load_RW(rw, AUTO_FREE);
+		if(sur == NULL)
+		{
+			XEN_ERROR("Error whilst loading image IMG_Load_RW");
+			SDL_FreeRW(rw);
+			return -1;
+		}
+
+		Uint32 rmask, gmask, bmask, amask;
+		#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+			rmask = 0xff000000;
+			gmask = 0x00ff0000;
+			bmask = 0x0000ff00;
+			amask = 0x000000ff;
+		#else
+			rmask = 0x000000ff;
+			gmask = 0x0000ff00;
+			bmask = 0x00ff0000;
+			amask = 0xff000000;
+		#endif
+
+		SDL_Surface* sur_clean = SDL_CreateRGBSurface(0, sur->w, sur->h, 32, rmask, gmask, bmask, amask);
+		SDL_BlitSurface(sur, 0, sur_clean, 0);
 
 		GLuint texture_id = 0;
 		glGenTextures(1, &texture_id);
 		glBindTexture(GL_TEXTURE_2D, texture_id);
 
-		auto mode = GL_RGB;
-		if (sur->format->BytesPerPixel == 4) {
-			mode = GL_RGBA;
-		}
+		auto mode = GL_RGBA;
 
 		int gl_wrap = GL_REPEAT;
 		switch (wrap) {
@@ -165,10 +184,12 @@ namespace xen
  		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur->pixels);
+		glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur_clean->pixels);
+		glGenerateMipmap(GL_TEXTURE_2D);
 
 		Texture* texture = new Texture(texture_id, sur->w, sur->h, mode);
 		SDL_FreeSurface(sur);
+		SDL_FreeSurface(sur_clean);
 		
 		m_textures.insert(std::make_pair(m_textures_iter, texture));
 		m_texture_lookups.insert(std::make_pair(path, m_textures_iter));
@@ -301,6 +322,12 @@ namespace xen
 	}
 
 
+	TileMap* const AssetManager::GetTileMap(const int id) const
+	{
+		return m_tile_maps.at(id);
+	}
+
+
 	int AssetManager::UnloadTexture(int id)
 	{
 		auto texture = m_textures.at(id);
@@ -345,6 +372,16 @@ namespace xen
 		delete sprite_map;
 		m_sprite_maps.erase(id);
 		m_sprite_map_iter--;
+		return 0;
+	}
+
+
+	int AssetManager::UnloadTileMap(int id)
+	{
+		auto tile_map = m_tile_maps[id];
+		delete tile_map;
+		m_tile_maps.erase(id);
+		m_tile_map_iter--;
 		return 0;
 	}
 	

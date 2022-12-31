@@ -15,10 +15,10 @@ namespace xen
 		~TileMap(void);
 
 		void LoadTMX(const std::string& xml, const std::string& working_dir);
-
-		//const tmx::Map* get_map() const;
 		
 		int GetLayerCount();
+
+		TileMapLayer* GetLayer(int layer_index);
 
 	private:
 		//tmx::Map* m_map;

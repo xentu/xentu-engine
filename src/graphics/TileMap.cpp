@@ -51,14 +51,14 @@ namespace xen
 	}
 
 
-	/* const tmx::Map* TileMap::get_map() const
-	{
-		return m_map;
-	} */
-
-
 	int TileMap::GetLayerCount()
 	{
 		return m_layers_count;
+	}
+
+
+	TileMapLayer* TileMap::GetLayer(int layer_index)
+	{
+		return m_layers[layer_index];
 	}
 }

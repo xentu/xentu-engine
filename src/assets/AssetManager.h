@@ -86,12 +86,15 @@ namespace xen
 
 			SpriteMap* const GetSpriteMap(const int id) const;
 
+			TileMap* const GetTileMap(const int id) const;
+
 
 			int UnloadTexture(int id);
 			int UnloadFont(int id);
 			int UnloadAudio(int id);
 			int UnloadMusic(int id);
 			int UnloadSpriteMap(int id);
+			int UnloadTileMap(int id);
 			int UnloadShader(int id);
 
 

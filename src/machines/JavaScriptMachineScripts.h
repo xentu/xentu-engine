@@ -68,6 +68,7 @@ namespace xen { const char * xen_js_script_init = R"(
 	renderer.present = renderer_present;
 	renderer.draw_textbox = renderer_draw_textbox;
 	renderer.draw_sprite = renderer_draw_sprite;
+	renderer.draw_tile_layer = renderer_draw_tile_layer;
 	renderer.set_position = renderer_set_position;
 	renderer.set_origin = renderer_set_origin;
 	renderer.set_rotation = renderer_set_rotation;

@@ -71,6 +71,7 @@ namespace xen
 		js_init_method(L, "renderer_draw_rectangle", js_renderer_draw_rectangle, 4);
 		js_init_method(L, "renderer_draw_textbox", js_renderer_draw_textbox, 1);
 		js_init_method(L, "renderer_draw_sprite", js_renderer_draw_sprite, 7);
+		js_init_method(L, "renderer_draw_tile_layer", js_renderer_draw_tile_layer, 2);
 		js_init_method(L, "renderer_set_background", js_renderer_set_background, 1);
 		js_init_method(L, "renderer_set_foreground", js_renderer_set_foreground, 1);
 		js_init_method(L, "renderer_set_window_mode", js_renderer_set_window_mode, 1);
@@ -504,6 +505,15 @@ namespace xen
 		auto r = m->GetRenderer();
 		//r->DrawRectangle(x, y, w, h);
 		r->DrawSprite(asset_id, group, frame, x, y, w, h);
+		return 0;
+	}
+
+	duk_ret_t js_renderer_draw_tile_layer(duk_context *L) {
+		int asset_id = duk_to_int(L, 0);
+		int layer = duk_to_int(L, 1);
+		auto m = JavaScriptMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->DrawTileLayer(asset_id, layer);
 		return 0;
 	}
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" name="zoria_tileset_overworld" tilewidth="16" tileheight="16" tilecount="480" columns="32">
+  <image source="zoria_tileset_overworld.png" width="512" height="240"/>
+ </tileset>
+ <layer id="1" name="Ground" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt08EJgDAMheHY9bzpJrqBCwi6iWu4lIEKSknoJZJU3uGDCkX+1piIKAEEtXQy767W+rRnr/vR7gt9tt87GvShL0KfFfShz3OOvTui92kNrfR5z+df/x+IbeXZmQx81TfyuzcDFmeUzOy4Da91TbnX4oySnfWUnfSsa8q9F16FlhE=
+  </data>
+ </layer>
+ <layer id="2" name="Ground2" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztV+1NAzEMTShcfxWmaOEHFV0C+AUswtccFAQzwCas0K7ABDAAjqglY8WO3eQqBDzp6e7c3N1r7DxfQvjduAResdhWDGEA3I7lsRPjM0s4EOL3wAfjM6xjPc9cBzfAW+DQOb5b410jyNEu417U73kEPgm/5fKgjS9hutJyHr+YcFTQR5GrLy/elHjSR/XQ6x04dhUcGv4nzx1ngqRvDMdJBfejXKM475g3jRc96muNTejz+B+f/03oQ/87NGrsU1/yPKnfcGj+iPVK9R3D8aSCpxX1J9UA6vN4vbWPeCD1QPTrki9ZSPsQnQ/J0y1ePzXk5Dkz5jUTo75a801Ac4n6uIbc+yXgvZ4+acVZtHl6iVRfF77PQa72aWwc5Fy/FGgF7+sUuVz3/U3Ioenz4A44r7h/IMRb6bNAW/ez1BcycatPSdA8VfNmXttpPV1n6FlHHNJeyDIW63gBXK5i0nkL4N7Fi3fgR+G8BWr2Lj8BLfY///i7+ASx71oA
+  </data>
+ </layer>
+ <layer id="3" name="Buildings" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztzscJAgEQRuG1C7OWYdaLqRBTIaZCTB2Y9WLqQFDBMsz6dC8Le12Yg/Pguw3MbxiaE2WRQx4FFGXn2CqhjAqqqMnOsVVHA0200JadY6uDLnroYyA7x9YKa2ywxU52jqZpmvZnDTHCGBNMMcMcCyzFlpntcbA44mRxFltmdsEVN9zxwBMvvL8HLrFpv9z898ALH/wIIIgQwsL7IvyPIoY4EkgihTQywvs0TdM0Z/oAQaUmjw==
+  </data>
+ </layer>
+</map>

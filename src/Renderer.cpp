@@ -534,6 +534,84 @@ namespace xen
 	}
 	
 
+	void Renderer::DrawTileLayer(int tilemap_id, int layer_index)
+	{
+		auto assets = AssetManager::GetInstance();
+		auto tilemap = assets->GetTileMap(tilemap_id);
+		auto layer = tilemap->GetLayer(layer_index);
+
+		for (int i=0; i<layer->m_tile_count; i++)
+		{
+			const auto& tile = layer->m_tiles[i];
+
+			if (tile->texture_id <= 0) continue;
+
+			m_sprite.ResetTransform();
+			m_sprite.set_position(m_pos_x + tile->x, m_pos_y + tile->y);
+			m_sprite.set_scale(1, 1);
+			m_sprite.set_rotation(0);
+			//m_sprite.m_color = color; //TODO: stack member duplication.
+
+			auto texture = assets->GetTexture(tile->texture_id);
+
+			m_sprite.m_width = tile->width;
+			m_sprite.m_height = tile->height;
+			m_sprite.m_texture = texture->gl_texture_id;
+
+			float u = tile->t_x / (float)texture->width;
+			float v = tile->t_y / (float)texture->height;
+			float w = tile->t_width / (float)texture->width;
+			float h = tile->t_height / (float)texture->height;
+
+			m_sprite.m_rect = Rect(u, 1.0 - v - h,w,h);
+			find_batch(m_sprite)->draw(m_sprite);
+		}
+
+		const int texture_id = layer->GetTextureID();
+		if (texture_id > 0) {
+			m_sprite.ResetTransform();
+			m_sprite.set_position(m_pos_x, m_pos_y);
+			m_sprite.set_scale(1, 1);
+			m_sprite.set_rotation(0);
+			m_sprite.m_color = xen::Vector4f(1, 1, 1, 1); //TODO: stack member duplication.
+			m_sprite.m_width = 2048;
+			m_sprite.m_height = 2048;
+			m_sprite.m_texture = assets->GetTexture(texture_id)->gl_texture_id;
+			m_sprite.m_rect = Rect(0, 0, 1, 1);
+			find_batch(m_sprite)->draw(m_sprite);
+		}
+
+		const int obj_count = layer->GetObjectCount();
+		if (obj_count > 0) {
+			for (int i=0; i<obj_count; i++) {
+ 				auto obj = layer->GetObject(i);
+				if (obj->has_tile) {
+					const auto tile = obj->GetTile();
+					
+					if (tile.texture_id <= 0) continue;
+					m_sprite.ResetTransform();
+					m_sprite.set_position(m_pos_x + obj->x, m_pos_y + obj->y);
+					m_sprite.set_scale(1, 1);
+					m_sprite.set_rotation(0);
+					m_sprite.m_width = tile.width;
+					m_sprite.m_height = tile.height;
+
+					auto texture = assets->GetTexture(tile.texture_id);
+					m_sprite.m_texture = texture->gl_texture_id;
+
+					float u = tile.t_x / (float)texture->width;
+					float v = tile.t_y / (float)texture->height;
+					float w = tile.t_width / (float)texture->width;
+					float h = tile.t_height / (float)texture->height;
+
+					m_sprite.m_rect = Rect(u, 1.0 - v - h,w,h);
+					find_batch(m_sprite)->draw(m_sprite);
+				}
+			}
+		}
+	}
+
+
 	void Renderer::SetTextBoxText(int textbox_id, int font_id, const char* text)
 	{
 		auto assets = AssetManager::GetInstance();

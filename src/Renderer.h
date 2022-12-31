@@ -19,6 +19,7 @@
 #include "graphics/Texture.h"
 #include "graphics/Batch.h"
 #include "graphics/Viewport.h"
+#include "graphics/Viewport.h"
 
 using namespace std;
 
@@ -143,6 +144,11 @@ namespace xen
 			 * Draw a frame from from a sprite map group onto the current buffer.
 			 */
 			void DrawSprite(int sprite_map_id, string const& group_name, int frame, int x, int y, int w, int h);
+
+			/**
+			 * Draw a tilemap layer onto the current buffer.
+			*/
+			void DrawTileLayer(int tilemap_id, int layer_index);
 
 			/**
 			 * Set the text for a textbox (updates an underlying texture, can be expensive).
