@@ -1,6 +1,6 @@
 project('xentu_rebuild', 'c', 'cpp',
         version : run_command('cat', './version.txt').stdout().strip(),
-        default_options: ['default_library=static', 'buildtype=debug', 'cpp_std=c++17']
+        default_options: ['default_library=static', 'buildtype=minsize', 'cpp_std=c++17']
         )
 
 
@@ -108,7 +108,7 @@ conf_data.set('version', the_version)
 
 if host_machine.system() == 'darwin'
    dependencies += [dep_main, dep_libs]
-   incdir += ['/usr/local/include']
+   incdir = include_directories(['lib', '/usr/local/include'])
 endif
 
 
