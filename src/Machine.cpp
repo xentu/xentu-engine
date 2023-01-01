@@ -80,39 +80,42 @@ namespace xen
 					case SDL_WINDOWEVENT:
 						switch (event.window.event) {
 							case SDL_WINDOWEVENT_RESIZED:
+								size_changed = true;
+								this->Trigger("window_changed", "resized");
+								break;
 							case SDL_WINDOWEVENT_SIZE_CHANGED:
 								size_changed = true;
-								this->Trigger("window_resized");
+								this->Trigger("window_changed", "size_changed");
 								break;
 							case SDL_WINDOWEVENT_SHOWN:
-								this->Trigger("window_shown");
+								this->Trigger("window_changed", "shown");
 								break;
 							case SDL_WINDOWEVENT_HIDDEN:
-								this->Trigger("window_hidden");
+								this->Trigger("window_changed", "hidden");
 								break;
 							case SDL_WINDOWEVENT_MOVED:
-								this->Trigger("window_moved");
+								this->Trigger("window_changed", "moved");
 								break;
 							case SDL_WINDOWEVENT_MINIMIZED:
-								this->Trigger("window_minimized");
+								this->Trigger("window_changed", "minimized");
 								break;
 							case SDL_WINDOWEVENT_MAXIMIZED:
-								this->Trigger("window_maximized");
+								this->Trigger("window_changed", "maximized");
 								break;
 							case SDL_WINDOWEVENT_RESTORED:
-								this->Trigger("window_restored");
+								this->Trigger("window_changed", "restored");
 								break;
 							case SDL_WINDOWEVENT_ENTER:
-								this->Trigger("window_enter");
+								this->Trigger("window_changed", "enter");
 								break;
 							case SDL_WINDOWEVENT_LEAVE:
-								this->Trigger("window_leave");
+								this->Trigger("window_changed", "leave");
 								break;
 							case SDL_WINDOWEVENT_FOCUS_GAINED:
-								this->Trigger("window_focus");
+								this->Trigger("window_changed", "focus");
 								break;
 							case SDL_WINDOWEVENT_FOCUS_LOST:
-								this->Trigger("window_blur");
+								this->Trigger("window_changed", "blur");
 								break;
 						}
 						break;						

@@ -2,6 +2,16 @@
 
 namespace xen
 {
+	bool StringUtils::Contains(const std::string& haystack, const std::string& needle)
+	{
+		return haystack.find(needle) != std::string::npos;
+	}
+
+	bool StringUtils::Contains(const std::string& haystack, const char& needle)
+	{
+		return haystack.find(needle) != std::string::npos;
+	}
+
 	void StringUtils::Split(std::vector<std::string>& tokens, const std::string& text, char delimeter)
 	{
 		size_t start = 0;

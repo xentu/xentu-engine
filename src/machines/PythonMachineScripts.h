@@ -24,7 +24,7 @@ game.run = xentu.game_run
 game.on = xentu.game_on
 game.trigger = xentu.game_trigger
 game.run = xentu.game_run
-game.exit = xentu.game_exit
+exit = xentu.game_exit
 
 # masquerade a new module for assets
 assets = XenDummyObject('game')
@@ -132,124 +132,176 @@ sprite_map = XenDummyObject('sprite_map')
 # sprite_map.get_frame_count = sprite_map_get_frame_count
 
 # masquerade a new module for const
-const = XenDummyObject('const')
-const.KB_SPACE					= 44
-const.KB_APOSTROPHE			= 52
-const.KB_COMMA					= 54
-const.KB_MINUS					= 45
-const.KB_PERIOD				= 55
-const.KB_SLASH					= 56
-const.KB_1						= 30
-const.KB_2						= 31
-const.KB_3						= 32
-const.KB_4						= 33
-const.KB_5						= 34
-const.KB_6						= 35
-const.KB_7						= 36
-const.KB_8						= 37
-const.KB_9						= 38
-const.KB_0						= 39
-const.KB_SEMICOLON			= 51
-const.KB_EQUAL					= 103
-const.KB_A						= 4
-const.KB_B						= 5
-const.KB_C						= 6
-const.KB_D						= 7
-const.KB_E						= 8
-const.KB_F						= 9
-const.KB_G						= 10
-const.KB_H						= 11
-const.KB_I						= 12
-const.KB_J						= 13
-const.KB_K						= 14
-const.KB_L						= 15
-const.KB_M						= 16
-const.KB_N						= 17
-const.KB_O						= 18
-const.KB_P						= 19
-const.KB_Q						= 20
-const.KB_R						= 21
-const.KB_S						= 22
-const.KB_T						= 23
-const.KB_U						= 24
-const.KB_V						= 25
-const.KB_W						= 26
-const.KB_X						= 27
-const.KB_Y						= 28
-const.KB_Z						= 29
-const.KB_LEFT_BRACKET		= 184
-const.KB_BACKSLASH			= 100
-const.KB_RIGHT_BRACKET		= 185
-const.KB_GRAVE_ACCENT		= 53
-const.KB_ESCAPE				= 41
-const.KB_ENTER					= 88
-const.KB_TAB					= 186
-const.KB_BACKSPACE			= 187
-const.KB_INSERT				= 73
-const.KB_DELETE				= 76
-const.KB_RIGHT					= 79
-const.KB_LEFT					= 80
-const.KB_DOWN					= 81
-const.KB_UP						= 82
-const.KB_PAGE_UP				= 75
-const.KB_PAGE_DOWN			= 78
-const.KB_HOME					= 74
-const.KB_END					= 77
-const.KB_CAPS_LOCK			= 57
-const.KB_SCROLL_LOCK			= 71
-const.KB_NUM_LOCK				= 83
-const.KB_PRINT_SCREEN		= 70
-const.KB_PAUSE					= 72
-const.KB_F1						= 58
-const.KB_F2						= 59
-const.KB_F3						= 60
-const.KB_F4						= 61
-const.KB_F5						= 62
-const.KB_F6						= 63
-const.KB_F7						= 64
-const.KB_F8						= 65
-const.KB_F9						= 66
-const.KB_F10					= 67
-const.KB_F11					= 68
-const.KB_F12					= 69
-const.KB_F13					= 104
-const.KB_F14					= 105
-const.KB_F15					= 106
-const.KB_F16					= 107
-const.KB_F17					= 108
-const.KB_F18					= 109
-const.KB_F19					= 110
-const.KB_F20					= 111
-const.KB_F21					= 112
-const.KB_F22					= 113
-const.KB_F23					= 114
-const.KB_F24					= 115
-const.KB_KP_1					= 89
-const.KB_KP_2					= 90
-const.KB_KP_3					= 91
-const.KB_KP_4					= 92
-const.KB_KP_5					= 93
-const.KB_KP_6					= 94
-const.KB_KP_7					= 95
-const.KB_KP_8					= 96
-const.KB_KP_9					= 97
-const.KB_KP_0					= 98
-const.KB_KP_DECIMAL			= 220
-const.KB_KP_DIVIDE			= 84
-const.KB_KP_MULTIPLY			= 85
-const.KB_KP_SUBTRACT			= 86
-const.KB_KP_ADD				= 87
-const.KB_KP_ENTER				= 88
-const.KB_KP_EQUAL				= 103
-const.KB_LEFT_SHIFT			= 225
-const.KB_LEFT_CONTROL		= 224
-const.KB_LEFT_ALT				= 226
-const.KB_LEFT_SUPER			= 227
-const.KB_RIGHT_SHIFT			= 229
-const.KB_RIGHT_CONTROL		= 228
-const.KB_RIGHT_ALT			= 230
-const.KB_RIGHT_SUPER			= 231
-const.KB_MENU					= 257
+globals()['KB_SPACE']				= 44
+globals()['KB_APOSTROPHE']			= 52
+globals()['KB_COMMA']				= 54
+globals()['KB_MINUS']				= 45
+globals()['KB_PERIOD']				= 55
+globals()['KB_SLASH']				= 56
+globals()['KB_1']						= 30
+globals()['KB_2']						= 31
+globals()['KB_3']						= 32
+globals()['KB_4']						= 33
+globals()['KB_5']						= 34
+globals()['KB_6']						= 35
+globals()['KB_7']						= 36
+globals()['KB_8']						= 37
+globals()['KB_9']						= 38
+globals()['KB_0']						= 39
+globals()['KB_SEMICOLON']			= 51
+globals()['KB_EQUAL']				= 103
+globals()['KB_A']						= 4
+globals()['KB_B']						= 5
+globals()['KB_C']						= 6
+globals()['KB_D']						= 7
+globals()['KB_E']						= 8
+globals()['KB_F']						= 9
+globals()['KB_G']						= 10
+globals()['KB_H']						= 11
+globals()['KB_I']						= 12
+globals()['KB_J']						= 13
+globals()['KB_K']						= 14
+globals()['KB_L']						= 15
+globals()['KB_M']						= 16
+globals()['KB_N']						= 17
+globals()['KB_O']						= 18
+globals()['KB_P']						= 19
+globals()['KB_Q']						= 20
+globals()['KB_R']						= 21
+globals()['KB_S']						= 22
+globals()['KB_T']						= 23
+globals()['KB_U']						= 24
+globals()['KB_V']						= 25
+globals()['KB_W']						= 26
+globals()['KB_X']						= 27
+globals()['KB_Y']						= 28
+globals()['KB_Z']						= 29
+globals()['KB_LEFT_BRACKET']		= 184
+globals()['KB_BACKSLASH']			= 100
+globals()['KB_RIGHT_BRACKET']		= 185
+globals()['KB_GRAVE_ACCENT']		= 53
+globals()['KB_ESCAPE']				= 41
+globals()['KB_ENTER']				= 88
+globals()['KB_TAB']					= 186
+globals()['KB_BACKSPACE']			= 187
+globals()['KB_INSERT']				= 73
+globals()['KB_DELETE']				= 76
+globals()['KB_RIGHT']				= 79
+globals()['KB_LEFT']					= 80
+globals()['KB_DOWN']					= 81
+globals()['KB_UP']					= 82
+globals()['KB_PAGE_UP']				= 75
+globals()['KB_PAGE_DOWN']			= 78
+globals()['KB_HOME']					= 74
+globals()['KB_END']					= 77
+globals()['KB_CAPS_LOCK']			= 57
+globals()['KB_SCROLL_LOCK']		= 71
+globals()['KB_NUM_LOCK']			= 83
+globals()['KB_PRINT_SCREEN']		= 70
+globals()['KB_PAUSE']				= 72
+globals()['KB_F1']					= 58
+globals()['KB_F2']					= 59
+globals()['KB_F3']					= 60
+globals()['KB_F4']					= 61
+globals()['KB_F5']					= 62
+globals()['KB_F6']					= 63
+globals()['KB_F7']					= 64
+globals()['KB_F8']					= 65
+globals()['KB_F9']					= 66
+globals()['KB_F10']					= 67
+globals()['KB_F11']					= 68
+globals()['KB_F12']					= 69
+globals()['KB_F13']					= 104
+globals()['KB_F14']					= 105
+globals()['KB_F15']					= 106
+globals()['KB_F16']					= 107
+globals()['KB_F17']					= 108
+globals()['KB_F18']					= 109
+globals()['KB_F19']					= 110
+globals()['KB_F20']					= 111
+globals()['KB_F21']					= 112
+globals()['KB_F22']					= 113
+globals()['KB_F23']					= 114
+globals()['KB_F24']					= 115
+globals()['KB_KP_1']					= 89
+globals()['KB_KP_2']					= 90
+globals()['KB_KP_3']					= 91
+globals()['KB_KP_4']					= 92
+globals()['KB_KP_5']					= 93
+globals()['KB_KP_6']					= 94
+globals()['KB_KP_7']					= 95
+globals()['KB_KP_8']					= 96
+globals()['KB_KP_9']					= 97
+globals()['KB_KP_0']					= 98
+globals()['KB_KP_DECIMAL']			= 220
+globals()['KB_KP_DIVIDE']			= 84
+globals()['KB_KP_MULTIPLY']		= 85
+globals()['KB_KP_SUBTRACT']		= 86
+globals()['KB_KP_ADD']				= 87
+globals()['KB_KP_ENTER']			= 88
+globals()['KB_KP_EQUAL']			= 103
+globals()['KB_LEFT_SHIFT']			= 225
+globals()['KB_LEFT_CONTROL']		= 224
+globals()['KB_LEFT_ALT']			= 226
+globals()['KB_LEFT_SUPER']			= 227
+globals()['KB_RIGHT_SHIFT']		= 229
+globals()['KB_RIGHT_CONTROL']		= 228
+globals()['KB_RIGHT_ALT']			= 230
+globals()['KB_RIGHT_SUPER']		= 231
+globals()['KB_MENU']					= 257
+
+globals()['MOUSE_LEFT']				= 0
+globals()['MOUSE_RIGHT']         = 1
+globals()['MOUSE_MIDDLE']        = 2
+
+
+globals()['ZERO']							= 0
+globals()['ONE']							= 1
+globals()['SRC_COLOR']					= 768
+globals()['ONE_MINUS_SRC_COLOR']		= 769
+globals()['DST_COLOR']					= 774
+globals()['ONE_MINUS_DST_COLOR']		= 775
+globals()['SRC_ALPHA']					= 770
+globals()['ONE_MINUS_SRC_ALPHA']		= 771
+globals()['DST_ALPHA']					= 772
+globals()['ONE_MINUS_DST_ALPHA']		= 773
+globals()['CONSTANT_COLOR']			= 32769
+globals()['ONE_MINUS_CONSTANT_COLOR'] = 32770
+globals()['SRC_ALPHA_SATURATE']		= 776
+globals()['SRC1_COLOR']					= 35065
+globals()['ONE_MINUS_SRC1_COLOR']	= 35066
+globals()['SRC1_ALPHA']					= 34185
+globals()['ONE_MINUS_SRC1_ALPHA']	= 35067
+
+
+# blend presets (same as //developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation)
+
+globals()['BLEND_SOURCE_OVER']		= 0
+globals()['BLEND_SOURCE_IN']			= 1
+globals()['BLEND_SOURCE_OUT']			= 2
+globals()['BLEND_SOURCE_ATOP']		= 3
+globals()['BLEND_DESTINATION_OVER']	= 4
+globals()['BLEND_DESTINATION_IN']	= 5
+globals()['BLEND_DESTINATION_OUT']	= 6
+globals()['BLEND_DESTINATION_ATOP']	= 7
+globals()['BLEND_LIGHTER']				= 8
+globals()['BLEND_COPY']					= 9
+globals()['BLEND_XOR']					= 10
+globals()['BLEND_MULTIPLY']			= 11
+globals()['BLEND_SCREEN']				= 12
+globals()['BLEND_OVERLAY']				= 13
+globals()['BLEND_DARKEN']				= 14
+globals()['BLEND_LIGHTEN']				= 15
+globals()['BLEND_COLOR_DODGE']		= 16
+globals()['BLEND_COLOR_BURN']			= 17
+globals()['BLEND_HARD_LIGHT']			= 18
+globals()['BLEND_SOFT_LIGHT']			= 19
+globals()['BLEND_DIFFERENCE']			= 20
+globals()['BLEND_EXCLUSION']			= 21
+globals()['BLEND_HUE']					= 22
+globals()['BLEND_SATURATION']			= 23
+globals()['BLEND_COLOR']				= 24
+globals()['BLEND_LUMINOSITY']			= 25
 
 
 globals()['game'] = sys.modules['game'] = game
@@ -260,11 +312,8 @@ globals()['config'] = sys.modules['config'] = config
 globals()['textbox'] = sys.modules['textbox'] = textbox
 globals()['keyboard'] = sys.modules['keyboard'] = keyboard
 globals()['mouse'] = sys.modules['mouse'] = mouse
-globals()['const'] = sys.modules['const'] = const
 globals()['shader'] = sys.modules['shader'] = shader
 globals()['sprite_map'] = sys.modules['sprite_map'] = sprite_map
-
-print("hello1")
 
 # replace the default importer with our own.
 class XenImporter(object):
@@ -281,8 +330,6 @@ class XenImporter(object):
 			return __import__(module_name)
 		return self
 sys.meta_path.append(XenImporter())
-
-print("hello1")
 
 game.create_window()
 

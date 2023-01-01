@@ -1,6 +1,7 @@
 #define PY_SSIZE_T_CLEAN
 
 #include "../Globals.h"
+#include "../StringUtils.h"
 #include "../Config.h"
 #include "../Machine.h"
 #include "../vfs/XenVirtualFileSystem.h"
@@ -51,7 +52,24 @@ namespace xen
 	{
 		// load some python code.
 		auto config = this->GetConfig();
-		std::string py_code = vfs_get_global()->ReadAllText(config->entry_point) + "\r\ngame.run()\n\n";
+		std::string py_code = vfs_get_global()->ReadAllText(config->entry_point);
+
+		// add primary event bindings if defined in the user code.
+		if (StringUtils::Contains(py_code, "def init(")) py_code += "\r\ngame.on('init', 'init')";
+		if (StringUtils::Contains(py_code, "def update(")) py_code += "\r\ngame.on('update', 'update')";
+		if (StringUtils::Contains(py_code, "def draw(")) py_code += "\r\ngame.on('draw', 'draw')";
+		if (StringUtils::Contains(py_code, "def key_down(")) py_code += "\r\ngame.on('key_down', 'key_down')";
+		if (StringUtils::Contains(py_code, "def key_click(")) py_code += "\r\ngame.on('key_click', 'key_click')";
+		if (StringUtils::Contains(py_code, "def window_changed(")) py_code += "\r\ngame.on('window_changed', 'window_changed')";
+
+		if (StringUtils::Contains(py_code, "def init_callback(")) py_code += "\r\ngame.on('init', 'init_callback')";
+		if (StringUtils::Contains(py_code, "def update_callback(")) py_code += "\r\ngame.on('update', 'update_callback')";
+		if (StringUtils::Contains(py_code, "def draw_callback(")) py_code += "\r\ngame.on('draw', 'draw_callback')";
+		if (StringUtils::Contains(py_code, "def key_down_callback(")) py_code += "\r\ngame.on('key_down', 'key_down_callback')";
+		if (StringUtils::Contains(py_code, "def key_click_callback(")) py_code += "\r\ngame.on('key_click', 'key_click_callback')";
+		if (StringUtils::Contains(py_code, "def window_changed_callback(")) py_code += "\r\ngame.on('window_changed', 'window_changed_callback')";
+
+		py_code += "\r\ngame.run()\n\n";
 
 		// run some python code.
 		return PyRun_SimpleString(py_code.c_str());
