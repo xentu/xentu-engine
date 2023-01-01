@@ -55,6 +55,8 @@ namespace xen
 		js_init_method(L, "assets_unload_shader", js_assets_unload_shader, 1);
 		js_init_method(L, "assets_unload_sprite_map", js_assets_unload_sprite_map, 1);
 		js_init_method(L, "assets_unload_tile_map", js_assets_unload_tile_map, 1);
+		js_init_method(L, "assets_set_wrap", js_assets_set_wrap, DUK_VARARGS);
+		js_init_method(L, "assets_set_interpolation", js_assets_set_interpolation, DUK_VARARGS);
 		js_init_method(L, "audio_play_sound", js_audio_play_sound, 3);
 		js_init_method(L, "audio_play_music", js_audio_play_music, 2);
 		js_init_method(L, "audio_stop_music", js_audio_stop_music, 1);
@@ -241,7 +243,7 @@ namespace xen
 		auto path = duk_to_string(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
-		int texture_id = r->LoadTexture(path, TX_CLAMP_TO_BORDER);
+		int texture_id = r->LoadTexture(path);
 		duk_push_int(L, texture_id);
 		return 1;
 	}
@@ -358,6 +360,40 @@ namespace xen
 		int asset_id = duk_to_int(L, 0);
 		duk_push_int(L, a->UnloadTileMap(asset_id));
 		return 1;
+	}
+
+
+	duk_ret_t js_assets_set_wrap(duk_context* L) {
+		int count = duk_get_top(L);
+		if (count == 1) {
+			int wrap_both = duk_to_int(L, 0);
+			AssetManager::GetInstance()->SetTextureWrap(wrap_both);
+			return 1;
+		}
+		else if (count == 2) {
+			int wrap_s = duk_to_int(L, 0);
+			int wrap_t = duk_to_int(L, 1);
+			AssetManager::GetInstance()->SetTextureWrap(wrap_s, wrap_t);
+			return 1;
+		}
+		return 0;
+	}
+
+
+	duk_ret_t js_assets_set_interpolation(duk_context* L) {
+		int count = duk_get_top(L);
+		if (count == 1) {
+			int both = duk_to_int(L, 0);
+			AssetManager::GetInstance()->SetTextureInterpolation(both);
+			return 1;
+		}
+		else if (count == 2) {
+			int min = duk_to_int(L, 0);
+			int mag = duk_to_int(L, 1);
+			AssetManager::GetInstance()->SetTextureInterpolation(min, mag);
+			return 1;
+		}
+		return 0;
 	}
 
 

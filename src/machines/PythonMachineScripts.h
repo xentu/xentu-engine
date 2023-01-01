@@ -45,6 +45,8 @@ assets.unload_music = xentu.assets_unload_music
 assets.unload_shader = xentu.assets_unload_shader
 assets.unload_sprite_map = xentu.assets_unload_sprite_map
 assets.unload_tile_map = xentu.assets_unload_tile_map
+assets.set_wrap = xentu.assets_set_wrap
+assets.set_interpolation = xentu.assets_set_interpolation
 
 def include(path):
 	code = xentu.assets_read_text_file(path)
@@ -131,7 +133,7 @@ sprite_map = XenDummyObject('sprite_map')
 sprite_map.get_frame_info = xentu.sprite_map_get_frame_info
 sprite_map.get_frame_count = xentu.sprite_map_get_frame_count
 
-# masquerade a new module for const
+# keyboard constants
 globals()['KB_SPACE']				= 44
 globals()['KB_APOSTROPHE']			= 52
 globals()['KB_COMMA']				= 54
@@ -302,6 +304,13 @@ globals()['BLEND_HUE']					= 22
 globals()['BLEND_SATURATION']			= 23
 globals()['BLEND_COLOR']				= 24
 globals()['BLEND_LUMINOSITY']			= 25
+
+globals()['TEX_LINEAR']					= 0
+globals()['TEX_NEAREST']				= 1
+globals()['TEX_CLAMP_TO_EDGE']      = 2
+globals()['TEX_CLAMP_TO_BORDER']    = 3
+globals()['TEX_MIRRORED_REPEAT']    = 4
+globals()['TEX_REPEAT']      			= 5
 
 
 globals()['game'] = sys.modules['game'] = game

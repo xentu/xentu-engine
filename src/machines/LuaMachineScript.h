@@ -37,13 +37,15 @@ include = function(path)
 	delegate = load(code)
 	delegate()
 end
-assets.unload_texture = function(a) return assets_unload_texture end
-assets.unload_font = function(a) return assets_unload_font end
-assets.unload_sound = function(a) return assets_unload_sound end
-assets.unload_music = function(a) return assets_unload_music end
-assets.unload_shader = function(a) return assets_unload_shader end
-assets.unload_sprite_map = function(a) return assets_unload_sprite_map end
-assets.unload_tile_map = function(a) return assets_unload_tile_map end
+assets.unload_texture = function(a) return interop.assets_unload_texture(a) end
+assets.unload_font = function(a) return interop.assets_unload_font(a) end
+assets.unload_sound = function(a) return interop.assets_unload_sound(a) end
+assets.unload_music = function(a) return interop.assets_unload_music(a) end
+assets.unload_shader = function(a) return interop.assets_unload_shader(a) end
+assets.unload_sprite_map = function(a) return interop.assets_unload_sprite_map(a) end
+assets.unload_tile_map = function(a) return interop.assets_unload_tile_map(a) end
+assets.set_wrap = function(...) return interop.assets_set_wrap(...) end
+assets.set_interpolation = function(...) return interop.assets_set_interpolation(...) end
 
 audio = {}
 audio.play_sound = function(sound_id, channel, loops) interop.audio_play_sound(sound_id, channel, loops) end
@@ -118,9 +120,6 @@ shader.get_location = function(var_name) return interop.shader_get_location(var_
 shader.set_bool = function(...) return interop.shader_set_bool(arg) end
 shader.set_int = function(...) return interop.shader_set_int(arg) end
 shader.set_float = function(...) return interop.shader_set_float(arg) end
-
-
-game.create_window()
 
 
 -- keyboard codes ---------------------------------------------------------
@@ -300,6 +299,17 @@ BLEND_HUE					 = 22
 BLEND_SATURATION			 = 23
 BLEND_COLOR					 = 24
 BLEND_LUMINOSITY			 = 25
+
+
+TEX_LINEAR					 = 0
+TEX_NEAREST					 = 1
+TEX_CLAMP_TO_EDGE			 = 2
+TEX_CLAMP_TO_BORDER		 = 3
+TEX_MIRRORED_REPEAT		 = 4
+TEX_REPEAT					 = 5
+
+
+game.create_window()
 
 
 )"; }

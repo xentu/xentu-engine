@@ -28,7 +28,7 @@ namespace xen
 			/**
 			 * Load a texture into memory, and return it's asset id.
 			 */
-			int LoadTexture(const string& path, unsigned int wrap);
+			int LoadTexture(const string& path);
 
 			/**
 			 * Return an asset id for loaded texture, or -1 on fail.
@@ -98,6 +98,12 @@ namespace xen
 			int UnloadShader(int id);
 
 
+			void SetTextureWrap(const int wrap_both);
+			void SetTextureWrap(const int wrap_s, const int wrap_t);
+			void SetTextureInterpolation(const int both);
+			void SetTextureInterpolation(const int min, const int mag);
+
+
 		private:
 			static AssetManager* instance;
 
@@ -105,6 +111,10 @@ namespace xen
 			map<const int, const Texture*> m_textures;
 			map<std::string, int> m_texture_lookups;
 			int m_textures_iter = 0;
+			int m_tex_wrap_s = GL_CLAMP_TO_BORDER;
+			int m_tex_wrap_t = GL_CLAMP_TO_BORDER;
+			int m_tex_min = GL_LINEAR;
+			int m_tex_mag = GL_LINEAR;
 
 			/* fonts */
 			map<int, TTF_Font*> m_fonts;

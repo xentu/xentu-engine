@@ -1,3 +1,6 @@
+# enable nearest neighbour filter
+assets.set_interpolation(TEX_NEAREST)
+
 # load resources.
 sprite_map1 = assets.load_sprite_map("/assets/zombie1.xsf")
 frame = 0

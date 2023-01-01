@@ -62,6 +62,8 @@ namespace xen
 	duk_ret_t js_assets_unload_shader(duk_context* L);
 	duk_ret_t js_assets_unload_sprite_map(duk_context* L);
 	duk_ret_t js_assets_unload_tile_map(duk_context* L);
+	duk_ret_t js_assets_set_wrap(duk_context* L);
+	duk_ret_t js_assets_set_interpolation(duk_context* L);
 
 	duk_ret_t js_audio_play_sound(duk_context *L);
 	duk_ret_t js_audio_play_music(duk_context *L);

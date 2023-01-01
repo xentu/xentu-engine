@@ -33,6 +33,8 @@ namespace xen { const char * xen_js_script_init = R"(
 	assets.unload_shader = assets_unload_shader;
 	assets.unload_sprite_map = assets_unload_sprite_map;
 	assets.unload_tile_map = assets_unload_tile_map;
+	assets.set_wrap = assets_set_wrap;
+	assets.set_interpolation = assets_set_interpolation;
 
 	const audio = {}
 	audio.play_sound = audio_play_sound;
@@ -299,6 +301,14 @@ namespace xen { const char * xen_js_script_init = R"(
 	const BLEND_SATURATION			 = 23;
 	const BLEND_COLOR					 = 24;
 	const BLEND_LUMINOSITY			 = 25;
+
+
+	const TEX_LINEAR					 = 0;
+	const TEX_NEAREST					 = 1;
+	const TEX_CLAMP_TO_EDGE			 = 2;
+	const TEX_CLAMP_TO_BORDER		 = 3;
+	const TEX_MIRRORED_REPEAT		 = 4;
+	const TEX_REPEAT					 = 5;
 
 
 	game.create_window();

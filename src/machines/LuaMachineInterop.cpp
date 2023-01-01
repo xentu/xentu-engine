@@ -116,7 +116,7 @@ namespace xen
 		auto path = lua_tostring(L, -1);
 		auto m = LuaMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
-		int texture_id = r->LoadTexture(path, TX_CLAMP_TO_EDGE);
+		int texture_id = r->LoadTexture(path);
 		lua_pushinteger(L, texture_id);
 		return 1;
 	}
@@ -252,6 +252,40 @@ namespace xen
 		int asset_id = lua_tointeger(L, -1);
 		lua_pushinteger(L, a->UnloadTileMap(asset_id));
 		return 1;
+	}
+
+	int XentuLuaMachineInterop::assets_set_wrap(lua_State* L)
+	{
+		int count = lua_gettop(L);
+		if (count == 1) {
+			int wrap_both = lua_tointeger(L, -1);
+			AssetManager::GetInstance()->SetTextureWrap(wrap_both);
+			return 1;
+		}
+		else if (count == 2) {
+			int wrap_s = lua_tointeger(L, -2);
+			int wrap_t = lua_tointeger(L, -1);
+			AssetManager::GetInstance()->SetTextureWrap(wrap_s, wrap_t);
+			return 1;
+		}
+		return luaL_error(L, "expecting either 1 or 2 arguments");
+	}
+	
+	int XentuLuaMachineInterop::assets_set_interpolation(lua_State* L)
+	{
+		int count = lua_gettop(L);
+		if (count == 1) {
+			int both = lua_tointeger(L, -1);
+			AssetManager::GetInstance()->SetTextureInterpolation(both);
+			return 1;
+		}
+		else if (count == 2) {
+			int min = lua_tointeger(L, -2);
+			int mag = lua_tointeger(L, -1);
+			AssetManager::GetInstance()->SetTextureInterpolation(min, mag);
+			return 1;
+		}
+		return luaL_error(L, "expecting either 1 or 2 arguments");
 	}
 
 	#pragma endregion
@@ -919,6 +953,8 @@ namespace xen
 		method(XentuLuaMachineInterop, assets_unload_shader, assets_unload_shader),
 		method(XentuLuaMachineInterop, assets_unload_sprite_map, assets_unload_sprite_map),
 		method(XentuLuaMachineInterop, assets_unload_tile_map, assets_unload_tile_map),
+		method(XentuLuaMachineInterop, assets_set_wrap, assets_set_wrap),
+		method(XentuLuaMachineInterop, assets_set_interpolation, assets_set_interpolation),
 		method(XentuLuaMachineInterop, audio_play_sound, audio_play_sound),
 		method(XentuLuaMachineInterop, audio_play_music, audio_play_music),
 		method(XentuLuaMachineInterop, audio_stop_sound, audio_stop_sound),

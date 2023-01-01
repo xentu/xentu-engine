@@ -186,7 +186,7 @@ namespace xen
 		auto m = PythonMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
 		xen::VfsBufferResult res = vfs_get_global()->ReadAllData(s);
-		int texture_id = r->LoadTexture(s, TX_CLAMP_TO_EDGE);
+		int texture_id = r->LoadTexture(s);
 		// todo: take the filename from s and load the texture.
 		return PyLong_FromLong(texture_id);
 	}
@@ -324,6 +324,46 @@ namespace xen
 		auto m = PythonMachine::GetInstance();
 		AssetManager::GetInstance()->UnloadTileMap(asset_id);
 		return PyBool_FromLong(1);
+	}
+
+	PyObject* xen_py_interop_assets_set_wrap(PyObject *self, PyObject *args)
+	{
+		int wrap_s, wrap_t;
+		int count = PyTuple_Size(args);
+
+		if (count == 1) {
+			// only parse if 1 arg was passed.
+			if (!PyArg_ParseTuple(args, "i", &wrap_s)) return NULL;
+			AssetManager::GetInstance()->SetTextureWrap(wrap_s);
+			return PyBool_FromLong(1);
+		}
+		else if (count == 2) {
+			if (!PyArg_ParseTuple(args, "ii", &wrap_s, &wrap_t)) return NULL;
+			AssetManager::GetInstance()->SetTextureWrap(wrap_s, wrap_t);
+			return PyBool_FromLong(1);
+		}
+
+		return NULL;
+	}
+
+	PyObject* xen_py_interop_assets_set_interpolation(PyObject *self, PyObject *args)
+	{
+		int min, mag;
+		int count = PyTuple_Size(args);
+		
+		if (count == 1) {
+			// only parse if 1 arg was passed.
+			if (!PyArg_ParseTuple(args, "i", &min)) return NULL;
+			AssetManager::GetInstance()->SetTextureInterpolation(min);
+			return PyBool_FromLong(1);
+		}
+		else if (count == 2) {
+			if (!PyArg_ParseTuple(args, "ii", &min, &mag)) return NULL;
+			AssetManager::GetInstance()->SetTextureInterpolation(mag, mag);
+			return PyBool_FromLong(1);
+		}
+
+		return NULL;
 	}
 
 	PyObject* xen_py_interop_audio_play_sound(PyObject *self, PyObject *args)
@@ -915,6 +955,8 @@ namespace xen
 		{"assets_unload_shader",		xen_py_interop_assets_unload_shader, METH_VARARGS, "Unload a shader."},
 		{"assets_unload_sprite_map",  xen_py_interop_assets_unload_sprite_map, METH_VARARGS, "Unload a sprite map."},
 		{"assets_unload_tile_map", 	xen_py_interop_assets_unload_tile_map, METH_VARARGS, "Unload a tile map."},
+		{"assets_set_wrap", 				xen_py_interop_assets_set_wrap, METH_VARARGS, "Set the wrap mode for loading textures."},
+		{"assets_set_interpolation", 	xen_py_interop_assets_set_interpolation, METH_VARARGS, "Set the interpolation filter for loading textures."},
 		
 		{"audio_play_sound",				xen_py_interop_audio_play_sound, METH_VARARGS, "Play a sound."},
 		{"audio_play_music",				xen_py_interop_audio_play_music, METH_VARARGS, "Play a music file."},

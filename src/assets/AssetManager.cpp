@@ -7,6 +7,13 @@
 #include "../vfs/XenFileSystem.h"
 #include "../vfs/XenZipFileSystem.h"
 
+#define TEX_LINEAR 0
+#define TEX_NEAREST 1
+#define TEX_CLAMP_TO_EDGE 2
+#define TEX_CLAMP_TO_BORDER 3
+#define TEX_MIRRORED_REPEAT 4
+#define TEX_REPEAT 5
+
 namespace xen
 {
 	#pragma region Static Utility Methods
@@ -130,7 +137,7 @@ namespace xen
 		return instance;
 	}
 
-	int AssetManager::LoadTexture(const string& path, unsigned int wrap)
+	int AssetManager::LoadTexture(const string& path)
 	{
 		int existing_asset_id = this->LookupTexture(path);
 		if (existing_asset_id >= 0) {
@@ -147,6 +154,7 @@ namespace xen
 			return -1;
 		}
 
+		auto mode = GL_RGBA;
 		Uint32 rmask, gmask, bmask, amask;
 		#if SDL_BYTEORDER == SDL_BIG_ENDIAN
 			rmask = 0xff000000;
@@ -167,9 +175,7 @@ namespace xen
 		glGenTextures(1, &texture_id);
 		glBindTexture(GL_TEXTURE_2D, texture_id);
 
-		auto mode = GL_RGBA;
-
-		int gl_wrap = GL_REPEAT;
+		/*int gl_wrap = GL_REPEAT;
 		switch (wrap) {
 			case 1:
 				gl_wrap = GL_CLAMP_TO_EDGE;
@@ -177,13 +183,16 @@ namespace xen
 			case 2:
 				gl_wrap = GL_CLAMP_TO_BORDER;
 				break;
-		}
+		} */
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_wrap);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_wrap);
+ 		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_wrap);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_wrap);
- 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_tex_wrap_s);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_tex_wrap_t);
+ 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_tex_min);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_tex_mag);
 		glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur_clean->pixels);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -394,5 +403,57 @@ namespace xen
 		m_shaders.erase(id);
 		m_shaders_iter--;
 		return 0;
+	}
+
+
+	void AssetManager::SetTextureWrap(const int wrap_both)
+	{
+		switch(wrap_both) {
+			case TEX_CLAMP_TO_EDGE: m_tex_wrap_s = m_tex_wrap_t = GL_CLAMP_TO_EDGE; break;
+			case TEX_CLAMP_TO_BORDER: m_tex_wrap_s = m_tex_wrap_t = GL_CLAMP_TO_BORDER; break;
+			case TEX_MIRRORED_REPEAT: m_tex_wrap_s = m_tex_wrap_t = GL_MIRRORED_REPEAT; break;
+			case TEX_REPEAT: m_tex_wrap_s = m_tex_wrap_t = GL_REPEAT; break;
+		}
+	}
+
+
+	void AssetManager::SetTextureWrap(const int wrap_s, const int wrap_t)
+	{
+		switch(wrap_s) {
+			case TEX_CLAMP_TO_EDGE: m_tex_wrap_s = GL_CLAMP_TO_EDGE; break;
+			case TEX_CLAMP_TO_BORDER: m_tex_wrap_s = GL_CLAMP_TO_BORDER; break;
+			case TEX_MIRRORED_REPEAT: m_tex_wrap_s = GL_MIRRORED_REPEAT; break;
+			case TEX_REPEAT: m_tex_wrap_s = GL_REPEAT; break;
+		}
+
+		switch(wrap_t) {
+			case TEX_CLAMP_TO_EDGE: m_tex_wrap_t = GL_CLAMP_TO_EDGE; break;
+			case TEX_CLAMP_TO_BORDER: m_tex_wrap_t = GL_CLAMP_TO_BORDER; break;
+			case TEX_MIRRORED_REPEAT: m_tex_wrap_t = GL_MIRRORED_REPEAT; break;
+			case TEX_REPEAT: m_tex_wrap_t = GL_REPEAT; break;
+		}
+	}
+
+
+	void AssetManager::SetTextureInterpolation(const int both)
+	{
+		switch(both) {
+			case TEX_LINEAR: m_tex_min = m_tex_mag = GL_LINEAR; break;
+			case TEX_NEAREST: m_tex_min = m_tex_mag = GL_NEAREST; break;
+		}
+	}
+
+
+	void AssetManager::SetTextureInterpolation(const int min, const int mag)
+	{
+		switch(min) {
+			case TEX_LINEAR: m_tex_min = GL_LINEAR; break;
+			case TEX_NEAREST: m_tex_min = GL_NEAREST; break;
+		}
+
+		switch(mag) {
+			case TEX_LINEAR: m_tex_mag = GL_LINEAR; break;
+			case TEX_NEAREST: m_tex_mag = GL_NEAREST; break;
+		}
 	}
 }

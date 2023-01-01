@@ -1,3 +1,6 @@
+// enable nearest neighbour filter
+assets.set_interpolation(TEX_NEAREST)
+
 // load resources.
 const sprite_map1 = assets.load_sprite_map("/assets/zombie1.xsf");
 var frame = 0, frame_time = 0;

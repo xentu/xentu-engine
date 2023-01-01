@@ -70,7 +70,7 @@ namespace xen {
 						{
 							const auto& path = ts->getImagePath();
 							auto vec2 = &object.getPosition();
-							int texture_id = assets->LoadTexture(path, TX_CLAMP_TO_EDGE);
+							int texture_id = assets->LoadTexture(path);
 							auto ts_tile = ts->getTile(idx);
 							auto ts_tile_size = ts->getTileSize();
 
@@ -106,7 +106,7 @@ namespace xen {
 		{
 			const auto image = layer->getLayerAs<tmx::ImageLayer>();
 			const auto image_path = image.getImagePath();
-			m_texture_id = assets->LoadTexture(image_path, TX_CLAMP_TO_EDGE); // TX_RGBA - TX_CLAMP_TO_EDGE
+			m_texture_id = assets->LoadTexture(image_path); // TX_RGBA - TX_CLAMP_TO_EDGE
 		}
 		else if (type == tmx::Layer::Type::Tile)
 		{
@@ -132,7 +132,7 @@ namespace xen {
 			for (const auto& ts : usedTileSets)
 			{
 				const auto& path = ts->getImagePath();
-				const int texture_id = assets->LoadTexture(path, TX_CLAMP_TO_EDGE); // TX_RGBA - TX_CLAMP_TO_EDGE
+				const int texture_id = assets->LoadTexture(path); // TX_RGBA - TX_CLAMP_TO_EDGE
 				tileSetTextures->insert(std::make_pair(ts->getName(), texture_id));
 			}
 
