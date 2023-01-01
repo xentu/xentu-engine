@@ -78,7 +78,7 @@ namespace xen
 			/**
 			 * Initialize the renderer.
 			 */
-			bool Init(string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode);
+			bool Init(string title, int x, int y, int width, int height, int mode, bool resizable, int vp_width, int vp_height, int vp_mode);
 
 			/**
 			 * Use a specific shader

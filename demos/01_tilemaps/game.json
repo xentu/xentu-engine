@@ -5,6 +5,7 @@
 		"version": "0.0.0",
 		"v_sync": true,
 		"fullscreen": false,
+		"resizable": false,
 		"update_frequency": 60,
 		"draw_frequency": 60,
 		"window": {

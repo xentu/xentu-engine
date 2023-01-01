@@ -18,6 +18,7 @@ namespace xen
 			entry_point = this->GetSetting("game", "entry_point", "");
 			v_sync = this->GetSettingBool("game", "v_sync", true);
 			fullscreen = this->GetSettingBool("game", "fullscreen", false);
+			resizable = this->GetSettingBool("game", "resizable", true);
 			update_frequency = this->GetSettingInt("game", "update_frequency", 60);
 			draw_frequency = this->GetSettingInt("game", "draw_frequency", 60);
 

@@ -99,13 +99,14 @@ namespace xen
 			m_config->window.width,
 			m_config->window.height,
 			SDL_WINDOW_OPENGL,
+			m_config->resizable,
 			m_config->viewport.width,
 			m_config->viewport.height,
 			m_config->viewport.mode);
 	}
 
 
-	bool Renderer::Init(std::string title, int x, int y, int width, int height, int mode, int vp_width, int vp_height, int vp_mode)
+	bool Renderer::Init(std::string title, int x, int y, int width, int height, int mode, bool resizable, int vp_width, int vp_height, int vp_mode)
 	{
 		m_viewport = Viewport(vp_width, vp_height, vp_mode);
 
@@ -131,7 +132,13 @@ namespace xen
 			std::cout << "SDL could not set OpenGL Core Profile: " << SDL_GetError();
 		}
 
-		m_window = SDL_CreateWindow(title.c_str(), x, y, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+		if (resizable) {
+			m_window = SDL_CreateWindow(title.c_str(), x, y, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+		}
+		else {
+			m_window = SDL_CreateWindow(title.c_str(), x, y, width, height, SDL_WINDOW_OPENGL);
+		}
+		
 		m_gl_context = SDL_GL_CreateContext(m_window);
 
 		//Use V-Sync

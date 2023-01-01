@@ -57,6 +57,7 @@ namespace xen
 			std::string entry_point;
 			bool v_sync;
 			bool fullscreen;
+			bool resizable;
 			int update_frequency;
 			int draw_frequency;
 			ConfigWindow window;
