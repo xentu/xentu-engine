@@ -81,10 +81,10 @@ namespace xen
 			int mouse_button_down(lua_State* L);
 			int mouse_button_clicked(lua_State* L);
 
-			int shader_get_uniform_location(lua_State* L);
-			int shader_set_uniforms_bool(lua_State* L);
-			int shader_set_uniforms_int(lua_State* L);
-			int shader_set_uniforms_float(lua_State* L);
+			int shader_get_location(lua_State* L);
+			int shader_set_bool(lua_State* L);
+			int shader_set_int(lua_State* L);
+			int shader_set_float(lua_State* L);
 
 			int sprite_map_get_frame_info(lua_State* L);
 			int sprite_map_get_frame_count(lua_State* L);

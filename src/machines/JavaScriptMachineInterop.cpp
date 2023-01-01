@@ -98,10 +98,10 @@ namespace xen
 		js_init_method(L, "mouse_get_position", js_mouse_get_position, 0);
 		js_init_method(L, "mouse_button_down", js_mouse_button_down, 1);
 		js_init_method(L, "mouse_button_clicked", js_mouse_button_clicked, 1);
-		js_init_method(L, "shader_get_uniform_location", js_shader_get_uniform_location, 1);
-		js_init_method(L, "shader_set_uniforms_bool", js_shader_set_uniforms_bool, DUK_VARARGS);
-		js_init_method(L, "shader_set_uniforms_int", js_shader_set_uniforms_int, DUK_VARARGS);
-		js_init_method(L, "shader_set_uniforms_float", js_shader_set_uniforms_float, DUK_VARARGS);
+		js_init_method(L, "shader_get_location", js_shader_get_location, 1);
+		js_init_method(L, "shader_set_bool", js_shader_set_bool, DUK_VARARGS);
+		js_init_method(L, "shader_set_int", js_shader_set_int, DUK_VARARGS);
+		js_init_method(L, "shader_set_float", js_shader_set_float, DUK_VARARGS);
 		js_init_method(L, "sprite_map_get_frame_info", js_sprite_map_get_frame_info, 3);
 		js_init_method(L, "sprite_map_get_frame_count", js_sprite_map_get_frame_count, 2);
 	}
@@ -805,7 +805,7 @@ namespace xen
 
 	#pragma region Shader
 
-	duk_ret_t js_shader_get_uniform_location(duk_context* L) {
+	duk_ret_t js_shader_get_location(duk_context* L) {
 		string uniform_name = duk_to_string(L, 0);
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -814,7 +814,7 @@ namespace xen
 		return 1;
 	}
 
-	duk_ret_t js_shader_set_uniforms_bool(duk_context* L) {
+	duk_ret_t js_shader_set_bool(duk_context* L) {
 		int argc = duk_get_top(L);
 		if (argc < 2 || argc > 17) return DUK_RET_TYPE_ERROR;
 		argc--; // subtract 1 so argc equals the number of booleans.
@@ -832,7 +832,7 @@ namespace xen
 		return 0;
 	}
 
-	duk_ret_t js_shader_set_uniforms_int(duk_context* L) {
+	duk_ret_t js_shader_set_int(duk_context* L) {
 		int argc = duk_get_top(L);
 		if (argc < 2 || argc > 17) return DUK_RET_TYPE_ERROR;
 		argc--; // subtract 1 so argc equals the number of booleans.
@@ -850,7 +850,7 @@ namespace xen
 		return 0;
 	}
 
-	duk_ret_t js_shader_set_uniforms_float(duk_context* L) {
+	duk_ret_t js_shader_set_float(duk_context* L) {
 		int argc = duk_get_top(L);
 		if (argc < 2 || argc > 17) return DUK_RET_TYPE_ERROR;
 		argc--; // subtract 1 so argc equals the number of booleans.

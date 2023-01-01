@@ -112,11 +112,10 @@ namespace xen
 	duk_ret_t js_mouse_button_down(duk_context* L);
 	duk_ret_t js_mouse_button_clicked(duk_context* L);
 
-	duk_ret_t js_shader_get_uniform_location(duk_context* L);
-	duk_ret_t js_shader_set_uniforms_bool(duk_context* L);
-	duk_ret_t js_shader_set_uniforms_int(duk_context* L);
-	duk_ret_t js_shader_set_uniforms_float(duk_context* L);
-	duk_ret_t js_shader_set_uniform_matrix(duk_context* L);
+	duk_ret_t js_shader_get_location(duk_context* L);
+	duk_ret_t js_shader_set_bool(duk_context* L);
+	duk_ret_t js_shader_set_int(duk_context* L);
+	duk_ret_t js_shader_set_float(duk_context* L);
 
 	duk_ret_t js_sprite_map_get_frame_info(duk_context* L);
 	duk_ret_t js_sprite_map_get_frame_count(duk_context* L);

@@ -619,7 +619,7 @@ namespace xen
 		return PyBool_FromLong(1);
 	}
 
-	PyObject* xen_py_interop_shader_get_uniform_location(PyObject *self, PyObject *args)
+	PyObject* xen_py_interop_shader_get_location(PyObject *self, PyObject *args)
 	{
 		char* uniform_name;
 		if (!PyArg_ParseTuple(args, "s", &uniform_name)) return NULL;
@@ -630,7 +630,7 @@ namespace xen
 	}
 
 
-	PyObject* xen_py_interop_shader_set_uniforms_bool(PyObject *self, PyObject *args)
+	PyObject* xen_py_interop_shader_set_bool(PyObject *self, PyObject *args)
 	{
 		int uniform_id;
 		bool value;
@@ -644,7 +644,7 @@ namespace xen
 	}
 
 
-	PyObject* xen_py_interop_shader_set_uniforms_int(PyObject *self, PyObject *args)
+	PyObject* xen_py_interop_shader_set_int(PyObject *self, PyObject *args)
 	{
 		int uniform_id, value;
 		if (!PyArg_ParseTuple(args, "ii", &uniform_id, &value)) return NULL;
@@ -657,7 +657,7 @@ namespace xen
 	}
 
 
-	PyObject* xen_py_interop_shader_set_uniforms_float(PyObject *self, PyObject *args)
+	PyObject* xen_py_interop_shader_set_float(PyObject *self, PyObject *args)
 	{
 		int uniform_id;
 		float value;
@@ -668,6 +668,40 @@ namespace xen
 		inputs[0] = value;
 		renderer->SetUniforms(uniform_id, 1, inputs);
 		return PyLong_FromLong(1);
+	}
+
+
+	PyObject* xen_py_interop_sprite_map_get_frame_info(PyObject *self, PyObject *args)
+	{
+		int asset_id, frame;
+		char* animation;
+		if (!PyArg_ParseTuple(args, "isi", &asset_id, &animation, &frame)) return NULL;
+		auto a = AssetManager::GetInstance();
+		auto sm = a->GetSpriteMap(asset_id);
+		auto grp = sm->get_group(animation);
+		auto info = grp->get_frame(frame);
+		// build the result.
+		PyObject* result = PyTuple_New(3);
+		PyObject* arg0 = PyLong_FromLong(info->delay);
+		PyObject* arg1 = PyBool_FromLong(info->flip_x);
+    	PyObject* arg2 = PyBool_FromLong(info->flip_y);
+    	if (PyTuple_SetItem(result, 0, arg0) != 0) return NULL;
+    	if (PyTuple_SetItem(result, 1, arg1) != 0) return NULL;
+		if (PyTuple_SetItem(result, 2, arg2) != 0) return NULL;	
+		return result;
+	}
+
+
+	PyObject* xen_py_interop_sprite_map_get_frame_count(PyObject *self, PyObject *args)
+	{
+		int asset_id;
+		char* animation;
+		if (!PyArg_ParseTuple(args, "is", &asset_id, &animation)) return NULL;
+		auto a = AssetManager::GetInstance();
+		auto sm = a->GetSpriteMap(asset_id);
+		auto grp = sm->get_group(animation);
+		const int count = grp->get_count();
+		return PyLong_FromLong(count);
 	}
 
 	
@@ -913,13 +947,13 @@ namespace xen
 		{"renderer_set_blend_func",   xen_py_interop_renderer_set_blend_func, METH_VARARGS, "Set the blending function."},
 		{"renderer_set_blend_preset", xen_py_interop_renderer_set_blend_preset, METH_VARARGS, "Set the preset used for blending."},
 
-		{"shader_get_uniform_location", xen_py_interop_shader_get_uniform_location, METH_VARARGS, "Get the location of a shader uniform."},
-		{"shader_set_uniforms_bool",  xen_py_interop_shader_set_uniforms_bool, METH_VARARGS, "Set one or many boolean uniform values on a shader"},
-		{"shader_set_uniforms_int",	xen_py_interop_shader_set_uniforms_int, METH_VARARGS, "Set one or many integer uniform values on a shader"},
-		{"shader_set_uniforms_float",	xen_py_interop_shader_set_uniforms_float, METH_VARARGS, "Set one or many float uniform values on a shader"},
+		{"shader_get_location",			xen_py_interop_shader_get_location, METH_VARARGS, "Get the location of a shader variable."},
+		{"shader_set_bool",				xen_py_interop_shader_set_bool, METH_VARARGS, "Set a boolean values on a shader"},
+		{"shader_set_int",				xen_py_interop_shader_set_int, METH_VARARGS, "Set a integer values on a shader"},
+		{"shader_set_float",				xen_py_interop_shader_set_float, METH_VARARGS, "Set a float values on a shader"},
 
-		/* {"sprite_map_get_frame_info", xen_py_interop_sprite_map_get_frame_info, METH_VARARGS, "Get info about a specific sprite on a sprite map."},
-		{"sprite_map_get_frame_count",xen_py_interop_sprite_map_get_frame_count, METH_VARARGS, "Get the number of frames for an animation on a sprite map."}, */
+		{"sprite_map_get_frame_info", xen_py_interop_sprite_map_get_frame_info, METH_VARARGS, "Get info about a specific sprite on a sprite map."},
+		{"sprite_map_get_frame_count",xen_py_interop_sprite_map_get_frame_count, METH_VARARGS, "Get the number of frames for an animation on a sprite map."},
 		
 		{"config_get_str",				xen_py_interop_config_get_str, METH_VARARGS, "Get a string setting"},
 		{"config_get_str2",				xen_py_interop_config_get_str2, METH_VARARGS, "Get a string sub setting"},

@@ -780,7 +780,7 @@ namespace xen
 
 	#pragma region Shader
 
-	int XentuLuaMachineInterop::shader_get_uniform_location(lua_State* L)
+	int XentuLuaMachineInterop::shader_get_location(lua_State* L)
 	{
 		if (lua_gettop(L) != 1) {
 			return luaL_error(L, "expecting exactly 1 arguments");
@@ -793,7 +793,7 @@ namespace xen
 		return 1;
 	}
 
-	int XentuLuaMachineInterop::shader_set_uniforms_bool(lua_State* L)
+	int XentuLuaMachineInterop::shader_set_bool(lua_State* L)
 	{
 		int argc = lua_gettop(L);
 		if (argc < 2 || argc > 17) return luaL_error(L, "expecting between 2 & 17 arguments");
@@ -811,7 +811,7 @@ namespace xen
 		return 0;
 	}
 	
-	int XentuLuaMachineInterop::shader_set_uniforms_int(lua_State* L)
+	int XentuLuaMachineInterop::shader_set_int(lua_State* L)
 	{
 		int argc = lua_gettop(L);
 		if (argc < 2 || argc > 17) return luaL_error(L, "expecting between 2 & 17 arguments");
@@ -829,7 +829,7 @@ namespace xen
 		return 0;
 	}
 	
-	int XentuLuaMachineInterop::shader_set_uniforms_float(lua_State* L)
+	int XentuLuaMachineInterop::shader_set_float(lua_State* L)
 	{
 		int argc = lua_gettop(L);
 		if (argc < 2 || argc > 17) return luaL_error(L, "expecting between 2 & 17 arguments");
@@ -962,10 +962,10 @@ namespace xen
 		method(XentuLuaMachineInterop, mouse_get_position, mouse_get_position),
 		method(XentuLuaMachineInterop, mouse_button_down, mouse_button_down),
 		method(XentuLuaMachineInterop, mouse_button_clicked, mouse_button_clicked),
-		method(XentuLuaMachineInterop, shader_get_uniform_location, shader_get_uniform_location),
-		method(XentuLuaMachineInterop, shader_set_uniforms_bool, shader_set_uniforms_bool),
-		method(XentuLuaMachineInterop, shader_set_uniforms_int, shader_set_uniforms_int),
-		method(XentuLuaMachineInterop, shader_set_uniforms_float, shader_set_uniforms_float),
+		method(XentuLuaMachineInterop, shader_get_location, shader_get_location),
+		method(XentuLuaMachineInterop, shader_set_bool, shader_set_bool),
+		method(XentuLuaMachineInterop, shader_set_int, shader_set_int),
+		method(XentuLuaMachineInterop, shader_set_float, shader_set_float),
 		method(XentuLuaMachineInterop, sprite_map_get_frame_info, sprite_map_get_frame_info),
 		method(XentuLuaMachineInterop, sprite_map_get_frame_count, sprite_map_get_frame_count),
 		{0,0}

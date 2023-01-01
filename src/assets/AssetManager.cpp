@@ -185,7 +185,7 @@ namespace xen
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur_clean->pixels);
-		//glGenerateMipmap(GL_TEXTURE_2D);
+		glGenerateMipmap(GL_TEXTURE_2D);
 
 		Texture* texture = new Texture(texture_id, sur->w, sur->h, mode);
 		XEN_ECHO("Loaded texture: %s [gl: %d] [id: %d] (Size: %d x %d).\n", path.c_str(), (int)texture_id, m_textures_iter, sur->w, sur->h);

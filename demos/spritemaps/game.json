@@ -1,7 +1,7 @@
 {
 	"game": {
-		"title": "Tile Maps Demo",
-		"entry_point": "/game.js",
+		"title": "Xentu Demos - Sprite Maps",
+		"entry_point": "/spritemaps.py",
 		"version": "0.0.0",
 		"v_sync": true,
 		"fullscreen": false,

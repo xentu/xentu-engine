@@ -121,15 +121,15 @@ mouse.button_clicked = xentu.mouse_button_clicked
 
 # new module for shaders
 shader = XenDummyObject('shader')
-shader.get_uniform_location = xentu.shader_get_uniform_location
-shader.set_uniforms_bool = xentu.shader_set_uniforms_bool
-shader.set_uniforms_int = xentu.shader_set_uniforms_int
-shader.set_uniforms_float = xentu.shader_set_uniforms_float
+shader.get_location = xentu.shader_get_location
+shader.set_bool = xentu.shader_set_bool
+shader.set_int = xentu.shader_set_int
+shader.set_float = xentu.shader_set_float
 
 # new module for sprite_map
 sprite_map = XenDummyObject('sprite_map')
-# sprite_map.get_frame_info = sprite_map_get_frame_info
-# sprite_map.get_frame_count = sprite_map_get_frame_count
+sprite_map.get_frame_info = xentu.sprite_map_get_frame_info
+sprite_map.get_frame_count = xentu.sprite_map_get_frame_count
 
 # masquerade a new module for const
 globals()['KB_SPACE']				= 44

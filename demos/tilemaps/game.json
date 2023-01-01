@@ -1,0 +1,31 @@
+{
+	"game": {
+		"title": "Xentu Demos - Tile Maps",
+		"entry_point": "/game.js",
+		"version": "0.0.0",
+		"v_sync": true,
+		"fullscreen": false,
+		"resizable": false,
+		"update_frequency": 60,
+		"draw_frequency": 60,
+		"window": {
+			"width": 1280,
+			"height": 720
+		},
+		"viewport": {
+			"width": 640,
+			"height": 480,
+			"mode": 1
+		},
+		"audio": {
+			"frequency": 44100,
+			"channels": 2,
+			"depth": 16,
+			"codecs": [
+				"wav",
+				"ogg",
+				"flac"
+			]
+		}
+	}
+}

@@ -1,5 +1,3 @@
-print('Hello from python!')
-
 # load resources.
 tilemap1 = assets.load_tile_map_tmx("/assets/tilemap01.tmx", "/assets/")
 

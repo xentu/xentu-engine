@@ -114,10 +114,10 @@ mouse.button_down = function(a) return interop.mouse_button_down(a) end
 mouse.button_clicked = function(a) return interop.mouse_button_clicked(a) end
 
 shader = {}
-shader.get_uniform_location = function(uniform_name) return interop.shader_get_uniform_location(uniform_name) end
-shader.set_uniforms_bool = function(...) return interop.shader_set_uniforms_bool(arg) end
-shader.set_uniforms_int = function(...) return interop.shader_set_uniforms_int(arg) end
-shader.set_uniforms_float = function(...) return interop.shader_set_uniforms_float(arg) end
+shader.get_location = function(var_name) return interop.shader_get_location(var_name) end
+shader.set_bool = function(...) return interop.shader_set_bool(arg) end
+shader.set_int = function(...) return interop.shader_set_int(arg) end
+shader.set_float = function(...) return interop.shader_set_float(arg) end
 
 
 game.create_window()
