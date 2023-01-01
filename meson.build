@@ -14,11 +14,11 @@ sdl2_mixer_dep = dependency('SDL2_mixer')
 sdl2_ttf_dep = dependency('SDL2_ttf')
 sdl2_dep = dependency('sdl2')
 if host_machine.system() == 'linux'
-  lua_dep = dependency('lua-5.3')
+  py_dep = dependency('python3-embed')
 else
-  lua_dep = dependency('lua-5.4')
+  py_dep = dependency('python3')
 endif
-py_dep = dependency('python3')
+lua_dep = dependency('lua-5.4')
 if  host_machine.system() == 'darwin'
   dep_main = dependency('appleframeworks', modules : ['Foundation'])
   dep_libs = dependency('appleframeworks', modules : ['OpenGL'], required : true)

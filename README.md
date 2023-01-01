@@ -21,6 +21,7 @@ languages available to run pretty much anywhere natively.
 - Draw graphics with a fully featured and fast batch renderer.
 - Load textures, shaders, fonts, and more using a smart asset manager.
 - Access assets from archives via the built in VFS (virtual file system).
+- Support for sprite maps & tile maps.
 - Input support for keyboards, mice and game pads.
 - Sound and music playback, with 8 mixer tracks.
 
@@ -54,17 +55,22 @@ both installed, run the setup.sh script to setup dependencies. If you are not on
 
 or
 
-```ninja -C build```   (on some older systems)
-
+```ninja -C build```
 
 Will compile the engine into `/build/xentu.exe` on windows, or `/build/xentu` on
 MacOS/Linux respectively. Also if you have VSCode, a tasks.json has been setup
 so you can build using the build command, and a launch.json has been provided to
 help aid in launching the engine in debug mode.
 
-Also if you find the binaries that are produced are too large, you likely need to
-switch to a different buildtype in the meson.build file. Common values are 'debug',
-'release' and 'minsize'.
+If you find the binaries that are produced are too large, you likely need to
+switch to a different buildtype in the meson.build file. The common options are
+'debug', 'release' and 'minsize'.
+
+## Building Notes (Linux)
+
+Xentu requires Lua 5.4, Python 3.10 and GLEW to compile successfully. Currently
+Linux Mint ships with everything, although you may need to apt install 
+`freeglut3`, `freeglut3-dev` and `libglew-dev`.
 
 <br />
 
