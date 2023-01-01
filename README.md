@@ -1,4 +1,4 @@
-<p align="center"><img width="100" src="assets/images/logo.png" alt="Xentu logo" /></p>
+<p align="center"><img width="100" src="demos/00_main/images/logo.png" alt="Xentu logo" /></p>
 <h1 align="center">Xentu Game Engine</h1>
 
 A slim, fast and easy to learn framework for creating 2D computer games scripted 
