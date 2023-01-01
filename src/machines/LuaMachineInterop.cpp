@@ -170,6 +170,18 @@ namespace xen
 		return 1;
 	}
 
+	int XentuLuaMachineInterop::assets_load_tile_map_tmx(lua_State* L)
+	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
+		auto path = lua_tostring(L, -2);
+		auto working_dir = lua_tostring(L, -1);
+		int asset_id = AssetManager::GetInstance()->LoadTileMapTMX(path, working_dir);
+		lua_pushinteger(L, asset_id);
+		return 1;
+	}
+
 	int XentuLuaMachineInterop::assets_create_textbox(lua_State* L)
 	{
 		if (lua_gettop(L) != 4) {
@@ -183,14 +195,6 @@ namespace xen
 		auto r = AssetManager::GetInstance();
 		int textbox_id = r->CreateTextBox(x, y, w, h);
 		lua_pushinteger(L, textbox_id);
-		return 1;
-	}
-
-	int XentuLuaMachineInterop::assets_create_sprite_map(lua_State* L)
-	{
-		auto a = AssetManager::GetInstance();
-		int asset_id = a->CreateSpriteMap();
-		lua_pushinteger(L, asset_id);
 		return 1;
 	}
 
@@ -239,6 +243,14 @@ namespace xen
 		auto a = AssetManager::GetInstance();
 		int asset_id = lua_tointeger(L, -1);
 		lua_pushinteger(L, a->UnloadSpriteMap(asset_id));
+		return 1;
+	}
+
+	int XentuLuaMachineInterop::assets_unload_tile_map(lua_State* L)
+	{
+		auto a = AssetManager::GetInstance();
+		int asset_id = lua_tointeger(L, -1);
+		lua_pushinteger(L, a->UnloadTileMap(asset_id));
 		return 1;
 	}
 
@@ -420,6 +432,19 @@ namespace xen
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
 		r->DrawSprite(asset_id, region, frame, x, y, w, h);
+		return 0;
+	}
+
+	int XentuLuaMachineInterop::renderer_draw_tile_layer(lua_State* L)
+	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
+		int asset_id = lua_tointeger(L, -2);
+		int layer = lua_tointeger(L, -1);
+		auto m = LuaMachine::GetInstance();
+		auto r = m->GetRenderer();
+		r->DrawTileLayer(asset_id, layer);
 		return 0;
 	}
 
@@ -885,14 +910,15 @@ namespace xen
 		method(XentuLuaMachineInterop, assets_load_music, assets_load_music),
 		method(XentuLuaMachineInterop, assets_load_shader, assets_load_shader),
 		method(XentuLuaMachineInterop, assets_load_sprite_map, assets_load_sprite_map),
+		method(XentuLuaMachineInterop, assets_load_tile_map_tmx, assets_load_tile_map_tmx),
 		method(XentuLuaMachineInterop, assets_create_textbox, assets_create_textbox),
-		method(XentuLuaMachineInterop, assets_create_sprite_map, assets_create_sprite_map),
 		method(XentuLuaMachineInterop, assets_unload_texture, assets_unload_texture),
 		method(XentuLuaMachineInterop, assets_unload_font, assets_unload_font),
 		method(XentuLuaMachineInterop, assets_unload_sound, assets_unload_sound),
 		method(XentuLuaMachineInterop, assets_unload_music, assets_unload_music),
 		method(XentuLuaMachineInterop, assets_unload_shader, assets_unload_shader),
 		method(XentuLuaMachineInterop, assets_unload_sprite_map, assets_unload_sprite_map),
+		method(XentuLuaMachineInterop, assets_unload_tile_map, assets_unload_tile_map),
 		method(XentuLuaMachineInterop, audio_play_sound, audio_play_sound),
 		method(XentuLuaMachineInterop, audio_play_music, audio_play_music),
 		method(XentuLuaMachineInterop, audio_stop_sound, audio_stop_sound),
@@ -909,6 +935,7 @@ namespace xen
 		method(XentuLuaMachineInterop, renderer_draw_rectangle, renderer_draw_rectangle),
 		method(XentuLuaMachineInterop, renderer_draw_textbox, renderer_draw_textbox),
 		method(XentuLuaMachineInterop, renderer_draw_sprite, renderer_draw_sprite),
+		method(XentuLuaMachineInterop, renderer_draw_tile_layer, renderer_draw_tile_layer),
 		method(XentuLuaMachineInterop, renderer_set_background, renderer_set_background),
 		method(XentuLuaMachineInterop, renderer_set_foreground, renderer_set_foreground),
 		method(XentuLuaMachineInterop, renderer_set_window_mode, renderer_set_window_mode),

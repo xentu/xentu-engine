@@ -18,6 +18,7 @@ if host_machine.system() == 'linux'
 else
   lua_dep = dependency('lua-5.4')
 endif
+py_dep = dependency('python3')
 if  host_machine.system() == 'darwin'
   dep_main = dependency('appleframeworks', modules : ['Foundation'])
   dep_libs = dependency('appleframeworks', modules : ['OpenGL'], required : true)
@@ -64,6 +65,8 @@ project_source_files = files([
   'src/machines/JavaScriptMachine.cpp',
   'src/machines/LuaMachineInterop.cpp',
   'src/machines/LuaMachine.cpp',
+  'src/machines/PythonMachineInterop.cpp',
+  'src/machines/PythonMachine.cpp',
   'src/Machine.cpp',
 
   # graphics
@@ -98,7 +101,7 @@ project_source_files = files([
 
 dependencies = [
   glew, sdl2_image_dep, sdl2_mixer_dep, ogg_dep, vorbis_dep,
-  sdl2_ttf_dep, sdl2_dep, lua_dep
+  sdl2_ttf_dep, sdl2_dep, py_dep, lua_dep
 ]
 
 

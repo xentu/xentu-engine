@@ -22,14 +22,15 @@ namespace xen
 			int assets_load_music(lua_State* L);
 			int assets_load_shader(lua_State* L);
 			int assets_load_sprite_map(lua_State* L);
+			int assets_load_tile_map_tmx(lua_State* L);
 			int assets_create_textbox(lua_State* L);
-			int assets_create_sprite_map(lua_State* L);
 			int assets_unload_texture(lua_State* L);
 			int assets_unload_font(lua_State* L);
 			int assets_unload_sound(lua_State* L);
 			int assets_unload_music(lua_State* L);
 			int assets_unload_shader(lua_State* L);
 			int assets_unload_sprite_map(lua_State* L);
+			int assets_unload_tile_map(lua_State* L);
 
 			int audio_play_sound(lua_State* L);
 			int audio_play_music(lua_State* L);
@@ -48,6 +49,7 @@ namespace xen
 			int renderer_draw_rectangle(lua_State* L);
 			int renderer_draw_textbox(lua_State* L);
 			int renderer_draw_sprite(lua_State* L);
+			int renderer_draw_tile_layer(lua_State* L);
 			int renderer_set_background(lua_State* L);
 			int renderer_set_foreground(lua_State* L);
 			int renderer_set_window_mode(lua_State* L);

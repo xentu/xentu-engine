@@ -30,8 +30,8 @@ assets.load_sound = function(path) return interop.assets_load_sound(path) end
 assets.load_music = function(path) return interop.assets_load_music(path) end
 assets.load_shader = function(a,b) return interop.assets_load_shader(a,b) end
 assets.load_sprite_map = function(path) return interop.assets_load_sprite_map(path) end
+assets.load_tile_map_tmx = function(path, working_dir) return interop.assets_load_tile_map_tmx(path, working_dir) end
 assets.create_textbox = function(a, b, c, d) return interop.assets_create_textbox(a, b, c, d) end
-assets.create_sprite_map = function() return interop.assets_create_sprite_map() end
 include = function(path)
 	code = assets.read_text_file(path)
 	delegate = load(code)
@@ -43,6 +43,7 @@ assets.unload_sound = function(a) return assets_unload_sound end
 assets.unload_music = function(a) return assets_unload_music end
 assets.unload_shader = function(a) return assets_unload_shader end
 assets.unload_sprite_map = function(a) return assets_unload_sprite_map end
+assets.unload_tile_map = function(a) return assets_unload_tile_map end
 
 audio = {}
 audio.play_sound = function(sound_id, channel, loops) interop.audio_play_sound(sound_id, channel, loops) end
@@ -63,6 +64,7 @@ renderer.draw_sub_texture = function(a, b,c,d,e, f,g,h,i) interop.renderer_draw_
 renderer.draw_rectangle = function(a,b,c,d) interop.renderer_draw_rectangle(a,b,c,d) end
 renderer.draw_textbox = function(a) interop.renderer_draw_textbox(a) end
 renderer.draw_sprite = function(id,region,frame,x,y,w,h) interop.renderer_draw_sprite(id,region,frame,x,y,w,h) end
+renderer.draw_tile_layer = function(id,layer) interop.renderer_draw_tile_layer(id,layer) end
 renderer.set_background = function(hex)
 	hex2 = hex:gsub("#", "")
 	interop.renderer_set_background(hex2)

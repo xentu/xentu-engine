@@ -1,10 +1,12 @@
 print('Hello from javascript!');
 
 // load resources.
-const tilemap1 = assets.load_tilemap_tmx("/assets/tilemap01.tmx", "/assets/");
+const tilemap1 = assets.load_tile_map_tmx("/assets/tilemap01.tmx", "/assets/");
 
-// setup variables.
-renderer.set_background('#000000');
+// handle the update event.
+game.on("update", function(dt) {
+	if (keyboard.key_clicked(KB_ESCAPE)) game.exit();        
+});
 
 // handle the draw event
 game.on("draw", function(dt) {

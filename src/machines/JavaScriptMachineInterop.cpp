@@ -46,15 +46,15 @@ namespace xen
 		js_init_method(L, "assets_load_music", js_assets_load_music, 1);
 		js_init_method(L, "assets_load_shader", js_assets_load_shader, 2);
 		js_init_method(L, "assets_load_sprite_map", js_assets_load_sprite_map, 1);
-		js_init_method(L, "assets_load_tilemap_tmx", js_assets_load_tilemap_tmx, 2);
+		js_init_method(L, "assets_load_tile_map_tmx", js_assets_load_tile_map_tmx, 2);
 		js_init_method(L, "assets_create_textbox", js_assets_create_textbox, 4);
-		js_init_method(L, "assets_create_sprite_map", js_assets_create_sprite_map, 0);
 		js_init_method(L, "assets_unload_texture", js_assets_unload_texture, 1);
 		js_init_method(L, "assets_unload_font", js_assets_unload_font, 1);
 		js_init_method(L, "assets_unload_sound", js_assets_unload_sound, 1);
 		js_init_method(L, "assets_unload_music", js_assets_unload_music, 1);
 		js_init_method(L, "assets_unload_shader", js_assets_unload_shader, 1);
 		js_init_method(L, "assets_unload_sprite_map", js_assets_unload_sprite_map, 1);
+		js_init_method(L, "assets_unload_tile_map", js_assets_unload_tile_map, 1);
 		js_init_method(L, "audio_play_sound", js_audio_play_sound, 3);
 		js_init_method(L, "audio_play_music", js_audio_play_music, 2);
 		js_init_method(L, "audio_stop_music", js_audio_stop_music, 1);
@@ -289,7 +289,7 @@ namespace xen
 		return 1;
 	}
 
-	duk_ret_t js_assets_load_tilemap_tmx(duk_context *L) {
+	duk_ret_t js_assets_load_tile_map_tmx(duk_context *L) {
 		auto path = duk_to_string(L, 0);
 		auto working_dir = duk_to_string(L, 1);
 		auto a = AssetManager::GetInstance();
@@ -307,13 +307,6 @@ namespace xen
 		auto r = AssetManager::GetInstance();
 		int textbox_id = r->CreateTextBox(x, y, w, h);
 		duk_push_int(L, textbox_id);
-		return 1;
-	}
-
-	duk_ret_t js_assets_create_sprite_map(duk_context *L) {
-		auto a = AssetManager::GetInstance();
-		int asset_id = a->CreateSpriteMap();
-		duk_push_int(L, asset_id);
 		return 1;
 	}
 
@@ -356,6 +349,14 @@ namespace xen
 		auto a = AssetManager::GetInstance();
 		int asset_id = duk_to_int(L, 0);
 		duk_push_int(L, a->UnloadSpriteMap(asset_id));
+		return 1;
+	}
+
+
+	duk_ret_t js_assets_unload_tile_map(duk_context* L) {
+		auto a = AssetManager::GetInstance();
+		int asset_id = duk_to_int(L, 0);
+		duk_push_int(L, a->UnloadTileMap(asset_id));
 		return 1;
 	}
 
@@ -504,7 +505,6 @@ namespace xen
 		int h = duk_to_int(L, 6);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = m->GetRenderer();
-		//r->DrawRectangle(x, y, w, h);
 		r->DrawSprite(asset_id, group, frame, x, y, w, h);
 		return 0;
 	}

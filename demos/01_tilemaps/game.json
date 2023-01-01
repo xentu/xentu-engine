@@ -1,7 +1,7 @@
 {
 	"game": {
 		"title": "Tile Maps Demo",
-		"entry_point": "/game.js",
+		"entry_point": "/game.py",
 		"version": "0.0.0",
 		"v_sync": true,
 		"fullscreen": false,

@@ -20,9 +20,8 @@ namespace xen { const char * xen_js_script_init = R"(
 	assets.load_music = assets_load_music;
 	assets.load_shader = assets_load_shader;
 	assets.load_sprite_map = assets_load_sprite_map;
-	assets.load_tilemap_tmx = assets_load_tilemap_tmx;
+	assets.load_tile_map_tmx = assets_load_tile_map_tmx;
 	assets.create_textbox = assets_create_textbox;
-	assets.create_sprite_map = assets_create_sprite_map;
 	include = function(path) {
 		const code = assets_read_text_file(path);
 		code_eval(code);
@@ -33,6 +32,7 @@ namespace xen { const char * xen_js_script_init = R"(
 	assets.unload_music = assets_unload_music;
 	assets.unload_shader = assets_unload_shader;
 	assets.unload_sprite_map = assets_unload_sprite_map;
+	assets.unload_tile_map = assets_unload_tile_map;
 
 	const audio = {}
 	audio.play_sound = audio_play_sound;
@@ -55,9 +55,13 @@ namespace xen { const char * xen_js_script_init = R"(
 	const renderer = {}
 	renderer.begin = renderer_begin;
 	renderer.clear = renderer_clear;
+	renderer.present = renderer_present;
 	renderer.draw_texture = renderer_draw_texture;
 	renderer.draw_sub_texture = renderer_draw_sub_texture;
 	renderer.draw_rectangle = renderer_draw_rectangle;
+	renderer.draw_textbox = renderer_draw_textbox;
+	renderer.draw_sprite = renderer_draw_sprite;
+	renderer.draw_tile_layer = renderer_draw_tile_layer;
 	renderer.set_background = function(hex) {
 		renderer_set_background(hex.replace('#', ''));
 	};
@@ -65,10 +69,6 @@ namespace xen { const char * xen_js_script_init = R"(
 		renderer_set_foreground(hex.replace('#', ''));
 	};
 	renderer.set_window_mode = renderer_set_window_mode;
-	renderer.present = renderer_present;
-	renderer.draw_textbox = renderer_draw_textbox;
-	renderer.draw_sprite = renderer_draw_sprite;
-	renderer.draw_tile_layer = renderer_draw_tile_layer;
 	renderer.set_position = renderer_set_position;
 	renderer.set_origin = renderer_set_origin;
 	renderer.set_rotation = renderer_set_rotation;
