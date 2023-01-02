@@ -114,7 +114,7 @@ namespace xen
 		{
 			return m_groups.at(nickname);
 		}
-		XEN_ERROR("Tried to get a sprite map group that does not exist [", nickname, "]");
+		XEN_ERROR("Tried to get a sprite map group that does not exist [%s]", nickname.c_str());
 		return nullptr;
 	}
 

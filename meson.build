@@ -15,14 +15,14 @@ sdl2_ttf_dep = dependency('SDL2_ttf')
 sdl2_dep = dependency('sdl2')
 if host_machine.system() == 'linux'
   py_dep = dependency('python3-embed')
+elif host_machine.system() == 'darwin'
+  py_dep = dependency('python3-embed')
+  dep_main = dependency('appleframeworks', modules : ['Foundation'])
+  dep_libs = dependency('appleframeworks', modules : ['OpenGL'], required : true)
 else
   py_dep = dependency('python3')
 endif
 lua_dep = dependency('lua-5.4')
-if  host_machine.system() == 'darwin'
-  dep_main = dependency('appleframeworks', modules : ['Foundation'])
-  dep_libs = dependency('appleframeworks', modules : ['OpenGL'], required : true)
-endif
 incdir = include_directories(['lib'])
 
 
