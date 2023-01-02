@@ -192,8 +192,9 @@ namespace xen
 		auto w = lua_tointeger(L, -2);
 		auto h = lua_tointeger(L, -1);
 		auto m = LuaMachine::GetInstance();
-		auto r = AssetManager::GetInstance();
-		int textbox_id = r->CreateTextBox(x, y, w, h);
+		auto r = m->GetRenderer();
+		auto a = AssetManager::GetInstance();
+		int textbox_id = a->CreateTextBox(x, y, w, h, r->GetForeColor());
 		lua_pushinteger(L, textbox_id);
 		return 1;
 	}

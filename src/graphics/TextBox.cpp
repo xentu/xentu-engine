@@ -8,13 +8,13 @@
 
 namespace xen
 {
-	TextBox::TextBox(int x, int y, int w, int h)
+	TextBox::TextBox(int x, int y, int w, int h, SDL_Color color)
 	{
 		m_position.x = x;
 		m_position.y = y;
 		m_position.w = w;
 		m_position.h = h;
-      m_color = {255, 255, 255};
+		m_color = color;
       m_font = nullptr;
 	}
 
@@ -72,11 +72,9 @@ namespace xen
 	}
 
 
-	void TextBox::SetColor(TTF_Font* font, int r, int g, int b)
+	void TextBox::SetColor(TTF_Font* font, SDL_Color color)
 	{
-		m_color.r = static_cast<unsigned char>(b);
-		m_color.g = static_cast<unsigned char>(g);
-		m_color.b = static_cast<unsigned char>(r);
+		m_color = color;
 		Regenerate(font);
 	}
 

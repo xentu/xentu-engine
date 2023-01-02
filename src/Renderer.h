@@ -230,6 +230,11 @@ namespace xen
 			 */
 			void SetBlendPreset(const BlendPreset preset, const bool p_alpha);
 
+			/**
+			 * Get the foreground color
+			*/
+			const SDL_Color& GetForeColor();
+
 		private:
 			/**
 			 * Find the correct batch to use for rendering a sprite.
@@ -246,11 +251,11 @@ namespace xen
 			const Config* m_config;
 			Viewport m_viewport;
 			GLclampf clear_color_r, clear_color_g, clear_color_b;
+			SDL_Color m_fore_color;
 
 			/* sdl variables */
 			SDL_Window* m_window;
 			SDL_GLContext m_gl_context = NULL;
-
 
 			/* state information */
 			std::vector<Batch*> m_batches; // the collection of batches.

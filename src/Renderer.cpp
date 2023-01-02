@@ -505,8 +505,8 @@ namespace xen
 		
 		int texture_asset_id = sprite_map->get_texture();
 
-		int _x = m_pos_x + x;
-		int _y = m_pos_y + y;
+		int _x = static_cast<int>(m_pos_x) + x;
+		int _y = static_cast<int>(m_pos_y) + y;
 		int _scale_x = 1;
 		int _scale_y = 1;
 
@@ -525,8 +525,8 @@ namespace xen
 		m_sprite.ResetTransform();
 		m_sprite.set_origin(m_origin_x, m_origin_y);
 		m_sprite.set_rotation(m_rotation);
-		m_sprite.set_scale(_scale_x, _scale_y);
-		m_sprite.set_position(_x, _y);
+		m_sprite.set_scale(static_cast<float>(_scale_x), static_cast<float>(_scale_y));
+		m_sprite.set_position(static_cast<float>(_x), static_cast<float>(_y));
 
 		m_sprite.m_color = Vector4f(1, 1, 1, m_alpha); // TODO: fix this.
 		m_sprite.m_width = static_cast<float>(w);
@@ -560,8 +560,8 @@ namespace xen
 
 			auto texture = assets->GetTexture(tile->texture_id);
 
-			m_sprite.m_width = tile->width;
-			m_sprite.m_height = tile->height;
+			m_sprite.m_width = static_cast<float>(tile->width);
+			m_sprite.m_height = static_cast<float>(tile->height);
 			m_sprite.m_texture = texture->gl_texture_id;
 
 			float u = tile->t_x / (float)texture->width;
@@ -600,8 +600,8 @@ namespace xen
 					m_sprite.set_position(m_pos_x + obj->x, m_pos_y + obj->y);
 					m_sprite.set_scale(1, 1);
 					m_sprite.set_rotation(0);
-					m_sprite.m_width = tile.width;
-					m_sprite.m_height = tile.height;
+					m_sprite.m_width = static_cast<float>(tile.width);
+					m_sprite.m_height = static_cast<float>(tile.height);
 
 					auto texture = assets->GetTexture(tile.texture_id);
 					m_sprite.m_texture = texture->gl_texture_id;
@@ -642,7 +642,11 @@ namespace xen
 		auto assets = AssetManager::GetInstance();
 		auto textbox = assets->GetTextBox(textbox_id);
 		auto font = assets->GetFont(font_id);
-		textbox->SetColor(font, r, g, b);
+		SDL_Color color;
+		color.r = static_cast<unsigned int>(r);
+		color.g = static_cast<unsigned int>(g);
+		color.b = static_cast<unsigned int>(b);
+		textbox->SetColor(font, color);
 	}
 
 	
@@ -662,12 +666,9 @@ namespace xen
 	
 	void Renderer::SetForegroundColor(int r, int g, int b)
 	{
-		m_sprite.m_color = {
-			static_cast<GLclampf>(r) / 255.0f,
-			static_cast<GLclampf>(g) / 255.0f,
-			static_cast<GLclampf>(b) / 255.0f,
-			m_alpha
-		};
+		m_fore_color.r = static_cast<unsigned int>(r);
+		m_fore_color.g = static_cast<unsigned int>(g);
+		m_fore_color.b = static_cast<unsigned int>(b);
 	}
 
 
@@ -801,9 +802,6 @@ namespace xen
 	}
 
 
-	
-
-
 	void Renderer::SetBlendPreset(const BlendPreset preset, const bool p_alpha)
 	{
 		glEnable(GL_BLEND);
@@ -897,5 +895,11 @@ namespace xen
 
 
 		
+	}
+
+
+	const SDL_Color& Renderer::GetForeColor()
+	{
+		return m_fore_color;
 	}
 }

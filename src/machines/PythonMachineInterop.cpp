@@ -258,8 +258,9 @@ namespace xen
 		int x,y,w,h;
 		if (!PyArg_ParseTuple(args, "iiii", &x, &y, &w, &h)) return NULL;
 		auto m = PythonMachine::GetInstance();
-		auto r = AssetManager::GetInstance();
-		int textbox_id = r->CreateTextBox(x, y, w, h);
+		auto r = m->GetRenderer();
+		auto a = AssetManager::GetInstance();
+		int textbox_id = a->CreateTextBox(x, y, w, h, r->GetForeColor());
 		return PyLong_FromLong(textbox_id);
 	}
 

@@ -1,7 +1,7 @@
 {
 	"game": {
 		"title": "Xentu Demos - Tile Maps",
-		"entry_point": "/game.js",
+		"entry_point": "/tilemaps.js",
 		"version": "0.0.0",
 		"v_sync": true,
 		"fullscreen": false,
@@ -9,8 +9,8 @@
 		"update_frequency": 60,
 		"draw_frequency": 60,
 		"window": {
-			"width": 1280,
-			"height": 720
+			"width": 800,
+			"height": 600
 		},
 		"viewport": {
 			"width": 640,

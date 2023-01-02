@@ -285,9 +285,9 @@ namespace xen
 		return m_shaders_iter - 1;
 	}
 
-	int AssetManager::CreateTextBox(int x, int y, int width, int height)
+	int AssetManager::CreateTextBox(int x, int y, int width, int height, const SDL_Color& color)
 	{
-		auto textbox = new TextBox(x, y, width, height);
+		auto textbox = new TextBox(x, y, width, height, color);
 		m_textboxes.insert(std::make_pair(m_textboxes_iter, textbox));
 		m_textboxes_iter++;
 		return m_textboxes_iter - 1;

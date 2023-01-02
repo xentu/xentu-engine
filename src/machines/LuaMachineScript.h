@@ -309,6 +309,27 @@ TEX_MIRRORED_REPEAT		 = 4
 TEX_REPEAT					 = 5
 
 
+-- stepper feature -----------------------------------------------------------
+
+
+assets.create_stepper = function(delay, iv)
+	local s = {}
+	s.delay = delay; s.iter = 0; s.value = iv;
+	s.next = function(dt)
+		s.iter = s.iter + dt
+		if s.iter >= s.delay then
+			s.iter = s.iter - s.delay
+			return true
+		end
+		return false
+	end
+	return s
+end
+
+
+-- init code -----------------------------------------------------------------
+
+
 game.create_window()
 
 

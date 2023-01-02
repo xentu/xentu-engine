@@ -340,6 +340,27 @@ class XenImporter(object):
 		return self
 sys.meta_path.append(XenImporter())
 
+
+# stepper feature ------------------------------------------------------------
+
+class Stepper:
+	def __init__(self,delay, iv):
+		self.delay = delay
+		self.iter = 0
+		self.value = iv
+	def next(self, dt):
+		self.iter += dt
+		if self.iter >= self.delay:
+			self.iter -= self.delay
+			return True
+		return False
+
+def shim_create_stepper(delay, iv):
+	return Stepper(delay, iv)
+assets.create_stepper = shim_create_stepper
+
+# init code ------------------------------------------------------------------
+
 game.create_window()
 
 )"; }

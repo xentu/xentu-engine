@@ -311,6 +311,25 @@ namespace xen { const char * xen_js_script_init = R"(
 	const TEX_REPEAT					 = 5;
 
 
+	// stepper feature --------------------------------------------------------
+
+
+	function Stepper(ms, iv) { this.delay = ms; this.iter = 0; this.value = iv; }
+	Stepper.prototype.next = function(dt) {
+		const self = this;
+		self.iter += dt;
+		if (self.iter >= self.delay) {
+			self.iter -= self.delay;
+			return true;
+		}
+		return false;
+	}
+	assets.create_stepper = function(delay, iv) { return new Stepper(delay, iv); }
+
+
+	// init code --------------------------------------------------------------
+
+
 	game.create_window();
 	// assets.mount('/zip', './assets/test.zip');
 

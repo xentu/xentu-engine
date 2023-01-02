@@ -306,8 +306,9 @@ namespace xen
 		auto w = duk_to_int(L, 2);
 		auto h = duk_to_int(L, 3);
 		auto m = JavaScriptMachine::GetInstance();
-		auto r = AssetManager::GetInstance();
-		int textbox_id = r->CreateTextBox(x, y, w, h);
+		auto r = m->GetRenderer();
+		auto a = AssetManager::GetInstance();
+		int textbox_id = a->CreateTextBox(x, y, w, h, r->GetForeColor());
 		duk_push_int(L, textbox_id);
 		return 1;
 	}
@@ -749,7 +750,7 @@ namespace xen
 		const char* text = duk_to_string(L, 2);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = m->GetRenderer();
-		r->SetTextBoxText(textbox_id, font_id, text);		
+		r->SetTextBoxText(textbox_id, font_id, text);
 		return 0;
 	}
 

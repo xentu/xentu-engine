@@ -26,6 +26,6 @@ game.on("update", function(dt) {
 game.on("draw", function(dt) {
 	renderer.clear();
 	renderer.begin();
-	renderer.draw_sprite(sprite_map1, 'walk_right', frame, 100, 100, 50, 50);
+	renderer.draw_sprite(sprite_map1, 'walk_right', frame, 100, 100, 100, 100);
 	renderer.present();
 });

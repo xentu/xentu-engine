@@ -68,7 +68,7 @@ namespace xen
 			/**
 			 * Create a textbox with specific dimensions, and return it's asset id.
 			 */
-			int CreateTextBox(int x, int y, int width, int height);
+			int CreateTextBox(int x, int y, int width, int height, const SDL_Color& color);
 
 			/**
 			 * Create a sprite map, and return it's asset id.

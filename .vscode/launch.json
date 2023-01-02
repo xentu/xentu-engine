@@ -5,7 +5,7 @@
 			  "type": "cppvsdbg",
 			  "request": "launch",
 			  "program": "${workspaceRoot}/build/xentu_debug",
-			  "cwd": "${workspaceRoot}/demos/spritemaps",
+			  "cwd": "${workspaceRoot}/demos/fonts",
 			  "preLaunchTask": "build debug meson"
 		 }
 	]
