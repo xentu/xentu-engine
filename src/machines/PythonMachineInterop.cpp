@@ -949,6 +949,24 @@ namespace xen
 		return PyBool_FromLong(clicked);
 	}
 
+	PyObject* xen_py_interop_gamepad_get_axis(PyObject *self, PyObject *args)
+	{
+		int index;
+		if (!PyArg_ParseTuple(args, "i", &index)) {
+			return NULL;
+		}
+		auto m = PythonMachine::GetInstance();
+		auto i = m->GetInput();
+		auto s = i->GetGamepadState(index);
+
+		PyObject* result = PyTuple_New(2);
+		PyObject* arg0 = PyLong_FromLong(s->m_axis_x);
+    	PyObject* arg1 = PyLong_FromLong(s->m_axis_y);
+    	if (PyTuple_SetItem(result, 0, arg0) != 0) return NULL;
+    	if (PyTuple_SetItem(result, 1, arg1) != 0) return NULL;
+		return result;
+	}
+
 	/* ---- VFS Module ------------------------------------------------------- */
 
 
@@ -1031,6 +1049,7 @@ namespace xen
 		{"keyboard_key_clicked",      xen_py_interop_keyboard_key_clicked, METH_VARARGS, "Check if a keyboard key is clicked."},
 		{"mouse_button_down",         xen_py_interop_mouse_button_down, METH_VARARGS, "Check if a mouse button is down."},
 		{"mouse_button_clicked",      xen_py_interop_mouse_button_clicked, METH_VARARGS, "Check if a mouse button is clicked."},
+		{"gamepad_get_axis",          xen_py_interop_gamepad_get_axis, METH_VARARGS, "Check the axis state for a gamepad."},
 
 		{NULL, NULL, 0, NULL}
 	};

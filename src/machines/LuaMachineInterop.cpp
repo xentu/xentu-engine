@@ -813,6 +813,26 @@ namespace xen
 	#pragma endregion
 
 
+	#pragma region Gamepad
+
+	int XentuLuaMachineInterop::gamepad_get_axis(lua_State* L)
+	{
+		if (lua_gettop(L) != 1) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
+
+		auto index = lua_tointeger(L, -1);
+		auto m = LuaMachine::GetInstance();
+		auto i = m->GetInput();
+		auto* s = i->GetGamepadState(index);
+		lua_pushinteger(L, s->m_axis_x);
+		lua_pushinteger(L, s->m_axis_y);
+		return 2;
+	}
+
+	#pragma endregion
+
+
 	#pragma region Shader
 
 	int XentuLuaMachineInterop::shader_get_location(lua_State* L)
@@ -999,6 +1019,7 @@ namespace xen
 		method(XentuLuaMachineInterop, mouse_get_position, mouse_get_position),
 		method(XentuLuaMachineInterop, mouse_button_down, mouse_button_down),
 		method(XentuLuaMachineInterop, mouse_button_clicked, mouse_button_clicked),
+		method(XentuLuaMachineInterop, gamepad_get_axis, gamepad_get_axis),
 		method(XentuLuaMachineInterop, shader_get_location, shader_get_location),
 		method(XentuLuaMachineInterop, shader_set_bool, shader_set_bool),
 		method(XentuLuaMachineInterop, shader_set_int, shader_set_int),

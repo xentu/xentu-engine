@@ -110,7 +110,7 @@ namespace xen
 	{
 		m_viewport = Viewport(vp_width, vp_height, vp_mode);
 
-		if(SDL_Init(SDL_INIT_VIDEO) < 0){
+		if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0) {
         	std::cout << "SDL could not be initialized: " << SDL_GetError();
     	}
 		else

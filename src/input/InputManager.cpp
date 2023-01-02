@@ -11,11 +11,19 @@ namespace xen
 			m_mouse_button_down_events[i] = false;	
 		}
 		m_mouse_state = new MouseState;
+
+		for (int i=0; i<XEN_MAX_GAMEPADS; i++) {
+			m_gamepad_states[i] = new GamepadState(i);
+		}
 	}
 
-	InputManager::~InputManager()
-	{ }
 
+	InputManager::~InputManager()
+	{
+		for (int i=0; i<XEN_MAX_GAMEPADS; i++) {
+			delete m_gamepad_states[i];
+		}
+	}
 
 
 	bool InputManager::KeyDown(int key_code)
@@ -52,7 +60,16 @@ namespace xen
 				return true;
 			}
 		}
+
+
+
 		return false;
+	}
+
+
+	const GamepadState* InputManager::GetGamepadState(int index) const
+	{
+		return m_gamepad_states[index];
 	}
 
 
@@ -85,9 +102,36 @@ namespace xen
 	}
 
 
-	void InputManager::HandleJoystickEvent(const SDL_Event* event)
+	void InputManager::HandleJoystickEvent(const SDL_Event& event)
 	{
 		// todo: joystick input.
+		switch (event.type) {
+			case SDL_JOYAXISMOTION:
+				m_gamepad_states[event.jaxis.which]->SetAxisInfo(event.jaxis);
+				break;
+
+			/* case SDL_JOYBATTERYUPDATED: */
+			case SDL_JOYHATMOTION:
+				break;
+
+			case SDL_JOYBALLMOTION:
+				break;
+			
+			case SDL_JOYBUTTONDOWN:
+				m_gamepad_states[event.jaxis.which]->SetButtonDown(event.jbutton);
+				break;
+
+			case SDL_JOYBUTTONUP:
+				m_gamepad_states[event.jaxis.which]->SetButtonUp(event.jbutton);
+				break;
+
+			case SDL_JOYDEVICEADDED:
+				m_gamepad_states[event.jaxis.which]->SetAdded();
+				break;
+			case SDL_JOYDEVICEREMOVED:
+				m_gamepad_states[event.jaxis.which]->SetRemoved();
+				break;
+		}
 	}
 
 

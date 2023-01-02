@@ -5,7 +5,7 @@
 			  "type": "cppvsdbg",
 			  "request": "launch",
 			  "program": "${workspaceRoot}/build/xentu_debug",
-			  "cwd": "${workspaceRoot}/demos/audio",
+			  "cwd": "${workspaceRoot}/demos/input",
 			  "preLaunchTask": "build debug meson"
 		 }
 	]

@@ -23,9 +23,9 @@ namespace xen
 			virtual int Trigger(const string event_name) = 0;
 			// triggers a game wide event with a string arg.
 			virtual int Trigger(const string event_name, const string arg0) = 0;
-			// triggers a game wide event with a string arg.
+			// triggers a game wide event with an int arg.
 			virtual int Trigger(const string event_name, const int arg0) = 0;
-			// triggers a game wide event with a string arg.
+			// triggers a game wide event with a float arg.
 			virtual int Trigger(const string event_name, const float arg0) = 0;
 			// called by game code to begin the tight events loop.
 			void Run();

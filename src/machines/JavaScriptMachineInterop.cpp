@@ -100,6 +100,7 @@ namespace xen
 		js_init_method(L, "mouse_get_position", js_mouse_get_position, 0);
 		js_init_method(L, "mouse_button_down", js_mouse_button_down, 1);
 		js_init_method(L, "mouse_button_clicked", js_mouse_button_clicked, 1);
+		js_init_method(L, "gamepad_get_axis", js_gamepad_get_axis, 1);
 		js_init_method(L, "shader_get_location", js_shader_get_location, 1);
 		js_init_method(L, "shader_set_bool", js_shader_set_bool, DUK_VARARGS);
 		js_init_method(L, "shader_set_int", js_shader_set_int, DUK_VARARGS);
@@ -858,6 +859,20 @@ namespace xen
 		auto i = m->GetInput();
 		bool down = i->MouseButtonUp(key_code);
 		duk_push_boolean(L, down);
+		return 1;
+	}
+
+	duk_ret_t js_gamepad_get_axis(duk_context* L) {
+		auto index = duk_to_int(L, 0);
+		auto m = JavaScriptMachine::GetInstance();
+		auto i = m->GetInput();
+		auto* s = i->GetGamepadState(index);
+
+		duk_idx_t obj = duk_push_object(L);
+		duk_push_int(L, s->m_axis_x);
+		duk_put_prop_string(L, obj, "x");
+		duk_push_int(L, s->m_axis_y);
+		duk_put_prop_string(L, obj, "y");
 		return 1;
 	}
 

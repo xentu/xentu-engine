@@ -1,4 +1,5 @@
 #include <chrono>
+#include <string>
 
 #include "vfs/XenVirtualFileSystem.h"
 #include "vfs/XenFileSystem.h"
@@ -62,15 +63,23 @@ namespace xen
 							this->Trigger("key_click", (int)event.key.keysym.scancode);
 						}
 						break;
+					case SDL_JOYBUTTONDOWN:
+						{
+							m_input->HandleJoystickEvent(event);
+							std::stringstream ss; ss << std::to_string(event.jbutton.which) << "," << std::to_string(event.jbutton.button);
+							this->Trigger("gamepad_button_down", ss.str());
+						}
+						break;
+					case SDL_JOYBUTTONUP:
+						m_input->HandleJoystickEvent(event);
+						break;
 					case SDL_JOYAXISMOTION:
 					case SDL_JOYBALLMOTION:
-					/* case SDL_JOYBATTERYUPDATED: */
-					case SDL_JOYBUTTONDOWN:
-					case SDL_JOYBUTTONUP:
 					case SDL_JOYDEVICEADDED:
 					case SDL_JOYDEVICEREMOVED:
 					case SDL_JOYHATMOTION:
-						m_input->HandleJoystickEvent(&event);
+					/* case SDL_JOYBATTERYUPDATED: */
+						m_input->HandleJoystickEvent(event);
 						break;
 					case SDL_MOUSEBUTTONDOWN:
 					case SDL_MOUSEBUTTONUP:

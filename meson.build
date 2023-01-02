@@ -88,6 +88,7 @@ project_source_files = files([
   #input
   'src/input/InputManager.cpp',
   'src/input/MouseState.cpp',
+  'src/input/GamepadState.cpp',
 
   # other
   'src/Globals.cpp',

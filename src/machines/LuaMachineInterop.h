@@ -83,6 +83,8 @@ namespace xen
 			int mouse_button_down(lua_State* L);
 			int mouse_button_clicked(lua_State* L);
 
+			int gamepad_get_axis(lua_State* L);
+
 			int shader_get_location(lua_State* L);
 			int shader_set_bool(lua_State* L);
 			int shader_set_int(lua_State* L);

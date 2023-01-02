@@ -121,6 +121,10 @@ mouse = XenDummyObject('mouse')
 mouse.button_down = xentu.mouse_button_down
 mouse.button_clicked = xentu.mouse_button_clicked
 
+# new module for gamepad
+gamepad = XenDummyObject('gamepad')
+gamepad.get_axis = xentu.gamepad_get_axis
+
 # new module for shaders
 shader = XenDummyObject('shader')
 shader.get_location = xentu.shader_get_location
@@ -321,6 +325,7 @@ globals()['config'] = sys.modules['config'] = config
 globals()['textbox'] = sys.modules['textbox'] = textbox
 globals()['keyboard'] = sys.modules['keyboard'] = keyboard
 globals()['mouse'] = sys.modules['mouse'] = mouse
+globals()['gamepad'] = sys.modules['gamepad'] = gamepad
 globals()['shader'] = sys.modules['shader'] = shader
 globals()['sprite_map'] = sys.modules['sprite_map'] = sprite_map
 
