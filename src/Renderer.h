@@ -252,6 +252,7 @@ namespace xen
 			Viewport m_viewport;
 			GLclampf clear_color_r, clear_color_g, clear_color_b;
 			SDL_Color m_fore_color;
+			Vector4f m_fore_color_v;
 
 			/* sdl variables */
 			SDL_Window* m_window;

@@ -22,11 +22,16 @@ namespace xen
 		if (pFunc == NULL) {
 			if (PyErr_Occurred()) {
 				PyErr_Print();
+				exit(124);
 			}
 			Py_DECREF(pModule);
 			return;
 		}
 		PyObject_CallNoArgs(pFunc);
+		if (PyErr_Occurred()) {
+			PyErr_Print();
+			exit(124);
+		}
 		Py_DECREF(pFunc);
 		Py_DECREF(pModule);
 	}
@@ -39,12 +44,17 @@ namespace xen
 		if (pFunc == NULL) {
 			if (PyErr_Occurred()) {
 				PyErr_Print();
+				exit(124);
 			}
 			Py_DECREF(pModule);
 			return;
 		}
 		PyObject *pArg0 = PyUnicode_FromString(arg0.c_str());
 		PyObject_CallOneArg(pFunc, pArg0);
+		if (PyErr_Occurred()) {
+			PyErr_Print();
+			exit(124);
+		}
 		Py_DECREF(pArg0);
 		Py_DECREF(pFunc);
 		Py_DECREF(pModule);
@@ -58,12 +68,17 @@ namespace xen
 		if (pFunc == NULL) {
 			if (PyErr_Occurred()) {
 				PyErr_Print();
+				exit(124);
 			}
 			Py_DECREF(pModule);
 			return;
 		}
 		PyObject *pArg0 = PyLong_FromSize_t(arg0);
 		PyObject_CallOneArg(pFunc, pArg0);
+		if (PyErr_Occurred()) {
+			PyErr_Print();
+			exit(124);
+		}
 		Py_DECREF(pArg0);
 		Py_DECREF(pFunc);
 		Py_DECREF(pModule);
@@ -77,12 +92,17 @@ namespace xen
 		if (pFunc == NULL) {
 			if (PyErr_Occurred()) {
 				PyErr_Print();
+				exit(124);
 			}
 			Py_DECREF(pModule);
 			return;
 		}
 		PyObject *pArg0 = PyFloat_FromDouble(arg0);
 		PyObject_CallOneArg(pFunc, pArg0);
+		if (PyErr_Occurred()) {
+			PyErr_Print();
+			exit(124);
+		}
 		Py_DECREF(pArg0);
 		Py_DECREF(pFunc);
 		Py_DECREF(pModule);

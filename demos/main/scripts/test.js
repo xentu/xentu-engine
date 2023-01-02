@@ -4,8 +4,6 @@ print('Hello from javascript!');
 const texture0 = assets.load_texture("/images/test.png");
 const font0 = assets.load_font("/fonts/Roboto-Regular.ttf", 20);
 const text0 = assets.create_textbox(10, 10, 680, 40);
-const audio0 = assets.load_sound("/audio/bounce1.wav");
-const music0 = assets.load_music("/music/melody.ogg");
 const sprite_map0 = assets.load_sprite_map("/sprite_map/zombie1.xsf");
 
 // setup variables.
@@ -43,8 +41,6 @@ game.on('update', function(dt) {
 		renderer.set_window_mode(fullscreen ? 1 : 0);
 		print(fullscreen ? "window_mode: fullscreen" : "window_mode: window");
 	}
-	if (keyboard.key_clicked(KB_M)) audio.play_music(music0, 0);
-	if (keyboard.key_clicked(KB_S)) audio.play_sound(audio0, -1, 0);
 	
 	frame_time += dt;
 	if (frame_time > 0.3) {

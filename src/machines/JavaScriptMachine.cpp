@@ -20,7 +20,11 @@ namespace xen
 		// load in our custom import loader.
 		L = duk_create_heap(NULL, NULL, NULL, NULL, js_error_handler);
 		js_init_interop(L);
+		#if XEN_DEBUG
+		duk_peval_string(L, xen_js_script_init);
+		#else
 		duk_eval_string(L, xen_js_script_init);
+		#endif
 	}
 
 

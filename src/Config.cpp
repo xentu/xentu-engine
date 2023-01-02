@@ -51,86 +51,80 @@ namespace xen
 		}
 		catch (std::exception e)
 		{
-			XEN_ERROR("Config error! %s\n", e.what());
+			//XEN_ERROR("Config error! %s\n", e.what());
 			//
 		}
 	}
 
 	const string Config::GetSetting(const string group, const string name, const string default_value)
 	{
-		try {
-			auto m_group = m_data.at(group);
-			return m_group.at(name);
-		}
-		catch (std::exception e)
-		{
-			XEN_WARN("> Config warning: GetSetting [%s.%s] missing.\n", group.c_str(), name.c_str());
+		if (this->m_data.contains(group)) {
+			auto& m_group = this->m_data.at(group);
+			if (m_group.contains(name)) {
+					return m_group.at(name);
+			}
 		}
 		return default_value;
 	}
 
 	const bool Config::GetSettingBool(const string group, const string name, const bool default_value)
 	{
-		try {
-			auto m_group = m_data.at(group);
-			return m_group.at(name);
-		}
-		catch (std::exception e)
-		{
-			XEN_WARN("> Config warning: SetSetting [%s.%s] missing.\n", group.c_str(), name.c_str());
+		if (this->m_data.contains(group)) {
+			auto& m_group = this->m_data.at(group);
+			if (m_group.contains(name)) {
+					return m_group.at(name);
+			}
 		}
 		return default_value;
 	}
 	
 	const int Config::GetSettingInt(const string group, const string name, const int default_value)
 	{
-		try {
-			auto m_group = m_data.at(group);
-			return m_group.at(name);
-		}
-		catch (std::exception e)
-		{
-			XEN_WARN("> Config warning: GetSettingInt [%s.%s] missing.\n", group.c_str(), name.c_str());
+		if (this->m_data.contains(group)) {
+			auto& m_group = this->m_data.at(group);
+			if (m_group.contains(name)) {
+					return m_group.at(name);
+			}
 		}
 		return default_value;
 	}
 
 	const string Config::GetSetting(const string group, const string sub_group, const string name, const string default_value)
 	{
-		try {
-			auto m_group = m_data.at(group);
-			auto m_subgroup = m_group.at(sub_group);
-			return m_subgroup.at(name);
-		}
-		catch (std::exception e)
-		{
-			XEN_WARN("> Config warning: GetSetting [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
+		if (this->m_data.contains(group)) {
+			auto& m_group = this->m_data.at(group);
+			if (m_group.contains(sub_group)) {
+				auto& m_subgroup = m_group.at(sub_group);
+				if (m_subgroup.contains(name)) {
+					return m_subgroup.at(name);
+				}
+			}
 		}
 		return default_value;
 	}
 	const bool Config::GetSettingBool(const string group, const string sub_group, const string name, const bool default_value)
 	{
-		try {
-			auto m_group = m_data.at(group);
-			auto m_subgroup = m_group.at(sub_group);
-			return m_subgroup.at(name);
-		}
-		catch (std::exception e)
-		{
-			XEN_WARN("> Config warning: GetSettingBool [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
+		if (this->m_data.contains(group)) {
+			auto& m_group = this->m_data.at(group);
+			if (m_group.contains(sub_group)) {
+				auto& m_subgroup = m_group.at(sub_group);
+				if (m_subgroup.contains(name)) {
+					return m_subgroup.at(name);
+				}
+			}
 		}
 		return default_value;
 	}
 	const int Config::GetSettingInt(const string group, const string sub_group, const string name, const int default_value)
 	{
-		try {
-			auto m_group = this->m_data.at(group);
-			auto m_subgroup = m_group.at(sub_group);
-			return m_subgroup.at(name);
-		}
-		catch (std::exception e)
-		{
-			XEN_WARN("> Config warning: GetSettingInt [%s.%s.%s] missing.\n",  group.c_str(), sub_group.c_str(), name.c_str());
+		if (this->m_data.contains(group)) {
+			auto& m_group = this->m_data.at(group);
+			if (m_group.contains(sub_group)) {
+				auto& m_subgroup = m_group.at(sub_group);
+				if (m_subgroup.contains(name)) {
+					return m_subgroup.at(name);
+				}
+			}
 		}
 		return default_value;
 	}

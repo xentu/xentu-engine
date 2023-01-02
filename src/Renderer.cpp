@@ -468,6 +468,7 @@ namespace xen
 		m_sprite.m_height = (float)height;
 		m_sprite.m_texture = white_texture->gl_texture_id;
 		m_sprite.m_rect = Rect(0, 0, 10, 10);
+		m_sprite.m_color = m_fore_color_v;
 		find_batch(m_sprite)->draw(m_sprite);
 	}
 
@@ -669,6 +670,12 @@ namespace xen
 		m_fore_color.r = static_cast<unsigned int>(r);
 		m_fore_color.g = static_cast<unsigned int>(g);
 		m_fore_color.b = static_cast<unsigned int>(b);
+		m_fore_color_v = Vector4f(
+			static_cast<GLclampf>(r) / 255.0f,
+			static_cast<GLclampf>(g) / 255.0f,
+			static_cast<GLclampf>(g) / 255.0f,
+			1.0f
+		);
 	}
 
 
