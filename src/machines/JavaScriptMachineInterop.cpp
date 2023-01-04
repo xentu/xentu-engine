@@ -101,6 +101,8 @@ namespace xen
 		js_init_method(L, "mouse_button_down", js_mouse_button_down, 1);
 		js_init_method(L, "mouse_button_clicked", js_mouse_button_clicked, 1);
 		js_init_method(L, "gamepad_get_axis", js_gamepad_get_axis, 1);
+		js_init_method(L, "gamepad_button_down", js_gamepad_button_down, 2);
+		js_init_method(L, "gamepad_button_clicked", js_gamepad_button_clicked, 2);
 		js_init_method(L, "shader_get_location", js_shader_get_location, 1);
 		js_init_method(L, "shader_set_bool", js_shader_set_bool, DUK_VARARGS);
 		js_init_method(L, "shader_set_int", js_shader_set_int, DUK_VARARGS);
@@ -869,10 +871,32 @@ namespace xen
 		auto* s = i->GetGamepadState(index);
 
 		duk_idx_t obj = duk_push_object(L);
-		duk_push_int(L, s->m_axis_x);
+		duk_push_int(L, s->GetAxisX());
 		duk_put_prop_string(L, obj, "x");
-		duk_push_int(L, s->m_axis_y);
+		duk_push_int(L, s->GetAxisY());
 		duk_put_prop_string(L, obj, "y");
+		return 1;
+	}
+
+	duk_ret_t js_gamepad_button_down(duk_context* L) {
+		int gp_index = duk_to_int(L, 0);
+		int b_index = duk_to_int(L, 1);
+		auto m = JavaScriptMachine::GetInstance();
+		auto i = m->GetInput();
+		auto* s = i->GetGamepadState(gp_index);
+		const bool r = s->IsButtonDown(b_index);
+		duk_push_int(L, r);
+		return 1;
+	}
+
+	duk_ret_t js_gamepad_button_clicked(duk_context* L) {
+		int gp_index = duk_to_int(L, 0);
+		int b_index = duk_to_int(L, 1);
+		auto m = JavaScriptMachine::GetInstance();
+		auto i = m->GetInput();
+		auto s = i->GetGamepadState(gp_index);
+		auto r = s->IsButtonUp(b_index);
+		duk_push_int(L, r);
 		return 1;
 	}
 

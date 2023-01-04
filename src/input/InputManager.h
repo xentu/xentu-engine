@@ -18,7 +18,7 @@ namespace xen
 			bool KeyUp(int key_code);
 			bool MouseButtonDown(int button_code);
 			bool MouseButtonUp(int button_code);
-			const GamepadState* GetGamepadState(int index) const;
+			GamepadState* GetGamepadState(const int index);
 			const MouseState* GetMouseState() const;
 
 			void Reset();

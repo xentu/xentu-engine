@@ -824,10 +824,40 @@ namespace xen
 		auto index = lua_tointeger(L, -1);
 		auto m = LuaMachine::GetInstance();
 		auto i = m->GetInput();
-		auto* s = i->GetGamepadState(index);
-		lua_pushinteger(L, s->m_axis_x);
-		lua_pushinteger(L, s->m_axis_y);
+		auto s = i->GetGamepadState(index);
+		lua_pushinteger(L, s->GetAxisX());
+		lua_pushinteger(L, s->GetAxisY());
 		return 2;
+	}
+
+	int XentuLuaMachineInterop::gamepad_button_down(lua_State* L)
+	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 1 arguments");
+		}
+		auto index = lua_tointeger(L, -2);
+		auto button_index = lua_tointeger(L, -1);
+		auto m = LuaMachine::GetInstance();
+		auto i = m->GetInput();
+		auto s = i->GetGamepadState(index);
+		bool down = s->IsButtonDown(button_index);
+		lua_pushboolean(L, down);
+		return 1;
+	}
+
+	int XentuLuaMachineInterop::gamepad_button_clicked(lua_State* L)
+	{
+		if (lua_gettop(L) != 2) {
+			return luaL_error(L, "expecting exactly 2 arguments");
+		}
+		auto index = lua_tointeger(L, -2);
+		auto button_index = lua_tointeger(L, -1);
+		auto m = LuaMachine::GetInstance();
+		auto i = m->GetInput();
+		auto s = i->GetGamepadState(index);
+		bool up = s->IsButtonUp(button_index);
+		lua_pushboolean(L, up);
+		return 1;
 	}
 
 	#pragma endregion
@@ -1020,6 +1050,8 @@ namespace xen
 		method(XentuLuaMachineInterop, mouse_button_down, mouse_button_down),
 		method(XentuLuaMachineInterop, mouse_button_clicked, mouse_button_clicked),
 		method(XentuLuaMachineInterop, gamepad_get_axis, gamepad_get_axis),
+		method(XentuLuaMachineInterop, gamepad_button_down, gamepad_button_down),
+		method(XentuLuaMachineInterop, gamepad_button_clicked, gamepad_button_clicked),
 		method(XentuLuaMachineInterop, shader_get_location, shader_get_location),
 		method(XentuLuaMachineInterop, shader_set_bool, shader_set_bool),
 		method(XentuLuaMachineInterop, shader_set_int, shader_set_int),

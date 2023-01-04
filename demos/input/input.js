@@ -16,6 +16,10 @@ game.on('update', function(dt) {
 	if (axis.x == -1) x--;
 	if (axis.y == 1) y++;
 	if (axis.y == -1) y--;
+
+	if (gamepad.button_clicked(0, 0)) {
+		print("Button 0 on gamepad is was clicked.");
+	}
 });
 
 // handle the draw event

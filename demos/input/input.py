@@ -18,6 +18,9 @@ def update(dt):
 	if ay ==  1: y = y + 1
 	if ay == -1: y = y - 1
 
+	if (gamepad.button_clicked(0, 0)):
+		print("Button 0 on gamepad was clicked.")
+
 # handle the draw event
 def draw(dt):
 	renderer.clear()

@@ -117,6 +117,8 @@ mouse.button_clicked = function(a) return interop.mouse_button_clicked(a) end
 
 gamepad = {}
 gamepad.get_axis = function(id) return interop.gamepad_get_axis(id) end
+gamepad.button_down = function(id,bt) return interop.gamepad_button_down(id,bt) end
+gamepad.button_clicked = function(id,bt) return interop.gamepad_button_clicked(id,bt) end
 
 shader = {}
 shader.get_location = function(var_name) return interop.shader_get_location(var_name) end

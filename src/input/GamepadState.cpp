@@ -6,7 +6,7 @@ namespace xen
 	: m_enabled(false),
 	  m_axis_x(0),
 	  m_axis_y(0),
-	  m_up_events_iter(0)
+	  m_button_up_events_iter(0)
 	{
 		m_index = index;
 	}
@@ -24,12 +24,12 @@ namespace xen
 		return m_enabled;
 	}
 
-	bool GamepadState::IsButtonDown(int button)
+	const bool GamepadState::IsButtonDown(int button)
 	{
 		return m_button_down_events[button];
 	}
 
-	bool GamepadState::IsButtonUp(int button)
+	const bool GamepadState::IsButtonUp(int button)
 	{
 		for (int i=0; i<m_button_up_events_iter; i++) {
 			if (m_button_up_events[i] == button)
@@ -59,8 +59,8 @@ namespace xen
 	
 	void GamepadState::SetButtonUp(const SDL_JoyButtonEvent& event)
 	{
-		m_button_up_events[m_button_up_events_iter] = event.button;
 		m_button_down_events[event.button] = false;
+		m_button_up_events[m_button_up_events_iter] = event.button;
 		m_button_up_events_iter++;
 	}
 
@@ -98,6 +98,16 @@ namespace xen
 	
 	void GamepadState::Reset()
 	{
-		m_up_events_iter = 0;
+		m_button_up_events_iter = 0;
+	}
+
+	const int GamepadState::GetAxisX()
+	{
+		return m_axis_x;
+	}
+	
+	const int GamepadState::GetAxisY()
+	{
+		return m_axis_y;
 	}
 }

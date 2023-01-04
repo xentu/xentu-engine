@@ -124,6 +124,8 @@ mouse.button_clicked = xentu.mouse_button_clicked
 # new module for gamepad
 gamepad = XenDummyObject('gamepad')
 gamepad.get_axis = xentu.gamepad_get_axis
+gamepad.button_down = xentu.gamepad_button_down
+gamepad.button_clicked = xentu.gamepad_button_clicked
 
 # new module for shaders
 shader = XenDummyObject('shader')

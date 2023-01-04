@@ -99,6 +99,8 @@ namespace xen { const char * xen_js_script_init = R"(
 
 	const gamepad = {}
 	gamepad.get_axis = gamepad_get_axis;
+	gamepad.button_down = gamepad_button_down;
+	gamepad.button_clicked = gamepad_button_clicked;
 
 	const shader = {}
 	shader.get_location = shader_get_location;

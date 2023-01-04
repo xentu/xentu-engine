@@ -960,11 +960,37 @@ namespace xen
 		auto s = i->GetGamepadState(index);
 
 		PyObject* result = PyTuple_New(2);
-		PyObject* arg0 = PyLong_FromLong(s->m_axis_x);
-    	PyObject* arg1 = PyLong_FromLong(s->m_axis_y);
+		PyObject* arg0 = PyLong_FromLong(s->GetAxisX());
+    	PyObject* arg1 = PyLong_FromLong(s->GetAxisY());
     	if (PyTuple_SetItem(result, 0, arg0) != 0) return NULL;
     	if (PyTuple_SetItem(result, 1, arg1) != 0) return NULL;
 		return result;
+	}
+
+	PyObject* xen_py_interop_gamepad_button_down(PyObject *self, PyObject *args)
+	{
+		int index, button_index;
+		if (!PyArg_ParseTuple(args, "ii", &index, &button_index)) {
+			return NULL;
+		}
+		auto m = PythonMachine::GetInstance();
+		auto i = m->GetInput();
+		auto s = i->GetGamepadState(index);
+		bool down = s->IsButtonDown(button_index);
+		return PyBool_FromLong(down);
+	}
+
+	PyObject* xen_py_interop_gamepad_button_clicked(PyObject *self, PyObject *args)
+	{
+		int index, button_index;
+		if (!PyArg_ParseTuple(args, "ii", &index, &button_index)) {
+			return NULL;
+		}
+		auto m = PythonMachine::GetInstance();
+		auto i = m->GetInput();
+		auto s = i->GetGamepadState(index);
+		bool up = s->IsButtonUp(button_index);
+		return PyBool_FromLong(up);
 	}
 
 	/* ---- VFS Module ------------------------------------------------------- */
@@ -1050,6 +1076,8 @@ namespace xen
 		{"mouse_button_down",         xen_py_interop_mouse_button_down, METH_VARARGS, "Check if a mouse button is down."},
 		{"mouse_button_clicked",      xen_py_interop_mouse_button_clicked, METH_VARARGS, "Check if a mouse button is clicked."},
 		{"gamepad_get_axis",          xen_py_interop_gamepad_get_axis, METH_VARARGS, "Check the axis state for a gamepad."},
+		{"gamepad_button_down",       xen_py_interop_gamepad_button_down, METH_VARARGS, "Check to see if a gamepad button is down."},
+		{"gamepad_button_clicked",    xen_py_interop_gamepad_button_clicked, METH_VARARGS, "Check to see if a gamepad button is clicked."},
 
 		{NULL, NULL, 0, NULL}
 	};

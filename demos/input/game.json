@@ -1,7 +1,7 @@
 {
 	"game": {
 		"title": "Xentu Demos - Input",
-		"entry_point": "/input.py",
+		"entry_point": "/input.js",
 		"version": "0.0.0",
 		"v_sync": true,
 		"fullscreen": false,

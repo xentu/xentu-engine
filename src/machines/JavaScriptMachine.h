@@ -114,6 +114,8 @@ namespace xen
 	duk_ret_t js_mouse_button_down(duk_context* L);
 	duk_ret_t js_mouse_button_clicked(duk_context* L);
 	duk_ret_t js_gamepad_get_axis(duk_context* L);
+	duk_ret_t js_gamepad_button_down(duk_context* L);
+	duk_ret_t js_gamepad_button_clicked(duk_context* L);
 
 	duk_ret_t js_shader_get_location(duk_context* L);
 	duk_ret_t js_shader_set_bool(duk_context* L);

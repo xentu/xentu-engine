@@ -12,24 +12,23 @@ namespace xen
 			GamepadState(int index);
 			~GamepadState();
 			bool IsEnabled();
-			bool IsButtonDown(int button);
-			bool IsButtonUp(int button);
+			const bool IsButtonDown(int button);
+			const bool IsButtonUp(int button);
 			void SetAdded();
 			void SetRemoved();
 			void SetButtonDown(const SDL_JoyButtonEvent& event);
 			void SetButtonUp(const SDL_JoyButtonEvent& event);
 			void SetAxisInfo(const SDL_JoyAxisEvent& info);
 			void Reset();
-		
-		public:
-			int m_axis_x;
-			int m_axis_y;
+			const int GetAxisX();
+			const int GetAxisY();
 
 		private:
 			bool m_enabled;
-			int m_up_events_iter;
 			SDL_Joystick* m_handle;
 			int m_index;
+			int m_axis_x;
+			int m_axis_y;
 
 			/* mouse button event buffer */
 			bool m_button_down_events[20];

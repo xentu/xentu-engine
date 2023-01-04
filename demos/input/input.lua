@@ -16,6 +16,10 @@ game.on('update', function(dt)
 	if ax == -1 then x = x - 1 end
 	if ay ==  1 then y = y + 1 end
 	if ay == -1 then y = y - 1 end
+
+	if gamepad.button_clicked(0, 0) then
+		print("Button 0 on gamepad was clicked.")
+	end
 end)
 
 -- handle the draw event
@@ -27,5 +31,5 @@ game.on("draw", function(dt)
 end)
 
 game.on("gamepad_button_down", function(button)
-	print("Button was clicked: " + button);
+	print("Button was clicked: " .. button)
 end)

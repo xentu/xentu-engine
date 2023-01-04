@@ -67,7 +67,7 @@ namespace xen
 	}
 
 
-	const GamepadState* InputManager::GetGamepadState(int index) const
+	GamepadState* InputManager::GetGamepadState(const int index)
 	{
 		return m_gamepad_states[index];
 	}
@@ -84,6 +84,9 @@ namespace xen
 		m_keyboard_up_events_iter = 0;
 		m_mouse_state->Reset();
 		m_mouse_button_up_events_iter = 0;
+		for (int i=0; i<XEN_MAX_GAMEPADS; i++) {
+			m_gamepad_states[i]->Reset();
+		}
 	}
 	
 
