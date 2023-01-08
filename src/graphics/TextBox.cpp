@@ -8,10 +8,10 @@
 
 namespace xen
 {
-	TextBox::TextBox(int x, int y, int w, int h, SDL_Color color)
+	TextBox::TextBox(int w, int h, SDL_Color color)
 	{
-		m_position.x = x;
-		m_position.y = y;
+		m_position.x = 0;
+		m_position.y = 0;
 		m_position.w = w;
 		m_position.h = h;
 		m_color = color;

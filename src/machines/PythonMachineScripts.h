@@ -190,6 +190,7 @@ globals()['KB_RIGHT_BRACKET']		= 185
 globals()['KB_GRAVE_ACCENT']		= 53
 globals()['KB_ESCAPE']				= 41
 globals()['KB_ENTER']				= 88
+globals()['KB_RETURN']           = 40
 globals()['KB_TAB']					= 186
 globals()['KB_BACKSPACE']			= 187
 globals()['KB_INSERT']				= 73

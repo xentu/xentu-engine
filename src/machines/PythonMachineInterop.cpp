@@ -275,12 +275,12 @@ namespace xen
 	
 	PyObject* xen_py_interop_assets_create_textbox(PyObject *self, PyObject *args)
 	{
-		int x,y,w,h;
-		if (!PyArg_ParseTuple(args, "iiii", &x, &y, &w, &h)) return NULL;
+		int w,h;
+		if (!PyArg_ParseTuple(args, "ii", &w, &h)) return NULL;
 		auto m = PythonMachine::GetInstance();
 		auto r = m->GetRenderer();
 		auto a = AssetManager::GetInstance();
-		int textbox_id = a->CreateTextBox(x, y, w, h, r->GetForeColor());
+		int textbox_id = a->CreateTextBox(w, h, r->GetForeColor());
 		return PyLong_FromLong(textbox_id);
 	}
 
@@ -516,11 +516,11 @@ namespace xen
 	PyObject* xen_py_interop_renderer_draw_textbox(PyObject *self, PyObject *args)
 	{
 		PyObject* rect;
-		int textbox_id;
-		if (!PyArg_ParseTuple(args, "i", &textbox_id)) return NULL;
+		int textbox_id, x, y;
+		if (!PyArg_ParseTuple(args, "iii", &textbox_id, &x, &y)) return NULL;
 		PythonMachine* m = PythonMachine::GetInstance();
 		auto r = m->GetRenderer();
-		r->DrawTextBox(textbox_id);
+		r->DrawTextBox(textbox_id, x, y);
 		return PyBool_FromLong(1);
 	}
 

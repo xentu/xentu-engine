@@ -100,9 +100,27 @@ namespace xen
 	{
 		auto pair = std::make_pair(event_name, callback);
 		this->callbacks.insert(pair);
+		auto pair2 = std::make_pair(callback, event_name);
+		this->callback_aliases.insert(pair2);
 		return 1;
 	}
+
+
+	duk_context* JavaScriptMachine::GetContext()
+	{
+		return L;
+	}
 	
+
+	const string& JavaScriptMachine::GetEventName(const string& callback)
+	{
+		auto its = this->callback_aliases.equal_range(callback);
+		for (auto it = its.first; it != its.second; ++it) {
+			return it->second;
+		}
+		return callback;
+	}
+
 		
 	JavaScriptMachine::~JavaScriptMachine()
 	{

@@ -1,11 +1,10 @@
 {
 	"game": {
 		"title": "Xentu Demos - Game - Blocks",
-		"entry_point": "/blocks.js",
+		"entry_point": "/game.js",
 		"version": "0.0.0",
 		"v_sync": true,
 		"fullscreen": false,
-		"resizable": false,
 		"update_frequency": 60,
 		"draw_frequency": 60,
 		"window": {
@@ -15,7 +14,7 @@
 		"viewport": {
 			"width": 640,
 			"height": 400,
-			"mode": 1
+			"mode": 2
 		},
 		"audio": {
 			"frequency": 44100,

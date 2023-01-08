@@ -20,7 +20,7 @@ namespace xen
 			/**
 			 * Create a new textbox, 
 			 */
-			TextBox(int x, int y, int w, int h, SDL_Color color);
+			TextBox(int w, int h, SDL_Color color);
 			~TextBox(void);
 			void SetText(TTF_Font* font, const char* text);
 			void SetColor(TTF_Font* font, SDL_Color color);

@@ -65,6 +65,7 @@ game.on("draw", function(dt) {
 	renderer.draw_texture(texture0, x + 50, 60, 100, 100);
 	renderer.begin();
 	renderer.draw_textbox(text0);
+	renderer.begin(false);
 	renderer.draw_sprite(sprite_map0, 'walk_right', frame, 100, 100, 25, 25);
 	renderer.draw_sprite(sprite_map0, 'jump_right', frame, 150, 100, 25, 25);
 	renderer.draw_sprite(sprite_map0, 'walk_left', frame, 200, 100, 25, 25);

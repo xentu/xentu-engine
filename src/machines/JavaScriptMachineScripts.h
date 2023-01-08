@@ -180,6 +180,7 @@ namespace xen { const char * xen_js_script_init = R"(
 	//const KB_WORLD_2				= ;
 	const KB_ESCAPE				= 41;
 	const KB_ENTER					= 88;
+	const KB_RETURN            = 40;
 	const KB_TAB					= 186;
 	const KB_BACKSPACE			= 187;
 	const KB_INSERT				= 73;

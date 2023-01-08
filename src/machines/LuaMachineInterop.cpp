@@ -187,14 +187,12 @@ namespace xen
 		if (lua_gettop(L) != 4) {
 			return luaL_error(L, "expecting exactly 4 arguments");
 		}
-		auto x = lua_tointeger(L, -4);
-		auto y = lua_tointeger(L, -3);
 		auto w = lua_tointeger(L, -2);
 		auto h = lua_tointeger(L, -1);
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
 		auto a = AssetManager::GetInstance();
-		int textbox_id = a->CreateTextBox(x, y, w, h, r->GetForeColor());
+		int textbox_id = a->CreateTextBox(w, h, r->GetForeColor());
 		lua_pushinteger(L, textbox_id);
 		return 1;
 	}
@@ -445,10 +443,12 @@ namespace xen
 
 	int XentuLuaMachineInterop::renderer_draw_textbox(lua_State* L)
 	{
-		int textbox_id = lua_tointeger(L, -1);
+		int textbox_id = lua_tointeger(L, -3);
+		int x = lua_tointeger(L, -2);
+		int y = lua_tointeger(L, -1);
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
-		r->DrawTextBox(textbox_id);
+		r->DrawTextBox(textbox_id, x, y);
 		return 0;
 	}
 

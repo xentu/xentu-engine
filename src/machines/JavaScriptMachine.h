@@ -19,9 +19,12 @@ namespace xen
 			int Trigger(const string event_name, const int arg0);
 			int Trigger(const string event_name, const float arg0);
 			int On(const string event_name, const string callback);
+			duk_context* GetContext();
+			const string& GetEventName(const string& callback);
 		
 		private:
 			unordered_multimap<string, string> callbacks;
+			unordered_multimap<string, string> callback_aliases;
 			duk_context* L;
 			static JavaScriptMachine* instance;
 	};

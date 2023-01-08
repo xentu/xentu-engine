@@ -286,14 +286,22 @@ namespace xen
 
 	void Renderer::Begin(bool reset_transforms)
 	{
-		m_origin_x = 0;
-		m_origin_y = 0;
-		m_pos_x = 0;
-		m_pos_y = 0;
-		m_scale_x = 1;
-		m_scale_y = 1;
-		m_rotation = 0;
-		m_alpha = 1;
+		if (reset_transforms) {
+			m_origin_x = 0;
+			m_origin_y = 0;
+			m_pos_x = 0;
+			m_pos_y = 0;
+			m_scale_x = 1;
+			m_scale_y = 1;
+			m_rotation = 0;
+			m_alpha = 1;
+		}
+	}
+
+
+	void Renderer::Clear()
+	{
+		glClear(GL_COLOR_BUFFER_BIT);
 
 		for (unsigned int i = 0; i < m_batches.size(); i++)
 		{
@@ -307,12 +315,6 @@ namespace xen
 				i--;
 			}
 		}
-	}
-
-
-	void Renderer::Clear()
-	{
-		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
 
@@ -473,12 +475,12 @@ namespace xen
 	}
 
 
-	void Renderer::DrawTextBox(int textbox_id)
+	void Renderer::DrawTextBox(int textbox_id, int x, int y)
 	{
 		auto textbox = AssetManager::GetInstance()->GetTextBox(textbox_id);
 
 		m_sprite.ResetTransform();
-		m_sprite.set_position(m_pos_x + textbox->m_position.x, m_pos_y + textbox->m_position.y);
+		m_sprite.set_position(m_pos_x + x, m_pos_y + y);
 		m_sprite.set_origin(m_origin_x, m_origin_y);
 		m_sprite.set_rotation(m_rotation);
 		m_sprite.set_scale(m_scale_x, m_scale_y);

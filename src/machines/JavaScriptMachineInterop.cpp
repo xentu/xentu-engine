@@ -47,7 +47,7 @@ namespace xen
 		js_init_method(L, "assets_load_shader", js_assets_load_shader, 2);
 		js_init_method(L, "assets_load_sprite_map", js_assets_load_sprite_map, 1);
 		js_init_method(L, "assets_load_tile_map_tmx", js_assets_load_tile_map_tmx, 2);
-		js_init_method(L, "assets_create_textbox", js_assets_create_textbox, 4);
+		js_init_method(L, "assets_create_textbox", js_assets_create_textbox, 2);
 		js_init_method(L, "assets_unload_texture", js_assets_unload_texture, 1);
 		js_init_method(L, "assets_unload_font", js_assets_unload_font, 1);
 		js_init_method(L, "assets_unload_sound", js_assets_unload_sound, 1);
@@ -71,7 +71,7 @@ namespace xen
 		js_init_method(L, "renderer_draw_texture", js_renderer_draw_texture, 5);
 		js_init_method(L, "renderer_draw_sub_texture", js_renderer_draw_sub_texture, 9);
 		js_init_method(L, "renderer_draw_rectangle", js_renderer_draw_rectangle, 4);
-		js_init_method(L, "renderer_draw_textbox", js_renderer_draw_textbox, 1);
+		js_init_method(L, "renderer_draw_textbox", js_renderer_draw_textbox, 3);
 		js_init_method(L, "renderer_draw_sprite", js_renderer_draw_sprite, 7);
 		js_init_method(L, "renderer_draw_tile_layer", js_renderer_draw_tile_layer, 2);
 		js_init_method(L, "renderer_set_background", js_renderer_set_background, 1);
@@ -111,6 +111,20 @@ namespace xen
 		js_init_method(L, "sprite_map_get_frame_count", js_sprite_map_get_frame_count, 2);
 	}
 
+	void js_handle_call_error(duk_context* L, std::string callback) {
+		auto event_name = JavaScriptMachine::GetInstance()->GetEventName(callback);
+
+		std::string error;
+    	if (duk_has_prop_string(L, -1, "stack")) {
+			duk_get_prop_string(L, -1, "stack"); // Puts stack trace on the stack.
+      	error = duk_require_string(L, -1);
+    	} else {
+			error = duk_safe_to_string(L, -1);
+    	}
+    	duk_pop(L); // Remove error from stack.
+		XEN_ERROR("trigger failed [%s]: %s\n", event_name.c_str(), error.c_str());
+	}
+
 
 	void js_call_func(duk_context *L, std::string callback)
 	{
@@ -119,7 +133,8 @@ namespace xen
 			duk_int_t rc = duk_pcall(L, 0);
 			#if XEN_DEBUG
 			if (rc != 0) {
-				XEN_ERROR("trigger failed: %s\n", duk_safe_to_string(L, -1));
+				js_handle_call_error(L, callback);
+				//XEN_ERROR("trigger failed: %s\n", duk_safe_to_string(L, -1));
 				exit(124);
 			}
 			#endif
@@ -136,7 +151,8 @@ namespace xen
 			duk_int_t rc = duk_pcall(L, 1);
 			#if XEN_DEBUG
 			if (rc != 0) {
-				XEN_ERROR("trigger failed: %s\n", duk_safe_to_string(L, -1));
+				js_handle_call_error(L, callback);
+				//XEN_ERROR("trigger failed: %s\n", duk_safe_to_string(L, -1));
 				exit(124);
 			}
 			#endif
@@ -153,7 +169,8 @@ namespace xen
 			duk_int_t rc = rc = duk_pcall(L, 1);
 			#if XEN_DEBUG
 			if (rc != 0) {
-				XEN_ERROR("trigger failed: %s\n", duk_safe_to_string(L, -1));
+				js_handle_call_error(L, callback);
+				//XEN_ERROR("trigger failed: %s\n", duk_safe_to_string(L, -1));
 				exit(124);
 			}
 			#endif
@@ -170,7 +187,8 @@ namespace xen
 			duk_int_t rc = rc = duk_pcall(L, 1);
 			#if XEN_DEBUG
 			if (rc != 0) {
-				XEN_ERROR("trigger failed: %s\n", duk_safe_to_string(L, -1));
+				js_handle_call_error(L, callback);
+				//XEN_ERROR("trigger failed: %s\n", duk_safe_to_string(L, -1));
 				exit(124);
 			}
 			#endif
@@ -328,14 +346,12 @@ namespace xen
 	}
 	
 	duk_ret_t js_assets_create_textbox(duk_context *L) {
-		auto x = duk_to_int(L, 0);
-		auto y = duk_to_int(L, 1);
-		auto w = duk_to_int(L, 2);
-		auto h = duk_to_int(L, 3);
+		auto w = duk_to_int(L, 0);
+		auto h = duk_to_int(L, 1);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = m->GetRenderer();
 		auto a = AssetManager::GetInstance();
-		int textbox_id = a->CreateTextBox(x, y, w, h, r->GetForeColor());
+		int textbox_id = a->CreateTextBox(w, h, r->GetForeColor());
 		duk_push_int(L, textbox_id);
 		return 1;
 	}
@@ -553,9 +569,11 @@ namespace xen
 
 	duk_ret_t js_renderer_draw_textbox(duk_context *L) {
 		int textbox_id = duk_to_int(L, 0);
+		int x = duk_to_int(L, 1);
+		int y = duk_to_int(L, 2);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = m->GetRenderer();
-		r->DrawTextBox(textbox_id);
+		r->DrawTextBox(textbox_id, x, y);
 		return 0;
 	}
 

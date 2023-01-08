@@ -138,7 +138,7 @@ namespace xen
 			/**
 			 * Draw a textbox onto the current buffer.
 			 */
-			void DrawTextBox(int textbox_id);
+			void DrawTextBox(int textbox_id, int x, int y);
 
 			/**
 			 * Draw a frame from from a sprite map group onto the current buffer.
