@@ -84,7 +84,7 @@ for (var row=0; row<=field.height; row++) {
 }
 // we use a variable to fade out the blocks that worked.
 var complete_opacity = 1; rot = 0;
-
+var removing = false;
 
 
 
@@ -117,11 +117,9 @@ game.on('update', function(dt) {
 		if (fall_stepper.next(dt)) {
 			if (canPlaceCursor()) {
 				placeCursor();
-				if (countCompleteRows() > 0) {
-					state = states.check_rows;
-					complete_opacity = 1;
-					rot = 0;
-				}
+				state = states.check_rows;
+				complete_opacity = 1;
+				rot = 0;
 			}
 			cursor.top += 1;
 			if (keyboard.key_down(KB_DOWN)) {
@@ -129,13 +127,17 @@ game.on('update', function(dt) {
 			}
 		}
 	}
-	else if (state == states.check_rows) {
+	
+	if (state == states.check_rows) {
 		complete_opacity -= 0.03;
 		rot += 2;
-		if (complete_opacity <= 0) {
+		if (complete_opacity <= 0 && removing == false) {
+			removing = true;
 			state = states.playing;
 			var count = removeCompleteRows();
 			addScoreLines(count);
+			nextCursor();
+			removing = false;
 		}
 	}
 });
@@ -148,7 +150,9 @@ game.on("draw", function(dt) {
 	// draw the background.
 	renderer.draw_texture(textures.bg, 0, 0, 640, 400);
 	// draw the cursor.
-	drawBlock(cursor.rotation, cursor.frame, cursor.left, cursor.top);
+	if (state == states.playing) {
+		drawBlock(cursor.rotation, cursor.frame, cursor.left, cursor.top);
+	}
 	// draw the already placed cells (non complete rows).
 	for (var y=0; y<field.height; y++) {
 		if (placed_blocks[y].length == 10) continue;
@@ -191,11 +195,9 @@ game.on("draw", function(dt) {
 		renderer.set_foreground("#555555");
 		renderer.draw_rectangle(190, 100, 260, 170);
 		renderer.draw_textbox(textboxes.gameover1, 260, 120);
-		renderer.draw_textbox(textboxes.gameover2, 290, 170);
+		renderer.draw_textbox(textboxes.gameover2, 288, 170);
 		renderer.draw_textbox(textboxes.gameover3, 290, 220);
 	}
 	
 	renderer.present();
 });
-
-

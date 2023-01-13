@@ -8,8 +8,8 @@
 		"update_frequency": 60,
 		"draw_frequency": 60,
 		"window": {
-			"width": 800,
-			"height": 600
+			"width": 640,
+			"height": 400
 		},
 		"viewport": {
 			"width": 640,

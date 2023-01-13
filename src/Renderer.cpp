@@ -142,8 +142,21 @@ namespace xen
 		m_gl_context = SDL_GL_CreateContext(m_window);
 
 		//Use V-Sync
-		if (m_config->v_sync && SDL_GL_SetSwapInterval(1) < 0) {
-			XEN_WARN("> Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+		if (m_config->v_sync) {
+			if (SDL_GL_SetSwapInterval(1) < 0) {
+				XEN_ERROR("> Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+			}
+			else {
+				std::cout << "> V-Sync Enabled" << std::endl;
+			}
+		}
+		else {
+			if (SDL_GL_SetSwapInterval(0) < 0) {
+				XEN_ERROR("> Warning: Unable to set swap interval to immediate! SDL Error: %s\n", SDL_GetError());
+			}
+			else {
+				std::cout << "> V-Sync Disabled" << std::endl;
+			}
 		}
 
 		if(m_gl_context == NULL) {

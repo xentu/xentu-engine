@@ -129,11 +129,9 @@ function placeCursor() {
 	placeBlock(top + cell[1][1], cursor.left + cell[1][0], cursor.frame);
 	placeBlock(top + cell[2][1], cursor.left + cell[2][0], cursor.frame);
 	placeBlock(top + cell[3][1], cursor.left + cell[3][0], cursor.frame);
-	cursor.top = -2;
-	cursor.left = 4;
-	cursor.rotation = 0;
-	cursor.frame = Math.round(5 * Math.random());
 }
+
+
 
 
 function rotateCursor() {
@@ -149,10 +147,11 @@ function rotateCursor() {
 }
 
 
-function nextShape() {
+function nextCursor() {
 	cursor.top = -2;
+	cursor.left = 4;
 	cursor.rotation = 0;
-	cursor.frame = Math.round(5 * Math.random());
+	cursor.frame = Math.round(6 * Math.random());	
 }
 
 
@@ -172,7 +171,7 @@ function drawBlock(rotation, frame, left, top) {
 function countCompleteRows() {
 	var count = 0;
 	for (var y=field.height; y>0; y--) {
-		if (placed_blocks[y].length == field.width) {
+		if (placed_blocks[y].length >= field.width) {
 			count++;
 		}
 	}
@@ -181,12 +180,11 @@ function countCompleteRows() {
 
 
 function removeCompleteRows() {
-	// first count how many rows we need to remove.
 	var count = countCompleteRows();
-	// then do that many checks.
-	for (var c=0; c<4; c++) {
-		for (var y=field.height; y>0; y--) {
-			if (placed_blocks[y].length == 10) {
+	const bottom = Math.min(field.height, cursor.top + cursorHeight());
+	for (var c=0; c<3; c++) {
+		for (var y=bottom; y > cursor.top - 2 && y > 0; y--) {
+			if (placed_blocks[y].length >= field.width) {
 				removeRow(y);
 			}
 		}
@@ -194,9 +192,15 @@ function removeCompleteRows() {
 	return count;
 }
 
+
 function removeRow(row) {
-	for (var y=row; y>0; y--) {
-		placed_blocks[y] = placed_blocks[y - 1];
+	for (var y=row; y>1; y--) {
+		if (placed_blocks[y - 1].length == 0) {
+			placed_blocks[y] = [];
+		}
+		else {
+			placed_blocks[y] = placed_blocks[y - 1];
+		}		
 	}
 }
 
@@ -227,6 +231,6 @@ function restartGame() {
 	}
 	textbox.set_text(textboxes.score_val, roboto24, "0");
 	textbox.set_text(textboxes.lines_val, roboto24, "0");
-	nextShape();
+	nextCursor();
 	state = states.playing;
 }

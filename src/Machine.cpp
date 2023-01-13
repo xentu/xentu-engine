@@ -29,6 +29,9 @@ namespace xen
 		using clock = std::chrono::high_resolution_clock;
 		auto time_start = clock::now();
 		auto time_elapsed(0ns);
+
+		unsigned int ms = 1000.0 / m_config->update_frequency;
+		std::chrono::milliseconds timestep(ms);
 		
 		bool running = true;
 
@@ -40,6 +43,7 @@ namespace xen
 			auto delta_time = std::chrono::duration<float>(now - time_start);
 			auto delta_ms = delta_time.count();
 			time_start = now;
+			time_elapsed += std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
 
 			m_input->Reset();
 			SDL_Event event;
@@ -136,7 +140,11 @@ namespace xen
 			}
 			else {
 				m_renderer->NewFrame(size_changed);
-				this->Trigger("update", delta_ms);
+				while (time_elapsed >= timestep) {
+					time_elapsed -= timestep;
+					this->Trigger("update", delta_ms);
+				}
+				
 				this->Trigger("draw", delta_ms);
 			}
 		}
