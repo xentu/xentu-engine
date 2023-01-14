@@ -3,10 +3,10 @@
 		"title": "Xentu Demos - Game - Blocks",
 		"entry_point": "/game.js",
 		"version": "0.0.0",
-		"v_sync": true,
+		"v_sync": false,
 		"fullscreen": false,
 		"update_frequency": 60,
-		"draw_frequency": 60,
+		"draw_frequency": 90,
 		"window": {
 			"width": 640,
 			"height": 400

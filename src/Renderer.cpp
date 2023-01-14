@@ -419,7 +419,11 @@ namespace xen
 
 		//SDL_RenderPresent(m_renderer);
 		SDL_GL_SwapWindow(m_window);
-		SDL_Delay(1000 / m_config->draw_frequency);
+
+		// only impose delay if one is set.
+		if (m_config->draw_frequency > 0 && m_config->draw_frequency < 999) {
+			SDL_Delay(1000 / m_config->draw_frequency);
+		}
 	}
 
 

@@ -41,6 +41,12 @@ namespace xen
 			const char* arg_values[12];
 
 		private:
+
+			void HandleSdlEvents();
+
+			bool m_running = false;
+			bool m_size_changed = false;
+
 			Config* m_config;
 			AssetManager* m_assets;
 			Renderer* m_renderer;
