@@ -127,8 +127,7 @@ game.on('update', function(dt) {
 			}
 		}
 	}
-	
-	if (state == states.check_rows) {
+	else if (state == states.check_rows) {
 		complete_opacity -= 0.03;
 		rot += 2;
 		if (complete_opacity <= 0 && removing == false) {
@@ -189,7 +188,6 @@ game.on("draw", function(dt) {
 	renderer.draw_textbox(textboxes.lines_val, 460, 96);
 	
 	if (state == states.ended) {
-		renderer.begin();
 		renderer.set_foreground("#333333");
 		renderer.draw_rectangle(180, 90, 280, 190);
 		renderer.set_foreground("#555555");

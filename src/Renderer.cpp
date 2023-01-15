@@ -300,7 +300,7 @@ namespace xen
 			sc_h = (float)height;
 			this->screen_proj = glm::ortho(0.0f, sc_w, sc_h, 0.0f);
 		}
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 
