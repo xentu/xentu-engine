@@ -96,6 +96,11 @@ namespace xen
 			void NewFrame(bool resized);
 
 			/**
+			 * Called by Begin and Present to send batch draw calls to the renderer.
+			*/
+			void FlushBatches();
+
+			/**
 			 * Begin a new batch of graphics to draw, also resets the global transform.
 			 */
 			void Begin(bool reset_transforms);

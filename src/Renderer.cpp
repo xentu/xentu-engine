@@ -300,28 +300,29 @@ namespace xen
 			sc_h = (float)height;
 			this->screen_proj = glm::ortho(0.0f, sc_w, sc_h, 0.0f);
 		}
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 
-	void Renderer::Begin(bool reset_transforms)
+	void Renderer::FlushBatches()
 	{
-		if (reset_transforms) {
-			m_origin_x = 0;
-			m_origin_y = 0;
-			m_pos_x = 0;
-			m_pos_y = 0;
-			m_scale_x = 1;
-			m_scale_y = 1;
-			m_rotation = 0;
-			m_alpha = 1;
+		const size_t vertex_size = sizeof(Vertex) * 4; // 4 vertices per quad.
+		const size_t element_size = sizeof(unsigned int) * 6; // 6 indices per quad.
+
+		// draw each of the batches (layers)
+		for (const Batch* batch : m_batches)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, batch->m_texture);
+
+			glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+			glBufferData(GL_ARRAY_BUFFER, batch->quad_count * vertex_size, batch->m_vertices.data(), GL_DYNAMIC_DRAW);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, batch->quad_count * element_size, batch->m_indices.data(), GL_DYNAMIC_DRAW);
+
+			glDrawElements(GL_TRIANGLES, batch->quad_count * 6, GL_UNSIGNED_INT, nullptr);
 		}
-	}
-
-
-	void Renderer::Clear()
-	{
-		glClear(GL_COLOR_BUFFER_BIT);
 
 		for (unsigned int i = 0; i < m_batches.size(); i++)
 		{
@@ -338,10 +339,25 @@ namespace xen
 	}
 
 
-	void Renderer::Present()
+	void Renderer::Begin(bool reset_transforms)
 	{
-		const size_t vertex_size = sizeof(Vertex) * 4; // 4 vertices per quad.
-		const size_t element_size = sizeof(unsigned int) * 6; // 6 indices per quad.
+		this->FlushBatches();
+
+		if (reset_transforms) {
+			m_origin_x = 0;
+			m_origin_y = 0;
+			m_pos_x = 0;
+			m_pos_y = 0;
+			m_scale_x = 1;
+			m_scale_y = 1;
+			m_rotation = 0;
+			m_alpha = 1;
+		}
+	}
+
+
+	void Renderer::Clear()
+	{
 		int vp_w = m_viewport.width;
 		int vp_h = m_viewport.height;
 
@@ -354,22 +370,19 @@ namespace xen
 
 		// clear the screen.
 		glClearColor(clear_color_r, clear_color_g, clear_color_b, 1);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT);
+	}
 
-		// draw each of the batches (layers)
-		for (const Batch* batch : m_batches)
-		{
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, batch->m_texture);
 
-			glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-			glBufferData(GL_ARRAY_BUFFER, batch->quad_count * vertex_size, batch->m_vertices.data(), GL_DYNAMIC_DRAW);
+	void Renderer::Present()
+	{
+		const size_t vertex_size = sizeof(Vertex) * 4; // 4 vertices per quad.
+		const size_t element_size = sizeof(unsigned int) * 6; // 6 indices per quad.
+		int vp_w = m_viewport.width;
+		int vp_h = m_viewport.height;
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, batch->quad_count * element_size, batch->m_indices.data(), GL_DYNAMIC_DRAW);
-
-			glDrawElements(GL_TRIANGLES, batch->quad_count * 6, GL_UNSIGNED_INT, nullptr);
-		}
+		// draw any remaining graphics.
+		this->FlushBatches();
 
 		// unbind the frame buffer.
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);

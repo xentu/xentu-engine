@@ -138,10 +138,10 @@ executable('xentu', project_source_files, include_directories:incdir,
 
 # executables with python support.
 
-executable('xentu_py_debug', project_source_files, include_directories:incdir, 
-           dependencies:dependencies_py, gui_app:false, 
-           cpp_args : ['-DXEN_DEBUG', '-DXEN_PY', '-DXEN_VER="' + the_version + '"'])
+#executable('xentu_py_debug', project_source_files, include_directories:incdir, 
+#           dependencies:dependencies_py, gui_app:false, 
+#           cpp_args : ['-DXEN_DEBUG', '-DXEN_PY', '-DXEN_VER="' + the_version + '"'])
 
-executable('xentu_py', project_source_files, include_directories:incdir,
-           dependencies:dependencies_py, gui_app:true,
-           cpp_args : ['-DXEN_PY', '-DXEN_VER="' + the_version + '"'])
+#executable('xentu_py', project_source_files, include_directories:incdir,
+#           dependencies:dependencies_py, gui_app:true,
+#           cpp_args : ['-DXEN_PY', '-DXEN_VER="' + the_version + '"'])
