@@ -30,7 +30,7 @@ namespace xen
 		auto time_start = clock::now();
 		auto time_elapsed(0ns);
 
-		unsigned int ms = 1000.0 / m_config->update_frequency;
+		unsigned int ms = static_cast<unsigned int>(1000.0 / m_config->update_frequency);
 		std::chrono::milliseconds timestep(ms);
 		
 		m_running = true;

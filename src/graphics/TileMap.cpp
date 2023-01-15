@@ -33,7 +33,7 @@ namespace xen
 			// TODO: Load textures, and process layers so that drawing is made easier.
 
 			const auto& layers = map->getLayers();
-			XEN_ECHO("Map has %d layers\n", layers.size());
+			XEN_ECHO("Map has %d layers\n", static_cast<int>(layers.size()));
 			m_layers_count = 0;
 
 			for (const tmx::Layer::Ptr& layer : layers)
