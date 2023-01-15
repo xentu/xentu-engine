@@ -1,7 +1,9 @@
 #include "XenVirtualFileSystem.h"
 #include "XenNativeFileSystem.h"
+#include "XenZipFileSystem.h"
 #include "../StringUtils.h"
 #include "../Exceptions.h"
+#include "../Globals.h"
 
 namespace xen
 {
@@ -18,12 +20,32 @@ namespace xen
 
 	void vfs_default()
 	{
-		// create a native pointing to the current dir (and a test zip endpoint).
+		// get the global vfs isntance.
+		XenVirtualFileSystemPtr vfs = vfs_get_global();
+		
+		// create a pointing to a potential game.dat file.
+		if (XEN_FILE_EXISTS("./game.dat")) {
+			XenFileSystemPtr game_fs(new XenZipFileSystem("./game.dat", "/"));
+			game_fs->Initialize();
+			if (game_fs->IsInitialized()) {
+				vfs->AddFileSystem("/", game_fs);
+				return;
+			}
+		}
+
+		// create a pointing to a potential game.zip file.
+		if (XEN_FILE_EXISTS("./game.zip")) {
+			XenFileSystemPtr gameZip_fs(new XenZipFileSystem("./game.zip", "/"));
+			gameZip_fs->Initialize();
+			if (gameZip_fs->IsInitialized()) {
+				vfs->AddFileSystem("/", gameZip_fs);
+				return;
+			}
+		}
+		
+		// we made it this far without a default mount, so use the regular file system instead.
 		XenFileSystemPtr root_fs(new XenNativeFileSystem("./"));
 		root_fs->Initialize();
-			
-		// add the file systems to the vfs.
-		XenVirtualFileSystemPtr vfs = vfs_get_global();
 		vfs->AddFileSystem("/", root_fs);
 	}
 

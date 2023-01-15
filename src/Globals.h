@@ -28,3 +28,6 @@ int XEN_WARN(const char *format, ...);
  * Log an error even if XEN_DEBUG is not defined.
  */
 int XEN_ERROR(const char *format, ...);
+
+
+bool XEN_FILE_EXISTS(const std::string& name);

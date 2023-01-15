@@ -1,3 +1,4 @@
+#include <string>
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -26,4 +27,10 @@ int XEN_ERROR(const char *format, ...)
 	
 	// todo: write to error log file or something.
 	return -3;
+}
+
+
+bool XEN_FILE_EXISTS(const std::string& name) {
+  struct stat buffer;   
+  return (stat (name.c_str(), &buffer) == 0); 
 }
