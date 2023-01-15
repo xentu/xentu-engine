@@ -16,6 +16,7 @@ namespace xen
 			title = m_game.at("title");
 			title = this->GetSetting("game", "title", "");
 			entry_point = this->GetSetting("game", "entry_point", "");
+			icon = this->GetSetting("game", "icon", "");
 			v_sync = this->GetSettingBool("game", "v_sync", true);
 			fullscreen = this->GetSettingBool("game", "fullscreen", false);
 			resizable = this->GetSettingBool("game", "resizable", true);

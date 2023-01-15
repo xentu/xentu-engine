@@ -31,6 +31,11 @@ namespace xen
 			int LoadTexture(const string& path);
 
 			/**
+			 * Load a raw SDL surface instead of generating a texture.
+			*/
+			SDL_Surface* LoadTextureSurface(const string& path);
+
+			/**
 			 * Return an asset id for loaded texture, or -1 on fail.
 			 */
 			int LookupTexture(const string& path);

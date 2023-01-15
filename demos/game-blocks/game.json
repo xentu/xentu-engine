@@ -2,6 +2,7 @@
 	"game": {
 		"title": "Xentu Demos - Game - Blocks",
 		"entry_point": "/game.js",
+		"icon": "/assets/game-icon.ico",
 		"version": "0.0.0",
 		"v_sync": true,
 		"fullscreen": false,

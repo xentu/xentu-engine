@@ -263,6 +263,13 @@ namespace xen
 			glDisable(GL_CULL_FACE);
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+			// see if we need to set a window icon.
+			if (m_config->icon.length() > 0) {
+				SDL_Surface* icon = AssetManager::GetInstance()->LoadTextureSurface(m_config->icon);
+				SDL_SetWindowIcon(m_window, icon);
+				SDL_FreeSurface(icon);
+			}
 		}
 
 		drawn_screen = Rect(0, 0, (float)vp_width, (float)vp_height);

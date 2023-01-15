@@ -208,6 +208,20 @@ namespace xen
 		return m_textures_iter - 1;
 	}
 
+	SDL_Surface* AssetManager::LoadTextureSurface(const string& path)
+	{
+		auto res = vfs_get_global()->ReadAllData(path);
+		auto *rw = SDL_RWFromMem(res.buffer, res.length);
+		auto sur = IMG_Load_RW(rw, AUTO_FREE);
+		if(sur == NULL)
+		{
+			XEN_ERROR("Error whilst loading image '%s'\n.", path.c_str());
+			SDL_FreeRW(rw);
+			return NULL;
+		}
+		return sur;
+	}
+
 	int AssetManager::LookupTexture(const string& path)
 	{
 		std::map<std::string, int>::iterator it = m_texture_lookups.find(path);
