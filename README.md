@@ -48,8 +48,10 @@ Full documentation for this project can be found at [https://docs.xentu.net](htt
 
 ## Building
 
-The project requires meson to build, which also requires Python3+. Once you have
-both installed, run the setup.sh script to setup dependencies. If you are not on Windows, you may need to make the sh file executable first with `"chmod +x ./setup.sh"`. Once ready, calling:
+The project requires meson to build, which also requires Python310 or higher. Once 
+you have both installed, run the setup.sh script to setup dependencies. If you are 
+not on Windows, you may need to make the sh file executable first with `"chmod +x ./setup.sh"`. 
+Once ready, calling:
 
 ```meson compile -C build```
 
@@ -57,8 +59,7 @@ or
 
 ```ninja -C build```
 
-Will compile the engine into `/build/xentu.exe` on windows, or `/build/xentu` on
-MacOS/Linux respectively, and a `xentu_debug.exe` that is designed for debugging.
+Will compile the engine binaries into the `build` folder named `xentu` and `xentu_debug`.
 Also if you have VSCode, a tasks.json has been setup so you can build using the 
 build command, and a launch.json has been provided to help aid in launching the 
 engine in debug mode.
@@ -77,7 +78,7 @@ Linux Mint ships with everything, although you may need to apt install
 
 Python is a unique case in that it does not get statically linked during compile
 time. Due to this two additional binaries are compiled with a `_py` postfix. If
-you ship a game using Python on Windows, remember to also ship python310.dll with
+you ship a game using Python on Windows, remember to also ship `python310.dll` with
 your game just in-case your players do not have it.
 
 <br />
