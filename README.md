@@ -30,10 +30,10 @@ languages available to run pretty much anywhere natively.
 
 ## Getting Started
 
-If this is your first time using Xentu, you should try [Xentu Creator](https://xentu.net/creator) the official cross-platform editor IDE for Xentu. It provides a rich code editor, debugging, project management, and other cool things like code templates to get you started.
+If this is your first time using Xentu, you should try [Xentu Creator](https://github.com/xentu/xentu-creator) the official cross-platform editor IDE for Xentu. It provides a rich code editor, debugging, project management, and other cool things like code templates to get you started.
 
-If you'd prefer to go it alone, the binaries can be downloaded from the Xentu
-website using [this link](https://xentu.net/binaries). And in the next section
+If you'd prefer to go it alone, the binaries can be downloaded from the releases
+page [here](https://github.com/xentu/xentu-engine/releases). And in the next section
 you'll see how to build the engine yourself.
 
 <br />

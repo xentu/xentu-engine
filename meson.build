@@ -124,6 +124,7 @@ endif
 
 if host_machine.system() == 'windows'
     project_source_files += import('windows').compile_resources( 'resource.rc' )
+    incdir = include_directories(['lib', 'C:/Python310/libs'])
 endif
 
 # executables without python support.
@@ -138,10 +139,10 @@ executable('xentu', project_source_files, include_directories:incdir,
 
 # executables with python support.
 
-#executable('xentu_py_debug', project_source_files, include_directories:incdir, 
-#           dependencies:dependencies_py, gui_app:false, 
-#           cpp_args : ['-DXEN_DEBUG', '-DXEN_PY', '-DXEN_VER="' + the_version + '"'])
+executable('xentu_py_debug', project_source_files, include_directories:incdir, 
+           dependencies:dependencies_py, gui_app:false, 
+           cpp_args : ['-DXEN_DEBUG', '-DXEN_PY', '-DXEN_VER="' + the_version + '"'])
 
-#executable('xentu_py', project_source_files, include_directories:incdir,
-#           dependencies:dependencies_py, gui_app:true,
-#           cpp_args : ['-DXEN_PY', '-DXEN_VER="' + the_version + '"'])
+executable('xentu_py', project_source_files, include_directories:incdir,
+           dependencies:dependencies_py, gui_app:true,
+           cpp_args : ['-DXEN_PY', '-DXEN_VER="' + the_version + '"'])
