@@ -59,16 +59,30 @@ namespace xen
 		glBindTexture(GL_TEXTURE_2D, texture_id);
 		m_texture = texture_id;
 
-		auto mode = GL_RGB;
-		if (sur->format->BytesPerPixel == 4) {
-			mode = GL_RGBA;
-		}
+		auto mode = GL_RGBA;
+		Uint32 rmask, gmask, bmask, amask;
+		#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+			rmask = 0xff000000;
+			gmask = 0x00ff0000;
+			bmask = 0x0000ff00;
+			amask = 0x000000ff;
+		#else
+			rmask = 0x000000ff;
+			gmask = 0x0000ff00;
+			bmask = 0x00ff0000;
+			amask = 0xff000000;
+		#endif
+
+		SDL_Surface* sur_clean = SDL_CreateRGBSurface(0, sur->w, sur->h, 32, rmask, gmask, bmask, amask);
+		SDL_BlitSurface(sur, 0, sur_clean, 0);
 
 		glBindTexture(GL_TEXTURE_2D, texture_id);
-		glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur->pixels);
+		//glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur->pixels);
+		glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur_clean->pixels);
  		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		SDL_FreeSurface(sur);
+		SDL_FreeSurface(sur_clean);
 	}
 
 
