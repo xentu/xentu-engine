@@ -102,6 +102,12 @@ project_source_files = files([
 
 dependencies = [
   glew, sdl2_image_dep, sdl2_mixer_dep, ogg_dep, vorbis_dep,
+  sdl2_ttf_dep, sdl2_dep, lua_dep
+]
+
+
+dependencies_py = [
+  glew, sdl2_image_dep, sdl2_mixer_dep, ogg_dep, vorbis_dep,
   sdl2_ttf_dep, sdl2_dep, py_dep, lua_dep
 ]
 
@@ -120,6 +126,7 @@ if host_machine.system() == 'windows'
     project_source_files += import('windows').compile_resources( 'resource.rc' )
 endif
 
+# executables without python support.
 
 executable('xentu_debug', project_source_files, include_directories:incdir, 
            dependencies:dependencies, gui_app:false, 
@@ -128,3 +135,13 @@ executable('xentu_debug', project_source_files, include_directories:incdir,
 executable('xentu', project_source_files, include_directories:incdir,
            dependencies:dependencies, gui_app:true,
            cpp_args : ['-DXEN_VER="' + the_version + '"'])
+
+# executables with python support.
+
+executable('xentu_py_debug', project_source_files, include_directories:incdir, 
+           dependencies:dependencies_py, gui_app:false, 
+           cpp_args : ['-DXEN_DEBUG', '-DXEN_PY', '-DXEN_VER="' + the_version + '"'])
+
+executable('xentu_py', project_source_files, include_directories:incdir,
+           dependencies:dependencies_py, gui_app:true,
+           cpp_args : ['-DXEN_PY', '-DXEN_VER="' + the_version + '"'])

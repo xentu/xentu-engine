@@ -1,3 +1,4 @@
+#if XEN_PY
 #define PY_SSIZE_T_CLEAN
 
 #include <SDL.h>
@@ -1096,3 +1097,5 @@ namespace xen
 
 	/* ---- Game Module ------------------------------------------------------ */
 }
+
+#endif

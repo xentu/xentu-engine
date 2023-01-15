@@ -58,9 +58,10 @@ or
 ```ninja -C build```
 
 Will compile the engine into `/build/xentu.exe` on windows, or `/build/xentu` on
-MacOS/Linux respectively. Also if you have VSCode, a tasks.json has been setup
-so you can build using the build command, and a launch.json has been provided to
-help aid in launching the engine in debug mode.
+MacOS/Linux respectively, and a `xentu_debug.exe` that is designed for debugging.
+Also if you have VSCode, a tasks.json has been setup so you can build using the 
+build command, and a launch.json has been provided to help aid in launching the 
+engine in debug mode.
 
 If you find the binaries that are produced are too large, you likely need to
 switch to a different buildtype in the meson.build file. The common options are
@@ -71,6 +72,13 @@ switch to a different buildtype in the meson.build file. The common options are
 Xentu requires Lua 5.4, Python 3.10 and GLEW to compile successfully. Currently
 Linux Mint ships with everything, although you may need to apt install 
 `freeglut3`, `freeglut3-dev` and `libglew-dev`.
+
+## Python Support
+
+Python is a unique case in that it does not get statically linked during compile
+time. Due to this two additional binaries are compiled with a `_py` postfix. If
+you ship a game using Python on Windows, remember to also ship python310.dll with
+your game just in-case your players do not have it.
 
 <br />
 

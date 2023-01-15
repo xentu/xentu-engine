@@ -1,3 +1,4 @@
+#if XEN_PY
 #pragma once
 
 #include <Python.h>
@@ -37,3 +38,5 @@ namespace xen
 	void xen_py_call_func(const char* function_name, const int arg0);
 	void xen_py_call_func(const char* function_name, const float arg0);
 }
+
+#endif

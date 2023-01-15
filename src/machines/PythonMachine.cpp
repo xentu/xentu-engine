@@ -1,3 +1,4 @@
+#if XEN_PY
 #define PY_SSIZE_T_CLEAN
 
 #include "../Globals.h"
@@ -134,3 +135,5 @@ namespace xen
 		PyMem_RawFree(m_program);
 	}
 }
+
+#endif

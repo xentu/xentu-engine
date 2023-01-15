@@ -1,4 +1,6 @@
 #pragma once
+#if XEN_PY
+
 /**
  * This file holds the python code to be executed when a python engine is loaded
  * by the user. The file does the following:
@@ -372,3 +374,5 @@ assets.create_stepper = shim_create_stepper
 game.create_window()
 
 )"; }
+
+#endif

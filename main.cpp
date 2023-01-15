@@ -19,7 +19,9 @@
 #include "src/vfs/XenNativeFileSystem.h"
 #include "src/machines/JavaScriptMachine.h"
 #include "src/machines/LuaMachine.h"
+#if XEN_PY
 #include "src/machines/PythonMachine.h"
+#endif
 
 using MACHINE_PTR = const std::unique_ptr<xen::Machine>;
 
@@ -76,11 +78,13 @@ int main(int argc, char *argv[])
         MACHINE_PTR lua_machine(new LuaMachine(argc, argv, config));
         res = lua_machine->Init();
     }
+    #if XEN_PY
     else if (StringUtils::EndsWith(config->entry_point, "py")) {
         printf("> Language: Python\n");
         MACHINE_PTR py_machine(new PythonMachine(argc, argv, config));
         res = py_machine->Init();
     }
+    #endif
     else {
         XEN_ERROR("Machine platform not currently supported, please use a recognised file format for the entry point.");
     }
