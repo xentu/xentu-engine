@@ -523,8 +523,8 @@ namespace xen
 		m_sprite.set_scale(m_scale_x, m_scale_y);
 
 		m_sprite.m_color = Vector4f(1, 1, 1, m_alpha); // TODO: fix this.
-		m_sprite.m_width = static_cast<float>(textbox->m_position.w);
-		m_sprite.m_height = static_cast<float>(textbox->m_position.h);
+		m_sprite.m_width = static_cast<float>(textbox->m_rect.w);
+		m_sprite.m_height = static_cast<float>(textbox->m_rect.h);
 		m_sprite.m_texture = textbox->m_texture;
 		m_sprite.m_rect = Rect(0, 0, 1, 1);
 

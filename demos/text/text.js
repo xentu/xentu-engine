@@ -29,6 +29,11 @@ const textbox4 = assets.create_textbox(680, 40);
 var stepper = assets.create_stepper(1, 0);
 textbox.set_text(textbox4, roboto20, "This is a counter (1s delay): 0");
 
+// create 5th textbox.
+const textbox5 = assets.create_textbox(400, 400, true);
+textbox.set_text(textbox5, roboto20, "This textbox demonstrates how to draw wrapped text. This can be useful for showing long form dialog. It uses the width of the textbox to calculate how long a line should be.");
+textbox.set_color(textbox5, roboto20, "#FFFF00");
+
 // handle the update event.
 game.on("update", function(dt) {
 	if (keyboard.key_clicked(KB_ESCAPE)) exit();
@@ -46,5 +51,6 @@ game.on("draw", function(dt) {
 	renderer.draw_textbox(textbox2, 10, 40);
 	renderer.draw_textbox(textbox3, 10, 80);
 	renderer.draw_textbox(textbox4, 10, 120);
+	renderer.draw_textbox(textbox5, 10, 160);
 	renderer.present();
 });

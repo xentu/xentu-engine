@@ -2,7 +2,15 @@
 #define PY_SSIZE_T_CLEAN
 
 #include <SDL.h>
-#include <Python.h>
+
+#ifdef _DEBUG
+  #undef _DEBUG
+  #include <python.h>
+  #define _DEBUG
+#else
+  #include <python.h>
+#endif
+
 #include <stdio.h>
 #include <string>
 
@@ -277,12 +285,19 @@ namespace xen
 	PyObject* xen_py_interop_assets_create_textbox(PyObject *self, PyObject *args)
 	{
 		int w,h;
-		if (!PyArg_ParseTuple(args, "ii", &w, &h)) return NULL;
+		bool wrap;
+		int count = PyTuple_Size(args);
 		auto m = PythonMachine::GetInstance();
 		auto r = m->GetRenderer();
 		auto a = AssetManager::GetInstance();
-		int textbox_id = a->CreateTextBox(w, h, r->GetForeColor());
-		return PyLong_FromLong(textbox_id);
+
+		if (count == 2) {
+			if (!PyArg_ParseTuple(args, "ii", &w, &h)) return NULL;
+			return PyLong_FromLong(a->CreateTextBox(w, h, r->GetForeColor(), true));
+		}
+
+		if (!PyArg_ParseTuple(args, "iib", &w, &h, &wrap)) return NULL;
+		return PyLong_FromLong(a->CreateTextBox(w, h, r->GetForeColor(), wrap));
 	}
 
 	PyObject* xen_py_interop_assets_unload_texture(PyObject *self, PyObject *args)

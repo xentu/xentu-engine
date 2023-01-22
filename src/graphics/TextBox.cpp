@@ -8,14 +8,15 @@
 
 namespace xen
 {
-	TextBox::TextBox(int w, int h, SDL_Color color)
+	TextBox::TextBox(int w, int h, SDL_Color color, bool wrap)
 	{
-		m_position.x = 0;
-		m_position.y = 0;
-		m_position.w = w;
-		m_position.h = h;
+		m_rect.x = 0;
+		m_rect.y = 0;
+		m_rect.w = w;
+		m_rect.h = h;
 		m_color = color;
       m_font = nullptr;
+		m_wrap = wrap;
 	}
 
 	TextBox::~TextBox()
@@ -42,12 +43,14 @@ namespace xen
 
 	void TextBox::Regenerate(TTF_Font* font)
 	{
-		SDL_Surface* sur = TTF_RenderUTF8_Blended(font, m_text.c_str(), m_color);
+		SDL_Surface* sur = m_wrap 
+			? TTF_RenderUTF8_Blended_Wrapped(font, m_text.c_str(), m_color, m_rect.w)
+			: TTF_RenderUTF8_Blended(font, m_text.c_str(), m_color);
 		if (sur == nullptr || sur == NULL) {
 			XEN_ERROR("> Failed to render text: %s\n", SDL_GetError());
 		}
-		m_position.w = sur->w;
-		m_position.h = sur->h;
+		//m_rect.w = sur->w;
+		//m_rect.h = sur->h;
 
 		if (m_text_set) {
 			glDeleteTextures(1, &m_texture);
@@ -74,7 +77,7 @@ namespace xen
 		#endif
 
 		SDL_Surface* sur_clean = SDL_CreateRGBSurface(0, sur->w, sur->h, 32, rmask, gmask, bmask, amask);
-		SDL_BlitSurface(sur, 0, sur_clean, 0);
+		SDL_BlitSurface(sur, 0, sur_clean, &m_rect);
 
 		glBindTexture(GL_TEXTURE_2D, texture_id);
 		//glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur->pixels);

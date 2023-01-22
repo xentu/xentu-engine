@@ -20,7 +20,7 @@ namespace xen
 			/**
 			 * Create a new textbox, 
 			 */
-			TextBox(int w, int h, SDL_Color color);
+			TextBox(int w, int h, SDL_Color color, bool wrap);
 			~TextBox(void);
 			void SetText(TTF_Font* font, const char* text);
 			void SetColor(TTF_Font* font, SDL_Color color);
@@ -29,9 +29,10 @@ namespace xen
 		public:
 			bool m_text_set;
 			GLuint m_texture = 0;
-    		SDL_Rect m_position;
+    		SDL_Rect m_rect;
     		TTF_Font* m_font;
     		SDL_Color m_color;
 			string m_text;
+			bool m_wrap;
 	};
 }

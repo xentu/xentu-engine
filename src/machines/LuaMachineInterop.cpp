@@ -184,16 +184,26 @@ namespace xen
 
 	int XentuLuaMachineInterop::assets_create_textbox(lua_State* L)
 	{
-		if (lua_gettop(L) != 4) {
-			return luaL_error(L, "expecting exactly 4 arguments");
-		}
-		auto w = lua_tointeger(L, -2);
-		auto h = lua_tointeger(L, -1);
+		int count = lua_gettop(L);
 		auto m = LuaMachine::GetInstance();
 		auto r = m->GetRenderer();
 		auto a = AssetManager::GetInstance();
-		int textbox_id = a->CreateTextBox(w, h, r->GetForeColor());
-		lua_pushinteger(L, textbox_id);
+
+		if (count < 2 || count > 3) {
+			return luaL_error(L, "expecting exactly 2-3 arguments");
+		}
+
+		if (count == 2) {
+			auto w = lua_tointeger(L, -2);
+			auto h = lua_tointeger(L, -1);
+			lua_pushinteger(L, a->CreateTextBox(w, h, r->GetForeColor(), true));
+			return 1;
+		}
+		
+		auto w = lua_tointeger(L, -3);
+		auto h = lua_tointeger(L, -2);
+		auto wrap = lua_toboolean(L, -1);
+		lua_pushinteger(L, a->CreateTextBox(w, h, r->GetForeColor(), wrap));
 		return 1;
 	}
 

@@ -346,12 +346,14 @@ namespace xen
 	}
 	
 	duk_ret_t js_assets_create_textbox(duk_context *L) {
+		int count = duk_get_top(L);
 		auto w = duk_to_int(L, 0);
 		auto h = duk_to_int(L, 1);
+		auto wrap = count == 3 ? duk_to_boolean(L, 2) : true;
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = m->GetRenderer();
 		auto a = AssetManager::GetInstance();
-		int textbox_id = a->CreateTextBox(w, h, r->GetForeColor());
+		int textbox_id = a->CreateTextBox(w, h, r->GetForeColor(), wrap);
 		duk_push_int(L, textbox_id);
 		return 1;
 	}
