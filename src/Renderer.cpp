@@ -66,7 +66,8 @@ namespace xen
 		m_ibo(-1),
 		m_vbo(-1),
 		m_sprite(),
-		m_running(true)
+		m_running(true),
+		m_alpha(1)
 	{
 		clear_color_r = 0;
 		clear_color_g = 0;
