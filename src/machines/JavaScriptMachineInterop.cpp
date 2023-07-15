@@ -134,7 +134,6 @@ namespace xen
 			#if XEN_DEBUG
 			if (rc != 0) {
 				js_handle_call_error(L, callback);
-				//XEN_ERROR("trigger failed: %s\n", duk_safe_to_string(L, -1));
 				exit(124);
 			}
 			#endif
@@ -152,7 +151,6 @@ namespace xen
 			#if XEN_DEBUG
 			if (rc != 0) {
 				js_handle_call_error(L, callback);
-				//XEN_ERROR("trigger failed: %s\n", duk_safe_to_string(L, -1));
 				exit(124);
 			}
 			#endif
@@ -170,7 +168,6 @@ namespace xen
 			#if XEN_DEBUG
 			if (rc != 0) {
 				js_handle_call_error(L, callback);
-				//XEN_ERROR("trigger failed: %s\n", duk_safe_to_string(L, -1));
 				exit(124);
 			}
 			#endif
@@ -188,7 +185,6 @@ namespace xen
 			#if XEN_DEBUG
 			if (rc != 0) {
 				js_handle_call_error(L, callback);
-				//XEN_ERROR("trigger failed: %s\n", duk_safe_to_string(L, -1));
 				exit(124);
 			}
 			#endif
@@ -226,8 +222,12 @@ namespace xen
 	
 	int js_on_iter = 0;
 	duk_ret_t js_game_on(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, game.on expects 2 arguments (event_name:s, callback).");
+			return 0;
+		}
+
 		auto event_name = duk_to_string(L, 0);
-		
 		std::string callback_name = "xen_callback" + std::to_string(js_on_iter);
 		js_on_iter++;
 
@@ -240,6 +240,11 @@ namespace xen
 	}
 	
 	duk_ret_t js_game_trigger(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, game.trigger expects 1 argument (event_name:s).");
+			return 0;
+		}
+
 		auto event_name = duk_to_string(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
 		m->Trigger(event_name);
@@ -266,6 +271,11 @@ namespace xen
 	#pragma region Assets
 	
 	duk_ret_t js_assets_mount(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, assets.mount expects 2 arguments (mount_point:s, fs_path:s).");
+			return 0;
+		}
+
 		auto s_point = duk_to_string(L, 0);
 		auto s_path = duk_to_string(L, 1);
 		// create the file system mount & init.
@@ -278,6 +288,11 @@ namespace xen
 	}
 	
 	duk_ret_t js_assets_read_text_file(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, assets.read_text_file expects 1 argument (path:s).");
+			return 0;
+		}
+
 		auto path = duk_to_string(L, 0);
 		auto res = vfs_get_global()->ReadAllText(path);
 		duk_push_string(L, res.c_str());
@@ -285,6 +300,11 @@ namespace xen
 	}
 	
 	duk_ret_t js_assets_load_texture(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, assets.load_texture expects 1 argument (path:s).");
+			return 0;
+		}
+
 		auto path = duk_to_string(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
@@ -294,6 +314,11 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_load_font(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, assets.load_font expects 2 arguments (path:s, size:i).");
+			return 0;
+		}
+
 		auto path = duk_to_string(L, 0);
 		int font_size = duk_to_int(L, 1);
 		auto m = JavaScriptMachine::GetInstance();
@@ -304,6 +329,11 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_load_sound(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, assets.load_sound expects 1 argument (path:s).");
+			return 0;
+		}
+
 		auto path = duk_to_string(L, 0);
 		auto assets = AssetManager::GetInstance();
 		int sound_id = assets->LoadAudio(path);
@@ -312,6 +342,11 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_load_music(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, assets.load_music expects 1 argument (path:s).");
+			return 0;
+		}
+
 		auto path = duk_to_string(L, 0);
 		auto assets = AssetManager::GetInstance();
 		int music_id = assets->LoadMusic(path);
@@ -320,6 +355,11 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_load_shader(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, assets.load_shader expects 2 arguments (vertex_code:s, fragment_code:s).");
+			return 0;
+		}
+
 		auto vertex_src = duk_to_string(L, 0);
 		auto frag_src = duk_to_string(L, 1);
 		auto assets = AssetManager::GetInstance();
@@ -329,6 +369,11 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_load_sprite_map(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, assets.load_sprite_map expects 1 argument (path:s).");
+			return 0;
+		}
+
 		auto path = duk_to_string(L, 0);
 		auto a = AssetManager::GetInstance();
 		int asset_id = a->LoadSpriteMap(path);
@@ -337,6 +382,11 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_load_tile_map_tmx(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, assets.load_tile_map_tmx expects 2 arguments (path:s, working_dir:s).");
+			return 0;
+		}
+
 		auto path = duk_to_string(L, 0);
 		auto working_dir = duk_to_string(L, 1);
 		auto a = AssetManager::GetInstance();
@@ -347,6 +397,11 @@ namespace xen
 	
 	duk_ret_t js_assets_create_textbox(duk_context *L) {
 		int count = duk_get_top(L);
+		if (count < 2 || count > 3) {
+			XEN_ERROR("Error, assets.create_textbox expects 2 or 3 arguments (w:i, h:i, [wrap:b]).");
+			return 0;
+		}
+
 		auto w = duk_to_int(L, 0);
 		auto h = duk_to_int(L, 1);
 		auto wrap = count == 3 ? duk_to_boolean(L, 2) : true;
@@ -359,6 +414,11 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_unload_texture(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, assets.unload_texture expects 1 argument (asset_id:i).");
+			return 0;
+		}
+
 		auto a = AssetManager::GetInstance();
 		int asset_id = duk_to_int(L, 0);
 		duk_push_int(L, a->UnloadTexture(asset_id));
@@ -366,6 +426,11 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_unload_font(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, assets.unload_font expects 1 argument (asset_id:i).");
+			return 0;
+		}
+
 		auto a = AssetManager::GetInstance();
 		int asset_id = duk_to_int(L, 0);
 		duk_push_int(L, a->UnloadFont(asset_id));
@@ -373,6 +438,11 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_unload_sound(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, assets.unload_sound expects 1 argument (asset_id:i).");
+			return 0;
+		}
+
 		auto a = AssetManager::GetInstance();
 		int asset_id = duk_to_int(L, 0);
 		duk_push_int(L, a->UnloadAudio(asset_id));
@@ -380,6 +450,11 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_unload_music(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, assets.unload_music expects 1 argument (asset_id:i).");
+			return 0;
+		}
+
 		auto a = AssetManager::GetInstance();
 		int asset_id = duk_to_int(L, 0);
 		duk_push_int(L, a->UnloadTexture(asset_id));
@@ -387,6 +462,11 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_unload_shader(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, assets.unload_shader expects 1 argument (asset_id:i).");
+			return 0;
+		}
+
 		auto a = AssetManager::GetInstance();
 		int asset_id = duk_to_int(L, 0);
 		duk_push_int(L, a->UnloadShader(asset_id));
@@ -394,6 +474,11 @@ namespace xen
 	}
 
 	duk_ret_t js_assets_unload_sprite_map(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, assets.unload_sprite_map expects 1 argument (asset_id:i).");
+			return 0;
+		}
+
 		auto a = AssetManager::GetInstance();
 		int asset_id = duk_to_int(L, 0);
 		duk_push_int(L, a->UnloadSpriteMap(asset_id));
@@ -402,6 +487,11 @@ namespace xen
 
 
 	duk_ret_t js_assets_unload_tile_map(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, assets.unload_tile_map expects 1 argument (asset_id:i).");
+			return 0;
+		}
+
 		auto a = AssetManager::GetInstance();
 		int asset_id = duk_to_int(L, 0);
 		duk_push_int(L, a->UnloadTileMap(asset_id));
@@ -422,6 +512,8 @@ namespace xen
 			AssetManager::GetInstance()->SetTextureWrap(wrap_s, wrap_t);
 			return 1;
 		}
+
+		XEN_ERROR("Error, assets.set_wrap expects 1 or 2 arguments ([both:i] min:i, mag:i).");
 		return 0;
 	}
 
@@ -439,6 +531,8 @@ namespace xen
 			AssetManager::GetInstance()->SetTextureInterpolation(min, mag);
 			return 1;
 		}
+
+		XEN_ERROR("Error, assets.set_interpolation expects 1 or 2 arguments ([both:i] min:i, mag:i).");
 		return 0;
 	}
 
@@ -449,6 +543,11 @@ namespace xen
 	#pragma region Audio
 
 	duk_ret_t js_audio_play_sound(duk_context *L) {
+		if (duk_get_top(L) != 3) {
+			XEN_ERROR("Error, audio.play_sound expects 3 arguments (sound_id:i, channel:i, loops:i).");
+			return 0;
+		}
+
 		auto sound_id = duk_to_int(L, 0);
 		auto channel = duk_to_int(L, 1);
 		auto loops = duk_to_int(L, 2);
@@ -457,6 +556,10 @@ namespace xen
 	}
 
 	duk_ret_t js_audio_play_music(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, audio.play_music expects 2 arguments (music_id:i, loops:i).");
+			return 0;
+		}
 		auto music_id = duk_to_int(L, 0);
 		auto loops = duk_to_int(L, 1);
 		AudioManager::GetInstance()->PlayMusic(music_id, loops);
@@ -464,6 +567,10 @@ namespace xen
 	}
 
 	duk_ret_t js_audio_stop_sound(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, audio.stop_sound expects 1 argument (channel:i).");
+			return 0;
+		}
 		auto channel = duk_to_int(L, 0);
 		AudioManager::GetInstance()->StopSound(channel);
 		return 0;
@@ -475,6 +582,10 @@ namespace xen
 	}
 
 	duk_ret_t js_audio_set_sound_volume(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, audio.set_sound_volume expects 2 arguments (sound_id:i, volume:f).");
+			return 0;
+		}
 		int sound_id = duk_to_int(L, 0);
 		float volume = duk_to_number(L, 1);
 		AudioManager::GetInstance()->SetSoundVolume(sound_id, volume);
@@ -482,6 +593,10 @@ namespace xen
 	}
 
 	duk_ret_t js_audio_set_channel_volume(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, audio.set_channel_volume expects 2 arguments (channel:i, volume:f).");
+			return 0;
+		}
 		int channel_id = duk_to_int(L, 0);
 		float volume = duk_to_number(L, 1);
 		AudioManager::GetInstance()->SetChannelVolume(channel_id, volume);
@@ -489,12 +604,20 @@ namespace xen
 	}
 
 	duk_ret_t js_audio_set_music_volume(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, audio.play_music expects 1 argument (volume:f).");
+			return 0;
+		}
 		float volume = duk_to_number(L, 0);
 		AudioManager::GetInstance()->SetMusicVolume(volume);
 		return 0;
 	}
 
 	duk_ret_t js_audio_set_channel_panning(duk_context *L) {
+		if (duk_get_top(L) != 3) {
+			XEN_ERROR("Error, audio.set_channel_panning expects 3 arguments (channel:i, left:f, right:f).");
+			return 0;
+		}
 		int channel_id = duk_to_int(L, 0);
 		float left = duk_to_number(L, 1);
 		float right = duk_to_number(L, 2);
@@ -531,6 +654,11 @@ namespace xen
 	}
 	
 	duk_ret_t js_renderer_draw_texture(duk_context *L) {
+		if (duk_get_top(L) != 5) {
+			XEN_ERROR("Error, renderer.draw_texture expects 5 arguments (asset_id:i, x:i, y:i, w:i, h:i).");
+			return 0;
+		}
+
 		int texture_id = duk_to_int(L, 0);
 		int x = duk_to_int(L, 1);
 		int y = duk_to_int(L, 2);
@@ -543,6 +671,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_draw_sub_texture(duk_context *L) {
+		if (duk_get_top(L) != 9) {
+			XEN_ERROR("Error, renderer.draw_sub_texture expects 9 arguments (asset_id:i, x:f, y:f, w:f, h:f, sx:f, sy:f, sw:f, sh:f).");
+			return 0;
+		}
 		int texture_id = duk_to_int(L, 0);
 		int x = duk_to_int(L, 1);
 		int y = duk_to_int(L, 2);
@@ -559,6 +691,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_draw_rectangle(duk_context *L) {
+		if (duk_get_top(L) != 4) {
+			XEN_ERROR("Error, renderer.draw_rectangle expects 4 arguments (x:f, y:f, w:f, h:f).");
+			return 0;
+		}
 		int x = duk_to_int(L, 0);
 		int y = duk_to_int(L, 1);
 		int w = duk_to_int(L, 2);
@@ -570,6 +706,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_draw_textbox(duk_context *L) {
+		if (duk_get_top(L) != 3) {
+			XEN_ERROR("Error, renderer.draw_textbox expects 3 arguments (asset_id:i, x:f, y:f).");
+			return 0;
+		}
 		int textbox_id = duk_to_int(L, 0);
 		int x = duk_to_int(L, 1);
 		int y = duk_to_int(L, 2);
@@ -580,6 +720,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_draw_sprite(duk_context *L) {
+		if (duk_get_top(L) != 7) {
+			XEN_ERROR("Error, renderer.draw_rectangle expects 7 arguments (asset_id:i, group:s, frame:i, x:f, y:f, w:f, h:f).");
+			return 0;
+		}
 		int asset_id = duk_to_int(L, 0);
 		const string group = duk_to_string(L, 1);
 		int frame = duk_to_int(L, 2);
@@ -594,6 +738,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_draw_tile_layer(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, renderer.draw_tile_layer expects 2 arguments (asset_id:i, layer:i).");
+			return 0;
+		}
 		int asset_id = duk_to_int(L, 0);
 		int layer = duk_to_int(L, 1);
 		auto m = JavaScriptMachine::GetInstance();
@@ -603,7 +751,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_set_background(duk_context *L) {
-
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, renderer.set_background expects 1 argument (hex:s).");
+			return 0;
+		}
 		auto hex = duk_to_string(L, 0);
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
@@ -615,6 +766,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_set_foreground(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, renderer.set_foreground expects 1 argument (hex:s).");
+			return 0;
+		}
 		auto hex = duk_to_string(L, 0);
 		int r, g, b;
 		sscanf(hex, "%02x%02x%02x", &r, &g, &b);
@@ -626,6 +781,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_set_window_mode(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, renderer.set_window_mode expects 1 argument (mode:i).");
+			return 0;
+		}
 		int mode = duk_to_int(L, 0);
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -634,7 +793,11 @@ namespace xen
 		return 0;
 	}
 
-	duk_ret_t js_renderer_set_position(duk_context *L) { 
+	duk_ret_t js_renderer_set_position(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, renderer.set_position expects 2 arguments (x:f, y:f).");
+			return 0;
+		}
 		float x = duk_to_number(L, 0);
 		float y = duk_to_number(L, 1);
 		auto machine = JavaScriptMachine::GetInstance();
@@ -643,7 +806,11 @@ namespace xen
 		return 0;
 	}
 
-	duk_ret_t js_renderer_set_origin(duk_context *L) { 
+	duk_ret_t js_renderer_set_origin(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, renderer.set_origin expects 2 arguments (x:f, y:f).");
+			return 0;
+		}
 		float x = duk_to_number(L, 0);
 		float y = duk_to_number(L, 1);
 		auto machine = JavaScriptMachine::GetInstance();
@@ -653,6 +820,10 @@ namespace xen
 	}
 	
 	duk_ret_t js_renderer_set_rotation(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, renderer.set_rotation expects 1 argument (angle:f).");
+			return 0;
+		}
 		float angle = duk_to_number(L, 0);
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -661,6 +832,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_set_scale(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, renderer.set_scale expects 2 arguments (x:f, y:f).");
+			return 0;
+		}
 		float x = duk_to_number(L, 0);
 		float y = duk_to_number(L, 1);
 		auto machine = JavaScriptMachine::GetInstance();
@@ -670,6 +845,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_set_shader(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, renderer.set_shader expects 1 argument (asset_id:i).");
+			return 0;
+		}
 		int asset_id = duk_to_int(L, 0);
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -678,6 +857,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_set_alpha(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, renderer.set_alpha expects 1 argument (alpha:b).");
+			return 0;
+		}
 		float alpha = duk_to_number(L, 0);
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -686,6 +869,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_set_blend(duk_context *L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, renderer.set_blend expects 1 argument (blend:b).");
+			return 0;
+		}
 		bool blend = duk_to_boolean(L, 0);
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -694,6 +881,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_set_blend_func(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, renderer.set_blend_func expects 2 arguments (src:i, dst:i).");
+			return 0;
+		}
 		int src_mode = duk_to_int(L, 0);
 		int dest_mode = duk_to_int(L, 1);
 		auto machine = JavaScriptMachine::GetInstance();
@@ -703,6 +894,10 @@ namespace xen
 	}
 
 	duk_ret_t js_renderer_set_blend_preset(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, renderer.set_blend_preset expects 2 arguments (preset:i, alpha:b).");
+			return 0;
+		}
 		const int preset_num = duk_to_int(L, 0);
 		const BlendPreset preset = static_cast<BlendPreset>(preset_num);
 		const bool p_alpha = duk_to_boolean(L, 1);
@@ -718,6 +913,10 @@ namespace xen
 	#pragma region Config
 
 	duk_ret_t js_config_get_str(duk_context* L) {
+		if (duk_get_top(L) != 3) {
+			XEN_ERROR("Error, config.get_str expects 3 arguments (group:s, name:s, default:s).");
+			return 0;
+		}
 		auto machine = JavaScriptMachine::GetInstance();
 		auto config = machine->GetConfig();
 		const auto m_group = std::string(duk_to_string(L, 0));
@@ -729,6 +928,10 @@ namespace xen
 	}
 
 	duk_ret_t js_config_get_str2(duk_context* L) {
+		if (duk_get_top(L) != 4) {
+			XEN_ERROR("Error, config.get_str2 expects 4 arguments (group:s, sub_group:s, name:s, default:s).");
+			return 0;
+		}
 		auto machine = JavaScriptMachine::GetInstance();
 		auto config = machine->GetConfig();
 		const auto m_group = std::string(duk_to_string(L, 0));
@@ -741,6 +944,10 @@ namespace xen
 	}
 
 	duk_ret_t js_config_get_bool(duk_context* L) {
+		if (duk_get_top(L) != 3) {
+			XEN_ERROR("Error, config.get_bool expects 3 arguments (group:s, name:s, default:b).");
+			return 0;
+		}
 		auto machine = JavaScriptMachine::GetInstance();
 		auto config = machine->GetConfig();
 		const auto m_group = std::string(duk_to_string(L, 0));
@@ -752,6 +959,10 @@ namespace xen
 	}
 
 	duk_ret_t js_config_get_bool2(duk_context* L) {
+		if (duk_get_top(L) != 4) {
+			XEN_ERROR("Error, config.get_bool2 expects 4 arguments (group:s, sub_group:s, name:s, default:b).");
+			return 0;
+		}
 		auto machine = JavaScriptMachine::GetInstance();
 		auto config = machine->GetConfig();
 		const auto m_group = std::string(duk_to_string(L, 0));
@@ -764,6 +975,10 @@ namespace xen
 	}
 
 	duk_ret_t js_config_get_int(duk_context* L) {
+		if (duk_get_top(L) != 3) {
+			XEN_ERROR("Error, config.get_int expects 3 arguments (group:s, name:s, default:i).");
+			return 0;
+		}
 		auto machine = JavaScriptMachine::GetInstance();
 		auto config = machine->GetConfig();
 		const auto m_group = std::string(duk_to_string(L, 0));
@@ -775,6 +990,10 @@ namespace xen
 	}
 
 	duk_ret_t js_config_get_int2(duk_context* L) {
+		if (duk_get_top(L) != 4) {
+			XEN_ERROR("Error, config.get_int2 expects 4 arguments (group:s, sub_group:s, name:s, default:i).");
+			return 0;
+		}
 		auto machine = JavaScriptMachine::GetInstance();
 		auto config = machine->GetConfig();
 		const auto m_group = std::string(duk_to_string(L, 0));
@@ -792,6 +1011,10 @@ namespace xen
 	#pragma region TextBox
 
 	duk_ret_t js_textbox_set_text(duk_context* L) {
+		if (duk_get_top(L) != 3) {
+			XEN_ERROR("Error, textbox.set_text expects 3 arguments (textbox_id:i, font_id:i, text:s).");
+			return 0;
+		}
 		auto textbox_id = duk_to_int(L, 0);
 		auto font_id = duk_to_int(L, 1);
 		const char* text = duk_to_string(L, 2);
@@ -802,6 +1025,10 @@ namespace xen
 	}
 
 	duk_ret_t js_textbox_set_color(duk_context* L) {
+		if (duk_get_top(L) != 3) {
+			XEN_ERROR("Error, textbox.set_color expects 3 arguments (textbox_id:i, font_id:i, hex:s).");
+			return 0;
+		}
 		auto textbox_id = duk_to_int(L, 0);
 		auto font_id = duk_to_int(L, 1);
 		auto hex = duk_to_string(L, 2);
@@ -814,6 +1041,10 @@ namespace xen
 	}
 
 	duk_ret_t js_textbox_measure_text(duk_context* L) {
+		if (duk_get_top(L) != 3) {
+			XEN_ERROR("Error, textbox.measure_text expects 3 arguments (textbox_id:i, font_id:i, text:s).");
+			return 0;
+		}
 		auto textbox_id = duk_to_int(L, 0);
 		auto font_id = duk_to_int(L, 1);
 		const char* text = duk_to_string(L, 2);
@@ -836,6 +1067,10 @@ namespace xen
 	#pragma region Input
 
 	duk_ret_t js_keyboard_key_down(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, keyboard.key_down expects 1 argument (key_id:i).");
+			return 0;
+		}
 		auto key_code = duk_to_int(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
 		auto i = m->GetInput();
@@ -845,6 +1080,10 @@ namespace xen
 	}
 
 	duk_ret_t js_keyboard_key_clicked(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, keyboard.key_clicked expects 1 argument (key_id:i).");
+			return 0;
+		}
 		auto key_code = duk_to_int(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
 		auto i = m->GetInput();
@@ -867,6 +1106,10 @@ namespace xen
 	}
 
 	duk_ret_t js_mouse_button_down(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, mouse.button_down expects 1 argument (button_id:i).");
+			return 0;
+		}
 		auto key_code = duk_to_int(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
 		auto i = m->GetInput();
@@ -876,6 +1119,10 @@ namespace xen
 	}
 
 	duk_ret_t js_mouse_button_clicked(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, mouse.button_clicked expects 1 argument (button_id:i).");
+			return 0;
+		}
 		auto key_code = duk_to_int(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
 		auto i = m->GetInput();
@@ -885,6 +1132,10 @@ namespace xen
 	}
 
 	duk_ret_t js_gamepad_get_axis(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, mouse.get_axis expects 1 argument (gamepad_id:i).");
+			return 0;
+		}
 		auto index = duk_to_int(L, 0);
 		auto m = JavaScriptMachine::GetInstance();
 		auto i = m->GetInput();
@@ -899,6 +1150,10 @@ namespace xen
 	}
 
 	duk_ret_t js_gamepad_button_down(duk_context* L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, gamepad.button_down expects 2 arguments (gamepad_id:i, button_id:i).");
+			return 0;
+		}
 		int gp_index = duk_to_int(L, 0);
 		int b_index = duk_to_int(L, 1);
 		auto m = JavaScriptMachine::GetInstance();
@@ -910,6 +1165,10 @@ namespace xen
 	}
 
 	duk_ret_t js_gamepad_button_clicked(duk_context* L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, gamepad.button_clicked expects 2 arguments (gamepad_id:i, button_id:i).");
+			return 0;
+		}
 		int gp_index = duk_to_int(L, 0);
 		int b_index = duk_to_int(L, 1);
 		auto m = JavaScriptMachine::GetInstance();
@@ -926,6 +1185,10 @@ namespace xen
 	#pragma region Shader
 
 	duk_ret_t js_shader_get_location(duk_context* L) {
+		if (duk_get_top(L) != 1) {
+			XEN_ERROR("Error, shader.get_location expects 1 argument (uniform:s).");
+			return 0;
+		}
 		string uniform_name = duk_to_string(L, 0);
 		auto machine = JavaScriptMachine::GetInstance();
 		auto renderer = machine->GetRenderer();
@@ -936,7 +1199,10 @@ namespace xen
 
 	duk_ret_t js_shader_set_bool(duk_context* L) {
 		int argc = duk_get_top(L);
-		if (argc < 2 || argc > 17) return DUK_RET_TYPE_ERROR;
+		if (argc < 2 || argc > 17) {
+			XEN_ERROR("Error, shader.set_bool expects 1 uniform id, and upto 16 optional arguments (uniform:s, [values...]).");
+			return 0;
+		}
 		argc--; // subtract 1 so argc equals the number of booleans.
 
 		int uniform_id = duk_to_int(L, 0);
@@ -954,7 +1220,10 @@ namespace xen
 
 	duk_ret_t js_shader_set_int(duk_context* L) {
 		int argc = duk_get_top(L);
-		if (argc < 2 || argc > 17) return DUK_RET_TYPE_ERROR;
+		if (argc < 2 || argc > 17) {
+			XEN_ERROR("Error, shader.set_int expects 1 uniform name, and upto 16 optional arguments (uniform:s, [values...]).");
+			return 0;
+		}
 		argc--; // subtract 1 so argc equals the number of booleans.
 
 		int uniform_id = duk_to_int(L, 0);
@@ -972,7 +1241,10 @@ namespace xen
 
 	duk_ret_t js_shader_set_float(duk_context* L) {
 		int argc = duk_get_top(L);
-		if (argc < 2 || argc > 17) return DUK_RET_TYPE_ERROR;
+		if (argc < 2 || argc > 17) {
+			XEN_ERROR("Error, shader.set_float expects 1 uniform name, and upto 16 optional arguments (uniform_id:s, [values...]).");
+			return 0;
+		}
 		argc--; // subtract 1 so argc equals the number of booleans.
 
 		int uniform_id = duk_to_int(L, 0);
@@ -994,12 +1266,16 @@ namespace xen
 	#pragma region Sprite Map
 
 	duk_ret_t js_sprite_map_get_frame_info(duk_context *L) {
+		if (duk_get_top(L) != 3) {
+			XEN_ERROR("Error, sprite_map.get_frame_info expects 3 arguments (asset_id:i, group:s, frame:i).");
+			return 0;
+		}
 		int asset_id = duk_to_int(L, 0);
-		const string animation = duk_to_string(L, 1);
+		const string group = duk_to_string(L, 1);
 		int frame = duk_to_int(L, 2);
 		auto a = AssetManager::GetInstance();
 		auto sm = a->GetSpriteMap(asset_id);
-		auto grp = sm->get_group(animation);
+		auto grp = sm->get_group(group);
 		auto info = grp->get_frame(frame);
 
 		duk_idx_t obj = duk_push_object(L);
@@ -1014,11 +1290,15 @@ namespace xen
 	}
 
 	duk_ret_t js_sprite_map_get_frame_count(duk_context *L) {
+		if (duk_get_top(L) != 2) {
+			XEN_ERROR("Error, sprite_map.get_frame_count expects 2 arguments (asset_id:i, group:s).");
+			return 0;
+		}
 		int asset_id = duk_to_int(L, 0);
-		const string animation = duk_to_string(L, 1);
+		const string group = duk_to_string(L, 1);
 		auto a = AssetManager::GetInstance();
 		auto sm = a->GetSpriteMap(asset_id);
-		auto grp = sm->get_group(animation);
+		auto grp = sm->get_group(group);
 		const int count = grp->get_count();
 		duk_push_int(L, count);
 		return 1;
