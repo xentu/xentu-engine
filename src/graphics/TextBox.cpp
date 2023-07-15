@@ -76,12 +76,13 @@ namespace xen
 			amask = 0xff000000;
 		#endif
 
-		SDL_Surface* sur_clean = SDL_CreateRGBSurface(0, sur->w, sur->h, 32, rmask, gmask, bmask, amask);
-		SDL_BlitSurface(sur, 0, sur_clean, &m_rect);
+		// create a surface with the correct format, and blit the drawn text onto it
+		SDL_Surface* sur_clean = SDL_CreateRGBSurface(0, m_rect.w, m_rect.h, 32, rmask, gmask, bmask, amask);
+		SDL_BlitSurface(sur, 0, sur_clean, NULL);
 
+		// bind the texture, then draw the text onto it.
 		glBindTexture(GL_TEXTURE_2D, texture_id);
-		//glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur->pixels);
-		glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur_clean->pixels);
+		glTexImage2D(GL_TEXTURE_2D, 0, mode, m_rect.w, m_rect.h, 0, mode, GL_UNSIGNED_BYTE, sur_clean->pixels);
  		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		SDL_FreeSurface(sur);
