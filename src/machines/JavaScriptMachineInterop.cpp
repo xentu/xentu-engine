@@ -164,7 +164,7 @@ namespace xen
 		bool t = duk_get_global_string(L, callback.c_str());
 		if (t) {
 			duk_push_int(L, arg0);
-			duk_int_t rc = rc = duk_pcall(L, 1);
+			duk_int_t rc = duk_pcall(L, 1);
 			#if XEN_DEBUG
 			if (rc != 0) {
 				js_handle_call_error(L, callback);
@@ -181,7 +181,7 @@ namespace xen
 		bool t = duk_get_global_string(L, callback.c_str());
 		if (t) {
 			duk_push_number(L, arg0);
-			duk_int_t rc = rc = duk_pcall(L, 1);
+			duk_int_t rc = duk_pcall(L, 1);
 			#if XEN_DEBUG
 			if (rc != 0) {
 				js_handle_call_error(L, callback);
@@ -306,7 +306,6 @@ namespace xen
 		}
 
 		auto path = duk_to_string(L, 0);
-		auto m = JavaScriptMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
 		int texture_id = r->LoadTexture(path);
 		duk_push_int(L, texture_id);
@@ -321,7 +320,6 @@ namespace xen
 
 		auto path = duk_to_string(L, 0);
 		int font_size = duk_to_int(L, 1);
-		auto m = JavaScriptMachine::GetInstance();
 		auto r = AssetManager::GetInstance();
 		int font_id = r->LoadFont(path, font_size);
 		duk_push_int(L, font_id);
