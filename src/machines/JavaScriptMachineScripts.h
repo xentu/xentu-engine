@@ -10,7 +10,7 @@ namespace xen { const char * xen_js_script_init = R"(
 	game.run = game_run;
 	game.on = game_on;
 	game.trigger = game_trigger;
-	exit = game_exit;
+	game.exit = game_exit;
 
 	const assets = {}
 	assets.load_texture = assets_load_texture;

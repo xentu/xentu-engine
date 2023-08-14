@@ -19,7 +19,7 @@ game.create_window = function() interop.game_create_window() end
 game.on = function(a, b) interop.game_on(a, b) end
 game.trigger = function(a) interop.game_trigger(a) end
 game.run = function() interop.game_run() end
-exit = function() interop.game_exit() end
+game.exit = function() interop.game_exit() end
 
 assets = {}
 assets.mount = function(a, b) interop.assets_mount(a, b) end

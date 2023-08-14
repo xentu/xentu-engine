@@ -591,24 +591,24 @@ namespace xen
 		for (int i=0; i<layer->m_tile_count; i++)
 		{
 			const auto& tile = layer->m_tiles[i];
-			if (tile->texture_id < 0) continue;
+			if (tile->m_texture_id < 0) continue;
 
 			m_sprite.ResetTransform();
-			m_sprite.set_position(m_pos_x + tile->x, m_pos_y + tile->y);
+			m_sprite.set_position(m_pos_x + tile->m_x, m_pos_y + tile->m_y);
 			m_sprite.set_scale(1, 1);
 			m_sprite.set_rotation(0);
 			//m_sprite.m_color = color; //TODO: stack member duplication.
 
-			auto texture = assets->GetTexture(tile->texture_id);
+			auto texture = assets->GetTexture(tile->m_texture_id);
 
-			m_sprite.m_width = static_cast<float>(tile->width);
-			m_sprite.m_height = static_cast<float>(tile->height);
+			m_sprite.m_width = static_cast<float>(tile->m_width);
+			m_sprite.m_height = static_cast<float>(tile->m_height);
 			m_sprite.m_texture = texture->gl_texture_id;
 
-			float u = tile->t_x / (float)texture->width;
-			float v = tile->t_y / (float)texture->height;
-			float w = tile->t_width / (float)texture->width;
-			float h = tile->t_height / (float)texture->height;
+			float u = tile->m_t_x / (float)texture->width;
+			float v = tile->m_t_y / (float)texture->height;
+			float w = tile->m_t_width / (float)texture->width;
+			float h = tile->m_t_height / (float)texture->height;
 
 			//m_sprite.m_rect = Rect(u, 1.0 - v - h,w,h);
 			m_sprite.m_rect = Rect(u, v, w, h);
@@ -636,21 +636,21 @@ namespace xen
 				if (obj->has_tile) {
 					const auto tile = obj->GetTile();
 					
-					if (tile.texture_id <= 0) continue;
+					if (tile.m_texture_id <= 0) continue;
 					m_sprite.ResetTransform();
 					m_sprite.set_position(m_pos_x + obj->x, m_pos_y + obj->y);
 					m_sprite.set_scale(1, 1);
 					m_sprite.set_rotation(0);
-					m_sprite.m_width = static_cast<float>(tile.width);
-					m_sprite.m_height = static_cast<float>(tile.height);
+					m_sprite.m_width = static_cast<float>(tile.m_width);
+					m_sprite.m_height = static_cast<float>(tile.m_height);
 
-					auto texture = assets->GetTexture(tile.texture_id);
+					auto texture = assets->GetTexture(tile.m_texture_id);
 					m_sprite.m_texture = texture->gl_texture_id;
 
-					float u = tile.t_x / (float)texture->width;
-					float v = tile.t_y / (float)texture->height;
-					float w = tile.t_width / (float)texture->width;
-					float h = tile.t_height / (float)texture->height;
+					float u = tile.m_t_x / (float)texture->width;
+					float v = tile.m_t_y / (float)texture->height;
+					float w = tile.m_t_width / (float)texture->width;
+					float h = tile.m_t_height / (float)texture->height;
 
 					m_sprite.m_rect = Rect(u, 1.0 - v - h,w,h);
 					find_batch(m_sprite)->draw(m_sprite);

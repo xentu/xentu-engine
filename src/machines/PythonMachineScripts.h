@@ -26,7 +26,7 @@ game.run = xentu.game_run
 game.on = xentu.game_on
 game.trigger = xentu.game_trigger
 game.run = xentu.game_run
-exit = xentu.game_exit
+game.exit = xentu.game_exit
 
 # masquerade a new module for assets
 assets = XenDummyObject('game')

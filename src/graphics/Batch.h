@@ -40,11 +40,6 @@ namespace xen
 			Transform transform = sprite.get_transform();
 
 			// get the texture transform.
-			//auto tex_tl = Vector2f(sprite.m_rect.left, sprite.m_rect.top);
-			//auto tex_tr = Vector2f(sprite.m_rect.left + sprite.m_rect.width, sprite.m_rect.top);
-			//auto tex_bl = Vector2f(sprite.m_rect.left, sprite.m_rect.top + sprite.m_rect.height);
-			//auto tex_br = Vector2f(sprite.m_rect.left + sprite.m_rect.width, sprite.m_rect.top + sprite.m_rect.height);
-
 			auto tex_tl = Vector2f(sprite.m_rect.left, sprite.m_rect.top + sprite.m_rect.height);
 			auto tex_tr = Vector2f(sprite.m_rect.left + sprite.m_rect.width, sprite.m_rect.top + sprite.m_rect.height);
 			auto tex_bl = Vector2f(sprite.m_rect.left, sprite.m_rect.top);
@@ -98,11 +93,6 @@ namespace xen
 			auto tex_tr = Vector2f(sprite.m_rect.left + sprite.m_rect.width, sprite.m_rect.top);
 			auto tex_bl = Vector2f(sprite.m_rect.left, sprite.m_rect.top + sprite.m_rect.height);
 			auto tex_br = Vector2f(sprite.m_rect.left + sprite.m_rect.width, sprite.m_rect.top + sprite.m_rect.height);
-
-			//auto tex_tl = Vector2f(sprite.m_rect.left, sprite.m_rect.top + sprite.m_rect.height);
-			//auto tex_tr = Vector2f(sprite.m_rect.left + sprite.m_rect.width, sprite.m_rect.top + sprite.m_rect.height);
-			//auto tex_bl = Vector2f(sprite.m_rect.left, sprite.m_rect.top);
-			//auto tex_br = Vector2f(sprite.m_rect.left + sprite.m_rect.width, sprite.m_rect.top);
 
 			// assign the vertices.
 			m_vertices[vertex_count].position = transform.transform_point(0.0f, 0.0f, 0);

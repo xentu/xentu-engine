@@ -80,10 +80,10 @@ namespace xen {
 								ts_tile_size.x,
 								ts_tile_size.y,
 								texture_id);
-							tobj->m_tile.t_x = ts_tile->imagePosition.x;
-							tobj->m_tile.t_y = ts_tile->imagePosition.y;
-							tobj->m_tile.t_width = ts_tile_size.x;
-							tobj->m_tile.t_height = ts_tile_size.y;
+							tobj->m_tile.m_t_x = ts_tile->imagePosition.x;
+							tobj->m_tile.m_t_y = ts_tile->imagePosition.y;
+							tobj->m_tile.m_t_width = ts_tile_size.x;
+							tobj->m_tile.m_t_height = ts_tile_size.y;
 							tobj->has_tile = true;
 							tobj->y = tobj->y - ts_tile_size.y;
 							found = true;
@@ -151,11 +151,11 @@ namespace xen {
 						{
 							const auto ts_tile = i->getTile(global_id);
 							const auto ts_tile_size = i->getTileSize();
-							new_tile->t_x = ts_tile->imagePosition.x;
-							new_tile->t_y = ts_tile->imagePosition.y;
-							new_tile->t_width = ts_tile_size.x;
-							new_tile->t_height = ts_tile_size.y;
-							new_tile->texture_id = tileSetTextures->at(i->getName());
+							new_tile->m_t_x = ts_tile->imagePosition.x;
+							new_tile->m_t_y = ts_tile->imagePosition.y;
+							new_tile->m_t_width = ts_tile_size.x;
+							new_tile->m_t_height = ts_tile_size.y;
+							new_tile->m_texture_id = tileSetTextures->at(i->getName());
 							break;
 						}
 					}
