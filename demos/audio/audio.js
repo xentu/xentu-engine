@@ -9,7 +9,7 @@ renderer.set_foreground("#FF0000");
 
 // handle the update event.
 game.on('update', function(dt) {
-	if (keyboard.key_clicked(KB_ESCAPE)) exit();
+	if (keyboard.key_clicked(KB_ESCAPE)) game.exit();
 	if (keyboard.key_clicked(KB_M)) audio.play_music(music0, 0);
 	if (keyboard.key_clicked(KB_S)) audio.play_sound(audio0, -1, 0);
 });

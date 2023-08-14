@@ -13,7 +13,7 @@ print("Frame Count: " + fc.toString());
 
 // handle the update event.
 game.on("update", function(dt) {
-	if (keyboard.key_clicked(KB_ESCAPE)) exit();
+	if (keyboard.key_clicked(KB_ESCAPE)) game.exit();
 
 	frame_time += dt;
 	if (frame_time > 0.3) {

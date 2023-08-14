@@ -9,7 +9,7 @@ renderer.set_foreground("#FF0000")
 
 -- handle the update event.
 game.on('update', function(dt)
-	if keyboard.key_clicked(KB_ESCAPE) then exit() end
+	if keyboard.key_clicked(KB_ESCAPE) then game.exit() end
 	if keyboard.key_clicked(KB_M) then audio.play_music(music0, 0) end
 	if keyboard.key_clicked(KB_S) then audio.play_sound(audio0, -1, 0) end
 end)

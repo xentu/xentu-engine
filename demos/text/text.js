@@ -36,7 +36,7 @@ textbox.set_color(textbox5, roboto20, "#FFFF00");
 
 // handle the update event.
 game.on("update", function(dt) {
-	if (keyboard.key_clicked(KB_ESCAPE)) exit();
+	if (keyboard.key_clicked(KB_ESCAPE)) game.exit();
 	if (stepper.next(dt)) {
 		stepper.value++;
 		textbox.set_text(textbox4, roboto20, "This is a counter (1s delay): " + stepper.value);	

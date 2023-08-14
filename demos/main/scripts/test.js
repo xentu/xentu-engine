@@ -35,7 +35,7 @@ game.on('update', function(dt) {
 	if (x_speed > 0 && x + 2 > 390) x_speed = -2;
 	if (x_speed < 0 && x - 2 < 10) x_speed = 2;
 	x += x_speed;
-	if (keyboard.key_clicked(KB_ESCAPE)) exit();
+	if (keyboard.key_clicked(KB_ESCAPE)) game.exit();
 	if (keyboard.key_clicked(KB_F)) {
 		fullscreen = !fullscreen;
 		renderer.set_window_mode(fullscreen ? 1 : 0);

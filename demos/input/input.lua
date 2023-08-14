@@ -5,7 +5,7 @@ x = 0; y = 0
 
 -- handle the update event.
 game.on('update', function(dt)
-	if keyboard.key_clicked(KB_ESCAPE) then exit() end
+	if keyboard.key_clicked(KB_ESCAPE) then game.exit() end
 	if keyboard.key_down(KB_RIGHT) then x = x + 1 end
 	if keyboard.key_down(KB_LEFT) then x = x - 1 end
 	if keyboard.key_down(KB_DOWN) then y = y + 1 end

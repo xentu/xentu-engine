@@ -13,7 +13,7 @@ print("Frame Count: " .. fc)
 
 -- handle the update event.
 game.on("update", function(dt)
-	if (keyboard.key_clicked(KB_ESCAPE)) then exit() end
+	if (keyboard.key_clicked(KB_ESCAPE)) then game.exit() end
 
 	frame_time = frame_time + dt
 	if (frame_time > 0.3) then

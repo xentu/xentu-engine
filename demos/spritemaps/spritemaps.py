@@ -16,7 +16,7 @@ print("Frame Count: ", fc)
 def update(dt):
 	global frame_time, frame
 	if (keyboard.key_clicked(KB_ESCAPE)):
-		exit()
+		game.exit()
 
 	frame_time = frame_time + dt
 	if (frame_time > 0.3):

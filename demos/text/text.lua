@@ -31,7 +31,7 @@ textbox.set_text(textbox4, roboto20, "This is a counter (1s delay): 0")
 
 -- handle the update event.
 game.on("update", function(dt)
-	if (keyboard.key_clicked(KB_ESCAPE)) then exit() end
+	if (keyboard.key_clicked(KB_ESCAPE)) then game.exit() end
 	if (stepper.next(dt)) then
 		stepper.value = stepper.value + 1
 		textbox.set_text(textbox4, roboto20, "This is a counter (1s delay): " .. stepper.value)

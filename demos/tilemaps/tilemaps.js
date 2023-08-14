@@ -3,7 +3,7 @@ const tilemap1 = assets.load_tile_map_tmx("/assets/tilemap01.tmx", "/assets/");
 
 // handle the update event.
 game.on("update", function(dt) {
-	if (keyboard.key_clicked(KB_ESCAPE)) exit();        
+	if (keyboard.key_clicked(KB_ESCAPE)) game.exit();        
 });
 
 // handle the draw event

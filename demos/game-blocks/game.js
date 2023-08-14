@@ -91,7 +91,7 @@ var removing = false;
 
 // handle the update event.
 game.on('update', function(dt) {
-	if (keyboard.key_clicked(KB_ESCAPE)) exit();
+	if (keyboard.key_clicked(KB_ESCAPE)) game.exit();
 	
 	if (state == states.ended) {
 		if (keyboard.key_clicked(KB_RETURN)) {
