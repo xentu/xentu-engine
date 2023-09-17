@@ -1,0 +1,13 @@
+{
+	"exe_name": "untitled",
+	"icon": "",
+	"pre_build_commands": [],
+	"assets": {
+		"pack": false,
+		"ignores": [
+			".git",
+			".gitignore",
+			"editor.json"
+		]
+	}
+}

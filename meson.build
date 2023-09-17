@@ -1,6 +1,6 @@
 project('xentu_rebuild', 'c', 'cpp',
         version : run_command('cat', './version.txt').stdout().strip(),
-        default_options: ['default_library=static', 'buildtype=minsize', 'cpp_std=c++17']
+        default_options: ['default_library=static', 'buildtype=release', 'cpp_std=c++17']
         )
 
 
@@ -13,6 +13,15 @@ sdl2_image_dep = dependency('SDL2_image')
 sdl2_mixer_dep = dependency('SDL2_mixer')
 sdl2_ttf_dep = dependency('SDL2_ttf')
 sdl2_dep = dependency('sdl2')
+
+cmake = import('cmake')
+if not sdl2_dep.found()
+	cmake_opt = cmake.subproject_options()
+	cmake_opt.add_cmake_defines({'LIBC': true})
+	sdl2_proj = cmake.subproject('SDL', options : cmake_opt)
+	sdl2_dep = sdl2_proj.dependency('SDL2')
+endif
+
 if host_machine.system() == 'linux'
   py_dep = dependency('python3-embed')
 elif host_machine.system() == 'darwin'
