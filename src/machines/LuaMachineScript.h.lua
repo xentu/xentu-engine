@@ -1,9 +1,3 @@
-#pragma once
-/**
- * This file holds the lua code to be executed when a lua engine is loaded
- * by the user. 
- */
-namespace xen { const char * xen_lua_script_init = R"(
 interop = XentuLuaMachineInterop()
 
 geometry = {}
@@ -335,4 +329,3 @@ end
 
 
 game.create_window()
-)"; }

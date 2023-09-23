@@ -1,15 +1,3 @@
-#pragma once
-#if XEN_PY
-
-/**
- * This file holds the python code to be executed when a python engine is loaded
- * by the user. The file does the following:
- * 
- * - Inject an extra loader into importlib that uses the engines vfs.
- * - Add py exclusive modules (const, geometry) under the xentu dummy module.
- * - Add aliases for c++ modules like vfs under the xentu dummy module.
- */
-namespace xen { const char * xen_py_script_init = R"(
 import sys, importlib.util, xentu
 from types import ModuleType
 
@@ -372,5 +360,3 @@ assets.create_stepper = shim_create_stepper
 # init code ------------------------------------------------------------------
 
 game.create_window()
-)"; }
-#endif

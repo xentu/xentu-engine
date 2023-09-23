@@ -1,9 +1,3 @@
-#pragma once
-/**
- * This file holds the javascript code to be executed when a js engine is
- * loaded by the user.
- */
-namespace xen { const char * xen_js_script_init = R"(
 
 
 	const game = {}
@@ -339,4 +333,3 @@ namespace xen { const char * xen_js_script_init = R"(
 
 	game.create_window();
 	// assets.mount('/zip', './assets/test.zip');
-)"; }
