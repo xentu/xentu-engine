@@ -29,10 +29,10 @@ namespace xen
 		PyObject *pModule = PyImport_ImportModule("__main__");
 		PyObject *pFunc = PyObject_GetAttrString(pModule, function_name);
 		if (pFunc == NULL) {
-			if (PyErr_Occurred()) {
+			/* if (PyErr_Occurred()) {
 				PyErr_Print();
 				exit(124);
-			}
+			} */
 			Py_DECREF(pModule);
 			return;
 		}
@@ -51,10 +51,10 @@ namespace xen
 		PyObject *pModule = PyImport_ImportModule("__main__");
 		PyObject *pFunc = PyObject_GetAttrString(pModule, function_name);
 		if (pFunc == NULL) {
-			if (PyErr_Occurred()) {
+			/*if (PyErr_Occurred()) {
 				PyErr_Print();
 				exit(124);
-			}
+			} */
 			Py_DECREF(pModule);
 			return;
 		}
@@ -75,10 +75,10 @@ namespace xen
 		PyObject *pModule = PyImport_ImportModule("__main__");
 		PyObject *pFunc = PyObject_GetAttrString(pModule, function_name);
 		if (pFunc == NULL) {
-			if (PyErr_Occurred()) {
+			/*if (PyErr_Occurred()) {
 				PyErr_Print();
 				exit(124);
-			}
+			}*/
 			Py_DECREF(pModule);
 			return;
 		}
@@ -99,10 +99,10 @@ namespace xen
 		PyObject *pModule = PyImport_ImportModule("__main__");
 		PyObject *pFunc = PyObject_GetAttrString(pModule, function_name);
 		if (pFunc == NULL) {
-			if (PyErr_Occurred()) {
+			/*if (PyErr_Occurred()) {
 				PyErr_Print();
 				exit(124);
-			}
+			}*/
 			Py_DECREF(pModule);
 			return;
 		}

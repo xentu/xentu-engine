@@ -40,6 +40,7 @@ assets.set_interpolation = xentu.assets_set_interpolation
 
 def include(path):
 	code = xentu.assets_read_text_file(path)
+	print("Include " + path)
 	eval(code)
 
 # masquerade a new module for audio
