@@ -46,6 +46,24 @@ echo "${XEN_LUA_FILE} updated."
 
 
 # -----------------------------------------------------------------------------
+XEN_LUA_FILE2='./src/machines/LuaMachineScriptLib.h'
+XEN_LUA_FILE_IN2="./src/machines/LuaMachineScriptLib.h.lua"
+
+rm $XEN_LUA_FILE2 2> /dev/null
+cat > $XEN_LUA_FILE2 <<- EOM
+#pragma once
+/**
+ * This file holds the lua code to be executed when a lua engine is loaded
+ * by the user. 
+ */
+namespace xen { const char * xen_lua_script_init2 = R"(
+EOM
+cat $XEN_LUA_FILE_IN2 >> $XEN_LUA_FILE2
+echo -e '\n)"; }' >> $XEN_LUA_FILE2
+echo "${XEN_LUA_FILE2} updated."
+
+
+# -----------------------------------------------------------------------------
 XEN_PY_FILE='./src/machines/PythonMachineScripts.h'
 XEN_PY_FILE_IN="${XEN_PY_FILE}.py"
 XEN_PY_FILE_SCENES_IN="${XEN_PY_FILE}.Scenes.py"

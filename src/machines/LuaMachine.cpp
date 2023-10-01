@@ -10,6 +10,7 @@
 #include "LuaMachine.h"
 #include "LuaMachineInterop.h"
 #include "LuaMachineScript.h"
+#include "LuaMachineScriptLib.h"
 
 namespace xen
 {
@@ -31,6 +32,7 @@ namespace xen
 
 		// load in our custom import loader.
 		luaL_dostring(L, xen_lua_script_init);
+		luaL_dostring(L, xen_lua_script_init2);
 	}
 
 
