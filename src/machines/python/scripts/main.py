@@ -1,15 +1,3 @@
-#pragma once
-#if XEN_PY
-
-/**
- * This file holds the python code to be executed when a python engine is loaded
- * by the user. The file does the following:
- * 
- * - Inject an extra loader into importlib that uses the engines vfs.
- * - Add py exclusive modules (const, geometry) under the xentu dummy module.
- * - Add aliases for c++ modules like vfs under the xentu dummy module.
- */
-namespace xen { const char * xen_py_script_init = R"(
 import sys, importlib.util, xentu
 from types import ModuleType
 
@@ -52,8 +40,7 @@ assets.set_interpolation = xentu.assets_set_interpolation
 
 def include(path):
 	code = xentu.assets_read_text_file(path)
-	print("Include " + path)
-	eval(code)
+	exec(code)
 
 # masquerade a new module for audio
 audio = XenDummyObject('audio')
@@ -373,58 +360,3 @@ assets.create_stepper = shim_create_stepper
 # init code ------------------------------------------------------------------
 
 game.create_window()
-
-# start: Scene Module --------------------------------------------------------
-
-class ScenesManager:
-    enabled=False
-    current=None
-    current_name=''
-    entries={}
-
-    def enable(self):
-        self.enabled=True
-    def disable(self):
-        self.enabled=False
-    
-    def on(self, name, event, cb):
-        if not name in self.entries:
-            self.entries[name] = {}
-        self.entries[name][event] = cb
-    
-    def trigger(self, event, arg=None):
-        if self.enabled and self.current and event in self.current:
-            if (arg):
-                self.current[event](arg)
-            else:
-                self.current[event]()
-
-    def select(self, name):
-        if self.current:
-            self.trigger('hidden')
-        if self.entries[name]:
-            self.current = self.entries[name]
-            self.current_name = name
-            self.trigger('shown')
-    
-    def remove(self, name):
-        if self.entries[name]:
-            self.entries[name] = None
-
-globals()['scenes'] = ScenesManager()
-
-def handle_game_update(dt):
-    scenes.trigger('update', dt)
-
-def handle_game_draw(dt):
-    scenes.trigger('draw', dt)
-
-globals()['handle_game_update'] = handle_game_update
-globals()['handle_game_draw'] = handle_game_draw
-
-game.on('update', 'handle_game_update')
-game.on('draw', 'handle_game_draw')
-
-# end: Scene Module ----------------------------------------------------------
-)"; }
-#endif

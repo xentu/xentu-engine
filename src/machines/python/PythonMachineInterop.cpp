@@ -14,9 +14,9 @@
 #include <stdio.h>
 #include <string>
 
-#include "../vfs/XenVirtualFileSystem.h"
-#include "../vfs/XenFileSystem.h"
-#include "../vfs/XenZipFileSystem.h"
+#include "../../vfs/XenVirtualFileSystem.h"
+#include "../../vfs/XenFileSystem.h"
+#include "../../vfs/XenZipFileSystem.h"
 #include "PythonMachine.h"
 
 namespace xen

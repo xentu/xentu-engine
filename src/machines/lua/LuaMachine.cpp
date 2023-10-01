@@ -3,14 +3,13 @@
 #include <string>
 #include <luna/luna.hpp>
 
-#include "../Globals.h"
-#include "../Config.h"
-#include "../Machine.h"
-#include "../vfs/XenVirtualFileSystem.h"
+#include "../../Globals.h"
+#include "../../Config.h"
+#include "../../Machine.h"
+#include "../../vfs/XenVirtualFileSystem.h"
 #include "LuaMachine.h"
 #include "LuaMachineInterop.h"
-#include "LuaMachineScript.h"
-#include "LuaMachineScriptLib.h"
+#include "LuaMachineScripts.h"
 
 namespace xen
 {
@@ -31,8 +30,9 @@ namespace xen
 		Luna<xen::XentuLuaMachineInterop>::Register(L, false);
 
 		// load in our custom import loader.
-		luaL_dostring(L, xen_lua_script_init);
-		luaL_dostring(L, xen_lua_script_init2);
+		for (int i=0; i<xen_lua_script_init_c; i++) {
+			luaL_dostring(L, xen_lua_script_init[i]);
+		}
 	}
 
 

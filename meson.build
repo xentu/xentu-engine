@@ -70,12 +70,12 @@ project_source_files = files([
   'src/vfs/XenZipFileSystem.cpp',
 
   # machines
-  'src/machines/JavaScriptMachineInterop.cpp',
-  'src/machines/JavaScriptMachine.cpp',
-  'src/machines/LuaMachineInterop.cpp',
-  'src/machines/LuaMachine.cpp',
-  'src/machines/PythonMachineInterop.cpp',
-  'src/machines/PythonMachine.cpp',
+  'src/machines/javascript/JavaScriptMachineInterop.cpp',
+  'src/machines/javascript/JavaScriptMachine.cpp',
+  'src/machines/lua/LuaMachineInterop.cpp',
+  'src/machines/lua/LuaMachine.cpp',
+  'src/machines/python/PythonMachineInterop.cpp',
+  'src/machines/python/PythonMachine.cpp',
   'src/Machine.cpp',
 
   # graphics

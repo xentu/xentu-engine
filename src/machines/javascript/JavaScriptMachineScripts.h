@@ -1,10 +1,8 @@
 #pragma once
-/**
- * This file holds the javascript code to be executed when a js engine is
- * loaded by the user.
- */
-namespace xen { const char * xen_js_script_init = R"(
-
+namespace xen { 
+const int xen_js_script_init_c = 2;
+const char* xen_js_script_init[xen_js_script_init_c] = {
+R"(
 
 	const game = {}
 	game.create_window = game_create_window;
@@ -375,9 +373,8 @@ namespace xen { const char * xen_js_script_init = R"(
 
 
 	game.create_window();
-	// assets.mount('/zip', './assets/test.zip');
-
-// begin: Scene Module -------------------------------------------------------
+	// assets.mount('/zip', './assets/test.zip');)",
+R"(// begin: Scene Module -------------------------------------------------------
 
 const scenes = { enabled:false, current:null, current_name:'', entries: {} };
 scenes.init = function() {
@@ -423,5 +420,5 @@ scenes.remove = function(name) {
 
 scenes.init();
 
-// end: Scene Module ---------------------------------------------------------
-)"; }
+// end: Scene Module ---------------------------------------------------------)"
+}; }

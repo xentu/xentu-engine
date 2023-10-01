@@ -1,7 +1,7 @@
-#include "../Globals.h"
-#include "../Config.h"
-#include "../Machine.h"
-#include "../vfs/XenVirtualFileSystem.h"
+#include "../../Globals.h"
+#include "../../Config.h"
+#include "../../Machine.h"
+#include "../../vfs/XenVirtualFileSystem.h"
 #include "JavaScriptMachine.h"
 #include "JavaScriptMachineScripts.h"
 
@@ -20,11 +20,13 @@ namespace xen
 		// load in our custom import loader.
 		L = duk_create_heap(NULL, NULL, NULL, NULL, js_error_handler);
 		js_init_interop(L);
-		#if XEN_DEBUG
-		duk_peval_string(L, xen_js_script_init);
-		#else
-		duk_eval_string(L, xen_js_script_init);
-		#endif
+		for (int i=0; i<xen_js_script_init_c; i++) {
+			#if XEN_DEBUG
+			duk_peval_string(L, xen_js_script_init[i]);
+			#else
+			duk_eval_string(L, xen_js_script_init[i]);
+			#endif
+		}
 	}
 
 

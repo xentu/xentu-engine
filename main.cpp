@@ -17,10 +17,10 @@
 #include "src/vfs/XenVirtualFileSystem.h"
 #include "src/vfs/XenFileSystem.h"
 #include "src/vfs/XenNativeFileSystem.h"
-#include "src/machines/JavaScriptMachine.h"
-#include "src/machines/LuaMachine.h"
+#include "src/machines/javascript/JavaScriptMachine.h"
+#include "src/machines/lua/LuaMachine.h"
 #if XEN_PY
-#include "src/machines/PythonMachine.h"
+#include "src/machines/python/PythonMachine.h"
 #endif
 
 using MACHINE_PTR = const std::unique_ptr<xen::Machine>;

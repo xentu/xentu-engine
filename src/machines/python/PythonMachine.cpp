@@ -1,11 +1,11 @@
 #if XEN_PY
 #define PY_SSIZE_T_CLEAN
 
-#include "../Globals.h"
-#include "../StringUtils.h"
-#include "../Config.h"
-#include "../Machine.h"
-#include "../vfs/XenVirtualFileSystem.h"
+#include "../../Globals.h"
+#include "../../StringUtils.h"
+#include "../../Config.h"
+#include "../../Machine.h"
+#include "../../vfs/XenVirtualFileSystem.h"
 #include "PythonMachine.h"
 #include "PythonMachineScripts.h"
 
@@ -33,7 +33,9 @@ namespace xen
 		PySys_SetArgv(arg_count, (wchar_t **)arg_values_py);
 
 		// load in our custom import loader.
-		PyRun_SimpleString(xen_py_script_init);
+		for (int i=0; i<xen_py_script_init_c; i++) {
+			PyRun_SimpleString(xen_py_script_init[i]);
+		}
 	}
 
 

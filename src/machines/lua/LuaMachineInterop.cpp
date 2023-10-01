@@ -1,10 +1,10 @@
 #include <luna/luna.hpp>
 
-#include "../Globals.h"
-#include "../Machine.h"
-#include "../vfs/XenVirtualFileSystem.h"
-#include "../vfs/XenFileSystem.h"
-#include "../vfs/XenZipFileSystem.h"
+#include "../../Globals.h"
+#include "../../Machine.h"
+#include "../../vfs/XenVirtualFileSystem.h"
+#include "../../vfs/XenFileSystem.h"
+#include "../../vfs/XenZipFileSystem.h"
 #include "LuaMachine.h"
 #include "LuaMachineInterop.h"
 
