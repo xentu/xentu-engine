@@ -28,7 +28,7 @@ namespace xen
 		
 		private:
 			lua_State* L;
-			unordered_map<string, int> callbacks;
+			unordered_multimap<string, int> callbacks;
 			static LuaMachine* instance;
 	};
 }

@@ -69,10 +69,9 @@ namespace xen
 
 	int LuaMachine::Trigger(const std::string event_name)
 	{
-		int functionRef = this->callbacks[event_name];
-		if (functionRef > 0)
-		{
-			lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
+		auto its = this->callbacks.equal_range(event_name);
+		for (auto it = its.first; it != its.second; ++it) {
+			lua_rawgeti(L, LUA_REGISTRYINDEX, it->second);
 			lua_call(L, 0, 0);
 		}
 		return 1;
@@ -81,10 +80,9 @@ namespace xen
 
 	int LuaMachine::Trigger(const string event_name, const string arg0)
 	{
-		int functionRef = this->callbacks[event_name];
-		if (functionRef > 0)
-		{
-			lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
+		auto its = this->callbacks.equal_range(event_name);
+		for (auto it = its.first; it != its.second; ++it) {
+			lua_rawgeti(L, LUA_REGISTRYINDEX, it->second);
 			lua_pushstring(L, arg0.c_str());
 			lua_call(L, 1, 0);
 		}
@@ -94,10 +92,9 @@ namespace xen
 
 	int LuaMachine::Trigger(const string event_name, const int arg0)
 	{
-		int functionRef = this->callbacks[event_name];
-		if (functionRef > 0)
-		{
-			lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
+		auto its = this->callbacks.equal_range(event_name);
+		for (auto it = its.first; it != its.second; ++it) {
+			lua_rawgeti(L, LUA_REGISTRYINDEX, it->second);
 			lua_pushinteger(L, arg0);
 			lua_call(L, 1, 0);
 		}
@@ -108,10 +105,9 @@ namespace xen
 	
 	int LuaMachine::Trigger(const string event_name, const float arg0)
 	{
-		int functionRef = this->callbacks[event_name];
-		if (functionRef > 0)
-		{
-			lua_rawgeti(L, LUA_REGISTRYINDEX, functionRef);
+		auto its = this->callbacks.equal_range(event_name);
+		for (auto it = its.first; it != its.second; ++it) {
+			lua_rawgeti(L, LUA_REGISTRYINDEX, it->second);
 			lua_pushnumber(L, arg0);
 			lua_call(L, 1, 0);
 		}
@@ -121,7 +117,10 @@ namespace xen
 
 	int LuaMachine::On(const std::string event_name, const int callback_ref)
 	{
-		this->callbacks.insert(std::make_pair(event_name, callback_ref));
+		printf("On event %s - %d\n", event_name.c_str(), callback_ref);
+		//this->callbacks.insert(std::make_pair(event_name, callback_ref));
+		auto pair = std::make_pair(event_name, callback_ref);
+		this->callbacks.insert(pair);
 		return 1;
 	}
 	
