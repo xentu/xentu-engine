@@ -1,5 +1,6 @@
 #include <luna/luna.hpp>
 
+#include "../../Exceptions.h"
 #include "../../Globals.h"
 #include "../../Machine.h"
 #include "../../vfs/XenVirtualFileSystem.h"
@@ -106,9 +107,17 @@ namespace xen
 		if (lua_gettop(L) != 1) {
 			return luaL_error(L, "Error, assets.read_text_file expects 1 argument (path:s).");
 		}
-		auto path = lua_tostring(L, -1);
-		auto res = vfs_get_global()->ReadAllText(path);
-		lua_pushstring(L, res.c_str());
+
+		try {
+			auto path = lua_tostring(L, -1);
+			auto res = vfs_get_global()->ReadAllText(path);
+			lua_pushstring(L, res.c_str());
+		}
+		catch (XentuNotFoundException e) {
+			XEN_ERROR("Error, assets.read_text_file file not found (path:s).");
+			return 0;
+		}
+
 		return 1;
 	}
 

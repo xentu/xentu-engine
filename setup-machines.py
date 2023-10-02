@@ -28,18 +28,21 @@ def join_files(cppVariableName, isPython, outputFile, inputFiles):
 
 join_files('xen_js_script_init', False, './src/machines/javascript/JavaScriptMachineScripts.h', [
 	'./src/machines/javascript/scripts/main.js',
-	'./src/machines/javascript/scripts/lib-scenes.js'
+	'./src/machines/javascript/scripts/lib-scenes.js',
+	'./src/machines/javascript/scripts/lib-story.js'
 ])
 
 
 join_files('xen_lua_script_init', False, './src/machines/lua/LuaMachineScripts.h', [
 	'./src/machines/lua/scripts/main.lua',
 	'./src/machines/lua/scripts/lib-scenes.lua',
-	'./src/machines/lua/scripts/lib-json.lua'
+	'./src/machines/lua/scripts/lib-json.lua',
+	'./src/machines/lua/scripts/lib-story.lua'
 ])
 
 
 join_files('xen_py_script_init', True, './src/machines/python/PythonMachineScripts.h', [
 	'./src/machines/python/scripts/main.py',
-	'./src/machines/python/scripts/lib-scenes.py'
+	'./src/machines/python/scripts/lib-scenes.py',
+	'./src/machines/python/scripts/lib-story.py'
 ])

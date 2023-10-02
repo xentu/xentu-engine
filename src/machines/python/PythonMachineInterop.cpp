@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <string>
 
+#include "../../Exceptions.h"
 #include "../../vfs/XenVirtualFileSystem.h"
 #include "../../vfs/XenFileSystem.h"
 #include "../../vfs/XenZipFileSystem.h"
@@ -202,8 +203,16 @@ namespace xen
 		if (!PyArg_ParseTuple(args, "s", &s)) {
 			return NULL;
 		}
-		std::string result = vfs_get_global()->ReadAllText(s);
-		return PyUnicode_FromString(result.data());
+
+		try {
+			std::string result = vfs_get_global()->ReadAllText(s);
+			return PyUnicode_FromString(result.data());
+		}
+		catch (XentuNotFoundException e) {
+			XEN_ERROR("Error, assets.read_text_file file not found (path:s).");
+		}
+		
+		return NULL;
 	}
 	
 	PyObject* xen_py_interop_assets_load_texture(PyObject *self, PyObject *args)

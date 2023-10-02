@@ -2,6 +2,7 @@
 #include <string>
 #include <ducktape/duktape.h>
 
+#include "../../Exceptions.h"
 #include "../../Globals.h"
 #include "../../Machine.h"
 #include "../../vfs/XenVirtualFileSystem.h"
@@ -293,9 +294,16 @@ namespace xen
 			return 0;
 		}
 
-		auto path = duk_to_string(L, 0);
-		auto res = vfs_get_global()->ReadAllText(path);
-		duk_push_string(L, res.c_str());
+		try {
+			auto path = duk_to_string(L, 0);
+			auto res = vfs_get_global()->ReadAllText(path);
+			duk_push_string(L, res.c_str());
+		}
+		catch (XentuNotFoundException e) {
+			XEN_ERROR("Error, assets.read_text_file file not found (path:s).");
+			return 0;
+		}
+		
 		return 1;
 	}
 	
