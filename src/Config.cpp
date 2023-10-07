@@ -34,7 +34,13 @@ namespace xen
 			int vp_m = this->GetSettingInt("game", "viewport", "mode", 0);
 			viewport = { vp_w, vp_h, vp_m };
 
+			#ifdef __APPLE__
+			// apple must always use modern mode.
+			int ren_mode = 1;
+			#else
 			int ren_mode = this->GetSettingInt("game", "renderer", "mode", 0);
+			#endif
+			
 			string ren_engine_s = this->GetSetting("game", "renderer", "engine", "sdl2");
 			RenderEngine ren_engine = RenderEngine::open_gl;
 			if (ren_engine_s == "direct_x") ren_engine = RenderEngine::direct_x;
