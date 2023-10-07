@@ -9,6 +9,7 @@
 		"Framebuffer",
 		"fullscreen",
 		"furo",
+		"gles",
 		"GLEW",
 		"hashlib",
 		"importlib",

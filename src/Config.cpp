@@ -34,15 +34,13 @@ namespace xen
 			int vp_m = this->GetSettingInt("game", "viewport", "mode", 0);
 			viewport = { vp_w, vp_h, vp_m };
 
+			int ren_mode = this->GetSettingInt("game", "renderer_mode", 0);
 			string ren_engine_s = this->GetSetting("game", "renderer", "engine", "sdl2");
-			RenderEngine ren_engine = RenderEngine::sdl2;
-			if (ren_engine_s == "xna") ren_engine = RenderEngine::xna;
-			if (ren_engine_s == "open_tk") ren_engine = RenderEngine::open_tk;
-			string ren_teq_s = this->GetSetting("game", "renderer", "technique", "immediate");
-			RenderTechnique ren_teq = RenderTechnique::immediate;
-			if (ren_engine_s == "deferred") ren_teq = RenderTechnique::deferred;
+			RenderEngine ren_engine = RenderEngine::open_gl;
+			if (ren_engine_s == "direct_x") ren_engine = RenderEngine::direct_x;
+			if (ren_engine_s == "vulkan") ren_engine = RenderEngine::vulkan;
 			bool ren_acc = this->GetSettingBool("game", "renderer", "accelerated", true);
-			renderer = { ren_engine, ren_teq, ren_acc };
+			renderer = { ren_mode, ren_engine, ren_acc };
 
 			int a_freq = this->GetSettingInt("game", "audio", "frequency", 44100);
 			int a_channels = this->GetSettingInt("game", "audio", "channels", 2);

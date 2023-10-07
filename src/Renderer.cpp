@@ -6,7 +6,6 @@
 #include "Config.h"
 #include "Renderer.h"
 #include "assets/AssetManager.h"
-//#include "RendererAssets.h"
 
 
 // macro for calculating the byte offset of vertex information.
@@ -15,7 +14,7 @@
 
 namespace xen
 {
-	#pragma region Default Shader Test
+	#pragma region Default Shader (Modern)
 
 
 	const char * xen_gl_default_vertex_shader = 
@@ -37,7 +36,6 @@ namespace xen
 
 	const char * xen_gl_default_fragment_shader = 
 	R"(#version 330
-		//precision mediump float;
 		in vec2 v_TexCoord;
 		in vec4 v_Color;
 		uniform sampler2D u_Texture;
@@ -46,6 +44,43 @@ namespace xen
 		{
 			vec4 texColor = texture(u_Texture, v_TexCoord);
 			frag_colour = texColor * v_Color;
+		}
+	)";
+
+
+	#pragma endregion
+
+
+	#pragma region Default Shader (Default GLES2)
+
+
+	const char * xen_gles_default_vertex_shader = 
+	R"(#version 120
+		attribute vec3 i_position;
+		attribute vec2 i_texcoord;
+		attribute vec4 i_color;
+		uniform mat4 u_MVP;
+		varying vec2 v_TexCoord;
+		varying vec4 v_Color;
+		void main()
+		{
+			gl_Position = u_MVP * vec4(i_position, 1.0); 
+			v_TexCoord = i_texcoord;
+			v_Color = i_color;
+		}
+	)";
+
+
+	const char * xen_gles_default_fragment_shader = 
+	R"(#version 120
+		precision mediump float;
+		varying vec2 v_TexCoord;
+		varying vec4 v_Color;
+		uniform sampler2D u_Texture;
+		void main()
+		{
+			vec4 texColor = texture2D(u_Texture, v_TexCoord);
+			gl_FragColor = texColor * v_Color;
 		}
 	)";
 
@@ -99,7 +134,7 @@ namespace xen
 			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 			m_config->window.width,
 			m_config->window.height,
-			SDL_WINDOW_OPENGL,
+			m_config->renderer.mode,
 			m_config->resizable,
 			m_config->viewport.width,
 			m_config->viewport.height,
@@ -112,19 +147,34 @@ namespace xen
 		m_viewport = Viewport(vp_width, vp_height, vp_mode);
 
 		if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0) {
-        	std::cout << "SDL could not be initialized: " << SDL_GetError();
+        	std::cout << "> SDL could not be initialized: " << SDL_GetError();
     	}
 		else
 		{
-        	std::cout << "SDL video system is ready to go\n";
+        	XEN_ECHO("> SDL video system is ready to go.\n");
     	}
+
+		int gl_major = 2;
+		int gl_minor = 0;
+		bool use_es = true;
+		switch (mode) {
+			case XenRendererMode::Modern:
+				gl_major = 3;
+				gl_minor = 3;
+				use_es = false;
+				XEN_ECHO("> Renderer 'modern' mode selected\n");
+				break;
+			case XenRendererMode::Default:
+				XEN_ECHO("> Renderer 'default' mode selected\n");
+				break;
+		}
 	
 		//Use OpenGL 3.3 core
-		if (SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 ) < 0) {
+		if (SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, gl_major ) < 0) {
 			std::cout << "SDL could not set OpenGL Major Version: " << SDL_GetError();
 		}
 
-      	if (SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 3 ) < 0) {
+      	if (SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, gl_minor ) < 0) {
 			std::cout << "SDL could not set OpenGL Minor Version: " << SDL_GetError();
 		}
 
@@ -195,7 +245,12 @@ namespace xen
 			this->screen_proj = glm::ortho(0.0f, sc_w, sc_h, 0.0f);
 
 			/* load default shader, and begin using it. */
-			m_shader_asset_id = AssetManager::GetInstance()->LoadShader(xen_gl_default_vertex_shader, xen_gl_default_fragment_shader);
+			if (use_es) {
+				m_shader_asset_id = AssetManager::GetInstance()->LoadShader(xen_gles_default_vertex_shader, xen_gles_default_fragment_shader);
+			}
+			else {
+				m_shader_asset_id = AssetManager::GetInstance()->LoadShader(xen_gl_default_vertex_shader, xen_gl_default_fragment_shader);
+			}
 			UseShader(m_shader_asset_id);
 
 			/* generate a vertex array object */

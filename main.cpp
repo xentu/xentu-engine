@@ -68,6 +68,13 @@ int main(int argc, char *argv[])
     AudioManager *audio = new AudioManager(config);
     AssetManager *assets = new AssetManager();
     
+    #if XEN_PY
+    if (StringUtils::EndsWith(config->entry_point, "py")) {
+        printf("> Language: Python\n");
+        MACHINE_PTR py_machine(new PythonMachine(argc, argv, config));
+        res = py_machine->Init();
+    }
+    #else
     if (StringUtils::EndsWith(config->entry_point, "js")) {
         printf("> Language: JavaScript\n");
         MACHINE_PTR js_machine(new xen::JavaScriptMachine(argc, argv, config));
@@ -77,12 +84,6 @@ int main(int argc, char *argv[])
         printf("> Language: LUA\n");
         MACHINE_PTR lua_machine(new LuaMachine(argc, argv, config));
         res = lua_machine->Init();
-    }
-    #if XEN_PY
-    else if (StringUtils::EndsWith(config->entry_point, "py")) {
-        printf("> Language: Python\n");
-        MACHINE_PTR py_machine(new PythonMachine(argc, argv, config));
-        res = py_machine->Init();
     }
     #endif
     else {

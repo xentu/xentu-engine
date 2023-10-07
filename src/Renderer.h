@@ -15,6 +15,7 @@
 #include <SDL_ttf.h>
 #include <lib/glm/glm.hpp>
 
+#include "Config.h"
 #include "graphics/TextBox.h"
 #include "graphics/Texture.h"
 #include "graphics/Batch.h"
@@ -30,6 +31,16 @@ namespace xen
 		Windowed = 0,
 		Fullscreen = 1,
 		FullscreenWindowed = 2
+	};
+
+
+	enum XenRendererMode
+	{
+		// OpenGL ES 2.0
+		Default = 0,
+
+		// OpenGL 3.3 Core and higher (only if needed).
+		Modern = 1
 	};
 
 

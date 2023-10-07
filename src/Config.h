@@ -7,9 +7,7 @@ using namespace std;
 
 namespace xen
 {
-	enum class RenderEngine { sdl2, xna, open_tk };
-	enum class RenderTechnique { immediate, deferred };
-
+	enum class RenderEngine { open_gl, direct_x, vulkan };
 
 	struct ConfigWindow
 	{
@@ -25,8 +23,8 @@ namespace xen
 
 	struct ConfigRenderer
 	{
+		int mode;
 		RenderEngine engine;
-		RenderTechnique technique;
 		bool accelerated;
 	};
 
