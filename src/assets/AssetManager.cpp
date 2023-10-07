@@ -41,7 +41,7 @@ namespace xen
 			#endif
 			//
 			glGetShaderInfoLog(id, length, &length, message);
-			XEN_ERROR("Failed to compile %s shader: %s", (type == GL_VERTEX_SHADER ? "vertex" : "fragment"), "\n", message);
+			XEN_ERROR("Failed to compile %s shader: %s\n", (type == GL_VERTEX_SHADER ? "vertex" : "fragment"), message);
 			glDeleteShader(id);
 			return 0;
 		}
@@ -56,6 +56,8 @@ namespace xen
 		unsigned int program = glCreateProgram();
 		unsigned int vs = compile_shader(GL_VERTEX_SHADER, vertexShader);
 		unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, fragmentShader);
+
+		if (vs == 0 || fs == 0) return 0;
 
 		glAttachShader(program, vs);
 		glBindAttribLocation(program, 0, "i_position");
@@ -294,6 +296,7 @@ namespace xen
 	int AssetManager::LoadShader(const string& vertex_shader, const string& frag_shader)
 	{
 		auto res = create_shader(vertex_shader, frag_shader);
+		if (res == 0) return res;
 		m_shaders.insert(std::make_pair(m_shaders_iter, res));
 		m_shaders_iter++;
 		return m_shaders_iter - 1;

@@ -21,6 +21,5 @@ python310_d.lib
 # folders
 build
 subprojects
-INTERNAL_API.md
-TODO.md
+testing
 RCa24560

@@ -16,6 +16,9 @@
 			"height": 500,
 			"mode": 1
 		},
+		"renderer": {
+			"mode": 0
+		},
 		"audio": {
 			"frequency": 44100,
 			"channels": 2,

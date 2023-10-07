@@ -34,7 +34,7 @@ namespace xen
 			int vp_m = this->GetSettingInt("game", "viewport", "mode", 0);
 			viewport = { vp_w, vp_h, vp_m };
 
-			int ren_mode = this->GetSettingInt("game", "renderer_mode", 0);
+			int ren_mode = this->GetSettingInt("game", "renderer", "mode", 0);
 			string ren_engine_s = this->GetSetting("game", "renderer", "engine", "sdl2");
 			RenderEngine ren_engine = RenderEngine::open_gl;
 			if (ren_engine_s == "direct_x") ren_engine = RenderEngine::direct_x;
