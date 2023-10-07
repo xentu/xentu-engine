@@ -19,7 +19,7 @@ namespace xen
 			icon = this->GetSetting("game", "icon", "");
 			v_sync = this->GetSettingBool("game", "v_sync", true);
 			fullscreen = this->GetSettingBool("game", "fullscreen", false);
-			resizable = this->GetSettingBool("game", "resizable", true);
+			resizable = this->GetSettingBool("game", "resizable", false);
 			update_frequency = this->GetSettingInt("game", "update_frequency", 60);
 			draw_frequency = this->GetSettingInt("game", "draw_frequency", 60);
 

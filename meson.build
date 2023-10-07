@@ -1,4 +1,4 @@
-project('xentu_rebuild', 'c', 'cpp',
+project('xentu', 'c', 'cpp',
         version : run_command('cat', './version.txt').stdout().strip(),
         default_options: ['default_library=static', 'buildtype=release', 'cpp_std=c++17']
         )
