@@ -83,6 +83,7 @@ namespace xen
 			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
 			std::vector<char> error(length);
 			glGetProgramInfoLog(program, length, &length, &error[0]);
+			XEN_ERROR("> Shader Validation: ");
 			XEN_ERROR(&error[0]);
 		}
 
