@@ -91,7 +91,7 @@ Python does not get statically linked during compile time, as it adds a lot of a
 
 ## Contribution And Community
 
-To get in touch, please join the discord at https://discord.com/invite/enC7FGvV
+To get in touch, please join the discord at https://discord.gg/Zpb5dYrhRa
 
 <br />
 
