@@ -1,0 +1,5 @@
+[
+    { "type": "local", "source": "game.lua" },
+    { "type": "local", "source": "game.json" },
+    { "type": "local", "source": "images/xentu-logo.png" }
+]

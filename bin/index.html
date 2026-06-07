@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1, IE=edge">
+	<title>Xentu Engine (Amber)</title>
+	<style>
+		#canvas {
+			display: block; position: absolute; overflow: hidden;
+			top: 0px; left: 0px; width: 100%; height: 100%; margin: 0px; border: 0;
+		}
+	</style>
+</head>
+<body style="background-color: #FFFFFF;">
+	<canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+	<script async src="./XentuEngineLoader.js"></script>
+	<script async src="./XentuEngine.js"></script>
+	<script>
+		var Module = { onRuntimeInitialized: () => loadAssets(Module, 'game', 'assets.json') };
+		Module.canvas = document.getElementById('canvas');
+	</script>
+</body>
+</html>

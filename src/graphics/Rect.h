@@ -1,0 +1,36 @@
+#ifndef RECT_H
+#define RECT_H
+
+#include <algorithm>
+#include <cmath>
+
+#include "Vector2.h"
+
+namespace xen
+{
+    class Rect
+    {
+    public:
+        Rect();
+        Rect(float rectLeft, float rectTop, float rectWidth, float rectHeight);
+        Rect(const Vector2f& position, const Vector2f& size);
+
+        //explicit Rect(const Rect& rectangle);
+        Rect(const Rect& rectangle);
+
+        [[nodiscard]] bool contains(float x, float y) const;
+        [[nodiscard]] bool contains(const Vector2f& point) const;
+        [[nodiscard]] bool intersects(const Rect& rectangle) const;
+        bool intersects(const Rect& rectangle, Rect& intersection) const;
+
+        [[nodiscard]] Vector2f get_position() const;
+        [[nodiscard]] Vector2f get_size() const;
+
+        float left;   //!< Left coordinate of the rectangle
+        float top;    //!< Top coordinate of the rectangle
+        float width;  //!< Width of the rectangle
+        float height; //!< Height of the rectangle
+    };
+}
+
+#endif //RECT_H

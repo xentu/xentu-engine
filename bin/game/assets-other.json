@@ -1,0 +1,6 @@
+[
+    { "type": "local", "source": "game.lua" },
+    { "type": "local", "source": "game.json" },
+    { "type": "local", "source": "images/xentu-logo.png" },
+    { "type": "remote", "source": "http://localhost:8001/game/images/favicon-150x150.png", "alias": "images/feature01.png" }
+]

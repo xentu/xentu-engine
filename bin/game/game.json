@@ -1,0 +1,30 @@
+{
+	"game": {
+		"title": "Test Game",
+		"entry_point": "game.lua",
+		"version": "0.0.0",
+		"v_sync": true,
+		"fullscreen": false,
+		"update_frequency": 30,
+		"draw_frequency": 60,
+		"window": {
+			"width": 800,
+			"height": 600
+		},
+		"viewport": {
+			"width": 800,
+			"height": 600,
+			"mode": 1
+		},
+		"audio": {
+			"frequency": 44100,
+			"channels": 2,
+			"depth": 16,
+			"codecs": [
+				"wav",
+				"ogg",
+				"flac"
+			]
+		}
+	}
+}
