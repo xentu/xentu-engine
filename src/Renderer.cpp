@@ -745,7 +745,7 @@ namespace xen
 		m_fore_color_v = Vector4f(
 			static_cast<GLclampf>(r) / 255.0f,
 			static_cast<GLclampf>(g) / 255.0f,
-			static_cast<GLclampf>(g) / 255.0f,
+			static_cast<GLclampf>(b) / 255.0f,
 			1.0f
 		);
 	}

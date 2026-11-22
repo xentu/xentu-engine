@@ -35,6 +35,7 @@
 *.app
 
 # clion
+.idea/editor.xml
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/vcs.xml

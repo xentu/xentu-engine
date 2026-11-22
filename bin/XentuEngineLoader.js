@@ -39,7 +39,7 @@ window.loadAssets = async function(module, subFolder, manifestUrl) {
 		for (const entry of manifest) {
 			switch (entry.type) {
 				case 'local':
-					const localUrl = `./${subFolder}/${entry.source}`;
+					const localUrl = `./${subFolder}/${entry.source}`.replace('.//', './');
 					if (typeof entry.alias !== 'undefined' && entry.alias.length > 0) {
 						await loadAsset(module, localUrl, entry.alias);
 					}
