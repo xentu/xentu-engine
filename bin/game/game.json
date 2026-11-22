@@ -1,7 +1,7 @@
 {
 	"game": {
 		"title": "Test Game",
-		"entry_point": "game.lua",
+		"entry_point": "game/game.lua",
 		"version": "0.0.0",
 		"v_sync": true,
 		"fullscreen": false,
